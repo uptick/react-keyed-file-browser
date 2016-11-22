@@ -1,0 +1,52 @@
+{
+  "name": "react-keyed-file-browser",
+  "version": "1.0.0",
+  "description": "Folder based file browser given a flat keyed list of objects, powered by React.",
+  "main": "index.js",
+  "scripts": {
+    "publish-demo": "git branch -D gh-pages; git push origin --delete gh-pages; git checkout -b gh-pages; cd demo-site; npm run build; cd ..; git add .; git add -f demo-site/dist; git add -f demo-site/node_modules/abas-demo-site/dist; git commit -m \"Demo site build\"; git push origin gh-pages; git checkout master; git push origin `git subtree split --prefix demo-site gh-pages`:gh-pages --force;",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-js": "./node_modules/webpack/bin/webpack.js",
+    "build-css": "./node_modules/node-sass/bin/node-sass src/object-table.sass dist/react-object-table.css",
+    "build": "npm run build-js; npm run build-css",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ABASystems/react-keyed-file-browser.git"
+  },
+  "keywords": [
+    "react",
+    "keyed",
+    "file",
+    "document",
+    "browser",
+    "s3"
+  ],
+  "author": "ABA Systems Pty Ltd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ABASystems/react-keyed-file-browser/issues"
+  },
+  "homepage": "https://github.com/ABASystems/react-keyed-file-browser#readme",
+  "dependencies": {
+    "classnames": "^2.2.3",
+    "clone": "^1.0.2",
+    "jquery": "^2.2.0",
+    "react": "^0.14.8",
+    "react-addons-shallow-compare": "^0.14.8",
+    "react-dom": "^0.14.8"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.4",
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.2",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "node-sass": "^3.4.2",
+    "webpack": "^1.12.13",
+    "webpack-node-externals": "^1.5.4"
+  }
+}
