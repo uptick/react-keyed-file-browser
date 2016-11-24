@@ -12,6 +12,18 @@ import {
   targetCollect,
 } from './../base-file.jsx'
 
+function float_precision(float_value, precision) {
+  float_value = parseFloat(float_value);
+  if (isNaN(float_value)) {
+    return parseFloat('0').toFixed(precision);
+  }
+  else {
+    var power = Math.pow(10, precision);
+    float_value = (Math.round(float_value * power) / power).toFixed(precision);
+    return float_value.toString();
+  }
+}
+
 function file_size(size) {
   if (size > 1024) {
     var kb_size = size / 1024;
@@ -27,12 +39,15 @@ function file_size(size) {
 class TableFile extends BaseFile {
   render() {
     var icon;
-    if (this.isImage())
+    if (this.isImage()) {
       icon = (<i className="fa fa-file-image-o" aria-hidden="true"></i>);
-    else if (this.isPdf())
+    }
+    else if (this.isPdf()) {
       icon = (<i className="fa fa-file-pdf-o" aria-hidden="true"></i>);
-    else
+    }
+    else {
       icon = (<i className="fa fa-file-o" aria-hidden="true"></i>);
+    }
 
     var inAction = (this.props.isDragging || this.props.action);
 
@@ -40,14 +55,21 @@ class TableFile extends BaseFile {
     if (!inAction && this.props.isDeleting) {
       name = (
         <form className="deleting" onSubmit={this.handleDeleteSubmit}>
-          <a href={this.props.url} download="download" onClick={this.handleFileClick}>
+          <a
+            href={this.props.url}
+            download="download"
+            onClick={(event) => {
+              event.preventDefault();
+              this.handleFileClick();
+            }}
+          >
             <span className="icon">{icon}</span>
             {this.getName()}
           </a>
           <div className="actions">
             <a
               className="cancel btn btn-primary btn-sm"
-              onClick={this.handleCancelEdit}
+              onClick={this.handleCancelEdit.bind(this)}
             >
               Cancel
             </a>
@@ -60,7 +82,7 @@ class TableFile extends BaseFile {
     }
     else if (!inAction && this.props.isRenaming) {
       name = (
-        <form className="renaming" onSubmit={this.handleRenameSubmit}>
+        <form className="renaming" onSubmit={this.handleRenameSubmit.bind(this)}>
           <span className="icon">{icon}</span>
           <input
             ref="newName"
@@ -70,7 +92,7 @@ class TableFile extends BaseFile {
             onChange={this.handleNewNameChange}
           />
           <div className="actions">
-            <a className="cancel btn btn-primary btn-sm" onClick={this.handleCancelEdit}>
+            <a className="cancel btn btn-primary btn-sm" onClick={this.handleCancelEdit.bind(this)}>
               Cancel
             </a>
           </div>
@@ -79,7 +101,14 @@ class TableFile extends BaseFile {
     }
     else {
       name = (
-        <a href={this.props.url} download="download" onClick={this.handleFileClick}>
+        <a
+          href={this.props.url}
+          download="download"
+          onClick={(event) => {
+            event.preventDefault();
+            this.handleFileClick();
+          }}
+        >
           <span className="icon">{icon}</span>
           {this.getName()}
         </a>
@@ -102,14 +131,18 @@ class TableFile extends BaseFile {
           dragover: (this.props.isOver),
           selected: (this.props.isSelected),
         })}
-        onClick={this.handleItemClick}
+        onClick={this.handleItemClick.bind(this)}
         onDoubleClick={this.handleItemDoubleClick}
       >
-        <td className="name" style={{paddingLeft: (this.props.depth * 16) + 'px'}}>
-          {draggable}
+        <td className="name">
+          <div style={{paddingLeft: (this.props.depth * 16) + 'px'}}>
+            {draggable}
+          </div>
         </td>
-        <td className="text-xs-right">{file_size(this.props.size)}</td>
-        <td className="text-xs-right">{Moment(this.props.modified).fromNow()}</td>
+        <td className="size">{file_size(this.props.size)}</td>
+        <td className="modified">
+          {typeof this.props.modified === 'undefined' ? '-' : Moment(this.props.modified).fromNow()}
+        </td>
       </tr>
     );
 

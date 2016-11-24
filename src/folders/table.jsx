@@ -73,8 +73,10 @@ class TableFolder extends BaseFolder {
        onClick={this.handleFolderClick}
        onDoubleClick={this.handleFolderDoubleClick}
       >
-        <td className="name" style={{paddingLeft: (this.props.depth * 16) + 'px'}}>
-          {name}
+        <td className="name">
+          <div style={{paddingLeft: (this.props.depth * 16) + 'px'}}>
+            {name}
+          </div>
         </td>
         <td></td>
         <td></td>

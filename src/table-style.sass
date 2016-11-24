@@ -1,0 +1,93 @@
+div.rendered-react-keyed-file-browser
+  div.files table
+    width: 100%
+
+    th, td
+      font-size: $main-size
+      font-weight: normal
+      text-align: left
+      margin: 0
+      padding: $main-padding
+    th
+      font-weight: bold
+
+    th, td
+      &.size, &.modified
+        text-align: right
+
+    thead th
+      border-bottom: 0.1rem solid #ddd
+    tr:not(:last-child) td
+      border-bottom: 0.1rem solid #eee
+
+    tr.selected
+      background: $main-colour
+      border-bottom: none
+
+      color: #fff
+      a
+        color: #fff
+
+// tr.loading i
+//   color: $brand-primary
+
+// tr.file, tr.folder
+//   &.pending, &.dragging
+//     opacity: 0.4
+//   &.dragover
+//     background: $dragover-colour
+//   &.selected, .selected
+//     color: $selection-text-colour
+//     .text-muted
+//       color: darken($selection-text-colour, 10%)
+//     a:not(.btn), &.folder a:not(.btn), i
+//       color: $selection-text-colour
+//     background: $selection-colour
+
+// table
+//   background: none
+//   width: 100%
+
+// tbody > tr > td
+//   line-height: 17px
+//   -webkit-user-select: none
+//   -moz-user-select: none
+//   -ms-user-select: none
+//   user-select: none
+//   border-top: 1px solid #eee
+
+// td.name
+//   padding: 0
+//   > div
+//     padding: 8px
+// tr.selected td.name > div
+//   background: $selection-colour
+
+// tr.file
+//   a:not(.btn)
+//     color: $file-colour
+// tr.folder
+//   a
+//     display: inline-block
+
+// span.icon
+//   margin-right: 8px
+// tbody > tr > td
+//   vertical-align: middle
+
+// td form.renaming
+//   padding-left: 20px
+//   position: relative
+//   span.icon
+//     position: absolute
+//     top: 5px
+//     left: 0
+//     color: $brand-primary
+// td form.renaming, td form.deleting
+//   div.actions
+//     line-height: 1em
+//     margin-top: 8px
+//   a.cancel
+//     margin-right: 8px
+// td form.deleting div.actions
+//   text-align: right

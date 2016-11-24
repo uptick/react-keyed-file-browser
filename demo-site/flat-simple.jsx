@@ -20,7 +20,10 @@ class SimpleFlatDemo extends React.Component {
       browser = (
         <FileBrowser
           loading={false}
-          files={[]}
+          files={[
+            {key: 'cat.png', size: 1.5 * 1024 * 1024},
+            {key: 'kitten.png', size: 545 * 1024},
+          ]}
         />
       );
     }

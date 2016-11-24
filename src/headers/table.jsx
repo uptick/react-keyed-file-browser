@@ -19,8 +19,8 @@ class TableHeader extends React.Component {
         })}
       >
         <th>File</th>
-        <th className="text-xs-right">Size</th>
-        <th className="text-xs-right">Last Modified</th>
+        <th className="size">Size</th>
+        <th className="modified">Last Modified</th>
       </tr>
     );
 

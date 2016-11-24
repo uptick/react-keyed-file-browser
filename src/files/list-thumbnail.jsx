@@ -37,14 +37,18 @@ class ListFile extends BaseFile {
     if (this.props.showName) {
       if (!inAction && this.props.isDeleting) {
         name = (
-          <form className="deleting" onSubmit={this.handleDeleteSubmit}>
-            <a href={this.props.url} download="download" onClick={this.handleFileClick}>
+          <form className="deleting" onSubmit={this.handleDeleteSubmit.bind(this)}>
+            <a
+              href={this.props.url}
+              download="download"
+              onClick={this.handleFileClick.bind(this)}
+            >
               {this.getName()}
             </a>
             <div className="actions">
               <a
                 className="cancel btn btn-primary btn-sm"
-                onClick={this.handleCancelEdit}
+                onClick={this.handleCancelEdit.bind(this)}
               >
                 Cancel
               </a>
@@ -57,7 +61,7 @@ class ListFile extends BaseFile {
       }
       else if (!inAction && this.props.isRenaming) {
         name = (
-          <form className="renaming" onSubmit={this.handleRenameSubmit}>
+          <form className="renaming" onSubmit={this.handleRenameSubmit.bind(this)}>
             <input
               ref="newName"
               className="form-control input-sm"
@@ -66,7 +70,10 @@ class ListFile extends BaseFile {
               onChange={this.handleNewNameChange}
             />
             <div className="actions">
-              <a className="cancel btn btn-primary btn-sm" onClick={this.handleCancelEdit}>
+              <a
+                className="cancel btn btn-primary btn-sm"
+                onClick={this.handleCancelEdit.bind(this)}
+              >
                 Cancel
               </a>
             </div>
@@ -75,7 +82,7 @@ class ListFile extends BaseFile {
       }
       else {
         name = (
-          <a href={this.props.url} download="download" onClick={this.handleFileClick}>
+          <a href={this.props.url} download="download" onClick={this.handleFileClick.bind(this)}>
             {this.getName()}
           </a>
         );
