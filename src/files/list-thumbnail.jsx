@@ -4,9 +4,8 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import ApiUtils from 'apps/core/frontend/utils/api.jsx'
 import {
-  component as BaseFile,
+  BaseFile,
   dragSource,
   dragCollect,
   targetSource,

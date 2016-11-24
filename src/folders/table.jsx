@@ -4,7 +4,7 @@ import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
 import {
-  component as BaseFolder,
+  BaseFolder,
   dragSource,
   dragCollect,
 } from './../base-folder.jsx'
@@ -13,10 +13,12 @@ import { targetSource, targetCollect } from './../base-file.jsx'
 class TableFolder extends BaseFolder {
   render() {
     var icon;
-    if (this.props.isOpen)
+    if (this.props.isOpen) {
       icon = (<i className="fa fa-folder-open-o" aria-hidden="true"></i>);
-    else
+    }
+    else {
       icon = (<i className="fa fa-folder-o" aria-hidden="true"></i>);
+    }
 
     var inAction = (this.props.isDragging || this.props.action);
 
@@ -56,8 +58,9 @@ class TableFolder extends BaseFolder {
       );
     }
 
-    if (this.props.browserProps.canMoveFolders)
+    if (this.props.browserProps.canMoveFolders) {
       name = this.props.connectDragPreview(name);
+    }
 
     var folder = (
       <tr

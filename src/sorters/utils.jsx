@@ -1,5 +1,6 @@
 const NUMBER_GROUPS = /(-?\d*\.?\d+)/g;
-const natural_sort_comparer = function (a, b) {
+
+function natural_sort_comparer(a, b) {
   var aa = String(a.name).split(NUMBER_GROUPS);
   var bb = String(b.name).split(NUMBER_GROUPS);
   var min = Math.min(aa.length, bb.length);
@@ -12,8 +13,6 @@ const natural_sort_comparer = function (a, b) {
   }
 
   return 0;
-};
+}
 
-module.exports = {
-  natural_sort_comparer: natural_sort_comparer,
-};
+export { natural_sort_comparer }

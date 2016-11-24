@@ -1,50 +1,56 @@
 import React from 'react'
 
-const BaseFolder = React.createClass({
-  getInitialState: function() {
-    return {
+class BaseFolder extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+
       newName: this.getName(),
     };
-  },
-  componentDidUpdate: function(oldProps, oldState) {
-    var reactClass = this;
+  }
+
+  componentDidUpdate(oldProps, oldState) {
     if (!oldProps.isRenaming && this.props.isRenaming) {
-      window.requestAnimationFrame(function() {
-        var currentName = reactClass.refs.newName.value;
-        reactClass.refs.newName.setSelectionRange(0, currentName.length);
-        reactClass.refs.newName.focus();
+      window.requestAnimationFrame(() => {
+        var currentName = this.refs.newName.value;
+        this.refs.newName.setSelectionRange(0, currentName.length);
+        this.refs.newName.focus();
       });
     }
-  },
+  }
 
-  getName: function() {
-    if (this.props.name)
+  getName() {
+    if (this.props.name) {
       return this.props.name;
+    }
     var folders = this.props.fileKey.split('/');
     return this.props.newName || folders[folders.length - 2];
-  },
+  }
 
-  handleFolderClick: function(event) {
+  handleFolderClick(event) {
     event.stopPropagation();
     this.props.browserProps.select(this.props.fileKey);
-  },
-  handleFolderDoubleClick: function(event) {
+  }
+  handleFolderDoubleClick(event) {
     event.stopPropagation();
     this.toggleFolder();
-  },
-  handleRenameClick: function(event) {
-    if (!this.props.browserProps.renameFolder)
+  }
+  handleRenameClick(event) {
+    if (!this.props.browserProps.renameFolder) {
       return;
+    }
     this.props.browserProps.beginAction('rename', this.props.fileKey);
-  },
-  handleNewNameChange: function(event) {
+  }
+  handleNewNameChange(event) {
     var newName = this.refs.newName.value;
     this.setState(state => {
       state.newName = newName;
       return state;
     });
-  },
-  handleRenameSubmit: function(event) {
+  }
+  handleRenameSubmit(event) {
     event.preventDefault();
     var newName = this.state.newName.trim();
     if (newName.length == 0) {
@@ -68,19 +74,19 @@ const BaseFolder = React.createClass({
     newKey += newName;
     newKey += '/';
     this.props.browserProps.renameFolder(this.props.fileKey, newKey);
-  },
+  }
 
-  handleCancelEdit: function(event) {
+  handleCancelEdit(event) {
     this.props.browserProps.endAction();
-  },
+  }
 
-  toggleFolder: function() {
+  toggleFolder() {
     this.props.browserProps.toggleFolder(this.props.fileKey);
-  },
-  render: function() {
+  }
+  render() {
     return null;
-  },
-});
+  }
+}
 
 const dragSource = {
   beginDrag(props) {
@@ -91,8 +97,9 @@ const dragSource = {
   },
 
   endDrag(props, monitor, component) {
-    if (!monitor.didDrop())
+    if (!monitor.didDrop()) {
       return;
+    }
 
     const item = monitor.getItem();
     const dropResult = monitor.getDropResult();
@@ -119,10 +126,10 @@ function dragCollect(connect, monitor) {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging(),
   };
-};
+}
 
-module.exports = {
-  component: BaseFolder,
-  dragSource: dragSource,
-  dragCollect: dragCollect,
-};
+export {
+  BaseFolder,
+  dragSource,
+  dragCollect,
+}

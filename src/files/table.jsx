@@ -5,7 +5,7 @@ import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
 import {
-  component as BaseFile,
+  BaseFile,
   dragSource,
   dragCollect,
   targetSource,

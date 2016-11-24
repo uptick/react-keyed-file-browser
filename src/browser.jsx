@@ -1,3 +1,4 @@
+import Clone from 'clone'
 import React from 'react'
 import ReactDom from 'react-dom'
 import jQuery from 'jquery'
@@ -16,20 +17,63 @@ import SortByName from './sorters/by-name.jsx'
 
 const SEARCH_RESULTS_PER_PAGE = 20;
 
+function organiseFiles(files, filter, group, sort) {
+  var organisedFiles = Clone(files);
+
+  if (filter) {
+    var filteredFiles = [];
+    var terms = filter.split(' ');
+    for (var fileIndex = 0; fileIndex < organisedFiles.length; fileIndex++) {
+      var file = organisedFiles[fileIndex];
+      var skip = false;
+      for (var termIndex = 0; termIndex < terms.length; termIndex++) {
+        var term = terms[termIndex].toLowerCase().trim();
+        if (file.key.toLowerCase().trim().indexOf(term) == -1) {
+          skip = true;
+          break;
+        }
+      }
+      if (skip) {
+        continue;
+      }
+      filteredFiles.push(file);
+    }
+    organisedFiles = filteredFiles;
+  }
+  if (typeof group === 'function') {
+    organisedFiles = group(
+      organisedFiles,
+      ''
+    );
+  }
+  else {
+    var newFiles = [];
+    organisedFiles.map((file) => {
+      if (file.size) {
+        newFiles.push(file);
+      }
+    });
+    organisedFiles = newFiles;
+  }
+
+  if (typeof sort === 'function') {
+    organisedFiles = sort(organisedFiles);
+  }
+
+  return organisedFiles;
+}
+
 class FileBrowser extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleGlobalClick = this.handleGlobalClick.bind(this);
+    this.handleGlobalKeyDown = this.handleGlobalKeyDown.bind(this);
+
     this.state = {
       ...this.state,
 
-      rawFiles: [],
-      organisedFiles: [],
-
-      getFilesLoading: true,
-      getFilesError: null,
-      preuploadConfig: null,
-      filesRoot: '',
+      files: organiseFiles(this.props.files, '', '', this.props.group, this.props.sort),
 
       openFolders: {},
       selection: null,
@@ -51,31 +95,32 @@ class FileBrowser extends React.Component {
   }
 
   componentDidMount() {
-    var reactClass = this;
-    if (reactClass.props.renderStyle == 'table' && reactClass.props.nestChildren)
+    if (this.props.renderStyle == 'table' && this.props.nestChildren) {
       console.warn('Invalid settings: Cannot nest table children in file browser');
-
-    jQuery(document).on('click', function(event) {
-      if (!reactClass.isMounted())
-        return;
-      var inBrowser = (jQuery(reactClass.refs.browser).has(event.target).length > 0);
-      var inPreview = (
-        typeof reactClass.refs.preview !== 'undefined'
-        && jQuery(reactClass.refs.preview).has(event.target).length > 0
-      );
-      if (!inBrowser && !inPreview) {
-        reactClass.setState(state => {
-          state.selection = null;
-          return state;
-        });
-      }
-    });
-    jQuery(document).on('keydown', reactClass.handleGlobalKeyDown);
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.group !== this.props.group) {
-      this.organiseFiles(nextProps.startOpen, nextProps);
     }
+
+    window.addEventListener('click', this.handleGlobalClick);
+    window.addEventListener('keydown', this.handleGlobalKeyDown);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('click', this.handleGlobalClick);
+    window.removeEventListener('keydown', this.handleGlobalKeyDown);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.group !== this.props.group || prevProps.files !== this.props.files) {
+      this.reorganiseFiles();
+    }
+  }
+
+  reorganiseFiles() {
+    this.setState({
+      files: organiseFiles(
+        this.props.files,
+        this.state.nameFilter,
+        this.props.group,
+        this.props.sort,
+      ),
+    });
   }
 
   beginAction(action, key) {
@@ -133,8 +178,6 @@ class FileBrowser extends React.Component {
       });
 
       return state;
-    }, () => {
-      this.organiseFiles(false, this.props);
     });
   }
   closeAddFolder() {
@@ -152,39 +195,38 @@ class FileBrowser extends React.Component {
   }
   handleAddFolderSubmit(event) {
     event.preventDefault();
-    var reactClass = this;
-    var newFolderName = reactClass.state.addFolder + reactClass.state.newFolderName;
-    reactClass.setState(state => {
+    var newFolderName = this.state.addFolder + this.state.newFolderName;
+    this.setState(state => {
       state.addFolderPending = true;
       return state;
-    }, function() {
+    }, () => {
       var formData = new FormData();
       formData.append('key', newFolderName);
-      formData.append('acl', reactClass.state.preuploadConfig.acl);
+      formData.append('acl', this.state.preuploadConfig.acl);
       formData.append('Content-Type', '');
-      formData.append('AWSAccessKeyId', reactClass.state.preuploadConfig.aws_access_key);
-      formData.append('policy', reactClass.state.preuploadConfig.policy)
-      formData.append('signature', reactClass.state.preuploadConfig.signature);
+      formData.append('AWSAccessKeyId', this.state.preuploadConfig.aws_access_key);
+      formData.append('policy', this.state.preuploadConfig.policy)
+      formData.append('signature', this.state.preuploadConfig.signature);
       formData.append('file', '');
       jQuery.ajax({
         method: 'POST',
-        url: reactClass.state.preuploadConfig.bucket_url,
+        url: this.state.preuploadConfig.bucket_url,
         data: formData,
         cache: false,
         contentType: false,
         processData: false,
-        success: function(response) {
-          reactClass.setState(state => {
+        success: (response) => {
+          this.setState(state => {
             state.addFolder = null;
             state.newFolderName = '';
             state.addFolderPending = false;
             return state;
           }, () => {
-            reactClass.loadFiles(false);
+            this.loadFiles(false);
           });
         },
-        error: function(response) {
-          reactClass.setState(state => {
+        error: (response) => {
+          this.setState(state => {
             state.addFolderPending = false;
             return state;
           });
@@ -200,61 +242,6 @@ class FileBrowser extends React.Component {
     });
   }
 
-  organiseFiles(openAll, props) {
-    var reactClass = this;
-    reactClass.setState(state => {
-      state.organisedFiles = state.rawFiles;
-      if (reactClass.state.nameFilter) {
-        var filteredFiles = [];
-        var terms = reactClass.state.nameFilter.split(' ');
-        for (var fileIndex = 0; fileIndex < state.organisedFiles.length; fileIndex++) {
-          var file = state.organisedFiles[fileIndex];
-          var skip = false;
-          for (var termIndex = 0; termIndex < terms.length; termIndex++) {
-            var term = terms[termIndex].toLowerCase().trim();
-            if (file.key.toLowerCase().trim().indexOf(term) == -1) {
-              skip = true;
-              break;
-            }
-          }
-          if (skip)
-            continue;
-          filteredFiles.push(file);
-        }
-        state.organisedFiles = filteredFiles;
-      }
-      if (props.group !== null) {
-        state.organisedFiles = props.group(
-          state.organisedFiles,
-          state.filesRoot
-        );
-      }
-      else {
-        var newFiles = [];
-        state.organisedFiles.map((file) => {
-          if (file.size)
-            newFiles.push(file);
-        });
-        state.organisedFiles = newFiles;
-      }
-      if (props.sort !== null)
-        state.organisedFiles = props.sort(state.organisedFiles);
-
-      if (openAll) {
-        var openChildren = function(files) {
-          files.map((file) => {
-            if (file.children) {
-              state.openFolders[file.key] = true;
-              openChildren(file.children)
-            }
-          });
-        };
-        openChildren(state.organisedFiles);
-      }
-
-      return state;
-    });
-  }
   toggleFolder(folderKey) {
     this.setState(state => {
       if (folderKey in state.openFolders)
@@ -271,9 +258,20 @@ class FileBrowser extends React.Component {
     });
   }
 
+  handleGlobalClick(event) {
+    var inBrowser = (jQuery(this.refs.browser).has(event.target).length > 0);
+    var inPreview = (
+      typeof this.refs.preview !== 'undefined'
+      && jQuery(this.refs.preview).has(event.target).length > 0
+    );
+    if (!inBrowser && !inPreview) {
+      this.setState(state => {
+        state.selection = null;
+        return state;
+      });
+    }
+  }
   handleGlobalKeyDown(event) {
-    if (!this.isMounted())
-      return;
     if (event.which == 27 && this.state.previewFile !== null) {
       this.closePreview();
     }
@@ -299,46 +297,41 @@ class FileBrowser extends React.Component {
       state.nameFilter = newValue;
       state.searchResultsShown = SEARCH_RESULTS_PER_PAGE;
       return state;
-    }, () => {
-      this.organiseFiles(false, this.props);
-    });
+    }, this.reorganiseFiles.bind(this));
   }
   clearFilter() {
     this.setState(state => {
       state.nameFilter = '';
       return state;
-    }, () => {
-      this.organiseFiles(false, this.props);
-    });
+    }, this.reorganiseFiles.bind(this));
   }
 
   renderActionBar() {
-    var reactClass = this;
-
-    if (!this.props.showActionBar)
+    if (!this.props.showActionBar) {
       return null;
+    }
 
     var areActions = (
-      reactClass.props.canDeleteFiles
-      || reactClass.props.canRenameFiles
-      || reactClass.props.canRenameFolders
+      this.props.canDeleteFiles
+      || this.props.canRenameFiles
+      || this.props.canRenameFolders
     );
     var actions = [];
-    if (!reactClass.state.getFilesLoading) {
-      if (reactClass.state.selection !== null) {
-        var filePart = reactClass.state.selection.split('/');
+    if (!this.props.loading) {
+      if (this.state.selection !== null) {
+        var filePart = this.state.selection.split('/');
         filePart = filePart[filePart.length - 1];
         var selectedFile;
-        var findInOrganised = function(files) {
+        var findInOrganised = (files) => {
           for (var fileIndex = 0; fileIndex < files.length; fileIndex++) {
             var file = files[fileIndex];
-            if (file.key === reactClass.state.selection)
+            if (file.key === this.state.selection)
               selectedFile = file;
             if (file.children)
               findInOrganised(file.children);
           }
         };
-        findInOrganised(reactClass.state.organisedFiles);
+        findInOrganised(this.state.files);
 
         var selectionIsFolder = (selectedFile && selectedFile.size);
 
@@ -366,12 +359,12 @@ class FileBrowser extends React.Component {
             );
           }
           else {
-            if (reactClass.props.canDeleteFiles && selectionIsFolder) {
+            if (this.props.canDeleteFiles && selectionIsFolder) {
               actions.push(
                 <li key="action-delete">
                   <a
                     className="btn btn-primary btn-sm"
-                    onClick={reactClass.handleActionBarDeleteClick}
+                    onClick={this.handleActionBarDeleteClick}
                     href="#"
                     role="button"
                   >
@@ -384,15 +377,15 @@ class FileBrowser extends React.Component {
             if (
               selectedFile.keyDerived
               && (
-                (selectionIsFolder && reactClass.props.canRenameFiles)
-                || (!selectionIsFolder && reactClass.props.canRenameFolders)
+                (selectionIsFolder && this.props.canRenameFiles)
+                || (!selectionIsFolder && this.props.canRenameFolders)
               )
             ) {
               actions.push(
                 <li key="action-rename">
                   <a
                     className="btn btn-primary btn-sm"
-                    onClick={reactClass.handleActionBarRenameClick}
+                    onClick={this.handleActionBarRenameClick}
                     href="#"
                     role="button"
                   >
@@ -402,12 +395,12 @@ class FileBrowser extends React.Component {
                 </li>
               );
             }
-            if (reactClass.props.canCreateFolders) {
+            if (this.props.canCreateFolders) {
               actions.push(
                 <li key="action-add-folder">
                   <a
                     className="btn btn-primary btn-sm"
-                    onClick={reactClass.handleActionBarAddFolderClick}
+                    onClick={this.handleActionBarAddFolderClick}
                     href="#"
                     role="button"
                   >
@@ -427,7 +420,7 @@ class FileBrowser extends React.Component {
       actions = (<span>-</span>);
 
     var filter;
-    if (reactClass.props.canFilter) {
+    if (this.props.canFilter) {
       filter = (
         <div style={{position: 'relative'}}>
           <input
@@ -435,10 +428,10 @@ class FileBrowser extends React.Component {
             type="text"
             className="form-control input-sm"
             placeholder="Filter files"
-            value={reactClass.state.nameFilter}
-            onChange={reactClass.handleFilterChange}
+            value={this.state.nameFilter}
+            onChange={this.handleFilterChange}
           />
-          <span className="clear" onClick={reactClass.clearFilter}>
+          <span className="clear" onClick={this.clearFilter}>
             <i className="fa fa-times" aria-hidden="true"></i>
           </span>
         </div>
@@ -561,150 +554,139 @@ class FileBrowser extends React.Component {
   }
   render() {
     var files;
-    if (!this.state.getFilesLoading && this.state.getFilesError !== null) {
-      files = (
-        <div className="alert alert-danger">
-          <p>{this.state.getFilesError}</p>
-        </div>
-      );
-    }
-    else {
-      var headerProps = {
-        fileKey: this.state.filesRoot,
-        isSelected: (this.state.selection == this.state.filesRoot),
-
-        browserProps: {
-          canCreateFiles: this.props.canCreateFiles,
-          openFolder: this.openFolder,
-          select: this.select,
-          upload: this.upload,
-        },
-      };
-      switch (this.props.renderStyle) {
-        case 'table':
-          var contents;
-          if (this.state.getFilesLoading) {
-            contents = (<tr className="loading"><td><LoadingSpinner /> Loading</td></tr>);
+    var headerProps = {
+      fileKey: '',
+      browserProps: {
+        canCreateFiles: this.props.canCreateFiles,
+        openFolder: this.openFolder,
+        select: this.select,
+        upload: this.upload,
+      },
+    };
+    switch (this.props.renderStyle) {
+      case 'table':
+        var contents;
+        if (this.props.loading) {
+          contents = (<tr className="loading"><td><LoadingSpinner /> Loading</td></tr>);
+        }
+        else {
+          contents = this.renderFiles(this.state.files, 0);
+          if (!contents.length) {
+            if (this.state.nameFilter) {
+              contents = (<tr>
+                <td>
+                  No files matching "{this.state.nameFilter}".
+                </td>
+              </tr>);
+            }
+            else {
+              contents = (<tr>
+                <td>
+                  No files.
+                </td>
+              </tr>);
+            }
           }
           else {
-            contents = this.renderFiles(this.state.organisedFiles, 0);
-            if (!contents.length) {
-              if (this.state.nameFilter) {
-                contents = (<tr>
-                  <td>
-                    No files matching "{this.state.nameFilter}".
+            if (this.state.nameFilter) {
+              var numFiles = contents.length;
+              contents = contents.slice(0, this.state.searchResultsShown);
+              if (numFiles > contents.length) {
+                contents.push(<tr key="show-more">
+                  <td colSpan="100">
+                    <a
+                      onClick={this.handleShowMoreClick}
+                      className="btn btn-block btn-info"
+                      href="#"
+                    >
+                      Show more results
+                    </a>
                   </td>
                 </tr>);
               }
-              else {
-                contents = (<tr>
-                  <td>
-                    No files.
-                  </td>
-                </tr>);
-              }
-            }
-            else {
-              if (this.state.nameFilter) {
-                var numFiles = contents.length;
-                contents = contents.slice(0, this.state.searchResultsShown);
-                if (numFiles > contents.length) {
-                  contents.push(<tr key="show-more">
-                    <td colSpan="100">
-                      <a
-                        onClick={this.handleShowMoreClick}
-                        className="btn btn-block btn-info"
-                        href="#"
-                      >
-                        Show more results
-                      </a>
-                    </td>
-                  </tr>);
-                }
-              }
             }
           }
+        }
 
-          var header;
-          if (this.props.headerRenderer !== null) {
-            header = (
-              <thead>
-                <this.props.headerRenderer
-                  {...headerProps}
-                />
-              </thead>
-            );
-          }
-
-          files = (
-            <table className="table">
-              {header}
-              <tbody>
-                {contents}
-              </tbody>
-            </table>
-          );
-          break;
-
-        case 'list':
-          var contents;
-          if (this.state.getFilesLoading) {
-            contents = (<p className="loading"><LoadingSpinner /> Loading</p>);
-          }
-          else {
-            contents = this.renderFiles(this.state.organisedFiles, 0);
-            if (!contents.length) {
-              if (this.state.nameFilter)
-                contents = (<p className="empty">No files matching "{this.state.nameFilter}"</p>);
-              else
-                contents = (<p className="empty">No files.</p>);
-            }
-            else {
-              var more;
-              if (this.state.nameFilter) {
-                var numFiles = contents.length;
-                contents = contents.slice(0, this.state.searchResultsShown);
-                if (numFiles > contents.length) {
-                  more = (<a
-                    onClick={this.handleShowMoreClick}
-                    className="btn btn-block btn-info"
-                    href="#"
-                  >
-                    Show more results
-                  </a>);
-                }
-              }
-              contents = (
-                <div>
-                  <ul>{contents}</ul>
-                  {more}
-                </div>
-              );
-            }
-          }
-
-          var header;
-          if (this.props.headerRenderer !== null) {
-            header = (
+        var header;
+        if (this.props.headerRenderer !== null) {
+          header = (
+            <thead>
               <this.props.headerRenderer
                 {...headerProps}
               />
+            </thead>
+          );
+        }
+
+        files = (
+          <table className="table">
+            {header}
+            <tbody>
+              {contents}
+            </tbody>
+          </table>
+        );
+        break;
+
+      case 'list':
+        var contents;
+        if (this.props.loading) {
+          contents = (<p className="loading"><LoadingSpinner /> Loading</p>);
+        }
+        else {
+          contents = this.renderFiles(this.state.files, 0);
+          if (!contents.length) {
+            if (this.state.nameFilter)
+              contents = (<p className="empty">No files matching "{this.state.nameFilter}"</p>);
+            else
+              contents = (<p className="empty">No files.</p>);
+          }
+          else {
+            var more;
+            if (this.state.nameFilter) {
+              var numFiles = contents.length;
+              contents = contents.slice(0, this.state.searchResultsShown);
+              if (numFiles > contents.length) {
+                more = (<a
+                  onClick={this.handleShowMoreClick}
+                  className="btn btn-block btn-info"
+                  href="#"
+                >
+                  Show more results
+                </a>);
+              }
+            }
+            contents = (
+              <div>
+                <ul>{contents}</ul>
+                {more}
+              </div>
             );
           }
+        }
 
-          files = (
-            <div>
-              {header}
-              {contents}
-            </div>
+        var header;
+        if (this.props.headerRenderer !== null) {
+          header = (
+            <this.props.headerRenderer
+              {...headerProps}
+            />
           );
+        }
 
-          break;
+        files = (
+          <div>
+            {header}
+            {contents}
+          </div>
+        );
 
-        default:
-          files = (<p>Unknown render style: {this.props.renderStyle}</p>);
-          break;
-      }
+        break;
+
+      default:
+        files = (<p>Unknown render style: {this.props.renderStyle}</p>);
+        break;
     }
 
     var addFolder;
@@ -726,7 +708,7 @@ class FileBrowser extends React.Component {
             >
               <div
                 className="modal-content"
-                onClick={function(event) {
+                onClick={(event) => {
                   event.stopPropagation();
                 }}
               >
@@ -836,16 +818,6 @@ class FileBrowser extends React.Component {
 }
 FileBrowser.defaultProps = {
   showActionBar: true,
-
-  canCreateFolders: true,
-  canCreateFiles: true,
-  canRenameFolders: true,
-  canRenameFiles: true,
-  canMoveFolders: true,
-  canMoveFiles: true,
-  canDeleteFolders: true,
-  canDeleteFiles: true,
-
   canFilter: true,
 
   group: GroupByFolder,
@@ -858,8 +830,6 @@ FileBrowser.defaultProps = {
   headerRenderer: TableHeader,
   folderRenderer: TableFolder,
   fileRenderer: TableFile,
-
-  displayTrigger: null,
 };
 
 export default DragDropContext(HTML5Backend)(FileBrowser)

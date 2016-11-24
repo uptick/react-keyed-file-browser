@@ -4,7 +4,7 @@ import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
 import {
-  component as BaseFolder,
+  BaseFolder,
   dragSource,
   dragCollect,
 } from './../base-folder.jsx'
@@ -13,10 +13,12 @@ import { targetSource, targetCollect } from './../base-file.jsx'
 class ListFolder extends BaseFolder {
   render() {
     var icon;
-    if (this.props.isOpen)
+    if (this.props.isOpen) {
       icon = (<i className="fa fa-folder-open-o" aria-hidden="true"></i>);
-    else
+    }
+    else {
       icon = (<i className="fa fa-folder-o" aria-hidden="true"></i>);
+    }
 
     var inAction = (this.props.isDragging || this.props.action);
 
@@ -99,10 +101,12 @@ class ListFolder extends BaseFolder {
           );
         }
       }
-      if (children.length)
+      if (children.length) {
         children = (<ul style={{padding: '0 8px', paddingLeft: '16px'}}>{children}</ul>);
-      else
+      }
+      else {
         children = (<p className="text-muted">No items in this folder</p>);
+      }
     }
 
     var folder = (
@@ -124,8 +128,9 @@ class ListFolder extends BaseFolder {
         {children}
       </li>
     );
-    if (this.props.browserProps.canMoveFolders && this.props.keyDerived)
+    if (this.props.browserProps.canMoveFolders && this.props.keyDerived) {
       folder = this.props.connectDragPreview(folder);
+    }
 
 
     if (this.props.keyDerived) {

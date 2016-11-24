@@ -7,76 +7,84 @@ const IMAGE_EXTENSIONS = [
   'bmp',
 ];
 
-const BaseFile = React.createClass({
-  getInitialState: function() {
-    return {
+class BaseFile extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+
       newName: this.getName(),
     };
-  },
+  }
 
-  componentDidUpdate: function(oldProps, oldState) {
-    var reactClass = this;
+  componentDidUpdate(oldProps, oldState) {
     if (!oldProps.isRenaming && this.props.isRenaming) {
-      window.requestAnimationFrame(function() {
-        var currentName = reactClass.refs.newName.value;
+      window.requestAnimationFrame(() => {
+        var currentName = this.refs.newName.value;
         var pointIndex = currentName.lastIndexOf('.');
-        reactClass.refs.newName.setSelectionRange(0, pointIndex || currentName.length);
-        reactClass.refs.newName.focus();
+        this.refs.newName.setSelectionRange(0, pointIndex || currentName.length);
+        this.refs.newName.focus();
       });
     }
-  },
+  }
 
-  handleFileClick: function(event) {
-    if (event)
+  handleFileClick(event) {
+    if (event) {
       event.preventDefault();
+    }
     this.props.browserProps.preview({
       url: this.props.url,
       name: this.getName(),
       key: this.props.fileKey,
       extension: this.getExtension(),
     });
-  },
-  handleItemClick: function(event) {
+  }
+  handleItemClick(event) {
     event.stopPropagation();
     this.props.browserProps.select(this.props.fileKey);
-  },
-  handleItemDoubleClick: function(event) {
+  }
+  handleItemDoubleClick(event) {
     event.stopPropagation();
     this.handleFileClick();
-  },
-  handleRenameClick: function(event) {
-    if (!this.props.browserProps.renameFile)
+  }
+  handleRenameClick(event) {
+    if (!this.props.browserProps.renameFile) {
       return;
+    }
     this.props.browserProps.beginAction('rename', this.props.fileKey);
-  },
-  handleRenameConfirm: function(event) {
-    if (!this.props.browserProps.renameFile)
+  }
+  handleRenameConfirm(event) {
+    if (!this.props.browserProps.renameFile) {
       return;
+    }
     var newKey = this.props.key.substr(0, this.props.key.lastIndexOf('/') + 1);
     newKey += this.state.newName;
     this.props.browserProps.renameFile(this.props.key, newKey);
-  },
-  handleDeleteClick: function(event) {
-    if (!this.props.browserProps.delete)
+  }
+  handleDeleteClick(event) {
+    if (!this.props.browserProps.delete) {
       return;
+    }
     this.props.browserProps.beginAction('delete', this.props.fileKey);
-  },
-  handleDeleteConfirm: function(event) {
-    if (!this.props.browserProps.delete)
+  }
+  handleDeleteConfirm(event) {
+    if (!this.props.browserProps.delete) {
       return;
+    }
     this.props.browserProps.delete(this.props.key);
-  },
-  handleCancelEdit: function(event) {
+  }
+  handleCancelEdit(event) {
     this.props.browserProps.endAction();
-  },
-  handleNewNameChange: function(event) {
+  }
+  handleNewNameChange(event) {
     var newName = this.refs.newName.value;
     this.setState(state => {
       state.newName = newName;
       return state;
     });
-  },
-  handleRenameSubmit: function(event) {
+  }
+  handleRenameSubmit(event) {
     event.preventDefault();
     var newName = this.state.newName.trim();
     if (newName.length == 0) {
@@ -99,41 +107,43 @@ const BaseFile = React.createClass({
     newKey += '/';
     newKey += newName;
     this.props.browserProps.renameFile(this.props.fileKey, newKey);
-  },
-  handleDeleteSubmit: function(event) {
+  }
+  handleDeleteSubmit(event) {
     event.preventDefault();
     this.props.browserProps.delete(this.props.fileKey);
-  },
+  }
 
-  getName: function() {
+  getName() {
     var name = this.props.newKey || this.props.fileKey;
     var slashIndex = name.lastIndexOf('/');
-    if (slashIndex != -1)
+    if (slashIndex != -1) {
       name = name.substr(slashIndex + 1);
+    }
     return name;
-  },
-  getExtension: function() {
+  }
+  getExtension() {
     var blobs = this.props.fileKey.split('.');
     return blobs[blobs.length - 1].toLowerCase().trim();
-  },
-  isImage: function() {
+  }
+  isImage() {
     var extension = this.getExtension();
     for (var extensionIndex = 0; extensionIndex < IMAGE_EXTENSIONS.length; extensionIndex++) {
       var imageExtension = IMAGE_EXTENSIONS[extensionIndex];
-      if (extension == imageExtension)
+      if (extension == imageExtension) {
         return true;
+      }
     }
     return false;
-  },
-  isPdf: function() {
+  }
+  isPdf() {
     var extension = this.getExtension();
     return (extension == 'pdf');
-  },
+  }
 
-  render: function() {
+  render() {
     return null;
-  },
-});
+  }
+}
 
 const dragSource = {
   beginDrag(props) {
@@ -191,10 +201,10 @@ function targetCollect(connect, monitor) {
   };
 };
 
-module.exports = {
-  component: BaseFile,
-  dragSource: dragSource,
-  dragCollect: dragCollect,
-  targetSource: targetSource,
-  targetCollect: targetCollect,
-};
+export {
+  BaseFile,
+  dragSource,
+  dragCollect,
+  targetSource,
+  targetCollect,
+}
