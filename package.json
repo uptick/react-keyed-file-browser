@@ -7,7 +7,7 @@
     "publish-demo": "git branch -D gh-pages; git push origin --delete gh-pages; git checkout -b gh-pages; cd demo-site; npm run build; cd ..; git add .; git add -f demo-site/dist; git add -f demo-site/node_modules/abas-demo-site/dist; git commit -m \"Demo site build\"; git push origin gh-pages; git checkout master; git push origin `git subtree split --prefix demo-site gh-pages`:gh-pages --force;",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-js": "./node_modules/webpack/bin/webpack.js",
-    "build-css": "./node_modules/node-sass/bin/node-sass src/object-table.sass dist/react-object-table.css",
+    "build-css": "./node_modules/node-sass/bin/node-sass src/browser.sass dist/react-keyed-file-browser.css",
     "build": "npm run build-js; npm run build-css",
     "prepublish": "npm run build"
   },
@@ -33,9 +33,13 @@
     "classnames": "^2.2.3",
     "clone": "^1.0.2",
     "jquery": "^2.2.0",
+    "moment": "^2.17.0",
     "react": "^0.14.8",
     "react-addons-shallow-compare": "^0.14.8",
-    "react-dom": "^0.14.8"
+    "react-dnd": "^2.1.4",
+    "react-dnd-html5-backend": "^2.1.2",
+    "react-dom": "^0.14.8",
+    "react-pdf": "0.0.10"
   },
   "devDependencies": {
     "babel-cli": "^6.6.4",
