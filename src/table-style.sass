@@ -1,6 +1,16 @@
+$selection-bar-size: 0.3rem
+
 div.rendered-react-keyed-file-browser
   div.files table
     width: 100%
+    margin-bottom: 2rem
+
+    -webkit-touch-callout: none
+    -webkit-user-select: none
+    -khtml-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
+    user-select: none
 
     th, td
       font-size: $main-size
@@ -15,18 +25,33 @@ div.rendered-react-keyed-file-browser
       &.size, &.modified
         text-align: right
 
+      &.name
+        i
+          padding-right: $main-padding
+
     thead th
       border-bottom: 0.1rem solid #ddd
     tr:not(:last-child) td
       border-bottom: 0.1rem solid #eee
 
-    tr.selected
-      background: $main-colour
-      border-bottom: none
+    td.name
+      padding-left: $main-padding + $selection-bar-size
 
-      color: #fff
-      a
-        color: #fff
+    tr
+      cursor: pointer
+      &.selected
+        td
+          font-weight: bold
+          &.name
+            position: relative
+            &:after
+              content: ' '
+              position: absolute
+              left: 0
+              top: 0
+              width: $selection-bar-size
+              height: 100%
+              background: $main-colour
 
 // tr.loading i
 //   color: $brand-primary

@@ -1,19 +1,11 @@
-// $brand-primary: #337ab7
-
-// $action-size: 24px
-// $folder-colour: #333
-// $file-colour: $brand-primary
-// $selection-colour: $brand-primary
-// $selection-text-colour: #fff
-// $dragover-colour: #eee
-
-$main-size: 1rem
-$main-padding: 0.5rem
-$main-colour: #337ab7
+$main-size: 1rem !default
+$main-padding: 0.5rem !default
+$main-colour: #337ab7 !default
 
 div.rendered-react-keyed-file-browser
   div.action-bar
     display: flex
+    margin-bottom: $main-padding
 
     input[type="search"]
       flex: 1
@@ -26,52 +18,16 @@ div.rendered-react-keyed-file-browser
       text-align: right
       margin: 0
       padding: 0
+      line-height: $main-size + $main-padding
+      font-size: $main-size
 
     ul.item-actions
       display: block
       li
         display: inline-block
-
-  //   display: block
-  //   line-height: 40px
-  //   font-size: 15px
-  //   text-align: right
-
-  //   div.filters
-  //     position: relative
-  //     span.clear
-  //       position: absolute
-  //       top: 50%
-  //       right: 8px
-  //       transform: translateY(-50%)
-  //       color: #888
-  //       cursor: pointer
-  //       &:hover
-  //         color: #333
-
-  //   ul
-  //     list-style: none
-  //     margin: 0
-  //     padding: 0
-  //   li
-  //     display: inline-block
-  //     margin: 0
-  //     margin-left: 5px
-  //     padding: 0
-  //     &.waiting i
-  //       color: $brand-primary
-
-  // div.files
-  //   // table and list styles
-  //   tr.folder, li.folder
-  //     a:not(.btn)
-  //       color: $folder-colour
-  //       text-decoration: none
-  //       &:hover
-  //         cursor: pointer
-
-  // p.loading, p.empty
-  //   margin: 16px 0
+        margin: 0
+        &:not(:last-child)
+          margin-right: $main-padding
 
 @import './editor'
 @import './table-style'

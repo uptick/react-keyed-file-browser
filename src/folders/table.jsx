@@ -26,23 +26,15 @@ class TableFolder extends BaseFolder {
     if (!inAction && this.props.isRenaming) {
       name = (
         <div>
-          <form className="renaming" onSubmit={this.handleRenameSubmit}>
-            <span className="icon">{icon}</span>
+          <form className="renaming" onSubmit={this.handleRenameSubmit.bind(this)}>
+            {icon}
             <input
               type="text"
               ref="newName"
               className="form-control input-sm"
               value={this.state.newName}
-              onChange={this.handleNewNameChange}
+              onChange={this.handleNewNameChange.bind(this)}
             />
-            <div className="actions">
-              <a
-                className="cancel btn btn-secondary btn-sm"
-                onClick={this.handleCancelEdit}
-              >
-                Cancel
-              </a>
-            </div>
           </form>
         </div>
       );
@@ -50,15 +42,15 @@ class TableFolder extends BaseFolder {
     else {
       name = (
         <div>
-          <a onClick={this.toggleFolder}>
-            <span className="icon">{icon}</span>
+          <a onClick={this.toggleFolder.bind(this)}>
+            {icon}
             {this.getName()}
           </a>
         </div>
       );
     }
 
-    if (this.props.browserProps.canMoveFolders) {
+    if (typeof this.props.browserProps.moveFolder === 'function') {
       name = this.props.connectDragPreview(name);
     }
 
@@ -70,8 +62,8 @@ class TableFolder extends BaseFolder {
           dragover: this.props.isOver,
           selected: this.props.isSelected,
         })}
-       onClick={this.handleFolderClick}
-       onDoubleClick={this.handleFolderDoubleClick}
+        onClick={this.handleFolderClick.bind(this)}
+        onDoubleClick={this.handleFolderDoubleClick.bind(this)}
       >
         <td className="name">
           <div style={{paddingLeft: (this.props.depth * 16) + 'px'}}>
@@ -85,7 +77,7 @@ class TableFolder extends BaseFolder {
 
     if (this.props.keyDerived && this.props.keyDerived) {
       if (
-        this.props.browserProps.canMoveFolders
+        typeof this.props.browserProps.moveFolder === 'function'
         && !inAction
         && !this.props.isRenaming
         && !this.props.isDeleting
@@ -93,9 +85,9 @@ class TableFolder extends BaseFolder {
         folder = this.props.connectDragSource(folder);
       }
       if (
-        this.props.browserProps.canCreateFiles
-        || this.props.browserProps.canMoveFolders
-        || this.props.browserProps.canMoveFiles
+        typeof this.props.browserProps.createFile === 'function'
+        || typeof this.props.browserProps.moveFolder === 'function'
+        || typeof this.props.browserProps.moveFile === 'function'
       ) {
         folder = this.props.connectDropTarget(folder);
       }

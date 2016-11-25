@@ -6,7 +6,6 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
 import LoadingSpinner from './loading-spinner.jsx'
-import Previewer from './previewer.jsx'
 
 import TableHeader from './headers/table.jsx'
 import TableFolder from './folders/table.jsx'
@@ -123,6 +122,26 @@ class FileBrowser extends React.Component {
     });
   }
 
+  // item manipulation
+  renameFile(oldKey, newKey) {
+    this.setState({
+      activeAction: null,
+      actionTarget: null,
+    }, () => {
+      this.props.onRenameFile(oldKey, newKey);
+    });
+  }
+  renameFolder(oldKey, newKey) {
+    console.log('renaming folder', oldKey, 'to', newKey);
+  }
+  moveFile(oldKey, newKey) {}
+  moveFolder(oldKey, newKey) {}
+  createFile(files, prefix) {}
+  createFolder(key) {}
+  deleteFile(key) {}
+  deleteFolder(key) {}
+
+  // browser manipulation
   beginAction(action, key) {
     this.setState(state => {
       state.activeAction = action;
@@ -133,21 +152,13 @@ class FileBrowser extends React.Component {
   endAction() {
     this.beginAction(null, null);
   }
-  upload(files, prefix) {
-    console.log('uploading to', prefix);
-  }
-  renameFile(oldKey, newKey) {
-    console.log('renaming file', oldKey, 'to', newKey);
-  }
-  renameFolder(oldKey, newKey) {
-    console.log('renaming folder', oldKey, 'to', newKey);
-  }
-  delete(key) {
-    console.log('deleting', key);
-  }
   select(key) {
     this.setState(state => {
       state.selection = key;
+      if (state.actionTarget !== null && state.actionTarget !== key) {
+        state.actionTarget = null;
+        state.activeAction = null;
+      }
       return state;
     });
   }
@@ -189,54 +200,6 @@ class FileBrowser extends React.Component {
       return state;
     });
   }
-  handleNewFolderNameChange() {
-    var newValue = this.refs.newFolderName.value;
-    this.setState(state => {
-      state.newFolderName = newValue;
-      return state;
-    });
-  }
-  handleAddFolderSubmit(event) {
-    event.preventDefault();
-    var newFolderName = this.state.addFolder + this.state.newFolderName;
-    this.setState(state => {
-      state.addFolderPending = true;
-      return state;
-    }, () => {
-      var formData = new FormData();
-      formData.append('key', newFolderName);
-      formData.append('acl', this.state.preuploadConfig.acl);
-      formData.append('Content-Type', '');
-      formData.append('AWSAccessKeyId', this.state.preuploadConfig.aws_access_key);
-      formData.append('policy', this.state.preuploadConfig.policy)
-      formData.append('signature', this.state.preuploadConfig.signature);
-      formData.append('file', '');
-      jQuery.ajax({
-        method: 'POST',
-        url: this.state.preuploadConfig.bucket_url,
-        data: formData,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: (response) => {
-          this.setState(state => {
-            state.addFolder = null;
-            state.newFolderName = '';
-            state.addFolderPending = false;
-            return state;
-          }, () => {
-            this.loadFiles(false);
-          });
-        },
-        error: (response) => {
-          this.setState(state => {
-            state.addFolderPending = false;
-            return state;
-          });
-        }
-      });
-    });
-  }
   handleShowMoreClick(event) {
     event.preventDefault();
     this.setState(state => {
@@ -244,7 +207,6 @@ class FileBrowser extends React.Component {
       return state;
     });
   }
-
   toggleFolder(folderKey) {
     this.setState(state => {
       if (folderKey in state.openFolders)
@@ -261,6 +223,7 @@ class FileBrowser extends React.Component {
     });
   }
 
+  // event handlers
   handleGlobalClick(event) {
     var inBrowser = (jQuery(this.refs.browser).has(event.target).length > 0);
     var inPreview = (
@@ -270,6 +233,8 @@ class FileBrowser extends React.Component {
     if (!inBrowser && !inPreview) {
       this.setState(state => {
         state.selection = null;
+        state.actionTarget = null;
+        state.activeAction = null;
         return state;
       });
     }
@@ -280,12 +245,15 @@ class FileBrowser extends React.Component {
     }
   }
   handleActionBarRenameClick(event) {
+    event.preventDefault();
     this.beginAction('rename', this.state.selection);
   }
   handleActionBarDeleteClick(event) {
+    event.preventDefault();
     this.beginAction('delete', this.state.selection);
   }
   handleActionBarAddFolderClick(event) {
+    event.preventDefault();
     var addKey = this.state.selection;
     if (addKey.substr(addKey.length - 1, addKey.length) !== '/')
       addKey = addKey.substr(0, addKey.lastIndexOf('/') || 0) + '/';
@@ -329,7 +297,7 @@ class FileBrowser extends React.Component {
       };
       findInOrganised(this.state.files);
     }
-    var selectionIsFolder = (selectedFile && selectedFile.size);
+    var selectionIsFolder = (selectedFile && !selectedFile.size);
 
     var filter;
     if (this.props.canFilter) {
@@ -370,12 +338,33 @@ class FileBrowser extends React.Component {
       }
       else {
         actions = [];
-        if (this.props.canDeleteFiles && selectionIsFolder) {
+        if (selectionIsFolder && typeof this.props.onAddFolder === 'function') {
+          actions.push(
+            <li key="action-add-folder">
+              <a
+                className="btn btn-primary btn-sm"
+                onClick={this.handleActionBarAddFolderClick.bind(this)}
+                href="#"
+                role="button"
+              >
+                <i className="fa fa-folder-o" aria-hidden="true"></i>
+                &nbsp;Add Subfolder
+              </a>
+            </li>
+          );
+        }
+        if (
+          selectedFile.keyDerived
+          && (
+            (!selectionIsFolder && typeof this.props.onDeleteFile === 'function')
+            || (selectionIsFolder && typeof this.props.onDeleteFolder === 'function')
+          )
+        ) {
           actions.push(
             <li key="action-delete">
               <a
                 className="btn btn-primary btn-sm"
-                onClick={this.handleActionBarDeleteClick}
+                onClick={this.handleActionBarDeleteClick.bind(this)}
                 href="#"
                 role="button"
               >
@@ -396,7 +385,7 @@ class FileBrowser extends React.Component {
             <li key="action-rename">
               <a
                 className="btn btn-primary btn-sm"
-                onClick={this.handleActionBarRenameClick}
+                onClick={this.handleActionBarRenameClick.bind(this)}
                 href="#"
                 role="button"
               >
@@ -406,27 +395,40 @@ class FileBrowser extends React.Component {
             </li>
           );
         }
-        if (typeof this.props.onAddFolder === 'function') {
-          actions.push(
-            <li key="action-add-folder">
-              <a
-                className="btn btn-primary btn-sm"
-                onClick={this.handleActionBarAddFolderClick}
-                href="#"
-                role="button"
-              >
-                <i className="fa fa-folder-o" aria-hidden="true"></i>
-                &nbsp;Add Folder
-              </a>
-            </li>
-          );
-        }
 
-        actions = (<ul className="item-actions">{actions}</ul>);
+        if (actions.length) {
+          actions = (<ul className="item-actions">{actions}</ul>);
+        }
+        else {
+          actions = (<div className="item-actions"></div>);
+        }
       }
     }
     else {
-      actions = (<div className="item-actions">-</div>);
+      actions = [];
+
+      if (typeof this.props.onAddFolder === 'function') {
+        actions.push(
+          <li key="action-add-folder">
+            <a
+              className="btn btn-primary btn-sm"
+              onClick={this.handleActionBarAddFolderClick.bind(this)}
+              href="#"
+              role="button"
+            >
+              <i className="fa fa-folder-o" aria-hidden="true"></i>
+              &nbsp;Add Folder
+            </a>
+          </li>
+        );
+      }
+
+      if (actions.length) {
+        actions = (<ul className="item-actions">{actions}</ul>);
+      }
+      else {
+        actions = (<div className="item-actions"></div>);
+      }
     }
 
     return (
@@ -446,12 +448,6 @@ class FileBrowser extends React.Component {
         nestChildren: this.props.nestChildren,
         folderRenderer: this.props.folderRenderer,
         fileRenderer: this.props.fileRenderer,
-        canCreateFiles: this.props.canCreateFiles,
-        canCreateFolders: this.props.canCreateFolders,
-        canRenameFiles: this.props.canRenameFiles,
-        canRenameFolders: this.props.canRenameFolders,
-        canMoveFiles: this.props.canMoveFiles,
-        canMoveFolders: this.props.canMoveFolders,
         // browser state
         openFolders: this.state.openFolders,
         nameFilter: this.state.nameFilter,
@@ -459,19 +455,40 @@ class FileBrowser extends React.Component {
         activeAction: this.state.activeAction,
         actionTarget: this.state.actionTarget,
 
-        // browser state functions
+        // browser manipulation
         select: this.select.bind(this),
         openFolder: this.openFolder.bind(this),
         toggleFolder: this.toggleFolder.bind(this),
         beginAction: this.beginAction.bind(this),
         endAction: this.endAction.bind(this),
-        // data functions
-        renameFolder: this.renameFolder.bind(this),
-        renameFile: this.renameFile.bind(this),
-        upload: this.upload.bind(this),
         preview: this.preview.bind(this),
-        delete: this.delete.bind(this),
       };
+      // item manipulation
+      if (typeof this.props.onRenameFile === 'function') {
+        browserProps.renameFile = this.renameFile.bind(this);
+      }
+      if (typeof this.props.onRenameFolder === 'function') {
+        browserProps.renameFolder = this.renameFolder.bind(this);
+      }
+      if (typeof this.props.onMoveFile === 'function') {
+        browserProps.moveFile = this.moveFile.bind(this);
+      }
+      if (typeof this.props.onMoveFolder === 'function') {
+        browserProps.moveFolder = this.moveFolder.bind(this);
+      }
+      if (typeof this.props.onCreateFile === 'function') {
+        browserProps.createFile = this.createFile.bind(this);
+      }
+      if (typeof this.props.onCreateFolder === 'function') {
+        browserProps.createFolder = this.createFolder.bind(this);
+      }
+      if (typeof this.props.onDeleteFile === 'function') {
+        browserProps.deleteFile = this.deleteFile.bind(this);
+      }
+      if (typeof this.props.onDeleteFolder === 'function') {
+        browserProps.deleteFolder = this.deleteFolder.bind(this);
+      }
+
       var thisItemProps = {
         key: 'file-'+file.key,
         fileKey: file.key,
@@ -561,7 +578,7 @@ class FileBrowser extends React.Component {
                 contents.push(<tr key="show-more">
                   <td colSpan="100">
                     <a
-                      onClick={this.handleShowMoreClick}
+                      onClick={this.handleShowMoreClick.bind(this)}
                       className="btn btn-block btn-info"
                       href="#"
                     >
@@ -615,7 +632,7 @@ class FileBrowser extends React.Component {
               contents = contents.slice(0, this.state.searchResultsShown);
               if (numFiles > contents.length) {
                 more = (<a
-                  onClick={this.handleShowMoreClick}
+                  onClick={this.handleShowMoreClick.bind(this)}
                   className="btn btn-block btn-info"
                   href="#"
                 >
@@ -678,7 +695,7 @@ class FileBrowser extends React.Component {
                   event.stopPropagation();
                 }}
               >
-                <form onSubmit={this.handleAddFolderSubmit}>
+                <form onSubmit={this.handleAddFolderSubmit.bind(this)}>
                   <div className="modal-header">
                     <button
                       type="button"
@@ -738,12 +755,7 @@ class FileBrowser extends React.Component {
     else {
       if (this.state.previewFile !== null) {
         preview = (
-          <Previewer
-            {...this.state.previewFile}
-            fileKey={this.state.previewFile.key}
-            closePreview={this.closePreview}
-            openFilePath={this.openFilePath}
-          />
+          <p>Preview</p>
         );
       }
     }

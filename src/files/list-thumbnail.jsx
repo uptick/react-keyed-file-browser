@@ -67,7 +67,7 @@ class ListFile extends BaseFile {
               className="form-control input-sm"
               type="text"
               value={this.state.newName}
-              onChange={this.handleNewNameChange}
+              onChange={this.handleNewNameChange.bind(this)}
             />
             <div className="actions">
               <a

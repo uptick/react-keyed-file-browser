@@ -63,16 +63,10 @@ class TableFile extends BaseFile {
               this.handleFileClick();
             }}
           >
-            <span className="icon">{icon}</span>
+            {icon}
             {this.getName()}
           </a>
           <div className="actions">
-            <a
-              className="cancel btn btn-primary btn-sm"
-              onClick={this.handleCancelEdit.bind(this)}
-            >
-              Cancel
-            </a>
             <button type="submit" className="btn btn-sm btn-secondary">
               Confirm Delete
             </button>
@@ -83,19 +77,14 @@ class TableFile extends BaseFile {
     else if (!inAction && this.props.isRenaming) {
       name = (
         <form className="renaming" onSubmit={this.handleRenameSubmit.bind(this)}>
-          <span className="icon">{icon}</span>
+          {icon}
           <input
             ref="newName"
             className="form-control input-sm"
             type="text"
             value={this.state.newName}
-            onChange={this.handleNewNameChange}
+            onChange={this.handleNewNameChange.bind(this)}
           />
-          <div className="actions">
-            <a className="cancel btn btn-primary btn-sm" onClick={this.handleCancelEdit.bind(this)}>
-              Cancel
-            </a>
-          </div>
         </form>
       );
     }
@@ -109,7 +98,7 @@ class TableFile extends BaseFile {
             this.handleFileClick();
           }}
         >
-          <span className="icon">{icon}</span>
+          {icon}
           {this.getName()}
         </a>
       );
@@ -120,8 +109,9 @@ class TableFile extends BaseFile {
         {name}
       </div>
     );
-    if (this.props.browserProps.canMoveFiles)
+    if (typeof this.props.browserProps.moveFile === 'function') {
       draggable = this.props.connectDragPreview(draggable);
+    }
 
     var row = (
       <tr
@@ -132,7 +122,7 @@ class TableFile extends BaseFile {
           selected: (this.props.isSelected),
         })}
         onClick={this.handleItemClick.bind(this)}
-        onDoubleClick={this.handleItemDoubleClick}
+        onDoubleClick={this.handleItemDoubleClick.bind(this)}
       >
         <td className="name">
           <div style={{paddingLeft: (this.props.depth * 16) + 'px'}}>
@@ -141,22 +131,22 @@ class TableFile extends BaseFile {
         </td>
         <td className="size">{file_size(this.props.size)}</td>
         <td className="modified">
-          {typeof this.props.modified === 'undefined' ? '-' : Moment(this.props.modified).fromNow()}
+          {typeof this.props.modified === 'undefined' ? '-' : Moment(this.props.modified, 'x').fromNow()}
         </td>
       </tr>
     );
 
     if (
-      this.props.browserProps.canMoveFiles
+      typeof this.props.browserProps.moveFile === 'function'
       && !inAction
       && !this.props.isRenaming
     ) {
       row = this.props.connectDragSource(row);
     }
     if (
-      this.props.browserProps.canCreateFiles
-      || this.props.browserProps.canMoveFiles
-      || this.props.browserProps.canMoveFolders
+      typeof this.props.browserProps.createFile === 'function'
+      || typeof this.props.browserProps.moveFile === 'function'
+      || typeof this.props.browserProps.moveFolder === 'function'
     ) {
       row = this.props.connectDropTarget(row);
     }
