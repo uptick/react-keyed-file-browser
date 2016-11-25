@@ -37,6 +37,16 @@ class NestedTableDemo extends React.Component {
           modified: +Moment().subtract(25, 'days'),
           size: 85 * 1024,
         },
+        {
+          key: 'documents/letter chunks.doc',
+          modified: +Moment().subtract(15, 'days'),
+          size: 480 * 1024,
+        },
+        {
+          key: 'documents/export.pdf',
+          modified: +Moment().subtract(15, 'days'),
+          size: 4.2 * 1024 * 1024,
+        },
       ],
     };
   }
@@ -47,14 +57,24 @@ class NestedTableDemo extends React.Component {
   handleAddFile() {
     console.log('adding file');
   }
-  handleMoveFolder() {
-    console.log('moving folder');
-  }
-  handleMoveFile() {
-    console.log('moving file');
-  }
-  handleRenameFolder() {
-    console.log('renaming folder');
+  handleRenameFolder(oldKey, newKey) {
+    this.setState(state => {
+      var newFiles = [];
+      state.files.map((file) => {
+        if (file.key.substr(0, oldKey.length) === oldKey) {
+          newFiles.push({
+            ...file,
+
+            key: file.key.replace(oldKey, newKey),
+          });
+        }
+        else {
+          newFiles.push(file);
+        }
+      });
+      state.files = newFiles;
+      return state;
+    });
   }
   handleRenameFile(oldKey, newKey) {
     this.setState(state => {
@@ -90,8 +110,8 @@ class NestedTableDemo extends React.Component {
 
         onAddFolder={this.handleAddFolder.bind(this)}
         onAddFile={this.handleAddFile.bind(this)}
-        onMoveFolder={this.handleMoveFolder.bind(this)}
-        onMoveFile={this.handleMoveFile.bind(this)}
+        onMoveFolder={this.handleRenameFolder.bind(this)}
+        onMoveFile={this.handleRenameFile.bind(this)}
         onRenameFolder={this.handleRenameFolder.bind(this)}
         onRenameFile={this.handleRenameFile.bind(this)}
         onDeleteFolder={this.handleDeleteFolder.bind(this)}
