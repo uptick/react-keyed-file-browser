@@ -1,54 +1,30 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Moment from 'moment'
 
 import FileBrowser from 'react-keyed-file-browser'
 
-class SimpleFlatDemo extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      ...this.state,
-
-      visible: true,
-    };
-  }
-
-  render() {
-    var browser;
-    if (this.state.visible) {
-      browser = (
-        <FileBrowser
-          loading={false}
-          files={[
-            {key: 'cat.png', size: 1.5 * 1024 * 1024},
-            {key: 'kitten.png', size: 545 * 1024},
-          ]}
-        />
-      );
-    }
-    else {
-      browser = (<p>Hidden</p>);
-    }
-
-    return (
-      <div>
-        <input
-          ref="visible"
-          type="checkbox"
-          checked={this.state.visible}
-          onChange={(event) => {
-            this.setState({visible: this.refs.visible.checked});
-          }}
-        />
-        {browser}
-      </div>
-    );
-  }
-}
-
 var mount = document.querySelectorAll('div.demo-mount-flat-simple');
 ReactDOM.render(
-  <SimpleFlatDemo />,
+  <FileBrowser
+    loading={false}
+    files={[
+      {
+        key: 'cat.png',
+        modified: +Moment().subtract(1, 'hours'),
+        size: 1.5 * 1024 * 1024
+      },
+      {
+        key: 'kitten.png',
+        modified: +Moment().subtract(3, 'days'),
+        size: 545 * 1024
+      },
+      {
+        key: 'elephant.png',
+        modified: +Moment().subtract(3, 'days'),
+        size: 52 * 1024
+      },
+    ]}
+  />,
   mount[0]
 );

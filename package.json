@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "abas-demo-site": "^1.0.6",
+    "font-awesome": "^4.7.0",
     "moment": "^2.16.0",
     "react": "^0.14.8",
     "react-dom": "^0.14.8"
