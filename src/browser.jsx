@@ -127,15 +127,54 @@ class FileBrowser extends React.Component {
     this.setState({
       activeAction: null,
       actionTarget: null,
+      selection: newKey,
     }, () => {
       this.props.onRenameFile(oldKey, newKey);
     });
   }
   renameFolder(oldKey, newKey) {
-    console.log('renaming folder', oldKey, 'to', newKey);
+    this.setState(state => {
+      state.activeAction = null;
+      state.actionTarget = null;
+      state.selection = newKey;
+      if (oldKey in state.openFolders) {
+        state.openFolders = {
+          ...state.openFolders,
+        };
+        delete state.openFolders[newKey];
+        state.openFolders[newKey] = true;
+      }
+      return state;
+    }, () => {
+      this.props.onRenameFolder(oldKey, newKey);
+    });
   }
-  moveFile(oldKey, newKey) {}
-  moveFolder(oldKey, newKey) {}
+  moveFile(oldKey, newKey) {
+    this.setState({
+      activeAction: null,
+      actionTarget: null,
+      selection: newKey,
+    }, () => {
+      this.props.onMoveFile(oldKey, newKey);
+    });
+  }
+  moveFolder(oldKey, newKey) {
+    this.setState(state => {
+      state.activeAction = null;
+      state.actionTarget = null;
+      state.selection = newKey;
+      if (oldKey in state.openFolders) {
+        state.openFolders = {
+          ...state.openFolders,
+        };
+        delete state.openFolders[newKey];
+        state.openFolders[newKey] = true;
+      }
+      return state;
+    }, () => {
+      this.props.onMoveFolder(oldKey, newKey);
+    });
+  }
   createFile(files, prefix) {}
   createFolder(key) {}
   deleteFile(key) {}
