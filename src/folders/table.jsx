@@ -23,7 +23,29 @@ class TableFolder extends BaseFolder {
     var inAction = (this.props.isDragging || this.props.action);
 
     var name;
-    if (!inAction && this.props.isRenaming) {
+    if (!inAction && this.props.isDeleting) {
+      name = (
+        <form className="deleting" onSubmit={this.handleDeleteSubmit.bind(this)}>
+          <a
+            href={this.props.url}
+            download="download"
+            onClick={(event) => {
+              event.preventDefault();
+              this.handleFileClick();
+            }}
+          >
+            {icon}
+            {this.getName()}
+          </a>
+          <div className="actions">
+            <button type="submit" className="btn btn-sm btn-secondary">
+              Confirm Delete
+            </button>
+          </div>
+        </form>
+      );
+    }
+    else if (!inAction && this.props.isRenaming) {
       name = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit.bind(this)}>

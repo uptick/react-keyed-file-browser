@@ -54,7 +54,7 @@ class TableFile extends BaseFile {
     var name;
     if (!inAction && this.props.isDeleting) {
       name = (
-        <form className="deleting" onSubmit={this.handleDeleteSubmit}>
+        <form className="deleting" onSubmit={this.handleDeleteSubmit.bind(this)}>
           <a
             href={this.props.url}
             download="download"

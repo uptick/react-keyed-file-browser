@@ -136,7 +136,9 @@ class FileBrowser extends React.Component {
     this.setState(state => {
       state.activeAction = null;
       state.actionTarget = null;
-      state.selection = newKey;
+      if (state.selection.substr(0, oldKey.length) === oldKey) {
+        state.selection = state.selection.replace(oldKey, newKey);
+      }
       if (oldKey in state.openFolders) {
         state.openFolders = {
           ...state.openFolders,
@@ -177,8 +179,12 @@ class FileBrowser extends React.Component {
   }
   createFile(files, prefix) {}
   createFolder(key) {}
-  deleteFile(key) {}
-  deleteFolder(key) {}
+  deleteFile(key) {
+    this.props.onDeleteFile(key);
+  }
+  deleteFolder(key) {
+    this.props.onDeleteFolder(key);
+  }
 
   // browser manipulation
   beginAction(action, key) {
@@ -279,6 +285,36 @@ class FileBrowser extends React.Component {
     }
   }
   handleGlobalKeyDown(event) {
+    if (event.which === 40 && this.state.selection !== null) {
+      var nextFile = this.getNextSelection();
+      this.setState(state => {
+        var done = false;
+        var takeNext = false;
+        var traverseFiles = function(files) {
+          if (done) {
+            return;
+          }
+          files.map((file) => {
+            if (takeNext) {
+              state.selection = file.key;
+              done = true;
+            }
+            if (file.key === state.selection) {
+              takeNext = true;
+            }
+            if (file.children && file.key in state.openFolders) {
+              traverseFiles(file.children);
+            }
+          });
+        }
+        traverseFiles(state.files);
+        return state;
+      });
+    }
+    else if (event.which === 38 && this.state.selection !== null) {
+      console.log('up');
+    }
+
     if (event.which == 27 && this.state.previewFile !== null) {
       this.closePreview();
     }

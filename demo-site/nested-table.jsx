@@ -95,11 +95,31 @@ class NestedTableDemo extends React.Component {
       return state;
     });
   }
-  handleDeleteFolder() {
-    console.log('deleting folder');
+  handleDeleteFolder(folderKey) {
+    this.setState(state => {
+      var newFiles = [];
+      state.files.map((file) => {
+        if (file.key.substr(0, folderKey.length) === folderKey) {
+          return;
+        }
+        newFiles.push(file);
+      });
+      state.files = newFiles;
+      return state;
+    });
   }
-  handleDeleteFile() {
-    console.log('deleting file');
+  handleDeleteFile(fileKey) {
+    this.setState(state => {
+      var newFiles = [];
+      state.files.map((file) => {
+        if (file.key === fileKey) {
+          return;
+        }
+        newFiles.push(file);
+      });
+      state.files = newFiles;
+      return state;
+    });
   }
 
   render() {

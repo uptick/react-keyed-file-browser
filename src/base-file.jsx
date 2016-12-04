@@ -29,6 +29,33 @@ class BaseFile extends React.Component {
     }
   }
 
+  getName() {
+    var name = this.props.newKey || this.props.fileKey;
+    var slashIndex = name.lastIndexOf('/');
+    if (slashIndex != -1) {
+      name = name.substr(slashIndex + 1);
+    }
+    return name;
+  }
+  getExtension() {
+    var blobs = this.props.fileKey.split('.');
+    return blobs[blobs.length - 1].toLowerCase().trim();
+  }
+  isImage() {
+    var extension = this.getExtension();
+    for (var extensionIndex = 0; extensionIndex < IMAGE_EXTENSIONS.length; extensionIndex++) {
+      var imageExtension = IMAGE_EXTENSIONS[extensionIndex];
+      if (extension == imageExtension) {
+        return true;
+      }
+    }
+    return false;
+  }
+  isPdf() {
+    var extension = this.getExtension();
+    return (extension == 'pdf');
+  }
+
   handleFileClick(event) {
     if (event) {
       event.preventDefault();
@@ -48,34 +75,12 @@ class BaseFile extends React.Component {
     event.stopPropagation();
     this.handleFileClick();
   }
+
   handleRenameClick(event) {
     if (!this.props.browserProps.renameFile) {
       return;
     }
     this.props.browserProps.beginAction('rename', this.props.fileKey);
-  }
-  handleRenameConfirm(event) {
-    if (!this.props.browserProps.renameFile) {
-      return;
-    }
-    var newKey = this.props.key.substr(0, this.props.key.lastIndexOf('/') + 1);
-    newKey += this.state.newName;
-    this.props.browserProps.renameFile(this.props.key, newKey);
-  }
-  handleDeleteClick(event) {
-    if (!this.props.browserProps.delete) {
-      return;
-    }
-    this.props.browserProps.beginAction('delete', this.props.fileKey);
-  }
-  handleDeleteConfirm(event) {
-    if (!this.props.browserProps.delete) {
-      return;
-    }
-    this.props.browserProps.delete(this.props.key);
-  }
-  handleCancelEdit(event) {
-    this.props.browserProps.endAction();
   }
   handleNewNameChange(event) {
     var newName = this.refs.newName.value;
@@ -108,36 +113,23 @@ class BaseFile extends React.Component {
     newKey += newName;
     this.props.browserProps.renameFile(this.props.fileKey, newKey);
   }
+
+  handleDeleteClick(event) {
+    if (!this.props.browserProps.deleteFile) {
+      return;
+    }
+    this.props.browserProps.beginAction('delete', this.props.fileKey);
+  }
   handleDeleteSubmit(event) {
     event.preventDefault();
-    this.props.browserProps.delete(this.props.fileKey);
+    if (!this.props.browserProps.deleteFile) {
+      return;
+    }
+    this.props.browserProps.deleteFile(this.props.fileKey);
   }
 
-  getName() {
-    var name = this.props.newKey || this.props.fileKey;
-    var slashIndex = name.lastIndexOf('/');
-    if (slashIndex != -1) {
-      name = name.substr(slashIndex + 1);
-    }
-    return name;
-  }
-  getExtension() {
-    var blobs = this.props.fileKey.split('.');
-    return blobs[blobs.length - 1].toLowerCase().trim();
-  }
-  isImage() {
-    var extension = this.getExtension();
-    for (var extensionIndex = 0; extensionIndex < IMAGE_EXTENSIONS.length; extensionIndex++) {
-      var imageExtension = IMAGE_EXTENSIONS[extensionIndex];
-      if (extension == imageExtension) {
-        return true;
-      }
-    }
-    return false;
-  }
-  isPdf() {
-    var extension = this.getExtension();
-    return (extension == 'pdf');
+  handleCancelEdit(event) {
+    this.props.browserProps.endAction();
   }
 
   render() {
