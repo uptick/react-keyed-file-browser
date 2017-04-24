@@ -25,7 +25,7 @@ class TableFolder extends BaseFolder {
     var name;
     if (!inAction && this.props.isDeleting) {
       name = (
-        <form className="deleting" onSubmit={this.handleDeleteSubmit.bind(this)}>
+        <form className="deleting" onSubmit={this.handleDeleteSubmit}>
           <a
             href={this.props.url}
             download="download"
@@ -48,14 +48,14 @@ class TableFolder extends BaseFolder {
     else if (!inAction && this.props.isRenaming) {
       name = (
         <div>
-          <form className="renaming" onSubmit={this.handleRenameSubmit.bind(this)}>
+          <form className="renaming" onSubmit={this.handleRenameSubmit}>
             {icon}
             <input
               type="text"
               ref="newName"
               className="form-control input-sm"
               value={this.state.newName}
-              onChange={this.handleNewNameChange.bind(this)}
+              onChange={this.handleNewNameChange}
             />
           </form>
         </div>
@@ -64,7 +64,7 @@ class TableFolder extends BaseFolder {
     else {
       name = (
         <div>
-          <a onClick={this.toggleFolder.bind(this)}>
+          <a onClick={this.toggleFolder}>
             {icon}
             {this.getName()}
           </a>
@@ -84,8 +84,8 @@ class TableFolder extends BaseFolder {
           dragover: this.props.isOver,
           selected: this.props.isSelected,
         })}
-        onClick={this.handleFolderClick.bind(this)}
-        onDoubleClick={this.handleFolderDoubleClick.bind(this)}
+        onClick={this.handleFolderClick}
+        onDoubleClick={this.handleFolderDoubleClick}
       >
         <td className="name">
           <div style={{paddingLeft: (this.props.depth * 16) + 'px'}}>

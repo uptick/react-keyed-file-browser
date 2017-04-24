@@ -1,23 +1,22 @@
-import Clone from 'clone'
 import React from 'react'
-import ReactDom from 'react-dom'
-import jQuery from 'jquery'
+import PropTypes from 'prop-types'
+// drag and drop
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
-import LoadingSpinner from './loading-spinner.jsx'
-
+// default renderers
 import TableHeader from './headers/table.jsx'
 import TableFolder from './folders/table.jsx'
 import TableFile from './files/table.jsx'
 
+// default processors
 import GroupByFolder from './groupers/by-folder.jsx'
 import SortByName from './sorters/by-name.jsx'
 
 const SEARCH_RESULTS_PER_PAGE = 20;
 
 function organiseFiles(files, filter, group, sort) {
-  var organisedFiles = Clone(files);
+  var organisedFiles = files.concat([]);
 
   if (filter) {
     var filteredFiles = [];
@@ -66,8 +65,24 @@ class FileBrowser extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleGlobalClick = this.handleGlobalClick.bind(this);
-    this.handleGlobalKeyDown = this.handleGlobalKeyDown.bind(this);
+    this.handleGlobalClick = ::this.handleGlobalClick;
+    this.handleGlobalKeyDown = ::this.handleGlobalKeyDown;
+    // browser manipulation
+    this.select = ::this.select;
+    this.openFolder = ::this.openFolder;
+    this.toggleFolder = ::this.toggleFolder;
+    this.beginAction = ::this.beginAction;
+    this.endAction = ::this.endAction;
+    this.preview = ::this.preview;
+    // file manipulation
+    this.renameFile = ::this.renameFile;
+    this.renameFolder = ::this.renameFolder;
+    this.moveFile = ::this.moveFile;
+    this.moveFolder = ::this.moveFolder;
+    this.createFile = ::this.createFile;
+    this.createFolder = ::this.createFolder;
+    this.deleteFile = ::this.deleteFile;
+    this.deleteFolder = ::this.deleteFolder;
 
     this.state = {
       ...this.state,
@@ -270,10 +285,10 @@ class FileBrowser extends React.Component {
 
   // event handlers
   handleGlobalClick(event) {
-    var inBrowser = (jQuery(this.refs.browser).has(event.target).length > 0);
-    var inPreview = (
+    var inBrowser = !!(this.refs.browser.contains(event.target));
+    var inPreview = !!(
       typeof this.refs.preview !== 'undefined'
-      && jQuery(this.refs.preview).has(event.target).length > 0
+      && this.refs.preview.contains(event.target)
     );
     if (!inBrowser && !inPreview) {
       this.setState(state => {
@@ -285,35 +300,34 @@ class FileBrowser extends React.Component {
     }
   }
   handleGlobalKeyDown(event) {
-    if (event.which === 40 && this.state.selection !== null) {
-      var nextFile = this.getNextSelection();
-      this.setState(state => {
-        var done = false;
-        var takeNext = false;
-        var traverseFiles = function(files) {
-          if (done) {
-            return;
-          }
-          files.map((file) => {
-            if (takeNext) {
-              state.selection = file.key;
-              done = true;
-            }
-            if (file.key === state.selection) {
-              takeNext = true;
-            }
-            if (file.children && file.key in state.openFolders) {
-              traverseFiles(file.children);
-            }
-          });
-        }
-        traverseFiles(state.files);
-        return state;
-      });
-    }
-    else if (event.which === 38 && this.state.selection !== null) {
-      console.log('up');
-    }
+    // if (event.which === 40 && this.state.selection !== null) {
+    //   var nextFile = this.getNextSelection();
+    //   this.setState(state => {
+    //     var done = false;
+    //     var takeNext = false;
+    //     var traverseFiles = function(files) {
+    //       if (done) {
+    //         return;
+    //       }
+    //       files.map((file) => {
+    //         if (takeNext) {
+    //           state.selection = file.key;
+    //           done = true;
+    //         }
+    //         if (file.key === state.selection) {
+    //           takeNext = true;
+    //         }
+    //         if (file.children && file.key in state.openFolders) {
+    //           traverseFiles(file.children);
+    //         }
+    //       });
+    //     }
+    //     traverseFiles(state.files);
+    //     return state;
+    //   });
+    // }
+    // else if (event.which === 38 && this.state.selection !== null) {
+    // }
 
     if (event.which == 27 && this.state.previewFile !== null) {
       this.closePreview();
@@ -392,7 +406,6 @@ class FileBrowser extends React.Component {
       if (selectedFile.action) {
         var actionText;
         switch (selectedFile.action) {
-
           case 'delete':
             actionText = 'Deleting ...';
             break;
@@ -514,58 +527,40 @@ class FileBrowser extends React.Component {
     );
   }
   renderFiles(files, depth) {
-    var renderedFiles = [];
-    for (var fileIndex = 0; fileIndex < files.length; fileIndex++) {
-      var file = files[fileIndex];
+    var browserProps = {
+      // browser config
+      nestChildren: this.props.nestChildren,
+      folderRenderer: this.props.folderRenderer,
+      fileRenderer: this.props.fileRenderer,
+      // browser state
+      openFolders: this.state.openFolders,
+      nameFilter: this.state.nameFilter,
+      selection: this.state.selection,
+      activeAction: this.state.activeAction,
+      actionTarget: this.state.actionTarget,
 
-      var browserProps = {
-        // browser config
-        nestChildren: this.props.nestChildren,
-        folderRenderer: this.props.folderRenderer,
-        fileRenderer: this.props.fileRenderer,
-        // browser state
-        openFolders: this.state.openFolders,
-        nameFilter: this.state.nameFilter,
-        selection: this.state.selection,
-        activeAction: this.state.activeAction,
-        actionTarget: this.state.actionTarget,
+      // browser manipulation
+      select: this.select,
+      openFolder: this.openFolder,
+      toggleFolder: this.toggleFolder,
+      beginAction: this.beginAction,
+      endAction: this.endAction,
+      preview: this.preview,
 
-        // browser manipulation
-        select: this.select.bind(this),
-        openFolder: this.openFolder.bind(this),
-        toggleFolder: this.toggleFolder.bind(this),
-        beginAction: this.beginAction.bind(this),
-        endAction: this.endAction.bind(this),
-        preview: this.preview.bind(this),
-      };
       // item manipulation
-      if (typeof this.props.onRenameFile === 'function') {
-        browserProps.renameFile = this.renameFile.bind(this);
-      }
-      if (typeof this.props.onRenameFolder === 'function') {
-        browserProps.renameFolder = this.renameFolder.bind(this);
-      }
-      if (typeof this.props.onMoveFile === 'function') {
-        browserProps.moveFile = this.moveFile.bind(this);
-      }
-      if (typeof this.props.onMoveFolder === 'function') {
-        browserProps.moveFolder = this.moveFolder.bind(this);
-      }
-      if (typeof this.props.onCreateFile === 'function') {
-        browserProps.createFile = this.createFile.bind(this);
-      }
-      if (typeof this.props.onCreateFolder === 'function') {
-        browserProps.createFolder = this.createFolder.bind(this);
-      }
-      if (typeof this.props.onDeleteFile === 'function') {
-        browserProps.deleteFile = this.deleteFile.bind(this);
-      }
-      if (typeof this.props.onDeleteFolder === 'function') {
-        browserProps.deleteFolder = this.deleteFolder.bind(this);
-      }
-
+      renameFile: this.props.onRenameFile ? this.renameFile : undefined,
+      renameFolder: this.props.onRenameFolder ? this.renameFolder : undefined,
+      moveFile: this.props.onMoveFile ? this.moveFile : undefined,
+      moveFolder: this.props.onMoveFolder ? this.moveFolder : undefined,
+      createFile: this.props.onCreateFile ? this.createFile : undefined,
+      createFolder: this.props.onCreateFolder ? this.createFolder : undefined,
+      deleteFile: this.props.onDeleteFile ? this.deleteFile : undefined,
+      deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : undefined,
+    };
+    var renderedFiles = [];
+    files.map((file) => {
       var thisItemProps = {
-        key: 'file-'+file.key,
+        key: `file-${file.key}`,
         fileKey: file.key,
         depth: this.state.nameFilter ? 0 : depth,
 
@@ -607,7 +602,7 @@ class FileBrowser extends React.Component {
           renderedFiles = renderedFiles.concat(this.renderFiles(file.children, depth + 1));
         }
       }
-    }
+    });
     return renderedFiles;
   }
   render() {
@@ -623,51 +618,45 @@ class FileBrowser extends React.Component {
     };
     switch (this.props.renderStyle) {
       case 'table':
-        var contents;
-        if (this.props.loading) {
-          contents = (<tr className="loading"><td><LoadingSpinner /> Loading</td></tr>);
-        }
-        else {
-          contents = this.renderFiles(this.state.files, 0);
-          if (!contents.length) {
-            if (this.state.nameFilter) {
-              contents = (<tr>
-                <td colSpan="100">
-                  No files matching "{this.state.nameFilter}".
-                </td>
-              </tr>);
-            }
-            else {
-              contents = (<tr>
-                <td colSpan="100">
-                  No files.
-                </td>
-              </tr>);
-            }
+        var contents = this.renderFiles(this.state.files, 0);
+        if (!contents.length) {
+          if (this.state.nameFilter) {
+            contents = (<tr>
+              <td colSpan="100">
+                No files matching "{this.state.nameFilter}".
+              </td>
+            </tr>);
           }
           else {
-            if (this.state.nameFilter) {
-              var numFiles = contents.length;
-              contents = contents.slice(0, this.state.searchResultsShown);
-              if (numFiles > contents.length) {
-                contents.push(<tr key="show-more">
-                  <td colSpan="100">
-                    <a
-                      onClick={this.handleShowMoreClick.bind(this)}
-                      className="btn btn-block btn-info"
-                      href="#"
-                    >
-                      Show more results
-                    </a>
-                  </td>
-                </tr>);
-              }
+            contents = (<tr>
+              <td colSpan="100">
+                No files.
+              </td>
+            </tr>);
+          }
+        }
+        else {
+          if (this.state.nameFilter) {
+            var numFiles = contents.length;
+            contents = contents.slice(0, this.state.searchResultsShown);
+            if (numFiles > contents.length) {
+              contents.push(<tr key="show-more">
+                <td colSpan="100">
+                  <a
+                    onClick={this.handleShowMoreClick.bind(this)}
+                    className="btn btn-block btn-info"
+                    href="#"
+                  >
+                    Show more results
+                  </a>
+                </td>
+              </tr>);
             }
           }
         }
 
         var header;
-        if (this.props.headerRenderer !== null) {
+        if (this.props.headerRenderer) {
           header = (
             <thead>
               <this.props.headerRenderer
@@ -688,44 +677,38 @@ class FileBrowser extends React.Component {
         break;
 
       case 'list':
-        var contents;
-        if (this.props.loading) {
-          contents = (<p className="loading"><LoadingSpinner /> Loading</p>);
+        var contents = this.renderFiles(this.state.files, 0);
+        if (!contents.length) {
+          if (this.state.nameFilter)
+            contents = (<p className="empty">No files matching "{this.state.nameFilter}"</p>);
+          else
+            contents = (<p className="empty">No files.</p>);
         }
         else {
-          contents = this.renderFiles(this.state.files, 0);
-          if (!contents.length) {
-            if (this.state.nameFilter)
-              contents = (<p className="empty">No files matching "{this.state.nameFilter}"</p>);
-            else
-              contents = (<p className="empty">No files.</p>);
-          }
-          else {
-            var more;
-            if (this.state.nameFilter) {
-              var numFiles = contents.length;
-              contents = contents.slice(0, this.state.searchResultsShown);
-              if (numFiles > contents.length) {
-                more = (<a
-                  onClick={this.handleShowMoreClick.bind(this)}
-                  className="btn btn-block btn-info"
-                  href="#"
-                >
-                  Show more results
-                </a>);
-              }
+          var more;
+          if (this.state.nameFilter) {
+            var numFiles = contents.length;
+            contents = contents.slice(0, this.state.searchResultsShown);
+            if (numFiles > contents.length) {
+              more = (<a
+                onClick={this.handleShowMoreClick.bind(this)}
+                className="btn btn-block btn-info"
+                href="#"
+              >
+                Show more results
+              </a>);
             }
-            contents = (
-              <div>
-                <ul>{contents}</ul>
-                {more}
-              </div>
-            );
           }
+          contents = (
+            <div>
+              <ul>{contents}</ul>
+              {more}
+            </div>
+          );
         }
 
         var header;
-        if (this.props.headerRenderer !== null) {
+        if (this.props.headerRenderer) {
           header = (
             <this.props.headerRenderer
               {...headerProps}
@@ -739,11 +722,6 @@ class FileBrowser extends React.Component {
             {contents}
           </div>
         );
-
-        break;
-
-      default:
-        files = (<p>Unknown render style: {this.props.renderStyle}</p>);
         break;
     }
 
@@ -854,25 +832,45 @@ FileBrowser.defaultProps = {
   showActionBar: true,
   canFilter: true,
 
-  onAddFolder: null,
-  onAddFile: null,
-  onMoveFolder: null,
-  onMoveFile: null,
-  onRenameFolder: null,
-  onRenameFile: null,
-  onDeleteFolder: null,
-  onDeleteFile: null,
-
   group: GroupByFolder,
   sort: SortByName,
+
   nestChildren: false,
+  renderStyle: 'table',
 
   startOpen: false,
 
-  renderStyle: 'table',
   headerRenderer: TableHeader,
   folderRenderer: TableFolder,
   fileRenderer: TableFile,
+};
+FileBrowser.PropTypes = {
+  showActionBar: PropTypes.bool.isRequired,
+  canFilter: PropTypes.bool.isRequired,
+
+  group: PropTypes.func.isRequired,
+  sort: PropTypes.func.isRequired,
+
+  nestChildren: PropTypes.bool.isRequired,
+  renderStyle: PropTypes.oneOf([
+    'list',
+    'table',
+  ]).isRequired,
+
+  startOpen: PropTypes.bool.isRequired,
+
+  headerRenderer: PropTypes.func,
+  folderRenderer: PropTypes.func.isRequired,
+  fileRenderer: PropTypes.func.isRequired,
+
+  onAddFolder: PropTypes.func,
+  onAddFile: PropTypes.func,
+  onMoveFolder: PropTypes.func,
+  onMoveFile: PropTypes.func,
+  onRenameFolder: PropTypes.func,
+  onRenameFile: PropTypes.func,
+  onDeleteFolder: PropTypes.func,
+  onDeleteFile: PropTypes.func,
 };
 
 export default DragDropContext(HTML5Backend)(FileBrowser)

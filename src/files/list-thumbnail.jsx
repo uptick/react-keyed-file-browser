@@ -37,18 +37,18 @@ class ListFile extends BaseFile {
     if (this.props.showName) {
       if (!inAction && this.props.isDeleting) {
         name = (
-          <form className="deleting" onSubmit={this.handleDeleteSubmit.bind(this)}>
+          <form className="deleting" onSubmit={this.handleDeleteSubmit}>
             <a
               href={this.props.url}
               download="download"
-              onClick={this.handleFileClick.bind(this)}
+              onClick={this.handleFileClick}
             >
               {this.getName()}
             </a>
             <div className="actions">
               <a
                 className="cancel btn btn-primary btn-sm"
-                onClick={this.handleCancelEdit.bind(this)}
+                onClick={this.handleCancelEdit}
               >
                 Cancel
               </a>
@@ -61,18 +61,18 @@ class ListFile extends BaseFile {
       }
       else if (!inAction && this.props.isRenaming) {
         name = (
-          <form className="renaming" onSubmit={this.handleRenameSubmit.bind(this)}>
+          <form className="renaming" onSubmit={this.handleRenameSubmit}>
             <input
               ref="newName"
               className="form-control input-sm"
               type="text"
               value={this.state.newName}
-              onChange={this.handleNewNameChange.bind(this)}
+              onChange={this.handleNewNameChange}
             />
             <div className="actions">
               <a
                 className="cancel btn btn-primary btn-sm"
-                onClick={this.handleCancelEdit.bind(this)}
+                onClick={this.handleCancelEdit}
               >
                 Cancel
               </a>
@@ -82,7 +82,7 @@ class ListFile extends BaseFile {
       }
       else {
         name = (
-          <a href={this.props.url} download="download" onClick={this.handleFileClick.bind(this)}>
+          <a href={this.props.url} download="download" onClick={this.handleFileClick}>
             {this.getName()}
           </a>
         );

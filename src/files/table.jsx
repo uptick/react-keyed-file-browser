@@ -54,7 +54,7 @@ class TableFile extends BaseFile {
     var name;
     if (!inAction && this.props.isDeleting) {
       name = (
-        <form className="deleting" onSubmit={this.handleDeleteSubmit.bind(this)}>
+        <form className="deleting" onSubmit={this.handleDeleteSubmit}>
           <a
             href={this.props.url}
             download="download"
@@ -76,14 +76,15 @@ class TableFile extends BaseFile {
     }
     else if (!inAction && this.props.isRenaming) {
       name = (
-        <form className="renaming" onSubmit={this.handleRenameSubmit.bind(this)}>
+        <form className="renaming" onSubmit={this.handleRenameSubmit}>
           {icon}
           <input
             ref="newName"
             className="form-control input-sm"
             type="text"
             value={this.state.newName}
-            onChange={this.handleNewNameChange.bind(this)}
+            onChange={this.handleNewNameChange}
+            onBlur={this.handleCancelEdit}
           />
         </form>
       );
@@ -105,7 +106,7 @@ class TableFile extends BaseFile {
     }
 
     var draggable = (
-      <div>
+      <div style={{display: 'inline-block'}}>
         {name}
       </div>
     );
@@ -121,8 +122,8 @@ class TableFile extends BaseFile {
           dragover: (this.props.isOver),
           selected: (this.props.isSelected),
         })}
-        onClick={this.handleItemClick.bind(this)}
-        onDoubleClick={this.handleItemDoubleClick.bind(this)}
+        onClick={this.handleItemClick}
+        onDoubleClick={this.handleItemDoubleClick}
       >
         <td className="name">
           <div style={{paddingLeft: (this.props.depth * 16) + 'px'}}>

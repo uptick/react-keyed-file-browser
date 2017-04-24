@@ -11,6 +11,16 @@ class BaseFile extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleFileClick = ::this.handleFileClick;
+    this.handleItemClick = ::this.handleItemClick;
+    this.handleItemDoubleClick = ::this.handleItemDoubleClick;
+    this.handleRenameClick = ::this.handleRenameClick;
+    this.handleNewNameChange = ::this.handleNewNameChange;
+    this.handleRenameSubmit = ::this.handleRenameSubmit;
+    this.handleDeleteClick = ::this.handleDeleteClick;
+    this.handleDeleteSubmit = ::this.handleDeleteSubmit;
+    this.handleCancelEdit = ::this.handleCancelEdit;
+
     this.state = {
       ...this.state,
 
@@ -90,22 +100,26 @@ class BaseFile extends React.Component {
     });
   }
   handleRenameSubmit(event) {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     var newName = this.state.newName.trim();
     if (newName.length == 0) {
-      window.notify({
-        style: 'error',
-        title: 'Invalid new file name',
-        body: 'File name cannot be blank',
-      });
+      // todo: move to props handler
+      // window.notify({
+      //   style: 'error',
+      //   title: 'Invalid new file name',
+      //   body: 'File name cannot be blank',
+      // });
       return;
     }
     if (newName.indexOf('/') != -1) {
-      window.notify({
-        style: 'error',
-        title: 'Invalid new file name',
-        body: 'File names cannot contain forward slashes.',
-      });
+      // todo: move to props handler
+      // window.notify({
+      //   style: 'error',
+      //   title: 'Invalid new file name',
+      //   body: 'File names cannot contain forward slashes.',
+      // });
       return;
     }
     var newKey = this.props.fileKey.substr(0, this.props.fileKey.lastIndexOf('/'));
@@ -130,10 +144,6 @@ class BaseFile extends React.Component {
 
   handleCancelEdit(event) {
     this.props.browserProps.endAction();
-  }
-
-  render() {
-    return null;
   }
 }
 

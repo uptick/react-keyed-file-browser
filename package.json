@@ -31,9 +31,8 @@
   "homepage": "https://github.com/ABASystems/react-keyed-file-browser#readme",
   "dependencies": {
     "classnames": "^2.2.3",
-    "clone": "^1.0.2",
-    "jquery": "^2.2.0",
     "moment": "^2.17.0",
+    "prop-types": "^15.5.8",
     "react": "^0.14.8",
     "react-addons-shallow-compare": "^0.14.8",
     "react-dnd": "^2.1.4",

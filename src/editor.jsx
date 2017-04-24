@@ -1,4 +1,3 @@
-import jQuery from 'jquery'
 import React from 'react'
 import classNames from 'classnames'
 

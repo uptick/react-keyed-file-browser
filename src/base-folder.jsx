@@ -4,6 +4,17 @@ class BaseFolder extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleFolderClick = ::this.handleFolderClick;
+    this.handleFolderDoubleClick = ::this.handleFolderDoubleClick;
+    this.handleRenameClick = ::this.handleRenameClick;
+    this.handleNewNameChange = ::this.handleNewNameChange;
+    this.handleRenameSubmit = ::this.handleRenameSubmit;
+    this.handleDeleteClick = ::this.handleDeleteClick;
+    this.handleDeleteSubmit = ::this.handleDeleteSubmit;
+    this.handleCancelEdit = ::this.handleCancelEdit;
+
+    this.toggleFolder = ::this.toggleFolder;
+
     this.state = {
       ...this.state,
 
@@ -55,19 +66,21 @@ class BaseFolder extends React.Component {
     event.preventDefault();
     var newName = this.state.newName.trim();
     if (newName.length == 0) {
-      window.notify({
-        style: 'error',
-        title: 'Invalid new folder name',
-        body: 'Folder name cannot be blank',
-      });
+      // todo: move to props handler
+      // window.notify({
+      //   style: 'error',
+      //   title: 'Invalid new folder name',
+      //   body: 'Folder name cannot be blank',
+      // });
       return;
     }
     if (newName.indexOf('/') != -1) {
-      window.notify({
-        style: 'error',
-        title: 'Invalid new folder name',
-        body: 'Folder names cannot contain forward slashes.',
-      });
+      // todo: move to props handler
+      // window.notify({
+      //   style: 'error',
+      //   title: 'Invalid new folder name',
+      //   body: 'Folder names cannot contain forward slashes.',
+      // });
       return;
     }
     var newKey = this.props.fileKey.substr(0, this.props.fileKey.substr(0, this.props.fileKey.length - 1).lastIndexOf('/'));
@@ -99,9 +112,6 @@ class BaseFolder extends React.Component {
 
   toggleFolder() {
     this.props.browserProps.toggleFolder(this.props.fileKey);
-  }
-  render() {
-    return null;
   }
 }
 

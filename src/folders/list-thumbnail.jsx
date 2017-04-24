@@ -26,18 +26,18 @@ class ListFolder extends BaseFolder {
     if (!inAction && this.props.isRenaming) {
       name = (
         <div>
-          <form className="renaming" onSubmit={this.handleRenameSubmit.bind(this)}>
+          <form className="renaming" onSubmit={this.handleRenameSubmit}>
             <input
               type="text"
               ref="newName"
               className="form-control input-sm"
               value={this.state.newName}
-              onChange={this.handleNewNameChange.bind(this)}
+              onChange={this.handleNewNameChange}
             />
             <div className="actions">
               <a
                 className="cancel btn btn-secondary btn-sm"
-                onClick={this.handleCancelEdit.bind(this)}
+                onClick={this.handleCancelEdit}
               >
                 Cancel
               </a>
@@ -118,8 +118,8 @@ class ListFolder extends BaseFolder {
           dragover: this.props.isOver,
           selected: this.props.isSelected,
         })}
-        onClick={this.handleFolderClick.bind(this)}
-        onDoubleClick={this.handleFolderDoubleClick.bind(this)}
+        onClick={this.handleFolderClick}
+        onDoubleClick={this.handleFolderDoubleClick}
       >
         <div className="item">
           <span className="thumb">{icon}</span>
