@@ -64,8 +64,8 @@ class NestedTableDemo extends React.Component {
         if (file.key.substr(0, oldKey.length) === oldKey) {
           newFiles.push({
             ...file,
-
             key: file.key.replace(oldKey, newKey),
+            modified: +Moment(),
           });
         }
         else {
@@ -83,8 +83,8 @@ class NestedTableDemo extends React.Component {
         if (file.key === oldKey) {
           newFiles.push({
             ...file,
-
             key: newKey,
+            modified: +Moment(),
           });
         }
         else {
