@@ -10,8 +10,8 @@ import TableFolder from './folders/table.jsx'
 import TableFile from './files/table.jsx'
 
 // default processors
-import GroupByFolder from './groupers/by-folder.jsx'
-import SortByName from './sorters/by-name.jsx'
+import GroupByFolder from './groupers/by-folder.js'
+import SortByName from './sorters/by-name.js'
 
 const SEARCH_RESULTS_PER_PAGE = 20;
 
@@ -61,12 +61,28 @@ function organiseFiles(files, filter, group, sort) {
   return organisedFiles;
 }
 
+class DefaultDetail extends React.Component {
+  render() {
+    var name = this.props.file.key.split('/');
+    name = name.length ? name[name.length - 1] : '';
+
+    return (
+      <dl>
+        <dt>Key</dt>
+        <dd>{this.props.file.key}</dd>
+
+        <dt>Name</dt>
+        <dd>{name}</dd>
+      </dl>
+    );
+  }
+}
+
 class FileBrowser extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleGlobalClick = ::this.handleGlobalClick;
-    this.handleGlobalKeyDown = ::this.handleGlobalKeyDown;
     // browser manipulation
     this.select = ::this.select;
     this.openFolder = ::this.openFolder;
@@ -114,11 +130,9 @@ class FileBrowser extends React.Component {
     }
 
     window.addEventListener('click', this.handleGlobalClick);
-    window.addEventListener('keydown', this.handleGlobalKeyDown);
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.handleGlobalClick);
-    window.removeEventListener('keydown', this.handleGlobalKeyDown);
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.group !== this.props.group || prevProps.files !== this.props.files) {
@@ -297,40 +311,6 @@ class FileBrowser extends React.Component {
         state.activeAction = null;
         return state;
       });
-    }
-  }
-  handleGlobalKeyDown(event) {
-    // if (event.which === 40 && this.state.selection !== null) {
-    //   var nextFile = this.getNextSelection();
-    //   this.setState(state => {
-    //     var done = false;
-    //     var takeNext = false;
-    //     var traverseFiles = function(files) {
-    //       if (done) {
-    //         return;
-    //       }
-    //       files.map((file) => {
-    //         if (takeNext) {
-    //           state.selection = file.key;
-    //           done = true;
-    //         }
-    //         if (file.key === state.selection) {
-    //           takeNext = true;
-    //         }
-    //         if (file.children && file.key in state.openFolders) {
-    //           traverseFiles(file.children);
-    //         }
-    //       });
-    //     }
-    //     traverseFiles(state.files);
-    //     return state;
-    //   });
-    // }
-    // else if (event.which === 38 && this.state.selection !== null) {
-    // }
-
-    if (event.which == 27 && this.state.previewFile !== null) {
-      this.closePreview();
     }
   }
   handleActionBarRenameClick(event) {
@@ -725,94 +705,7 @@ class FileBrowser extends React.Component {
         break;
     }
 
-    var addFolder;
-    var preview;
-    if (this.state.addFolder !== null) {
-      addFolder = (
-        <div onClick={this.closeAddFolder.bind(this)} ref="addFolder">
-          <div
-            className="modal fade in"
-            tabIndex="-1"
-            role="dialog"
-            aria-labelledby="gridModalLabel"
-            aria-hidden="true"
-            style={{display: 'block'}}
-          >
-            <div
-              className="modal-dialog"
-              role="document"
-            >
-              <div
-                className="modal-content"
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-              >
-                <form onSubmit={this.handleAddFolderSubmit.bind(this)}>
-                  <div className="modal-header">
-                    <button
-                      type="button"
-                      className="close"
-                      aria-label="Close"
-                      onClick={this.closeAddFolder.bind(this)}
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 className="modal-title">Add New Folder</h4>
-                  </div>
-                  <div className="modal-body">
-                    <p>
-                      Contained within: <span className="text-muted">{this.state.addFolder}</span>
-                    </p>
-                    <input
-                      type="text"
-                      value={this.state.newFolderName}
-                      onChange={this.handleNewFolderNameChange.bind(this)}
-                      ref="newFolderName"
-                      className="form-control"
-                      autoFocus={true}
-                      disabled={this.state.addFolderPending}
-                      placeholder="New folder name"
-                    />
-                  </div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary pull-xs-left"
-                      onClick={this.closeAddFolder.bind(this)}
-                    >
-                      Close
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                      disabled={(
-                        this.state.addFolderPending
-                        || (
-                          this.state.newFolderName.length === 0
-                          || this.state.newFolderName.indexOf('/') !== -1
-                        )
-                      )}
-                    >
-                      Add
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div className="modal-backdrop fade in"></div>
-        </div>
-      );
-    }
-    else {
-      if (this.state.previewFile !== null) {
-        preview = (
-          <p>Preview</p>
-        );
-      }
-    }
-
+    var Detail = this.props.detailRenderer;
     return (
       <div className="rendered-react-keyed-file-browser">
         {this.props.actions}
@@ -822,8 +715,11 @@ class FileBrowser extends React.Component {
             {files}
           </div>
         </div>
-        {preview}
-        {addFolder}
+        {this.state.previewFile !== null && (
+          <Detail
+            file={this.state.previewFile}
+          />
+        )}
       </div>
     );
   }
@@ -843,6 +739,7 @@ FileBrowser.defaultProps = {
   headerRenderer: TableHeader,
   folderRenderer: TableFolder,
   fileRenderer: TableFile,
+  detailRenderer: DefaultDetail,
 };
 FileBrowser.PropTypes = {
   showActionBar: PropTypes.bool.isRequired,
@@ -862,6 +759,7 @@ FileBrowser.PropTypes = {
   headerRenderer: PropTypes.func,
   folderRenderer: PropTypes.func.isRequired,
   fileRenderer: PropTypes.func.isRequired,
+  detailRenderer: PropTypes.func.isRequired,
 
   onAddFolder: PropTypes.func,
   onAddFile: PropTypes.func,

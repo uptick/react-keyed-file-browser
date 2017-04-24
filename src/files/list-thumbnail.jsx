@@ -68,6 +68,7 @@ class ListFile extends BaseFile {
               type="text"
               value={this.state.newName}
               onChange={this.handleNewNameChange}
+              onBlur={this.handleCancelEdit}
             />
             <div className="actions">
               <a

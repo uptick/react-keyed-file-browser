@@ -33,6 +33,7 @@ class ListFolder extends BaseFolder {
               className="form-control input-sm"
               value={this.state.newName}
               onChange={this.handleNewNameChange}
+              onBlur={this.handleCancelEdit}
             />
             <div className="actions">
               <a

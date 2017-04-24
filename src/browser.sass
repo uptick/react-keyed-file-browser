@@ -4,17 +4,17 @@ $main-colour: #337ab7 !default
 
 div.rendered-react-keyed-file-browser
   div.action-bar
-    display: flex
     margin-bottom: $main-padding
 
     input[type="search"]
-      flex: 1
+      display: block
+      width: 100%
       padding: $main-padding/2 $main-padding
       font-size: $main-size
       line-height: 1em
+      margin-bottom: $main-padding
 
     .item-actions
-      flex: 1
       text-align: right
       margin: 0
       padding: 0
@@ -29,6 +29,5 @@ div.rendered-react-keyed-file-browser
         &:not(:last-child)
           margin-right: $main-padding
 
-@import './editor'
 @import './table-style'
 @import './list-style'

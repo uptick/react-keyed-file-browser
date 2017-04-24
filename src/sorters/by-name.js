@@ -1,4 +1,6 @@
-import { natural_sort_comparer, extract_files, extract_folders } from './utils.jsx'
+import {
+  natural_sort_comparer,
+} from './utils.js'
 
 const natural_sort = function(allFiles) {
   var folders = [];
@@ -35,6 +37,6 @@ const natural_sort = function(allFiles) {
   return sortedFiles;
 };
 
-module.exports = function(files) {
+export default function(files) {
   return natural_sort(files);
-};
+}

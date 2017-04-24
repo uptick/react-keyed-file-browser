@@ -8,6 +8,13 @@ class NestedTableDemo extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleAddFolder = ::this.handleAddFolder;
+    this.handleAddFile = ::this.handleAddFile;
+    this.handleRenameFolder = ::this.handleRenameFolder;
+    this.handleRenameFile = ::this.handleRenameFile;
+    this.handleDeleteFolder = ::this.handleDeleteFolder;
+    this.handleDeleteFile = ::this.handleDeleteFile;
+
     this.state = {
       ...this.state,
 
@@ -128,14 +135,14 @@ class NestedTableDemo extends React.Component {
         loading={false}
         files={this.state.files}
 
-        onAddFolder={this.handleAddFolder.bind(this)}
-        onAddFile={this.handleAddFile.bind(this)}
-        onMoveFolder={this.handleRenameFolder.bind(this)}
-        onMoveFile={this.handleRenameFile.bind(this)}
-        onRenameFolder={this.handleRenameFolder.bind(this)}
-        onRenameFile={this.handleRenameFile.bind(this)}
-        onDeleteFolder={this.handleDeleteFolder.bind(this)}
-        onDeleteFile={this.handleDeleteFile.bind(this)}
+        onAddFolder={this.handleAddFolder}
+        onAddFile={this.handleAddFile}
+        onMoveFolder={this.handleRenameFolder}
+        onMoveFile={this.handleRenameFile}
+        onRenameFolder={this.handleRenameFolder}
+        onRenameFile={this.handleRenameFile}
+        onDeleteFolder={this.handleDeleteFolder}
+        onDeleteFile={this.handleDeleteFile}
       />
     );
   }

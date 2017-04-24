@@ -1,4 +1,4 @@
-module.exports = function(files, root) {
+export default function(files, root) {
   var fileTree = {
     contents: [],
     children: {},
@@ -51,4 +51,4 @@ module.exports = function(files, root) {
 
   var files = add_all_children(fileTree, '');
   return files;
-};
+}

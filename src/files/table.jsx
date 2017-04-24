@@ -68,7 +68,7 @@ class TableFile extends BaseFile {
           </a>
           <div className="actions">
             <button type="submit" className="btn btn-sm btn-secondary">
-              Confirm Delete
+              Confirm Deletion
             </button>
           </div>
         </form>
@@ -106,7 +106,7 @@ class TableFile extends BaseFile {
     }
 
     var draggable = (
-      <div style={{display: 'inline-block'}}>
+      <div>
         {name}
       </div>
     );
