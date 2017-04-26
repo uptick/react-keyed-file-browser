@@ -2,6 +2,16 @@ import {
   natural_sort_comparer,
 } from './utils.js'
 
+function natural_draft_comparer(a, b) {
+  if (a.draft && !b.draft) {
+    return 1;
+  }
+  else if (b.draft && !a.draft) {
+    return -1;
+  }
+  return natural_sort_comparer(a, b);
+}
+
 const natural_sort = function(allFiles) {
   var folders = [];
   var files = [];
@@ -24,7 +34,7 @@ const natural_sort = function(allFiles) {
   }
 
   files = files.sort(natural_sort_comparer);
-  folders = folders.sort(natural_sort_comparer);
+  folders = folders.sort(natural_draft_comparer);
 
   for (var folderIndex = 0; folderIndex < folders.length; folderIndex++) {
     var folder = folders[folderIndex];

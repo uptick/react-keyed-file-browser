@@ -4,6 +4,8 @@ class BaseFolder extends React.Component {
   constructor(props) {
     super(props);
 
+    this.selectAllNewName = ::this.selectAllNewName;
+
     this.handleFolderClick = ::this.handleFolderClick;
     this.handleFolderDoubleClick = ::this.handleFolderDoubleClick;
     this.handleRenameClick = ::this.handleRenameClick;
@@ -18,18 +20,26 @@ class BaseFolder extends React.Component {
     this.state = {
       ...this.state,
 
-      newName: this.getName(),
+      newName: this.props.isDraft ? 'New folder' : this.getName(),
     };
   }
 
+  componentDidMount() {
+    if (this.props.isDraft) {
+      this.selectAllNewName();
+    }
+  }
   componentDidUpdate(oldProps, oldState) {
     if (!oldProps.isRenaming && this.props.isRenaming) {
-      window.requestAnimationFrame(() => {
-        var currentName = this.refs.newName.value;
-        this.refs.newName.setSelectionRange(0, currentName.length);
-        this.refs.newName.focus();
-      });
+      this.selectAllNewName();
     }
+  }
+  selectAllNewName() {
+    window.requestAnimationFrame(() => {
+      var currentName = this.refs.newName.value;
+      this.refs.newName.setSelectionRange(0, currentName.length);
+      this.refs.newName.focus();
+    });
   }
 
   getName() {
@@ -89,7 +99,12 @@ class BaseFolder extends React.Component {
     }
     newKey += newName;
     newKey += '/';
-    this.props.browserProps.renameFolder(this.props.fileKey, newKey);
+    if (this.props.isDraft) {
+      this.props.browserProps.createFolder(newKey);
+    }
+    else {
+      this.props.browserProps.renameFolder(this.props.fileKey, newKey);
+    }
   }
 
   handleDeleteClick(event) {

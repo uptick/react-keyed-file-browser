@@ -4,22 +4,25 @@ export default function(files, root) {
     children: {},
   };
 
-  for (var fileIndex = 0; fileIndex < files.length; fileIndex++) {
-    var file = files[fileIndex];
+  files.map((file) => {
     file.relativeKey = (file.newKey || file.key).substr(root.length);
     var currentFolder = fileTree;
     var folders = file.relativeKey.split('/');
-    for (var folderIndex = 0; folderIndex < folders.length; folderIndex++) {
-      var folder = folders[folderIndex];
-      if (folder == '')
-        continue;
+    folders.map((folder, folderIndex) => {
+      if (folderIndex == folders.length - 1 && !file.size) {
+        for (var key in file) {
+          currentFolder[key] = file[key];
+        }
+      }
+      if (folder == '') {
+        return;
+      }
       var isAFile = (file.size && (folderIndex == folders.length - 1))
       if (isAFile) {
-        var newFile = {
+        currentFolder.contents.push({
           ...file,
           keyDerived: true,
-        };
-        currentFolder.contents.push(newFile);
+        });
       }
       else {
         if (folder in currentFolder.children == false) {
@@ -30,25 +33,29 @@ export default function(files, root) {
         }
         currentFolder = currentFolder.children[folder];
       }
-    }
-  }
+    });
+  });
 
   var add_all_children = function(level, prefix) {
-    if (prefix != '')
+    if (prefix != '') {
       prefix += '/';
+    }
     var files = [];
-    for (var folder in level.children)
+    for (var folder in level.children) {
       files.push({
+        ...level.children[folder],
+        contents: undefined,
         keyDerived: true,
         key: root + prefix + folder + '/',
         relativeKey: prefix + folder + '/',
         children: add_all_children(level.children[folder], prefix + folder),
         size: 0,
       });
+    }
     files = files.concat(level.contents);
     return files;
   };
 
-  var files = add_all_children(fileTree, '');
+  files = add_all_children(fileTree, '');
   return files;
 }

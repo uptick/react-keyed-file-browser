@@ -8,8 +8,8 @@ class NestedEditableDemo extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleAddFolder = ::this.handleAddFolder;
-    this.handleAddFile = ::this.handleAddFile;
+    this.handleCreateFolder = ::this.handleCreateFolder;
+    this.handleCreateFile = ::this.handleCreateFile;
     this.handleRenameFolder = ::this.handleRenameFolder;
     this.handleRenameFile = ::this.handleRenameFile;
     this.handleDeleteFolder = ::this.handleDeleteFolder;
@@ -58,10 +58,15 @@ class NestedEditableDemo extends React.Component {
     };
   }
 
-  handleAddFolder() {
-    console.log('adding folder');
+  handleCreateFolder(key) {
+    this.setState(state => {
+      state.files = state.files.concat([{
+        key: key,
+      }]);
+      return state;
+    });
   }
-  handleAddFile() {
+  handleCreateFile() {
     console.log('adding file');
   }
   handleRenameFolder(oldKey, newKey) {
@@ -132,8 +137,8 @@ class NestedEditableDemo extends React.Component {
       <FileBrowser
         files={this.state.files}
 
-        onAddFolder={this.handleAddFolder}
-        onAddFile={this.handleAddFile}
+        onCreateFolder={this.handleCreateFolder}
+        onCreateFile={this.handleCreateFile}
         onMoveFolder={this.handleRenameFolder}
         onMoveFile={this.handleRenameFile}
         onRenameFolder={this.handleRenameFolder}

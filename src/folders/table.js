@@ -57,6 +57,7 @@ class TableFolder extends BaseFolder {
               value={this.state.newName}
               onChange={this.handleNewNameChange}
               onBlur={this.handleCancelEdit}
+              autoFocus={true}
             />
           </form>
         </div>
