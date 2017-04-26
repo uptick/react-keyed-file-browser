@@ -37,18 +37,35 @@ function getItemProps(file, browserProps) {
 }
 
 class DefaultDetail extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleCloseClick = ::this.handleCloseClick;
+  }
+
+  handleCloseClick(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.props.close();
+  }
+
   render() {
     var name = this.props.file.key.split('/');
     name = name.length ? name[name.length - 1] : '';
 
     return (
-      <dl>
-        <dt>Key</dt>
-        <dd>{this.props.file.key}</dd>
+      <div>
+        <h2>Item Detail</h2>
+        <dl>
+          <dt>Key</dt>
+          <dd>{this.props.file.key}</dd>
 
-        <dt>Name</dt>
-        <dd>{name}</dd>
-      </dl>
+          <dt>Name</dt>
+          <dd>{name}</dd>
+        </dl>
+        <a href="#" onClick={this.handleCloseClick}>Close</a>
+      </div>
     );
   }
 }
@@ -78,6 +95,8 @@ class FileBrowser extends React.Component {
     this.handleActionBarRenameClick = ::this.handleActionBarRenameClick;
     this.handleActionBarDeleteClick = ::this.handleActionBarDeleteClick;
     this.handleActionBarAddFolderClick = ::this.handleActionBarAddFolderClick;
+    // detail
+    this.closeDetail = ::this.closeDetail;
 
     this.state = {
       ...this.state,
@@ -91,13 +110,8 @@ class FileBrowser extends React.Component {
       searchResultsShown: SEARCH_RESULTS_PER_PAGE,
 
       previewFile: null,
-      loadedPreviews: {},
 
       addFolder: null,
-      newFolderName: '',
-      addFolderPending: false,
-
-      displayed: false,
     };
   }
 
@@ -225,38 +239,13 @@ class FileBrowser extends React.Component {
       return state;
     });
   }
-  closePreview() {
+  closeDetail() {
     this.setState(state => {
       state.previewFile = null;
       return state;
     });
   }
-  openFilePath(path) {
-    this.setState(state => {
-      state.previewFile = null;
-      state.nameFilter = '';
-      state.searchResultsShown = SEARCH_RESULTS_PER_PAGE;
-      state.selection = path;
 
-      var splitPath = path.split('/');
-      splitPath.map((pathItem, itemIndex) => {
-        var fullPath = '';
-        for (var addItemIndex = 0; addItemIndex <= itemIndex; addItemIndex++) {
-          fullPath += splitPath[addItemIndex];
-          fullPath += '/';
-        }
-        state.openFolders[fullPath] = true;
-      });
-
-      return state;
-    });
-  }
-  closeAddFolder() {
-    this.setState(state => {
-      state.addFolder = null;
-      return state;
-    });
-  }
   handleShowMoreClick(event) {
     event.preventDefault();
     this.setState(state => {
@@ -744,6 +733,7 @@ class FileBrowser extends React.Component {
         {this.state.previewFile !== null && (
           <Detail
             file={this.state.previewFile}
+            close={this.closeDetail}
           />
         )}
       </div>
