@@ -15,8 +15,6 @@ layout: base
   <h2>Simple Flat &amp; Read-Only Example</h2>
   <p>This example demonstrates read-only use of the browser, with a flat list of files (the keys do
   not contain any forward slashes so no folders are drawn).</p>
-  <p>For the purpose of this demonstration, the file urls are hard coded to point to existing files
-  on an s3 bucket.</p>
   <div class="demo-mount-flat-simple"></div>
   <code
     class="script"
@@ -26,8 +24,11 @@ layout: base
   <h2>Nested Table with Event Handlers</h2>
   <p>In this example, the files are contained within common folders as indicated by the forward
   slash in the file keys.</p>
-  <p>Simple event handlers are also provided as props to the browser, which turns on the editing
-  buttons.</p>
+  <p>Simple event handlers are also provided as props to the browser, which allow it to respond to
+  actions on the files. The presence of these handlers enables the buttons and/or the drag &amp;
+  drop responsiveness.</p>
+  <p>This example is not connected to any file storage backend; it simply takes all changes made by
+  the user and assumes that they would have been successful.</p>
   <div class="demo-mount-nested-editable"></div>
   <code
     class="script"
