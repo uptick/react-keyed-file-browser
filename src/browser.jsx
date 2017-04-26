@@ -99,6 +99,10 @@ class FileBrowser extends React.Component {
     this.createFolder = ::this.createFolder;
     this.deleteFile = ::this.deleteFile;
     this.deleteFolder = ::this.deleteFolder;
+    // action bar
+    this.handleActionBarRenameClick = ::this.handleActionBarRenameClick;
+    this.handleActionBarDeleteClick = ::this.handleActionBarDeleteClick;
+    this.handleActionBarAddFolderClick = ::this.handleActionBarAddFolderClick;
 
     this.state = {
       ...this.state,
@@ -443,7 +447,7 @@ class FileBrowser extends React.Component {
             <li key="action-add-folder">
               <a
                 className="btn btn-primary btn-sm"
-                onClick={this.handleActionBarAddFolderClick.bind(this)}
+                onClick={this.handleActionBarAddFolderClick}
                 href="#"
                 role="button"
               >
@@ -464,7 +468,7 @@ class FileBrowser extends React.Component {
             <li key="action-delete">
               <a
                 className="btn btn-primary btn-sm"
-                onClick={this.handleActionBarDeleteClick.bind(this)}
+                onClick={this.handleActionBarDeleteClick}
                 href="#"
                 role="button"
               >
@@ -485,7 +489,7 @@ class FileBrowser extends React.Component {
             <li key="action-rename">
               <a
                 className="btn btn-primary btn-sm"
-                onClick={this.handleActionBarRenameClick.bind(this)}
+                onClick={this.handleActionBarRenameClick}
                 href="#"
                 role="button"
               >
@@ -512,7 +516,7 @@ class FileBrowser extends React.Component {
           <li key="action-add-folder">
             <a
               className="btn btn-primary btn-sm"
-              onClick={this.handleActionBarAddFolderClick.bind(this)}
+              onClick={this.handleActionBarAddFolderClick}
               href="#"
               role="button"
             >
@@ -709,7 +713,7 @@ class FileBrowser extends React.Component {
       <div className="rendered-react-keyed-file-browser">
         {this.props.actions}
         <div className="rendered-file-browser" ref="browser">
-          {this.renderActionBar()}
+          {this.props.showActionBar && this.renderActionBar()}
           <div className="files">
             {files}
           </div>

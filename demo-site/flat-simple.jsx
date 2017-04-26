@@ -7,7 +7,6 @@ import FileBrowser from 'react-keyed-file-browser'
 var mount = document.querySelectorAll('div.demo-mount-flat-simple');
 ReactDOM.render(
   <FileBrowser
-    loading={false}
     files={[
       {
         key: 'cat.png',

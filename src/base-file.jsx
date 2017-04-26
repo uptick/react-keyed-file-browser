@@ -163,7 +163,7 @@ const dragSource = {
     const dropResult = monitor.getDropResult();
     var fileNameParts = props.fileKey.split('/');
     var fileName = fileNameParts[fileNameParts.length - 1];
-    var newKey = dropResult.path + '/' + fileName;
+    var newKey = `${dropResult.path ? dropResult.path + '/' : ''}${fileName}`;
     if (newKey != props.fileKey && props.browserProps.renameFile) {
       props.browserProps.openFolder(dropResult.path + '/');
       props.browserProps.renameFile(props.fileKey, newKey);

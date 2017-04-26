@@ -4,7 +4,7 @@ import Moment from 'moment'
 
 import FileBrowser from 'react-keyed-file-browser'
 
-class NestedTableDemo extends React.Component {
+class NestedEditableDemo extends React.Component {
   constructor(props) {
     super(props);
 
@@ -65,6 +65,7 @@ class NestedTableDemo extends React.Component {
     console.log('adding file');
   }
   handleRenameFolder(oldKey, newKey) {
+    console.log('renaming folder', oldKey, 'to', newKey);
     this.setState(state => {
       var newFiles = [];
       state.files.map((file) => {
@@ -84,6 +85,7 @@ class NestedTableDemo extends React.Component {
     });
   }
   handleRenameFile(oldKey, newKey) {
+    console.log('renaming file', oldKey, 'to', newKey);
     this.setState(state => {
       var newFiles = [];
       state.files.map((file) => {
@@ -106,10 +108,9 @@ class NestedTableDemo extends React.Component {
     this.setState(state => {
       var newFiles = [];
       state.files.map((file) => {
-        if (file.key.substr(0, folderKey.length) === folderKey) {
-          return;
+        if (file.key.substr(0, folderKey.length) !== folderKey) {
+          newFiles.push(file);
         }
-        newFiles.push(file);
       });
       state.files = newFiles;
       return state;
@@ -119,10 +120,9 @@ class NestedTableDemo extends React.Component {
     this.setState(state => {
       var newFiles = [];
       state.files.map((file) => {
-        if (file.key === fileKey) {
-          return;
+        if (file.key !== fileKey) {
+          newFiles.push(file);
         }
-        newFiles.push(file);
       });
       state.files = newFiles;
       return state;
@@ -132,7 +132,6 @@ class NestedTableDemo extends React.Component {
   render() {
     return (
       <FileBrowser
-        loading={false}
         files={this.state.files}
 
         onAddFolder={this.handleAddFolder}
@@ -148,8 +147,8 @@ class NestedTableDemo extends React.Component {
   }
 }
 
-var mount = document.querySelectorAll('div.demo-mount-nested-table');
+var mount = document.querySelectorAll('div.demo-mount-nested-editable');
 ReactDOM.render(
-  <NestedTableDemo />,
+  <NestedEditableDemo />,
   mount[0]
 );

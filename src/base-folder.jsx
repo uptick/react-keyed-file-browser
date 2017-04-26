@@ -135,7 +135,7 @@ const dragSource = {
     var folderName = fileNameParts[fileNameParts.length - 2];
     var folderPath = props.fileKey.substr(0, props.fileKey.length - (folderName.length + 2));
 
-    var newKey = dropResult.path + '/' + folderName + '/';
+    var newKey = `${dropResult.path ? dropResult.path + '/' : ''}${folderName}/`;
     // abort of the new folder name contains itself
     if (newKey.substr(0, props.fileKey.length) === props.fileKey)
       return;
