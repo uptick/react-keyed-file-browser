@@ -15,52 +15,6 @@ import SortByName from './sorters/by-name.js'
 
 const SEARCH_RESULTS_PER_PAGE = 20;
 
-function organiseFiles(files, filter, group, sort) {
-  var organisedFiles = files.concat([]);
-
-  if (filter) {
-    var filteredFiles = [];
-    var terms = filter.split(' ');
-    for (var fileIndex = 0; fileIndex < organisedFiles.length; fileIndex++) {
-      var file = organisedFiles[fileIndex];
-      var skip = false;
-      for (var termIndex = 0; termIndex < terms.length; termIndex++) {
-        var term = terms[termIndex].toLowerCase().trim();
-        if (file.key.toLowerCase().trim().indexOf(term) == -1) {
-          skip = true;
-          break;
-        }
-      }
-      if (skip) {
-        continue;
-      }
-      filteredFiles.push(file);
-    }
-    organisedFiles = filteredFiles;
-  }
-  if (typeof group === 'function') {
-    organisedFiles = group(
-      organisedFiles,
-      ''
-    );
-  }
-  else {
-    var newFiles = [];
-    organisedFiles.map((file) => {
-      if (file.size) {
-        newFiles.push(file);
-      }
-    });
-    organisedFiles = newFiles;
-  }
-
-  if (typeof sort === 'function') {
-    organisedFiles = sort(organisedFiles);
-  }
-
-  return organisedFiles;
-}
-
 function getItemProps(file, browserProps) {
   return {
     key: `file-${file.key}`,
@@ -128,8 +82,6 @@ class FileBrowser extends React.Component {
     this.state = {
       ...this.state,
 
-      files: organiseFiles(this.props.files, '', this.props.group, this.props.sort),
-
       openFolders: {},
       selection: null,
       activeAction: null,
@@ -158,22 +110,6 @@ class FileBrowser extends React.Component {
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.handleGlobalClick);
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.group !== this.props.group || prevProps.files !== this.props.files) {
-      this.reorganiseFiles();
-    }
-  }
-
-  reorganiseFiles() {
-    this.setState({
-      files: organiseFiles(
-        this.props.files,
-        this.state.nameFilter,
-        this.props.group,
-        this.props.sort,
-      ),
-    });
   }
 
   // item manipulation
@@ -362,13 +298,13 @@ class FileBrowser extends React.Component {
       state.nameFilter = newValue;
       state.searchResultsShown = SEARCH_RESULTS_PER_PAGE;
       return state;
-    }, this.reorganiseFiles.bind(this));
+    });
   }
   clearFilter() {
     this.setState(state => {
       state.nameFilter = '';
       return state;
-    }, this.reorganiseFiles.bind(this));
+    });
   }
 
   getBrowserProps() {
@@ -405,28 +341,12 @@ class FileBrowser extends React.Component {
       getItemProps: getItemProps,
     };
   }
-  renderActionBar() {
+  renderActionBar(selectedItem) {
     if (!this.props.showActionBar) {
       return null;
     }
 
-    var selectedFile = null;
-    if (this.state.selection !== null) {
-      var filePart = this.state.selection.split('/');
-      filePart = filePart[filePart.length - 1];
-      var findInOrganised = (files) => {
-        for (var fileIndex = 0; fileIndex < files.length; fileIndex++) {
-          var file = files[fileIndex];
-          if (file.key === this.state.selection)
-            selectedFile = file;
-          if (file.children)
-            findInOrganised(file.children);
-        }
-      };
-      findInOrganised(this.state.files);
-    }
-    var selectionIsFolder = (selectedFile && !selectedFile.size);
-
+    var selectionIsFolder = (selectedItem && !selectedItem.size);
     var filter;
     if (this.props.canFilter) {
       filter = (
@@ -441,10 +361,10 @@ class FileBrowser extends React.Component {
     }
 
     var actions;
-    if (selectedFile) {
-      if (selectedFile.action) {
+    if (selectedItem) {
+      if (selectedItem.action) {
         var actionText;
-        switch (selectedFile.action) {
+        switch (selectedItem.action) {
           case 'delete':
             actionText = 'Deleting ...';
             break;
@@ -481,7 +401,7 @@ class FileBrowser extends React.Component {
           );
         }
         if (
-          selectedFile.keyDerived
+          selectedItem.keyDerived
           && (
             (!selectionIsFolder && typeof this.props.onDeleteFile === 'function')
             || (selectionIsFolder && typeof this.props.onDeleteFolder === 'function')
@@ -502,7 +422,7 @@ class FileBrowser extends React.Component {
           );
         }
         if (
-          selectedFile.keyDerived
+          selectedItem.keyDerived
           && (
             (selectionIsFolder && typeof this.props.onRenameFile === 'function')
             || (!selectionIsFolder && typeof this.props.onRenameFolder === 'function')
@@ -608,10 +528,53 @@ class FileBrowser extends React.Component {
       browserProps: browserProps,
     };
 
-    var files = this.state.files.concat([]);
+    var files = this.props.files.concat([]);
     // if (this.state.activeAction === 'createFolder') {
     //   files.push();
     // }
+    if (this.state.nameFilter) {
+      var filteredFiles = [];
+      var terms = this.state.nameFilter.split(' ');
+      files.map((file) => {
+        var skip = false;
+        terms.map((term) => {
+          if (file.key.toLowerCase().trim().indexOf(term) == -1) {
+            skip = true;
+            return;
+          }
+        });
+        if (skip) {
+          return;
+        }
+        filteredFiles.push(file);
+      });
+      files = filteredFiles;
+    }
+    if (typeof this.props.group === 'function') {
+      files = this.props.group(files, '');
+    }
+    else {
+      var newFiles = [];
+      files.map((file) => {
+        if (file.size) {
+          newFiles.push(file);
+        }
+      });
+      files = newFiles;
+    }
+    var selectedItem = null;
+    var findSelected = (item) => {
+      if (item.key === this.state.selection) {
+        selectedItem = item;
+      }
+      if (item.children) {
+        item.children.map(findSelected);
+      }
+    }
+    files.map(findSelected);
+    if (typeof this.props.sort === 'function') {
+      files = this.props.sort(files);
+    }
 
     switch (this.props.renderStyle) {
       case 'table':
@@ -727,7 +690,7 @@ class FileBrowser extends React.Component {
       <div className="rendered-react-keyed-file-browser">
         {this.props.actions}
         <div className="rendered-file-browser" ref="browser">
-          {this.props.showActionBar && this.renderActionBar()}
+          {this.props.showActionBar && this.renderActionBar(selectedItem)}
           <div className="files">
             {renderedFiles}
           </div>
