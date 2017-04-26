@@ -24,7 +24,11 @@ class TableHeader extends React.Component {
       </tr>
     );
 
-    if (this.props.browserProps.canCreateFiles) {
+    if (
+      typeof this.props.browserProps.createFile === 'function'
+      || typeof this.props.browserProps.moveFolder === 'function'
+      || typeof this.props.browserProps.moveFile === 'function'
+    ) {
       return this.props.connectDropTarget(
         header
       );

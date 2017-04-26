@@ -346,6 +346,38 @@ class FileBrowser extends React.Component {
     }, this.reorganiseFiles.bind(this));
   }
 
+  getBrowserProps() {
+    return {
+      // browser config
+      nestChildren: this.props.nestChildren,
+      folderRenderer: this.props.folderRenderer,
+      fileRenderer: this.props.fileRenderer,
+      // browser state
+      openFolders: this.state.openFolders,
+      nameFilter: this.state.nameFilter,
+      selection: this.state.selection,
+      activeAction: this.state.activeAction,
+      actionTarget: this.state.actionTarget,
+
+      // browser manipulation
+      select: this.select,
+      openFolder: this.openFolder,
+      toggleFolder: this.toggleFolder,
+      beginAction: this.beginAction,
+      endAction: this.endAction,
+      preview: this.preview,
+
+      // item manipulation
+      renameFile: this.props.onRenameFile ? this.renameFile : undefined,
+      renameFolder: this.props.onRenameFolder ? this.renameFolder : undefined,
+      moveFile: this.props.onMoveFile ? this.moveFile : undefined,
+      moveFolder: this.props.onMoveFolder ? this.moveFolder : undefined,
+      createFile: this.props.onCreateFile ? this.createFile : undefined,
+      createFolder: this.props.onCreateFolder ? this.createFolder : undefined,
+      deleteFile: this.props.onDeleteFile ? this.deleteFile : undefined,
+      deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : undefined,
+    };
+  }
   renderActionBar() {
     if (!this.props.showActionBar) {
       return null;
@@ -507,36 +539,7 @@ class FileBrowser extends React.Component {
     );
   }
   renderFiles(files, depth) {
-    var browserProps = {
-      // browser config
-      nestChildren: this.props.nestChildren,
-      folderRenderer: this.props.folderRenderer,
-      fileRenderer: this.props.fileRenderer,
-      // browser state
-      openFolders: this.state.openFolders,
-      nameFilter: this.state.nameFilter,
-      selection: this.state.selection,
-      activeAction: this.state.activeAction,
-      actionTarget: this.state.actionTarget,
-
-      // browser manipulation
-      select: this.select,
-      openFolder: this.openFolder,
-      toggleFolder: this.toggleFolder,
-      beginAction: this.beginAction,
-      endAction: this.endAction,
-      preview: this.preview,
-
-      // item manipulation
-      renameFile: this.props.onRenameFile ? this.renameFile : undefined,
-      renameFolder: this.props.onRenameFolder ? this.renameFolder : undefined,
-      moveFile: this.props.onMoveFile ? this.moveFile : undefined,
-      moveFolder: this.props.onMoveFolder ? this.moveFolder : undefined,
-      createFile: this.props.onCreateFile ? this.createFile : undefined,
-      createFolder: this.props.onCreateFolder ? this.createFolder : undefined,
-      deleteFile: this.props.onDeleteFile ? this.deleteFile : undefined,
-      deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : undefined,
-    };
+    var browserProps = this.getBrowserProps();
     var renderedFiles = [];
     files.map((file) => {
       var thisItemProps = {
@@ -587,14 +590,10 @@ class FileBrowser extends React.Component {
   }
   render() {
     var files;
+    var browserProps = this.getBrowserProps();
     var headerProps = {
       fileKey: '',
-      browserProps: {
-        canCreateFiles: this.props.canCreateFiles,
-        openFolder: this.openFolder,
-        select: this.select,
-        upload: this.upload,
-      },
+      browserProps: browserProps,
     };
     switch (this.props.renderStyle) {
       case 'table':

@@ -48,7 +48,8 @@ div.rendered-react-keyed-file-browser
           padding: $main-padding
 
     tr
-      cursor: pointer
+      td
+        cursor: pointer
       &.selected
         td
           font-weight: bold
@@ -63,5 +64,5 @@ div.rendered-react-keyed-file-browser
               height: 100%
               background: $main-colour
       &.dragover
-        td
+        td, th
           background: #eee
