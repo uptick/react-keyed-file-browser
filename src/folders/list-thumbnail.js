@@ -64,23 +64,8 @@ class ListFolder extends BaseFolder {
         var file = this.props.children[childIndex];
 
         var thisItemProps = {
-          key: 'file-'+file.key,
-          fileKey: file.key,
+          ...this.props.browserProps.getItemProps(file, this.props.browserProps),
           depth: this.props.depth + 1,
-
-          isSelected: (file.key == this.props.browserProps.selection),
-          isOpen: (
-            file.key in this.props.browserProps.openFolders
-            || this.props.browserProps.nameFilter
-          ),
-          isRenaming: (
-            this.props.browserProps.activeAction == 'rename'
-            && this.props.browserProps.actionTarget == file.key
-          ),
-          isDeleting: (
-            this.props.browserProps.activeAction == 'delete'
-            && this.props.browserProps.actionTarget == file.key
-          ),
         };
 
         if (file.size) {

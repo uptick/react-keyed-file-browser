@@ -45,7 +45,7 @@ class TableFolder extends BaseFolder {
         </form>
       );
     }
-    else if (!inAction && this.props.isRenaming) {
+    else if ((!inAction && this.props.isRenaming) || this.props.isDraft) {
       name = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>

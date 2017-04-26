@@ -61,6 +61,27 @@ function organiseFiles(files, filter, group, sort) {
   return organisedFiles;
 }
 
+function getItemProps(file, browserProps) {
+  return {
+    key: `file-${file.key}`,
+    fileKey: file.key,
+    isSelected: (file.key == browserProps.selection),
+    isOpen: (
+      file.key in browserProps.openFolders
+      || browserProps.nameFilter
+    ),
+    isRenaming: (
+      browserProps.activeAction == 'rename'
+      && browserProps.actionTarget == file.key
+    ),
+    isDeleting: (
+      browserProps.activeAction == 'delete'
+      && browserProps.actionTarget == file.key
+    ),
+    isDraft: !!file.draft,
+  };
+}
+
 class DefaultDetail extends React.Component {
   render() {
     var name = this.props.file.key.split('/');
@@ -380,6 +401,8 @@ class FileBrowser extends React.Component {
       createFolder: this.props.onCreateFolder ? this.createFolder : undefined,
       deleteFile: this.props.onDeleteFile ? this.deleteFile : undefined,
       deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : undefined,
+
+      getItemProps: getItemProps,
     };
   }
   renderActionBar() {
@@ -547,23 +570,8 @@ class FileBrowser extends React.Component {
     var renderedFiles = [];
     files.map((file) => {
       var thisItemProps = {
-        key: `file-${file.key}`,
-        fileKey: file.key,
+        ...browserProps.getItemProps(file, browserProps),
         depth: this.state.nameFilter ? 0 : depth,
-
-        isSelected: (file.key == browserProps.selection),
-        isOpen: (
-          file.key in browserProps.openFolders
-          || browserProps.nameFilter
-        ),
-        isRenaming: (
-          browserProps.activeAction == 'rename'
-          && browserProps.actionTarget == file.key
-        ),
-        isDeleting: (
-          browserProps.activeAction == 'delete'
-          && browserProps.actionTarget == file.key
-        ),
       };
 
       if (file.size) {
@@ -593,15 +601,21 @@ class FileBrowser extends React.Component {
     return renderedFiles;
   }
   render() {
-    var files;
+    var renderedFiles;
     var browserProps = this.getBrowserProps();
     var headerProps = {
       fileKey: '',
       browserProps: browserProps,
     };
+
+    var files = this.state.files.concat([]);
+    // if (this.state.activeAction === 'createFolder') {
+    //   files.push();
+    // }
+
     switch (this.props.renderStyle) {
       case 'table':
-        var contents = this.renderFiles(this.state.files, 0);
+        var contents = this.renderFiles(files, 0);
         if (!contents.length) {
           if (this.state.nameFilter) {
             contents = (<tr>
@@ -649,7 +663,7 @@ class FileBrowser extends React.Component {
           );
         }
 
-        files = (
+        renderedFiles = (
           <table border="0" cellSpacing="0" cellPadding="0">
             {header}
             <tbody>
@@ -660,7 +674,7 @@ class FileBrowser extends React.Component {
         break;
 
       case 'list':
-        var contents = this.renderFiles(this.state.files, 0);
+        var contents = this.renderFiles(files, 0);
         if (!contents.length) {
           if (this.state.nameFilter)
             contents = (<p className="empty">No files matching "{this.state.nameFilter}"</p>);
@@ -699,7 +713,7 @@ class FileBrowser extends React.Component {
           );
         }
 
-        files = (
+        renderedFiles = (
           <div>
             {header}
             {contents}
@@ -715,7 +729,7 @@ class FileBrowser extends React.Component {
         <div className="rendered-file-browser" ref="browser">
           {this.props.showActionBar && this.renderActionBar()}
           <div className="files">
-            {files}
+            {renderedFiles}
           </div>
         </div>
         {this.state.previewFile !== null && (
