@@ -23,13 +23,16 @@ class ListFile extends BaseFile {
           }}></div>
         );
       }
-      else
+      else {
         icon = (<i className="fa fa-file-image-o" aria-hidden="true"></i>);
+      }
     }
-    else if (this.isPdf())
+    else if (this.isPdf()) {
       icon = (<i className="fa fa-file-pdf-o" aria-hidden="true"></i>);
-    else
+    }
+    else {
       icon = (<i className="fa fa-file-o" aria-hidden="true"></i>);
+    }
 
     var inAction = (this.props.isDragging || this.props.action);
 
