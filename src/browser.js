@@ -5,9 +5,9 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
 // default renderers
-import TableHeader from './headers/table.jsx'
-import TableFolder from './folders/table.jsx'
-import TableFile from './files/table.jsx'
+import TableHeader from './headers/table.js'
+import TableFolder from './folders/table.js'
+import TableFile from './files/table.js'
 
 // default processors
 import GroupByFolder from './groupers/by-folder.js'

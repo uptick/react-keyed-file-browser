@@ -3,7 +3,7 @@ import ClassNames from 'classnames'
 import { DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import { targetSource, targetCollect } from './../base-file.jsx'
+import { targetSource, targetCollect } from './../base-file.js'
 
 class TableHeader extends React.Component {
   handleHeaderClick(event) {
@@ -41,4 +41,4 @@ class TableHeader extends React.Component {
 
 export default DropTarget(['file', 'folder', NativeTypes.FILE], targetSource, targetCollect)(
   TableHeader
-);
+)

@@ -7,8 +7,8 @@ import {
   BaseFolder,
   dragSource,
   dragCollect,
-} from './../base-folder.jsx'
-import { targetSource, targetCollect } from './../base-file.jsx'
+} from './../base-folder.js'
+import { targetSource, targetCollect } from './../base-file.js'
 
 class ListFolder extends BaseFolder {
   render() {
@@ -155,8 +155,8 @@ class ListFolder extends BaseFolder {
   }
 }
 
-module.exports = DragSource('folder', dragSource, dragCollect)(
+export default DragSource('folder', dragSource, dragCollect)(
   DropTarget(['file', 'folder', NativeTypes.FILE], targetSource, targetCollect)(
     ListFolder
   )
-);
+)

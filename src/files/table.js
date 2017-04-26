@@ -10,7 +10,7 @@ import {
   dragCollect,
   targetSource,
   targetCollect,
-} from './../base-file.jsx'
+} from './../base-file.js'
 
 function float_precision(float_value, precision) {
   float_value = parseFloat(float_value);
@@ -155,8 +155,8 @@ class TableFile extends BaseFile {
   }
 }
 
-module.exports = DragSource('file', dragSource, dragCollect)(
+export default DragSource('file', dragSource, dragCollect)(
   DropTarget(['file', 'folder', NativeTypes.FILE], targetSource, targetCollect)(
     TableFile
   )
-);
+)
