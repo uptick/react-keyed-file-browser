@@ -175,6 +175,7 @@ class FileBrowser extends React.Component {
       if (prefix) {
         state.openFolders[prefix] = true;
       }
+      state.selection = null;
       return state;
     }, () => {
       this.props.onCreateFiles(files, prefix);
@@ -305,6 +306,9 @@ class FileBrowser extends React.Component {
   }
   handleActionBarAddFolderClick(event) {
     event.preventDefault();
+    if (this.state.activeAction === 'createFolder') {
+      return;
+    }
     var addKey = '';
     if (this.state.selection) {
       addKey += this.state.selection;
@@ -419,7 +423,11 @@ class FileBrowser extends React.Component {
       }
       else {
         actions = [];
-        if (selectionIsFolder && typeof this.props.onCreateFolder === 'function') {
+        if (
+          selectionIsFolder
+          && typeof this.props.onCreateFolder === 'function'
+          && !this.state.nameFilter
+        ) {
           actions.push(
             <li key="action-add-folder">
               <a
@@ -481,14 +489,14 @@ class FileBrowser extends React.Component {
           actions = (<ul className="item-actions">{actions}</ul>);
         }
         else {
-          actions = (<div className="item-actions"></div>);
+          actions = (<div className="item-actions">&nbsp;</div>);
         }
       }
     }
     else {
       actions = [];
 
-      if (typeof this.props.onCreateFolder === 'function') {
+      if (typeof this.props.onCreateFolder === 'function' && !this.state.nameFilter) {
         actions.push(
           <li key="action-add-folder">
             <a
@@ -508,7 +516,7 @@ class FileBrowser extends React.Component {
         actions = (<ul className="item-actions">{actions}</ul>);
       }
       else {
-        actions = (<div className="item-actions"></div>);
+        actions = (<div className="item-actions">&nbsp;</div>);
       }
     }
 
