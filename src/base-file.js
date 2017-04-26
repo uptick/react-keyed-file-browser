@@ -21,6 +21,8 @@ class BaseFile extends React.Component {
     this.handleDeleteSubmit = ::this.handleDeleteSubmit;
     this.handleCancelEdit = ::this.handleCancelEdit;
 
+    this.connectDND = ::this.connectDND;
+
     this.state = {
       ...this.state,
 
@@ -145,6 +147,25 @@ class BaseFile extends React.Component {
   handleCancelEdit(event) {
     this.props.browserProps.endAction();
   }
+
+  connectDND(render) {
+    var inAction = (this.props.isDragging || this.props.action);
+    if (
+      typeof this.props.browserProps.moveFile === 'function'
+      && !inAction
+      && !this.props.isRenaming
+    ) {
+      render = this.props.connectDragSource(render);
+    }
+    if (
+      typeof this.props.browserProps.createFiles === 'function'
+      || typeof this.props.browserProps.moveFile === 'function'
+      || typeof this.props.browserProps.moveFolder === 'function'
+    ) {
+      render = this.props.connectDropTarget(render);
+    }
+    return render;
+  }
 }
 
 const dragSource = {
@@ -181,14 +202,14 @@ function dragCollect(connect, monitor) {
 
 const targetSource = {
   drop(props, monitor) {
-    if (monitor.didDrop())
+    if (monitor.didDrop()) {
       return;
+    }
     var key = props.newKey || props.fileKey;
     var path = key.substr(0, key.lastIndexOf('/') || key.length);
     var item = monitor.getItem();
-    if (item.files && props.browserProps.upload) {
-      props.browserProps.openFolder(path + '/');
-      props.browserProps.upload(item.files, path + '/');
+    if (item.files && props.browserProps.createFiles) {
+      props.browserProps.createFiles(item.files, path + '/');
     }
     return {
       path: path,

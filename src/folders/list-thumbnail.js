@@ -118,25 +118,7 @@ class ListFolder extends BaseFolder {
       folder = this.props.connectDragPreview(folder);
     }
 
-
-    if (this.props.keyDerived) {
-      if (
-        this.props.browserProps.canMoveFolders
-        && !inAction
-        && !this.props.isRenaming
-        && !this.props.isDeleting
-      ) {
-        folder = this.props.connectDragSource(folder);
-      }
-      if (
-        this.props.browserProps.canCreateFiles
-        || this.props.browserProps.canMoveFolders
-        || this.props.browserProps.canMoveFiles
-      ) {
-        folder = this.props.connectDropTarget(folder);
-      }
-    }
-    return folder;
+    return this.connectDND(folder);
   }
 }
 

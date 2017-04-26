@@ -70,7 +70,7 @@ class FileBrowser extends React.Component {
     this.renameFolder = ::this.renameFolder;
     this.moveFile = ::this.moveFile;
     this.moveFolder = ::this.moveFolder;
-    this.createFile = ::this.createFile;
+    this.createFiles = ::this.createFiles;
     this.createFolder = ::this.createFolder;
     this.deleteFile = ::this.deleteFile;
     this.deleteFolder = ::this.deleteFolder;
@@ -167,7 +167,19 @@ class FileBrowser extends React.Component {
       this.props.onMoveFolder(oldKey, newKey);
     });
   }
-  createFile(files, prefix) {}
+  createFiles(files, prefix) {
+    this.setState(state => {
+      state.openFolders = {
+        ...state.openFolders,
+      };
+      if (prefix) {
+        state.openFolders[prefix] = true;
+      }
+      return state;
+    }, () => {
+      this.props.onCreateFiles(files, prefix);
+    });
+  }
   createFolder(key) {
     this.setState(state => {
       state.activeAction = null;
@@ -355,7 +367,7 @@ class FileBrowser extends React.Component {
       renameFolder: this.props.onRenameFolder ? this.renameFolder : undefined,
       moveFile: this.props.onMoveFile ? this.moveFile : undefined,
       moveFolder: this.props.onMoveFolder ? this.moveFolder : undefined,
-      createFile: this.props.onCreateFile ? this.createFile : undefined,
+      createFiles: this.props.onCreateFiles ? this.createFiles : undefined,
       createFolder: this.props.onCreateFolder ? this.createFolder : undefined,
       deleteFile: this.props.onDeleteFile ? this.deleteFile : undefined,
       deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : undefined,
@@ -768,7 +780,7 @@ FileBrowser.PropTypes = {
   detailRenderer: PropTypes.func.isRequired,
 
   onCreateFolder: PropTypes.func,
-  onCreateFile: PropTypes.func,
+  onCreateFiles: PropTypes.func,
   onMoveFolder: PropTypes.func,
   onMoveFile: PropTypes.func,
   onRenameFolder: PropTypes.func,

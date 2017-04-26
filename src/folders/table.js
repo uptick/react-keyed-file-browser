@@ -99,24 +99,7 @@ class TableFolder extends BaseFolder {
       </tr>
     );
 
-    if (this.props.keyDerived && this.props.keyDerived) {
-      if (
-        typeof this.props.browserProps.moveFolder === 'function'
-        && !inAction
-        && !this.props.isRenaming
-        && !this.props.isDeleting
-      ) {
-        folder = this.props.connectDragSource(folder);
-      }
-      if (
-        typeof this.props.browserProps.createFile === 'function'
-        || typeof this.props.browserProps.moveFolder === 'function'
-        || typeof this.props.browserProps.moveFile === 'function'
-      ) {
-        folder = this.props.connectDropTarget(folder);
-      }
-    }
-    return folder;
+    return this.connectDND(folder);
   }
 }
 

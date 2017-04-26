@@ -17,6 +17,8 @@ class BaseFolder extends React.Component {
 
     this.toggleFolder = ::this.toggleFolder;
 
+    this.connectDND = ::this.connectDND;
+
     this.state = {
       ...this.state,
 
@@ -127,6 +129,28 @@ class BaseFolder extends React.Component {
 
   toggleFolder() {
     this.props.browserProps.toggleFolder(this.props.fileKey);
+  }
+
+  connectDND(render) {
+    var inAction = (this.props.isDragging || this.props.action);
+    if (this.props.keyDerived && this.props.keyDerived) {
+      if (
+        typeof this.props.browserProps.moveFolder === 'function'
+        && !inAction
+        && !this.props.isRenaming
+        && !this.props.isDeleting
+      ) {
+        render = this.props.connectDragSource(render);
+      }
+      if (
+        typeof this.props.browserProps.createFiles === 'function'
+        || typeof this.props.browserProps.moveFolder === 'function'
+        || typeof this.props.browserProps.moveFile === 'function'
+      ) {
+        render = this.props.connectDropTarget(render);
+      }
+    }
+    return render;
   }
 }
 

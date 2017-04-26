@@ -137,21 +137,7 @@ class TableFile extends BaseFile {
       </tr>
     );
 
-    if (
-      typeof this.props.browserProps.moveFile === 'function'
-      && !inAction
-      && !this.props.isRenaming
-    ) {
-      row = this.props.connectDragSource(row);
-    }
-    if (
-      typeof this.props.browserProps.createFile === 'function'
-      || typeof this.props.browserProps.moveFile === 'function'
-      || typeof this.props.browserProps.moveFolder === 'function'
-    ) {
-      row = this.props.connectDropTarget(row);
-    }
-    return row;
+    return this.connectDND(row);
   }
 }
 

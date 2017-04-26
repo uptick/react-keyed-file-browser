@@ -135,24 +135,11 @@ class ListFile extends BaseFile {
         </div>
       </li>
     );
-    if (this.props.browserProps.canMoveFiles)
+    if (this.props.browserProps.canMoveFiles) {
       row = this.props.connectDragPreview(row);
+    }
 
-    if (
-      this.props.browserProps.canMoveFiles
-      && !inAction
-      && !this.props.isRenaming
-    ) {
-      row = this.props.connectDragSource(row);
-    }
-    if (
-      this.props.browserProps.canCreateFiles
-      || this.props.browserProps.canMoveFiles
-      || this.props.browserProps.canMoveFolders
-    ) {
-      row = this.props.connectDropTarget(row);
-    }
-    return row;
+    return this.connectDND(row);
   }
 }
 
