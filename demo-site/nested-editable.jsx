@@ -65,7 +65,6 @@ class NestedEditableDemo extends React.Component {
     console.log('adding file');
   }
   handleRenameFolder(oldKey, newKey) {
-    console.log('renaming folder', oldKey, 'to', newKey);
     this.setState(state => {
       var newFiles = [];
       state.files.map((file) => {
@@ -85,7 +84,6 @@ class NestedEditableDemo extends React.Component {
     });
   }
   handleRenameFile(oldKey, newKey) {
-    console.log('renaming file', oldKey, 'to', newKey);
     this.setState(state => {
       var newFiles = [];
       state.files.map((file) => {
