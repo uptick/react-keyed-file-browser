@@ -667,7 +667,7 @@ class FileBrowser extends React.Component {
         }
 
         renderedFiles = (
-          <table border="0" cellSpacing="0" cellPadding="0">
+          <table cellSpacing="0" cellPadding="0">
             {header}
             <tbody>
               {contents}
