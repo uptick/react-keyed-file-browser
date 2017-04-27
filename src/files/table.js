@@ -51,7 +51,7 @@ class TableFile extends BaseFile {
       name = (
         <form className="deleting" onSubmit={this.handleDeleteSubmit}>
           <a
-            href={this.props.url}
+            href={this.props.url || "#"}
             download="download"
             onClick={(event) => {
               event.preventDefault();
@@ -87,7 +87,7 @@ class TableFile extends BaseFile {
     else {
       name = (
         <a
-          href={this.props.url}
+          href={this.props.url || "#"}
           download="download"
           onClick={(event) => {
             event.preventDefault();
