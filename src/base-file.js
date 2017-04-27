@@ -224,10 +224,14 @@ function targetCollect(connect, monitor) {
   };
 };
 
-export {
-  BaseFile,
+var BaseFileConnectors = {
   dragSource,
   dragCollect,
   targetSource,
   targetCollect,
+}
+
+export default BaseFile
+export {
+  BaseFileConnectors,
 }

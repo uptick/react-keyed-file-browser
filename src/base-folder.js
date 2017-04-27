@@ -194,8 +194,12 @@ function dragCollect(connect, monitor) {
   };
 }
 
-export {
-  BaseFolder,
+var BaseFolderConnectors = {
   dragSource,
   dragCollect,
+};
+
+export default BaseFolder
+export {
+  BaseFolderConnectors,
 }

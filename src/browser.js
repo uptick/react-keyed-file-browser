@@ -4,6 +4,11 @@ import PropTypes from 'prop-types'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
+// base renderers
+import BaseFolder from './base-folder.js'
+import { BaseFolderConnectors } from './base-folder.js'
+import BaseFile from './base-file.js'
+import { BaseFileConnectors } from './base-file.js'
 // default renderers
 import TableHeader from './headers/table.js'
 import TableFolder from './folders/table.js'
@@ -788,3 +793,5 @@ FileBrowser.PropTypes = {
 };
 
 export default DragDropContext(HTML5Backend)(FileBrowser)
+export { BaseFile, BaseFileConnectors }
+export { BaseFolder, BaseFolderConnectors }

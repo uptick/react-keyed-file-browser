@@ -3,12 +3,9 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import {
-  BaseFolder,
-  dragSource,
-  dragCollect,
-} from './../base-folder.js'
-import { targetSource, targetCollect } from './../base-file.js'
+import BaseFolder from './../base-folder.js'
+import { BaseFolderConnectors } from './../base-folder.js'
+import { BaseFileConnectors } from './../base-file.js'
 
 class TableFolder extends BaseFolder {
   render() {
@@ -103,8 +100,16 @@ class TableFolder extends BaseFolder {
   }
 }
 
-export default DragSource('folder', dragSource, dragCollect)(
-  DropTarget(['file', 'folder', NativeTypes.FILE], targetSource, targetCollect)(
+export default DragSource(
+  'folder',
+  BaseFolderConnectors.dragSource,
+  BaseFolderConnectors.dragCollect
+)(
+  DropTarget(
+    ['file', 'folder', NativeTypes.FILE],
+    BaseFileConnectors.targetSource,
+    BaseFileConnectors.targetCollect
+  )(
     TableFolder
   )
 )

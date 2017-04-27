@@ -4,13 +4,8 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import {
-  BaseFile,
-  dragSource,
-  dragCollect,
-  targetSource,
-  targetCollect,
-} from './../base-file.js'
+import BaseFile from './../base-file.js'
+import { BaseFileConnectors } from './../base-file.js'
 
 function float_precision(float_value, precision) {
   float_value = parseFloat(float_value);
@@ -141,8 +136,16 @@ class TableFile extends BaseFile {
   }
 }
 
-export default DragSource('file', dragSource, dragCollect)(
-  DropTarget(['file', 'folder', NativeTypes.FILE], targetSource, targetCollect)(
+export default DragSource(
+  'file',
+  BaseFileConnectors.dragSource,
+  BaseFileConnectors.dragCollect
+)(
+  DropTarget(
+    ['file', 'folder', NativeTypes.FILE],
+    BaseFileConnectors.targetSource,
+    BaseFileConnectors.targetCollect
+  )(
     TableFile
   )
 )
