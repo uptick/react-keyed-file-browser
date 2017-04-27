@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-css": "./node_modules/node-sass/bin/node-sass demos.sass dist/demos.css",
+    "collect-static": "cp -a node_modules/font-awesome/fonts/. dist/",
+    "build-css": "./node_modules/node-sass/bin/node-sass demos.sass dist/demos.css; npm run collect-static",
     "watch-css": "npm run build-css; ./node_modules/node-sass/bin/node-sass demos.sass dist/demos.css --watch",
     "build-js": "./node_modules/webpack/bin/webpack.js",
     "watch-js": "./node_modules/webpack/bin/webpack.js --watch",
