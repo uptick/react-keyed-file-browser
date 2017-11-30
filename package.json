@@ -23,7 +23,7 @@
     "browser",
     "s3"
   ],
-  "author": "ABA Systems Pty Ltd",
+  "author": "Uptick Pty Ltd",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ABASystems/react-keyed-file-browser/issues"
@@ -35,6 +35,13 @@
     "prop-types": "^15.5.8",
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2"
+  },
+  "peerDependencies": {
+
+  },
+  "peerDependencies": {
+    "react": "0.14.x || 15.x",
+    "react-dom": "0.14.x || 15.x"
   },
   "devDependencies": {
     "babel-cli": "^6.6.4",
@@ -49,8 +56,5 @@
     "react-dom": "^0.14.8",
     "webpack": "^1.12.13",
     "webpack-node-externals": "^1.5.4"
-  },
-  "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0-0"
   }
 }
