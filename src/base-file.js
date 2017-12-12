@@ -124,10 +124,12 @@ class BaseFile extends React.Component {
       // });
       return;
     }
-    var newKey = this.props.fileKey.substr(0, this.props.fileKey.lastIndexOf('/'));
-    newKey += '/';
-    newKey += newName;
-    this.props.browserProps.renameFile(this.props.fileKey, newKey);
+    let newKey = newName
+    const slashIndex = this.props.fileKey.lastIndexOf('/')
+    if (slashIndex !== -1) {
+      newKey = `${this.props.fileKey.substr(0, slashIndex)}/${newName}`
+    }
+    this.props.browserProps.renameFile(this.props.fileKey, newKey)
   }
 
   handleDeleteClick(event) {
