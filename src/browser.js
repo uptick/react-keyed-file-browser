@@ -374,10 +374,6 @@ class FileBrowser extends React.Component {
     };
   }
   renderActionBar(selectedItem) {
-    if (!this.props.showActionBar) {
-      return null;
-    }
-
     var selectionIsFolder = (selectedItem && !selectedItem.size);
     var filter;
     if (this.props.canFilter) {
