@@ -733,6 +733,7 @@ class FileBrowser extends React.Component {
         </div>
         {this.state.previewFile !== null && (
           <Detail
+            {...this.detailRendererProps}
             file={this.state.previewFile}
             close={this.closeDetail}
           />
@@ -757,6 +758,7 @@ FileBrowser.defaultProps = {
   folderRenderer: TableFolder,
   fileRenderer: TableFile,
   detailRenderer: DefaultDetail,
+  detailRendererProps: {},
 };
 FileBrowser.PropTypes = {
   showActionBar: PropTypes.bool.isRequired,
@@ -777,6 +779,7 @@ FileBrowser.PropTypes = {
   folderRenderer: PropTypes.func.isRequired,
   fileRenderer: PropTypes.func.isRequired,
   detailRenderer: PropTypes.func.isRequired,
+  detailRendererProps: PropTypes.object,
 
   onCreateFolder: PropTypes.func,
   onCreateFiles: PropTypes.func,
