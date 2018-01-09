@@ -251,7 +251,7 @@ class FileBrowser extends React.Component {
     });
   }
 
-  handleShowMoreClick(event) {
+  handleShowMoreClick = (event) => {
     event.preventDefault();
     this.setState(state => {
       state.searchResultsShown += SEARCH_RESULTS_PER_PAGE;
@@ -324,7 +324,7 @@ class FileBrowser extends React.Component {
       return state;
     });
   }
-  handleFilterChange(event) {
+  handleFilterChange = (event) => {
     var newValue = this.refs.filter.value;
     this.setState(state => {
       state.nameFilter = newValue;
@@ -332,7 +332,7 @@ class FileBrowser extends React.Component {
       return state;
     });
   }
-  clearFilter() {
+  clearFilter = () => {
     this.setState(state => {
       state.nameFilter = '';
       return state;
@@ -383,7 +383,7 @@ class FileBrowser extends React.Component {
           type="search"
           placeholder="Filter files"
           value={this.state.nameFilter}
-          onChange={this.handleFilterChange.bind(this)}
+          onChange={this.handleFilterChange}
         />
       );
     }
@@ -639,7 +639,7 @@ class FileBrowser extends React.Component {
               contents.push(<tr key="show-more">
                 <td colSpan="100">
                   <a
-                    onClick={this.handleShowMoreClick.bind(this)}
+                    onClick={this.handleShowMoreClick}
                     className="btn btn-block btn-info"
                     href="#"
                   >
@@ -687,7 +687,7 @@ class FileBrowser extends React.Component {
             contents = contents.slice(0, this.state.searchResultsShown);
             if (numFiles > contents.length) {
               more = (<a
-                onClick={this.handleShowMoreClick.bind(this)}
+                onClick={this.handleShowMoreClick}
                 className="btn btn-block btn-info"
                 href="#"
               >
