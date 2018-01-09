@@ -1,0 +1,19 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "env": {
+          "loose": true,
+          "modules": false
+        }
+      }
+    ],
+    "react",
+    "stage-0"
+  ],
+  "plugins": [
+    "transform-async-to-generator",
+    "transform-decorators-legacy",
+  ]
+}
