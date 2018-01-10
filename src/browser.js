@@ -394,18 +394,13 @@ class FileBrowser extends React.Component {
     let filter
     if (this.props.canFilter) {
       filter = (
-        <div>
-          <input
-            ref="filter"
-            type="search"
-            placeholder="Filter files"
-            value={this.state.nameFilter}
-            onChange={this.handleFilterChange}
-          />
-          <span className="clear" onClick={this.clearFilter}>
-            <i className="fa fa-times" aria-hidden="true" />
-          </span>
-        </div>
+        <input
+          ref="filter"
+          type="search"
+          placeholder="Filter files"
+          value={this.state.nameFilter}
+          onChange={this.handleFilterChange}
+        />
       )
     }
 
