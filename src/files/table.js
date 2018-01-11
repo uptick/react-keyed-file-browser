@@ -42,7 +42,7 @@ class TableFile extends BaseFile {
             {this.getName()}
           </a>
           <div className="actions">
-            <button type="submit" className="btn btn-sm btn-secondary">
+            <button type="submit">
               Confirm Deletion
             </button>
           </div>
@@ -54,7 +54,6 @@ class TableFile extends BaseFile {
           {icon}
           <input
             ref="newName"
-            className="form-control input-sm"
             type="text"
             value={this.state.newName}
             onChange={this.handleNewNameChange}

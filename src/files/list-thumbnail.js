@@ -55,13 +55,13 @@ class ListFile extends BaseFile {
             </a>
             <div className="actions">
               <a
-                className="cancel btn btn-primary btn-sm"
+                className="cancel"
                 onClick={this.handleCancelEdit}
               >
                 Cancel
               </a>
-              <button type="submit" className="btn btn-sm btn-secondary">
-                Confirm Delete
+              <button type="submit">
+                Confirm Deletion
               </button>
             </div>
           </form>
@@ -71,7 +71,6 @@ class ListFile extends BaseFile {
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
             <input
               ref="newName"
-              className="form-control input-sm"
               type="text"
               value={this.state.newName}
               onChange={this.handleNewNameChange}
@@ -79,7 +78,7 @@ class ListFile extends BaseFile {
             />
             <div className="actions">
               <a
-                className="cancel btn btn-primary btn-sm"
+                className="cancel"
                 onClick={this.handleCancelEdit}
               >
                 Cancel
@@ -108,7 +107,7 @@ class ListFile extends BaseFile {
     if (this.props.showModified) {
       if (!this.props.isRenaming && !this.props.isDeleting) {
         modified = (
-          <span className="modified text-muted">
+          <span className="modified">
             Last modified: {Moment(this.props.modified).fromNow()}
           </span>
         )

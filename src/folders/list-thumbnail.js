@@ -31,14 +31,13 @@ class ListFolder extends BaseFolder {
             <input
               type="text"
               ref="newName"
-              className="form-control input-sm"
               value={this.state.newName}
               onChange={this.handleNewNameChange}
               onBlur={this.handleCancelEdit}
             />
             <div className="actions">
               <a
-                className="cancel btn btn-secondary btn-sm"
+                className="cancel"
                 onClick={this.handleCancelEdit}
               >
                 Cancel
@@ -91,7 +90,7 @@ class ListFolder extends BaseFolder {
       if (children.length) {
         children = (<ul style={{padding: '0 8px', paddingLeft: '16px'}}>{children}</ul>)
       } else {
-        children = (<p className="text-muted">No items in this folder</p>)
+        children = (<p>No items in this folder</p>)
       }
     }
 

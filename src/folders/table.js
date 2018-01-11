@@ -39,9 +39,9 @@ class TableFolder extends BaseFolder {
             {this.getName()}
           </a>
           <div className="actions">
-            <button type="submit" className="btn btn-sm btn-secondary">
+            <a type="submit">
               Confirm Deletion
-            </button>
+            </a>
           </div>
         </form>
       )
@@ -53,7 +53,6 @@ class TableFolder extends BaseFolder {
             <input
               type="text"
               ref="newName"
-              className="form-control input-sm"
               value={this.state.newName}
               onChange={this.handleNewNameChange}
               onBlur={this.handleCancelEdit}

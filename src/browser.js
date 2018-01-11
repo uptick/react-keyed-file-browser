@@ -402,21 +402,23 @@ class RawFileBrowser extends React.Component {
         )
       } else {
         actions = []
+
         if (
-          selectionIsFolder &&
-          typeof this.props.onCreateFolder === 'function' &&
-          !this.state.nameFilter
+          selectedItem.keyDerived && (
+            (selectionIsFolder && typeof this.props.onRenameFile === 'function') ||
+            (!selectionIsFolder && typeof this.props.onRenameFolder === 'function')
+          )
         ) {
           actions.push(
-            <li key="action-add-folder">
+            <li key="action-rename">
               <a
-                className="btn btn-primary btn-sm"
-                onClick={this.handleActionBarAddFolderClick}
+
+                onClick={this.handleActionBarRenameClick}
                 href="#"
                 role="button"
               >
-                <i className="fa fa-folder-o" aria-hidden="true" />
-                &nbsp;Add Subfolder
+                <i className="fa fa-i-cursor" aria-hidden="true" />
+                &nbsp;Rename
               </a>
             </li>
           )
@@ -430,7 +432,7 @@ class RawFileBrowser extends React.Component {
           actions.push(
             <li key="action-delete">
               <a
-                className="btn btn-primary btn-sm"
+
                 onClick={this.handleActionBarDeleteClick}
                 href="#"
                 role="button"
@@ -441,27 +443,6 @@ class RawFileBrowser extends React.Component {
             </li>
           )
         }
-        if (
-          selectedItem.keyDerived && (
-            (selectionIsFolder && typeof this.props.onRenameFile === 'function') ||
-            (!selectionIsFolder && typeof this.props.onRenameFolder === 'function')
-          )
-        ) {
-          actions.push(
-            <li key="action-rename">
-              <a
-                className="btn btn-primary btn-sm"
-                onClick={this.handleActionBarRenameClick}
-                href="#"
-                role="button"
-              >
-                <i className="fa fa-i-cursor" aria-hidden="true" />
-                &nbsp;Rename
-              </a>
-            </li>
-          )
-        }
-
         if (actions.length) {
           actions = (<ul className="item-actions">{actions}</ul>)
         } else {
@@ -475,7 +456,6 @@ class RawFileBrowser extends React.Component {
         actions.push(
           <li key="action-add-folder">
             <a
-              className="btn btn-primary btn-sm"
               onClick={this.handleActionBarAddFolderClick}
               href="#"
               role="button"
@@ -622,7 +602,6 @@ class RawFileBrowser extends React.Component {
                 <td colSpan="100">
                   <a
                     onClick={this.handleShowMoreClick}
-                    className="btn btn-block btn-info"
                     href="#"
                   >
                     Show more results
@@ -669,7 +648,6 @@ class RawFileBrowser extends React.Component {
             if (numFiles > contents.length) {
               more = (<a
                 onClick={this.handleShowMoreClick}
-                className="btn btn-block btn-info"
                 href="#"
               >
                 Show more results
