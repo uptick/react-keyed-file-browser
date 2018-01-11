@@ -117,9 +117,6 @@ class RawFileBrowser extends React.Component {
   // item manipulation
   createFiles = (files, prefix) => {
     this.setState(state => {
-      state.openFolders = {
-        ...state.openFolders,
-      }
       if (prefix) {
         state.openFolders[prefix] = true
       }
@@ -151,9 +148,6 @@ class RawFileBrowser extends React.Component {
       state.actionTarget = null
       state.selection = newKey
       if (oldKey in state.openFolders) {
-        state.openFolders = {
-          ...state.openFolders,
-        }
         delete state.openFolders[newKey]
         state.openFolders[newKey] = true
       }
@@ -179,9 +173,6 @@ class RawFileBrowser extends React.Component {
         state.selection = state.selection.replace(oldKey, newKey)
       }
       if (oldKey in state.openFolders) {
-        state.openFolders = {
-          ...state.openFolders,
-        }
         delete state.openFolders[newKey]
         state.openFolders[newKey] = true
       }
@@ -191,10 +182,26 @@ class RawFileBrowser extends React.Component {
     })
   }
   deleteFile = (key) => {
-    this.props.onDeleteFile(key)
+    this.setState({
+      activeAction: null,
+      actionTarget: null,
+      selection: null,
+    }, () => {
+      this.props.onDeleteFile(key)
+    })
   }
   deleteFolder = (key) => {
-    this.props.onDeleteFolder(key)
+    this.setState(state => {
+      state.activeAction = null
+      state.actionTarget = null
+      state.selection = null
+      if (key in state.openFolders) {
+        delete state.openFolders[key]
+      }
+      return state
+    }, () => {
+      this.props.onDeleteFolder(key)
+    })
   }
 
   // browser manipulation
@@ -298,9 +305,6 @@ class RawFileBrowser extends React.Component {
       state.actionTarget = addKey
       state.activeAction = 'createFolder'
       state.selection = addKey
-      state.openFolders = {
-        ...state.openFolders,
-      }
       if (this.state.selection) {
         state.openFolders[this.state.selection] = true
       }
