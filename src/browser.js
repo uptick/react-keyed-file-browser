@@ -402,7 +402,24 @@ class RawFileBrowser extends React.Component {
         )
       } else {
         actions = []
-
+        if (
+          selectionIsFolder &&
+          typeof this.props.onCreateFolder === 'function' &&
+          !this.state.nameFilter
+        ) {
+          actions.push(
+            <li key="action-add-folder">
+              <a
+                onClick={this.handleActionBarAddFolderClick}
+                href="#"
+                role="button"
+              >
+                <i className="fa fa-folder-o" aria-hidden="true" />
+                &nbsp;Add Subfolder
+              </a>
+            </li>
+          )
+        }
         if (
           selectedItem.keyDerived && (
             (selectionIsFolder && typeof this.props.onRenameFile === 'function') ||
@@ -412,7 +429,6 @@ class RawFileBrowser extends React.Component {
           actions.push(
             <li key="action-rename">
               <a
-
                 onClick={this.handleActionBarRenameClick}
                 href="#"
                 role="button"
@@ -432,7 +448,6 @@ class RawFileBrowser extends React.Component {
           actions.push(
             <li key="action-delete">
               <a
-
                 onClick={this.handleActionBarDeleteClick}
                 href="#"
                 role="button"
