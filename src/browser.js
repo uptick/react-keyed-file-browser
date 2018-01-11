@@ -321,7 +321,7 @@ class RawFileBrowser extends React.Component {
   }
   updateFilter = (newValue) => {
     this.setState(state => {
-      state.nameFilter = newValue.toLowerCase()
+      state.nameFilter = newValue
       state.searchResultsShown = SEARCH_RESULTS_PER_PAGE
       return state
     })
@@ -535,7 +535,7 @@ class RawFileBrowser extends React.Component {
     }
     if (this.state.nameFilter) {
       const filteredFiles = []
-      const terms = this.state.nameFilter.split(' ')
+      const terms = this.state.nameFilter.toLowerCase().split(' ')
       files.map((file) => {
         let skip = false
         terms.map((term) => {
