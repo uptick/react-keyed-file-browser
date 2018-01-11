@@ -35,14 +35,12 @@ class ListFolder extends BaseFolder {
               onChange={this.handleNewNameChange}
               onBlur={this.handleCancelEdit}
             />
-            <div className="actions">
-              <a
-                className="cancel"
-                onClick={this.handleCancelEdit}
-              >
-                Cancel
-              </a>
-            </div>
+            <a
+              className="cancel"
+              onClick={this.handleCancelEdit}
+            >
+              Cancel
+            </a>
           </form>
         </div>
       )

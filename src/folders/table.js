@@ -38,11 +38,9 @@ class TableFolder extends BaseFolder {
             {icon}
             {this.getName()}
           </a>
-          <div className="actions">
-            <a type="submit">
-              Confirm Deletion
-            </a>
-          </div>
+          <button type="submit">
+            Confirm Deletion
+          </button>
         </form>
       )
     } else if ((!inAction && this.props.isRenaming) || this.props.isDraft) {

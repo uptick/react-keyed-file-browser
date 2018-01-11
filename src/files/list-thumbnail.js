@@ -53,17 +53,15 @@ class ListFile extends BaseFile {
             >
               {this.getName()}
             </a>
-            <div className="actions">
-              <a
-                className="cancel"
-                onClick={this.handleCancelEdit}
-              >
-                Cancel
-              </a>
-              <button type="submit">
-                Confirm Deletion
-              </button>
-            </div>
+            <a
+              className="cancel"
+              onClick={this.handleCancelEdit}
+            >
+              Cancel
+            </a>
+            <button type="submit">
+              Confirm Deletion
+            </button>
           </form>
         )
       } else if (!inAction && this.props.isRenaming) {
@@ -76,14 +74,12 @@ class ListFile extends BaseFile {
               onChange={this.handleNewNameChange}
               onBlur={this.handleCancelEdit}
             />
-            <div className="actions">
-              <a
-                className="cancel"
-                onClick={this.handleCancelEdit}
-              >
-                Cancel
-              </a>
-            </div>
+            <a
+              className="cancel"
+              onClick={this.handleCancelEdit}
+            >
+              Cancel
+            </a>
           </form>
         )
       } else {
