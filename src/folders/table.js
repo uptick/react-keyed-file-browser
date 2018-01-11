@@ -3,23 +3,27 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import BaseFolder from './../base-folder.js'
-import { BaseFolderConnectors } from './../base-folder.js'
+import BaseFolder, { BaseFolderConnectors } from './../base-folder.js'
 import { BaseFileConnectors } from './../base-file.js'
 
+@DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect)
+@DropTarget(
+  ['file', 'folder', NativeTypes.FILE],
+  BaseFileConnectors.targetSource,
+  BaseFileConnectors.targetCollect,
+)
 class TableFolder extends BaseFolder {
   render() {
-    var icon;
+    let icon
     if (this.props.isOpen) {
-      icon = (<i className="fa fa-folder-open-o" aria-hidden="true"></i>);
-    }
-    else {
-      icon = (<i className="fa fa-folder-o" aria-hidden="true"></i>);
+      icon = (<i className="fa fa-folder-open-o" aria-hidden="true" />)
+    } else {
+      icon = (<i className="fa fa-folder-o" aria-hidden="true" />)
     }
 
-    var inAction = (this.props.isDragging || this.props.action);
+    const inAction = (this.props.isDragging || this.props.action)
 
-    var name;
+    let name
     if (!inAction && this.props.isDeleting) {
       name = (
         <form className="deleting" onSubmit={this.handleDeleteSubmit}>
@@ -27,8 +31,8 @@ class TableFolder extends BaseFolder {
             href={this.props.url}
             download="download"
             onClick={(event) => {
-              event.preventDefault();
-              this.handleFileClick();
+              event.preventDefault()
+              this.handleFileClick()
             }}
           >
             {icon}
@@ -40,9 +44,8 @@ class TableFolder extends BaseFolder {
             </button>
           </div>
         </form>
-      );
-    }
-    else if ((!inAction && this.props.isRenaming) || this.props.isDraft) {
+      )
+    } else if ((!inAction && this.props.isRenaming) || this.props.isDraft) {
       name = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
@@ -54,13 +57,12 @@ class TableFolder extends BaseFolder {
               value={this.state.newName}
               onChange={this.handleNewNameChange}
               onBlur={this.handleCancelEdit}
-              autoFocus={true}
+              autoFocus
             />
           </form>
         </div>
-      );
-    }
-    else {
+      )
+    } else {
       name = (
         <div>
           <a onClick={this.toggleFolder}>
@@ -68,14 +70,14 @@ class TableFolder extends BaseFolder {
             {this.getName()}
           </a>
         </div>
-      );
+      )
     }
 
     if (typeof this.props.browserProps.moveFolder === 'function') {
-      name = this.props.connectDragPreview(name);
+      name = this.props.connectDragPreview(name)
     }
 
-    var folder = (
+    const folder = (
       <tr
         className={ClassNames('folder', {
           pending: (this.props.action),
@@ -91,25 +93,13 @@ class TableFolder extends BaseFolder {
             {name}
           </div>
         </td>
-        <td></td>
-        <td></td>
+        <td />
+        <td />
       </tr>
-    );
+    )
 
-    return this.connectDND(folder);
+    return this.connectDND(folder)
   }
 }
 
-export default DragSource(
-  'folder',
-  BaseFolderConnectors.dragSource,
-  BaseFolderConnectors.dragCollect
-)(
-  DropTarget(
-    ['file', 'folder', NativeTypes.FILE],
-    BaseFileConnectors.targetSource,
-    BaseFileConnectors.targetCollect
-  )(
-    TableFolder
-  )
-)
+export default TableFolder

@@ -4,34 +4,44 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import BaseFile from './../base-file.js'
-import { BaseFileConnectors } from './../base-file.js'
+import BaseFile, { BaseFileConnectors } from './../base-file.js'
+import { fileSize } from './utils.js'
 
+@DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect)
+@DropTarget(
+  ['file', 'folder', NativeTypes.FILE],
+  BaseFileConnectors.targetSource,
+  BaseFileConnectors.targetCollect,
+)
 class ListFile extends BaseFile {
+  static defaultProps = {
+    showName: true,
+    showSize: true,
+    showModified: true,
+    isSelectable: true,
+  }
+
   render() {
-    var icon;
+    let icon
     if (this.isImage()) {
       if (this.props.thumbnail_url) {
         icon = (
           <div className="image" style={{
-            backgroundImage: 'url('+this.props.thumbnail_url+')',
-          }}></div>
-        );
+            backgroundImage: 'url(' + this.props.thumbnail_url + ')',
+          }} />
+        )
+      } else {
+        icon = (<i className="fa fa-file-image-o" aria-hidden="true" />)
       }
-      else {
-        icon = (<i className="fa fa-file-image-o" aria-hidden="true"></i>);
-      }
-    }
-    else if (this.isPdf()) {
-      icon = (<i className="fa fa-file-pdf-o" aria-hidden="true"></i>);
-    }
-    else {
-      icon = (<i className="fa fa-file-o" aria-hidden="true"></i>);
+    } else if (this.isPdf()) {
+      icon = (<i className="fa fa-file-pdf-o" aria-hidden="true" />)
+    } else {
+      icon = (<i className="fa fa-file-o" aria-hidden="true" />)
     }
 
-    var inAction = (this.props.isDragging || this.props.action);
+    const inAction = (this.props.isDragging || this.props.action)
 
-    var name;
+    let name
     if (this.props.showName) {
       if (!inAction && this.props.isDeleting) {
         name = (
@@ -55,9 +65,8 @@ class ListFile extends BaseFile {
               </button>
             </div>
           </form>
-        );
-      }
-      else if (!inAction && this.props.isRenaming) {
+        )
+      } else if (!inAction && this.props.isRenaming) {
         name = (
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
             <input
@@ -77,44 +86,43 @@ class ListFile extends BaseFile {
               </a>
             </div>
           </form>
-        );
-      }
-      else {
+        )
+      } else {
         name = (
           <a href={this.props.url} download="download" onClick={this.handleFileClick}>
             {this.getName()}
           </a>
-        );
+        )
       }
     }
 
-    var size;
+    let size
     if (this.props.showSize) {
       if (!this.props.isRenaming && !this.props.isDeleting) {
         size = (
-          <span className="size"><small>{ApiUtils.file_size(this.props.size)}</small></span>
-        );
+          <span className="size"><small>{fileSize(this.props.size)}</small></span>
+        )
       }
     }
-    var modified;
+    let modified
     if (this.props.showModified) {
       if (!this.props.isRenaming && !this.props.isDeleting) {
         modified = (
           <span className="modified text-muted">
             Last modified: {Moment(this.props.modified).fromNow()}
           </span>
-        );
+        )
       }
     }
 
-    var rowProps = {};
+    let rowProps = {}
     if (this.props.isSelectable) {
       rowProps = {
         onClick: this.handleItemClick,
-      };
+      }
     }
 
-    var row = (
+    let row = (
       <li
         className={ClassNames('file', {
           pending: (this.props.action),
@@ -132,32 +140,13 @@ class ListFile extends BaseFile {
           {modified}
         </div>
       </li>
-    );
+    )
     if (this.props.browserProps.canMoveFiles) {
-      row = this.props.connectDragPreview(row);
+      row = this.props.connectDragPreview(row)
     }
 
-    return this.connectDND(row);
+    return this.connectDND(row)
   }
 }
 
-ListFile.defaultProps = {
-  showName: true,
-  showSize: true,
-  showModified: true,
-  isSelectable: true,
-}
-
-export default DragSource(
-  'file',
-  BaseFileConnectors.dragSource,
-  BaseFileConnectors.dragCollect
-)(
-  DropTarget(
-    ['file', 'folder', NativeTypes.FILE],
-    BaseFileConnectors.targetSource,
-    BaseFileConnectors.targetCollect
-  )(
-    ListFile
-  )
-)
+export default ListFile

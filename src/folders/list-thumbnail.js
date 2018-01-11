@@ -3,23 +3,27 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import BaseFolder from './../base-folder.js'
-import { BaseFolderConnectors } from './../base-folder.js'
+import BaseFolder, { BaseFolderConnectors } from './../base-folder.js'
 import { BaseFileConnectors } from './../base-file.js'
 
+@DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect)
+@DropTarget(
+  ['file', 'folder', NativeTypes.FILE],
+  BaseFileConnectors.targetSource,
+  BaseFileConnectors.targetCollect,
+)
 class ListFolder extends BaseFolder {
   render() {
-    var icon;
+    let icon
     if (this.props.isOpen) {
-      icon = (<i className="fa fa-folder-open-o" aria-hidden="true"></i>);
-    }
-    else {
-      icon = (<i className="fa fa-folder-o" aria-hidden="true"></i>);
+      icon = (<i className="fa fa-folder-open-o" aria-hidden="true" />)
+    } else {
+      icon = (<i className="fa fa-folder-o" aria-hidden="true" />)
     }
 
-    var inAction = (this.props.isDragging || this.props.action);
+    const inAction = (this.props.isDragging || this.props.action)
 
-    var name;
+    let name
     if (!inAction && this.props.isRenaming) {
       name = (
         <div>
@@ -42,28 +46,27 @@ class ListFolder extends BaseFolder {
             </div>
           </form>
         </div>
-      );
-    }
-    else {
+      )
+    } else {
       name = (
         <div>
           <a onClick={this.toggleFolder}>
             {this.getName()}
           </a>
         </div>
-      );
+      )
     }
 
-    var children;
+    let children
     if (this.props.isOpen && this.props.browserProps.nestChildren) {
-      children = [];
-      for (var childIndex = 0; childIndex < this.props.children.length; childIndex++) {
-        var file = this.props.children[childIndex];
+      children = []
+      for (let childIndex = 0; childIndex < this.props.children.length; childIndex++) {
+        const file = this.props.children[childIndex]
 
-        var thisItemProps = {
+        const thisItemProps = {
           ...this.props.browserProps.getItemProps(file, this.props.browserProps),
           depth: this.props.depth + 1,
-        };
+        }
 
         if (file.size) {
           children.push(
@@ -72,27 +75,25 @@ class ListFolder extends BaseFolder {
               {...thisItemProps}
               browserProps={this.props.browserProps}
             />
-          );
-        }
-        else {
+          )
+        } else {
           children.push(
             <this.props.browserProps.folderRenderer
               {...file}
               {...thisItemProps}
               browserProps={this.props.browserProps}
             />
-          );
+          )
         }
       }
       if (children.length) {
-        children = (<ul style={{padding: '0 8px', paddingLeft: '16px'}}>{children}</ul>);
-      }
-      else {
-        children = (<p className="text-muted">No items in this folder</p>);
+        children = (<ul style={{padding: '0 8px', paddingLeft: '16px'}}>{children}</ul>)
+      } else {
+        children = (<p className="text-muted">No items in this folder</p>)
       }
     }
 
-    var folder = (
+    let folder = (
       <li
         className={ClassNames('folder', {
           expanded: (this.props.isOpen && this.props.browserProps.nestChildren),
@@ -110,25 +111,13 @@ class ListFolder extends BaseFolder {
         </div>
         {children}
       </li>
-    );
+    )
     if (this.props.browserProps.canMoveFolders && this.props.keyDerived) {
-      folder = this.props.connectDragPreview(folder);
+      folder = this.props.connectDragPreview(folder)
     }
 
-    return this.connectDND(folder);
+    return this.connectDND(folder)
   }
 }
 
-export default DragSource(
-  'folder',
-  BaseFolderConnectors.dragSource,
-  BaseFolderConnectors.dragCollect
-)(
-  DropTarget(
-    ['file', 'folder', NativeTypes.FILE],
-    BaseFileConnectors.targetSource,
-    BaseFileConnectors.targetCollect
-  )(
-    ListFolder
-  )
-)
+export default ListFolder

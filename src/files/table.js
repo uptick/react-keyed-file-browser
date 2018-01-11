@@ -4,58 +4,38 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import BaseFile from './../base-file.js'
-import { BaseFileConnectors } from './../base-file.js'
+import BaseFile, { BaseFileConnectors } from './../base-file.js'
+import { fileSize } from './utils.js'
 
-function float_precision(float_value, precision) {
-  float_value = parseFloat(float_value);
-  if (isNaN(float_value)) {
-    return parseFloat('0').toFixed(precision);
-  }
-  else {
-    var power = Math.pow(10, precision);
-    float_value = (Math.round(float_value * power) / power).toFixed(precision);
-    return float_value.toString();
-  }
-}
-
-function file_size(size) {
-  if (size > 1024) {
-    var kb_size = size / 1024;
-    if (kb_size > 1024) {
-      var mb_size = kb_size / 1024;
-      return '' + float_precision(mb_size, 2) + ' MB';
-    }
-    return '' + Math.round(kb_size) + ' kB';
-  }
-  return '' + size + ' B';
-}
-
+@DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect)
+@DropTarget(
+  ['file', 'folder', NativeTypes.FILE],
+  BaseFileConnectors.targetSource,
+  BaseFileConnectors.targetCollect,
+)
 class TableFile extends BaseFile {
   render() {
-    var icon;
+    let icon
     if (this.isImage()) {
-      icon = (<i className="fa fa-file-image-o" aria-hidden="true"></i>);
-    }
-    else if (this.isPdf()) {
-      icon = (<i className="fa fa-file-pdf-o" aria-hidden="true"></i>);
-    }
-    else {
-      icon = (<i className="fa fa-file-o" aria-hidden="true"></i>);
+      icon = (<i className="fa fa-file-image-o" aria-hidden="true" />)
+    } else if (this.isPdf()) {
+      icon = (<i className="fa fa-file-pdf-o" aria-hidden="true" />)
+    } else {
+      icon = (<i className="fa fa-file-o" aria-hidden="true" />)
     }
 
-    var inAction = (this.props.isDragging || this.props.action);
+    const inAction = (this.props.isDragging || this.props.action)
 
-    var name;
+    let name
     if (!inAction && this.props.isDeleting) {
       name = (
         <form className="deleting" onSubmit={this.handleDeleteSubmit}>
           <a
-            href={this.props.url || "#"}
+            href={this.props.url || '#'}
             download="download"
             onClick={(event) => {
-              event.preventDefault();
-              this.handleFileClick();
+              event.preventDefault()
+              this.handleFileClick()
             }}
           >
             {icon}
@@ -67,9 +47,8 @@ class TableFile extends BaseFile {
             </button>
           </div>
         </form>
-      );
-    }
-    else if (!inAction && this.props.isRenaming) {
+      )
+    } else if (!inAction && this.props.isRenaming) {
       name = (
         <form className="renaming" onSubmit={this.handleRenameSubmit}>
           {icon}
@@ -82,34 +61,33 @@ class TableFile extends BaseFile {
             onBlur={this.handleCancelEdit}
           />
         </form>
-      );
-    }
-    else {
+      )
+    } else {
       name = (
         <a
-          href={this.props.url || "#"}
+          href={this.props.url || '#'}
           download="download"
           onClick={(event) => {
-            event.preventDefault();
-            this.handleFileClick();
+            event.preventDefault()
+            this.handleFileClick()
           }}
         >
           {icon}
           {this.getName()}
         </a>
-      );
+      )
     }
 
-    var draggable = (
+    let draggable = (
       <div>
         {name}
       </div>
-    );
+    )
     if (typeof this.props.browserProps.moveFile === 'function') {
-      draggable = this.props.connectDragPreview(draggable);
+      draggable = this.props.connectDragPreview(draggable)
     }
 
-    var row = (
+    let row = (
       <tr
         className={ClassNames('file', {
           pending: (this.props.action),
@@ -125,27 +103,15 @@ class TableFile extends BaseFile {
             {draggable}
           </div>
         </td>
-        <td className="size">{file_size(this.props.size)}</td>
+        <td className="size">{fileSize(this.props.size)}</td>
         <td className="modified">
           {typeof this.props.modified === 'undefined' ? '-' : Moment(this.props.modified, 'x').fromNow()}
         </td>
       </tr>
-    );
+    )
 
-    return this.connectDND(row);
+    return this.connectDND(row)
   }
 }
 
-export default DragSource(
-  'file',
-  BaseFileConnectors.dragSource,
-  BaseFileConnectors.dragCollect
-)(
-  DropTarget(
-    ['file', 'folder', NativeTypes.FILE],
-    BaseFileConnectors.targetSource,
-    BaseFileConnectors.targetCollect
-  )(
-    TableFile
-  )
-)
+export default TableFile

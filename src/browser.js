@@ -4,6 +4,10 @@ import React from 'react'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
+// default components (most overridable)
+import DefaultDetail from './details/default.js'
+import DefaultFilter from './filters/default.js'
+
 // base renderers
 import BaseFolder, { BaseFolderConnectors } from './base-folder.js'
 import BaseFile, { BaseFileConnectors } from './base-file.js'
@@ -30,44 +34,6 @@ function getItemProps(file, browserProps) {
   }
 }
 
-class DefaultDetail extends React.Component {
-  static propTypes = {
-    file: PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      extension: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    }).isRequired,
-    close: PropTypes.func,
-  }
-
-  handleCloseClick = (event) => {
-    if (event) {
-      event.preventDefault()
-    }
-    this.props.close()
-  }
-
-  render() {
-    let name = this.props.file.key.split('/')
-    name = name.length ? name[name.length - 1] : ''
-
-    return (
-      <div>
-        <h2>Item Detail</h2>
-        <dl>
-          <dt>Key</dt>
-          <dd>{this.props.file.key}</dd>
-
-          <dt>Name</dt>
-          <dd>{name}</dd>
-        </dl>
-        <a href="#" onClick={this.handleCloseClick}>Close</a>
-      </div>
-    )
-  }
-}
-
 @DragDropContext(HTML5Backend)
 class FileBrowser extends React.Component {
   static propTypes = {
@@ -88,19 +54,20 @@ class FileBrowser extends React.Component {
     startOpen: PropTypes.bool.isRequired,
 
     headerRenderer: PropTypes.func,
-    folderRenderer: PropTypes.func.isRequired,
-    fileRenderer: PropTypes.func.isRequired,
-    detailRenderer: PropTypes.func.isRequired,
+    filterRenderer: PropTypes.func,
+    folderRenderer: PropTypes.func,
+    fileRenderer: PropTypes.func,
+    detailRenderer: PropTypes.func,
     detailRendererProps: PropTypes.object,
 
-    onCreateFolder: PropTypes.func,
-    onCreateFiles: PropTypes.func,
-    onMoveFolder: PropTypes.func,
-    onMoveFile: PropTypes.func,
-    onRenameFolder: PropTypes.func,
-    onRenameFile: PropTypes.func,
-    onDeleteFolder: PropTypes.func,
-    onDeleteFile: PropTypes.func,
+    onCreateFiles: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onCreateFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onMoveFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onMoveFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onRenameFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onRenameFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onDeleteFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onDeleteFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   }
 
   static defaultProps = {
@@ -116,6 +83,7 @@ class FileBrowser extends React.Component {
     startOpen: false,
 
     headerRenderer: TableHeader,
+    filterRenderer: DefaultFilter,
     folderRenderer: TableFolder,
     fileRenderer: TableFile,
     detailRenderer: DefaultDetail,
@@ -377,12 +345,12 @@ class FileBrowser extends React.Component {
       preview: this.preview,
 
       // item manipulation
+      createFiles: this.props.onCreateFiles ? this.createFiles : undefined,
+      createFolder: this.props.onCreateFolder ? this.createFolder : undefined,
       renameFile: this.props.onRenameFile ? this.renameFile : undefined,
       renameFolder: this.props.onRenameFolder ? this.renameFolder : undefined,
       moveFile: this.props.onMoveFile ? this.moveFile : undefined,
       moveFolder: this.props.onMoveFolder ? this.moveFolder : undefined,
-      createFiles: this.props.onCreateFiles ? this.createFiles : undefined,
-      createFolder: this.props.onCreateFolder ? this.createFolder : undefined,
       deleteFile: this.props.onDeleteFile ? this.deleteFile : undefined,
       deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : undefined,
 
@@ -394,12 +362,10 @@ class FileBrowser extends React.Component {
     let filter
     if (this.props.canFilter) {
       filter = (
-        <input
-          ref="filter"
-          type="search"
-          placeholder="Filter files"
+        <this.props.filterRenderer
           value={this.state.nameFilter}
           onChange={this.handleFilterChange}
+          clearFilter={this.clearFilter}
         />
       )
     }
