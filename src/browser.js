@@ -314,12 +314,6 @@ class RawFileBrowser extends React.Component {
       return state
     })
   }
-  clearFilter = () => {
-    this.setState(state => {
-      state.nameFilter = ''
-      return state
-    })
-  }
 
   getBrowserProps() {
     return {
@@ -363,7 +357,6 @@ class RawFileBrowser extends React.Component {
         <this.props.filterRenderer
           value={this.state.nameFilter}
           updateFilter={this.updateFilter}
-          clearFilter={this.clearFilter}
         />
       )
     }

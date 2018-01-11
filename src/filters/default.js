@@ -5,8 +5,6 @@ class Filter extends React.Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     updateFilter: PropTypes.func,
-    // Additional incoming props that aren't used here but may be useful to custom Filter component:
-    // clearFilter: PropTypes.func,
   }
 
   handleFilterChange = (event) => {
