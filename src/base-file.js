@@ -13,7 +13,7 @@ class BaseFile extends React.Component {
 
     connectDragSource: PropTypes.func,
     connectDropTarget: PropTypes.func,
-    isDragging: PropTypes.func,
+    isDragging: PropTypes.bool,
     action: PropTypes.func,
 
     browserProps: PropTypes.shape({

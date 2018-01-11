@@ -18,7 +18,7 @@ class TableHeader extends React.Component {
     fileKey: PropTypes.string,
 
     connectDropTarget: PropTypes.func,
-    isOver: PropTypes.func,
+    isOver: PropTypes.bool,
     isSelected: PropTypes.func,
 
     browserProps: PropTypes.shape({

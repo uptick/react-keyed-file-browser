@@ -34,8 +34,7 @@ function getItemProps(file, browserProps) {
   }
 }
 
-@DragDropContext(HTML5Backend)
-class FileBrowser extends React.Component {
+class RawFileBrowser extends React.Component {
   static propTypes = {
     files: PropTypes.array,
     actions: PropTypes.node,
@@ -308,8 +307,7 @@ class FileBrowser extends React.Component {
       return state
     })
   }
-  handleFilterChange = (event) => {
-    const newValue = this.refs.filter.value
+  updateFilter = (newValue) => {
     this.setState(state => {
       state.nameFilter = newValue
       state.searchResultsShown = SEARCH_RESULTS_PER_PAGE
@@ -364,7 +362,7 @@ class FileBrowser extends React.Component {
       filter = (
         <this.props.filterRenderer
           value={this.state.nameFilter}
-          onChange={this.handleFilterChange}
+          updateFilter={this.updateFilter}
           clearFilter={this.clearFilter}
         />
       )
@@ -702,7 +700,7 @@ class FileBrowser extends React.Component {
         </div>
         {this.state.previewFile !== null && (
           <this.props.detailRenderer
-            {...this.detailRendererProps}
+            {...this.props.detailRendererProps}
             file={this.state.previewFile}
             close={this.closeDetail}
           />
@@ -712,6 +710,10 @@ class FileBrowser extends React.Component {
   }
 }
 
+@DragDropContext(HTML5Backend)
+class FileBrowser extends RawFileBrowser {}
+
 export default FileBrowser
+export { RawFileBrowser } // Use this one if you want to wrap with dragdrop context yourself.
 export { BaseFile, BaseFileConnectors }
 export { BaseFolder, BaseFolderConnectors }
