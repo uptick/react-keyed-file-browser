@@ -53,9 +53,13 @@ class RawFileBrowser extends React.Component {
     startOpen: PropTypes.bool.isRequired,
 
     headerRenderer: PropTypes.func,
+    headerRendererProps: PropTypes.object,
     filterRenderer: PropTypes.func,
-    folderRenderer: PropTypes.func,
+    filterRendererProps: PropTypes.object,
     fileRenderer: PropTypes.func,
+    fileRendererProps: PropTypes.object,
+    folderRenderer: PropTypes.func,
+    folderRendererProps: PropTypes.object,
     detailRenderer: PropTypes.func,
     detailRendererProps: PropTypes.object,
 
@@ -82,9 +86,13 @@ class RawFileBrowser extends React.Component {
     startOpen: false,
 
     headerRenderer: TableHeader,
+    headerRendererProps: {},
     filterRenderer: DefaultFilter,
-    folderRenderer: TableFolder,
+    filterRendererProps: {},
     fileRenderer: TableFile,
+    fileRendererProps: {},
+    folderRenderer: TableFolder,
+    folderRendererProps: {},
     detailRenderer: DefaultDetail,
     detailRendererProps: {},
   }
@@ -323,8 +331,11 @@ class RawFileBrowser extends React.Component {
     return {
       // browser config
       nestChildren: this.props.nestChildren,
-      folderRenderer: this.props.folderRenderer,
       fileRenderer: this.props.fileRenderer,
+      fileRendererProps: this.props.fileRendererProps,
+      folderRenderer: this.props.folderRenderer,
+      folderRendererProps: this.props.folderRendererProps,
+
       // browser state
       openFolders: this.state.openFolders,
       nameFilter: this.state.nameFilter,
@@ -361,6 +372,7 @@ class RawFileBrowser extends React.Component {
         <this.props.filterRenderer
           value={this.state.nameFilter}
           updateFilter={this.updateFilter}
+          {...this.props.filterRendererProps}
         />
       )
     }
@@ -504,6 +516,7 @@ class RawFileBrowser extends React.Component {
             {...file}
             {...thisItemProps}
             browserProps={browserProps}
+            {...this.props.fileRendererProps}
           />
         )
       } else {
@@ -513,6 +526,7 @@ class RawFileBrowser extends React.Component {
               {...file}
               {...thisItemProps}
               browserProps={browserProps}
+              {...this.props.folderRendererProps}
             />
           )
         }
@@ -624,6 +638,7 @@ class RawFileBrowser extends React.Component {
             <thead>
               <this.props.headerRenderer
                 {...headerProps}
+                {...this.props.headerRendererProps}
               />
             </thead>
           )
@@ -673,6 +688,7 @@ class RawFileBrowser extends React.Component {
           header = (
             <this.props.headerRenderer
               {...headerProps}
+              {...this.props.headerRendererProps}
             />
           )
         }
@@ -697,9 +713,9 @@ class RawFileBrowser extends React.Component {
         </div>
         {this.state.previewFile !== null && (
           <this.props.detailRenderer
-            {...this.props.detailRendererProps}
             file={this.state.previewFile}
             close={this.closeDetail}
+            {...this.props.detailRendererProps}
           />
         )}
       </div>

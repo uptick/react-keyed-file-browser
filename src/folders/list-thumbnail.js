@@ -74,6 +74,7 @@ class ListFolder extends BaseFolder {
               {...file}
               {...thisItemProps}
               browserProps={this.props.browserProps}
+              {...this.props.browserProps.fileRendererProps}
             />
           )
         } else {
@@ -82,6 +83,7 @@ class ListFolder extends BaseFolder {
               {...file}
               {...thisItemProps}
               browserProps={this.props.browserProps}
+              {...this.props.browserProps.folderRendererProps}
             />
           )
         }
