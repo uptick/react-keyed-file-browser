@@ -309,7 +309,7 @@ class RawFileBrowser extends React.Component {
   }
   updateFilter = (newValue) => {
     this.setState(state => {
-      state.nameFilter = newValue
+      state.nameFilter = newValue.toLowerCase()
       state.searchResultsShown = SEARCH_RESULTS_PER_PAGE
       return state
     })
