@@ -41,9 +41,11 @@ class TableFile extends BaseFile {
             {icon}
             {this.getName()}
           </a>
-          <button type="submit">
-            Confirm Deletion
-          </button>
+          <div>
+            <button type="submit">
+              Confirm Deletion
+            </button>
+          </div>
         </form>
       )
     } else if (!inAction && this.props.isRenaming) {

@@ -53,15 +53,17 @@ class ListFile extends BaseFile {
             >
               {this.getName()}
             </a>
-            <a
-              className="cancel"
-              onClick={this.handleCancelEdit}
-            >
-              Cancel
-            </a>
-            <button type="submit">
-              Confirm Deletion
-            </button>
+            <div>
+              <a
+                className="cancel"
+                onClick={this.handleCancelEdit}
+              >
+                Cancel
+              </a>
+              <button type="submit">
+                Confirm Deletion
+              </button>
+            </div>
           </form>
         )
       } else if (!inAction && this.props.isRenaming) {
