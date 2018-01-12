@@ -1,5 +1,6 @@
 const IMAGE_EXTENSIONS = [
   'jpg',
+  'jpeg',
   'png',
   'bmp',
 ]
