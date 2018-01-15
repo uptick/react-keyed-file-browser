@@ -33,10 +33,7 @@ class TableFile extends BaseFile {
           <a
             href={this.props.url || '#'}
             download="download"
-            onClick={(event) => {
-              event.preventDefault()
-              this.handleFileClick()
-            }}
+            onClick={this.handleFileClick}
           >
             {icon}
             {this.getName()}
@@ -58,6 +55,7 @@ class TableFile extends BaseFile {
             value={this.state.newName}
             onChange={this.handleNewNameChange}
             onBlur={this.handleCancelEdit}
+            autoFocus
           />
         </form>
       )
@@ -66,10 +64,7 @@ class TableFile extends BaseFile {
         <a
           href={this.props.url || '#'}
           download="download"
-          onClick={(event) => {
-            event.preventDefault()
-            this.handleFileClick()
-          }}
+          onClick={this.handleFileClick}
         >
           {icon}
           {this.getName()}

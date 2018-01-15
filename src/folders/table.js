@@ -30,10 +30,7 @@ class TableFolder extends BaseFolder {
           <a
             href={this.props.url}
             download="download"
-            onClick={(event) => {
-              event.preventDefault()
-              this.handleFileClick()
-            }}
+            onClick={this.handleFileClick}
           >
             {icon}
             {this.getName()}
