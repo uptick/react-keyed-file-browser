@@ -7,7 +7,7 @@ class Detail extends React.Component {
       key: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       extension: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
+      url: PropTypes.string,
     }).isRequired,
     close: PropTypes.func,
   }

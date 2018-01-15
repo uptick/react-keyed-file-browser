@@ -1,7 +1,7 @@
-import byName from './by-name.js'
-// import byModified from './by-modified.js'
+import SortByName from './by-name.js'
+// import SortByModified from './by-modified.js'
 
 export {
-  byName,
-  // byModified,
+  SortByName,
+  // SortByModified,
 }

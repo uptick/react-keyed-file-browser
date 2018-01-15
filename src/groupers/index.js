@@ -1,5 +1,5 @@
-import byFolder from './by-folder.js'
+import GroupByFolder from './by-folder.js'
 
 export {
-  byFolder,
+  GroupByFolder,
 }
