@@ -1,6 +1,6 @@
 {
   "name": "react-keyed-file-browser",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Folder based file browser given a flat keyed list of objects, powered by React.",
   "main": "index.js",
   "scripts": {
