@@ -12,19 +12,31 @@ import { BaseFileConnectors } from './../base-file.js'
   BaseFileConnectors.targetSource,
   BaseFileConnectors.targetCollect,
 )
-class ListFolder extends BaseFolder {
+class ListThumbnailFolder extends BaseFolder {
   render() {
-    let icon
-    if (this.props.isOpen) {
-      icon = (<i className="fa fa-folder-open-o" aria-hidden="true" />)
-    } else {
-      icon = (<i className="fa fa-folder-o" aria-hidden="true" />)
-    }
+    const icon = (<i className={`fa fa-folder${this.props.isOpen ? '-open' : ''}-o`} aria-hidden="true" />)
 
     const inAction = (this.props.isDragging || this.props.action)
 
     let name
-    if (!inAction && this.props.isRenaming) {
+    if (!inAction && this.props.isDeleting) {
+      name = (
+        <form className="deleting" onSubmit={this.handleDeleteSubmit}>
+          <a
+            href={this.props.url}
+            download="download"
+            onClick={this.handleFileClick}
+          >
+            {this.getName()}
+          </a>
+          <div>
+            <button type="submit">
+              Confirm Deletion
+            </button>
+          </div>
+        </form>
+      )
+    } else if ((!inAction && this.props.isRenaming) || this.props.isDraft) {
       name = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
@@ -34,15 +46,8 @@ class ListFolder extends BaseFolder {
               value={this.state.newName}
               onChange={this.handleNewNameChange}
               onBlur={this.handleCancelEdit}
+              autoFocus
             />
-            <div>
-              <a
-                className="cancel"
-                onClick={this.handleCancelEdit}
-              >
-                Cancel
-              </a>
-            </div>
           </form>
         </div>
       )
@@ -113,7 +118,7 @@ class ListFolder extends BaseFolder {
         {children}
       </li>
     )
-    if (this.props.browserProps.canMoveFolders && this.props.keyDerived) {
+    if (typeof this.props.browserProps.moveFolder === 'function' && this.props.keyDerived) {
       folder = this.props.connectDragPreview(folder)
     }
 
@@ -121,4 +126,4 @@ class ListFolder extends BaseFolder {
   }
 }
 
-export default ListFolder
+export default ListThumbnailFolder

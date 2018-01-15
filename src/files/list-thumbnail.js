@@ -13,7 +13,7 @@ import { fileSize } from './utils.js'
   BaseFileConnectors.targetSource,
   BaseFileConnectors.targetCollect,
 )
-class ListFile extends BaseFile {
+class ListThumbnailFile extends BaseFile {
   static defaultProps = {
     showName: true,
     showSize: true,
@@ -23,16 +23,14 @@ class ListFile extends BaseFile {
 
   render() {
     let icon
-    if (this.isImage()) {
-      if (this.props.thumbnail_url) {
-        icon = (
-          <div className="image" style={{
-            backgroundImage: 'url(' + this.props.thumbnail_url + ')',
-          }} />
-        )
-      } else {
-        icon = (<i className="fa fa-file-image-o" aria-hidden="true" />)
-      }
+    if (this.props.thumbnail_url) {
+      icon = (
+        <div className="image" style={{
+          backgroundImage: 'url(' + this.props.thumbnail_url + ')',
+        }} />
+      )
+    } else if (this.isImage()) {
+      icon = (<i className="fa fa-file-image-o" aria-hidden="true" />)
     } else if (this.isPdf()) {
       icon = (<i className="fa fa-file-pdf-o" aria-hidden="true" />)
     } else {
@@ -54,12 +52,6 @@ class ListFile extends BaseFile {
               {this.getName()}
             </a>
             <div>
-              <a
-                className="cancel"
-                onClick={this.handleCancelEdit}
-              >
-                Cancel
-              </a>
               <button type="submit">
                 Confirm Deletion
               </button>
@@ -75,13 +67,8 @@ class ListFile extends BaseFile {
               value={this.state.newName}
               onChange={this.handleNewNameChange}
               onBlur={this.handleCancelEdit}
+              autoFocus
             />
-            <a
-              className="cancel"
-              onClick={this.handleCancelEdit}
-            >
-              Cancel
-            </a>
           </form>
         )
       } else {
@@ -138,7 +125,7 @@ class ListFile extends BaseFile {
         </div>
       </li>
     )
-    if (this.props.browserProps.canMoveFiles) {
+    if (typeof this.props.browserProps.moveFile === 'function') {
       row = this.props.connectDragPreview(row)
     }
 
@@ -146,4 +133,4 @@ class ListFile extends BaseFile {
   }
 }
 
-export default ListFile
+export default ListThumbnailFile
