@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ABASystems/react-keyed-file-browser.git"
+    "url": "git+https://github.com/uptick/react-keyed-file-browser.git"
   },
   "keywords": [
     "react",
@@ -26,9 +26,9 @@
   "author": "Uptick Pty Ltd",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ABASystems/react-keyed-file-browser/issues"
+    "url": "https://github.com/uptick/react-keyed-file-browser/issues"
   },
-  "homepage": "https://github.com/ABASystems/react-keyed-file-browser#readme",
+  "homepage": "https://github.com/uptick/react-keyed-file-browser#readme",
   "dependencies": {
     "classnames": "^2.2.3",
     "moment": "^2.17.0",

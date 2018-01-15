@@ -7,7 +7,7 @@ Folder based file browser given a flat keyed list of objects, powered by React.
 
 ## Live Demo
 
-Check out the live demo here: http://abasystems.github.io/react-keyed-file-browser/
+Check out the live demo here: http://uptick.github.io/react-keyed-file-browser/
 
 ## Installation
 
@@ -51,4 +51,4 @@ or tag:
 ```
 
 Full reference documentation coming soon. For now, take a look at the reference implementation with
-event handlers on the live demo at http://abasystems.github.io/react-keyed-file-browser/.
+event handlers on the live demo at http://uptick.github.io/react-keyed-file-browser/.
