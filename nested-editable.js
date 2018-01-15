@@ -5,159 +5,144 @@ import Moment from 'moment'
 import FileBrowser from 'react-keyed-file-browser'
 
 class NestedEditableDemo extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleCreateFolder = ::this.handleCreateFolder;
-    this.handleCreateFiles = ::this.handleCreateFiles;
-    this.handleRenameFolder = ::this.handleRenameFolder;
-    this.handleRenameFile = ::this.handleRenameFile;
-    this.handleDeleteFolder = ::this.handleDeleteFolder;
-    this.handleDeleteFile = ::this.handleDeleteFile;
-
-    this.state = {
-      ...this.state,
-
-      files: [
-        {
-          key: 'photos/animals/cat in a hat.png',
-          modified: +Moment().subtract(1, 'hours'),
-          size: 1.5 * 1024 * 1024,
-        },
-        {
-          key: 'photos/animals/kitten_ball.png',
-          modified: +Moment().subtract(3, 'days'),
-          size: 545 * 1024,
-        },
-        {
-          key: 'photos/animals/elephants.png',
-          modified: +Moment().subtract(3, 'days'),
-          size: 52 * 1024,
-        },
-        {
-          key: 'photos/funny fall.gif',
-          modified: +Moment().subtract(2, 'months'),
-          size: 13.2 * 1024 * 1024,
-        },
-        {
-          key: 'photos/holiday.jpg',
-          modified: +Moment().subtract(25, 'days'),
-          size: 85 * 1024,
-        },
-        {
-          key: 'documents/letter chunks.doc',
-          modified: +Moment().subtract(15, 'days'),
-          size: 480 * 1024,
-        },
-        {
-          key: 'documents/export.pdf',
-          modified: +Moment().subtract(15, 'days'),
-          size: 4.2 * 1024 * 1024,
-        },
-      ],
-    };
+  state = {
+    files: [
+      {
+        key: 'photos/animals/cat in a hat.png',
+        modified: +Moment().subtract(1, 'hours'),
+        size: 1.5 * 1024 * 1024,
+      },
+      {
+        key: 'photos/animals/kitten_ball.png',
+        modified: +Moment().subtract(3, 'days'),
+        size: 545 * 1024,
+      },
+      {
+        key: 'photos/animals/elephants.png',
+        modified: +Moment().subtract(3, 'days'),
+        size: 52 * 1024,
+      },
+      {
+        key: 'photos/funny fall.gif',
+        modified: +Moment().subtract(2, 'months'),
+        size: 13.2 * 1024 * 1024,
+      },
+      {
+        key: 'photos/holiday.jpg',
+        modified: +Moment().subtract(25, 'days'),
+        size: 85 * 1024,
+      },
+      {
+        key: 'documents/letter chunks.doc',
+        modified: +Moment().subtract(15, 'days'),
+        size: 480 * 1024,
+      },
+      {
+        key: 'documents/export.pdf',
+        modified: +Moment().subtract(15, 'days'),
+        size: 4.2 * 1024 * 1024,
+      },
+    ],
   }
 
-  handleCreateFolder(key) {
+  handleCreateFolder = (key) => {
     this.setState(state => {
       state.files = state.files.concat([{
         key: key,
-      }]);
-      return state;
-    });
+      }])
+      return state
+    })
   }
-  handleCreateFiles(files, prefix) {
+  handleCreateFiles = (files, prefix) => {
     this.setState(state => {
-      var newFiles = files.map((file) => {
-        var newKey = prefix;
-        if (prefix != '' && prefix.substring(prefix.length - 1, prefix.length) !== '/') {
-          newKey += '/';
+      const newFiles = files.map((file) => {
+        let newKey = prefix
+        if (prefix !== '' && prefix.substring(prefix.length - 1, prefix.length) !== '/') {
+          newKey += '/'
         }
-        newKey += file.name;
+        newKey += file.name
         return {
           key: newKey,
           size: file.size,
           modified: +Moment(),
-        };
-      });
-
-      var uniqueNewFiles = [];
-      newFiles.map((newFile) => {
-        var exists = false;
-        state.files.map((existingFile) => {
-          if (existingFile.key == newFile.key) {
-            exists = true;
-          }
-        });
-        if (!exists) {
-          uniqueNewFiles.push(newFile);
         }
-      });
-      state.files = state.files.concat(uniqueNewFiles);
-      return state;
-    });
+      })
+
+      const uniqueNewFiles = []
+      newFiles.map((newFile) => {
+        let exists = false
+        state.files.map((existingFile) => {
+          if (existingFile.key === newFile.key) {
+            exists = true
+          }
+        })
+        if (!exists) {
+          uniqueNewFiles.push(newFile)
+        }
+      })
+      state.files = state.files.concat(uniqueNewFiles)
+      return state
+    })
   }
-  handleRenameFolder(oldKey, newKey) {
+  handleRenameFolder = (oldKey, newKey) => {
     this.setState(state => {
-      var newFiles = [];
+      const newFiles = []
       state.files.map((file) => {
         if (file.key.substr(0, oldKey.length) === oldKey) {
           newFiles.push({
             ...file,
             key: file.key.replace(oldKey, newKey),
             modified: +Moment(),
-          });
+          })
+        } else {
+          newFiles.push(file)
         }
-        else {
-          newFiles.push(file);
-        }
-      });
-      state.files = newFiles;
-      return state;
-    });
+      })
+      state.files = newFiles
+      return state
+    })
   }
-  handleRenameFile(oldKey, newKey) {
+  handleRenameFile = (oldKey, newKey) => {
     this.setState(state => {
-      var newFiles = [];
+      const newFiles = []
       state.files.map((file) => {
         if (file.key === oldKey) {
           newFiles.push({
             ...file,
             key: newKey,
             modified: +Moment(),
-          });
+          })
+        } else {
+          newFiles.push(file)
         }
-        else {
-          newFiles.push(file);
-        }
-      });
-      state.files = newFiles;
-      return state;
-    });
+      })
+      state.files = newFiles
+      return state
+    })
   }
-  handleDeleteFolder(folderKey) {
+  handleDeleteFolder = (folderKey) => {
     this.setState(state => {
-      var newFiles = [];
+      const newFiles = []
       state.files.map((file) => {
         if (file.key.substr(0, folderKey.length) !== folderKey) {
-          newFiles.push(file);
+          newFiles.push(file)
         }
-      });
-      state.files = newFiles;
-      return state;
-    });
+      })
+      state.files = newFiles
+      return state
+    })
   }
-  handleDeleteFile(fileKey) {
+  handleDeleteFile = (fileKey) => {
     this.setState(state => {
-      var newFiles = [];
+      const newFiles = []
       state.files.map((file) => {
         if (file.key !== fileKey) {
-          newFiles.push(file);
+          newFiles.push(file)
         }
-      });
-      state.files = newFiles;
-      return state;
-    });
+      })
+      state.files = newFiles
+      return state
+    })
   }
 
   render() {
@@ -174,12 +159,12 @@ class NestedEditableDemo extends React.Component {
         onDeleteFolder={this.handleDeleteFolder}
         onDeleteFile={this.handleDeleteFile}
       />
-    );
+    )
   }
 }
 
-var mount = document.querySelectorAll('div.demo-mount-nested-editable');
+const mount = document.querySelectorAll('div.demo-mount-nested-editable')
 ReactDOM.render(
   <NestedEditableDemo />,
   mount[0]
-);
+)
