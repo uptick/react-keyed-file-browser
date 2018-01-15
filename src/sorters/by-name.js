@@ -9,7 +9,7 @@ function naturalDraftComparer(a, b) {
   return naturalSortComparer(a, b)
 }
 
-const naturalSort = function(allFiles) {
+function naturalSort(allFiles) {
   let folders = []
   let files = []
 

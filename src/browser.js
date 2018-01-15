@@ -5,20 +5,17 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
 // default components (most overridable)
-import DefaultDetail from './details/default.js'
-import DefaultFilter from './filters/default.js'
+import DefaultDetail from './details'
+import DefaultFilter from './filters'
 
-// base renderers
-import BaseFolder, { BaseFolderConnectors } from './base-folder.js'
-import BaseFile, { BaseFileConnectors } from './base-file.js'
 // default renderers
-import TableHeader from './headers/table.js'
-import TableFolder from './folders/table.js'
-import TableFile from './files/table.js'
+import TableHeader from './headers'
+import TableFile from './files'
+import TableFolder from './folders'
 
 // default processors
-import GroupByFolder from './groupers/by-folder.js'
-import SortByName from './sorters/by-name.js'
+import GroupByFolder from './groupers'
+import SortByName from './sorters'
 
 const SEARCH_RESULTS_PER_PAGE = 20
 
@@ -727,6 +724,4 @@ class RawFileBrowser extends React.Component {
 class FileBrowser extends RawFileBrowser {}
 
 export default FileBrowser
-export { RawFileBrowser } // Use this one if you want to wrap with dragdrop context yourself.
-export { BaseFile, BaseFileConnectors }
-export { BaseFolder, BaseFolderConnectors }
+export { RawFileBrowser }

@@ -2,7 +2,7 @@ var path = require('path');
 var NodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  entry: './src/browser.js',
+  entry: './src/index.js',
   output: {
     path: __dirname + '/dist',
     filename: 'react-keyed-file-browser.js',
