@@ -80,13 +80,13 @@ class BaseFolder extends React.Component {
   }
   handleNewNameChange = (event) => {
     const newName = this.refs.newName.value
-    this.setState(state => {
-      state.newName = newName
-      return state
-    })
+    this.setState({newName: newName})
   }
   handleRenameSubmit = (event) => {
     event.preventDefault()
+    if (!this.props.browserProps.renameFolder) {
+      return
+    }
     const newName = this.state.newName.trim()
     if (newName.length === 0) {
       // todo: move to props handler
@@ -183,7 +183,7 @@ const dragSource = {
     const folderName = fileNameParts[fileNameParts.length - 2]
 
     const newKey = `${dropResult.path ? dropResult.path + '/' : ''}${folderName}/`
-    // abort of the new folder name contains itself
+    // abort if the new folder name contains itself
     if (newKey.substr(0, props.fileKey.length) === props.fileKey) return
 
     if (newKey !== props.fileKey && props.browserProps.renameFolder) {

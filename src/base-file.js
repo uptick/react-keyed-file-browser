@@ -99,14 +99,14 @@ class BaseFile extends React.Component {
   }
   handleNewNameChange = (event) => {
     const newName = this.refs.newName.value
-    this.setState(state => {
-      state.newName = newName
-      return state
-    })
+    this.setState({newName: newName})
   }
   handleRenameSubmit = (event) => {
     if (event) {
       event.preventDefault()
+    }
+    if (!this.props.browserProps.renameFile) {
+      return
     }
     const newName = this.state.newName.trim()
     if (newName.length === 0) {
