@@ -401,63 +401,61 @@ class RawFileBrowser extends React.Component {
         )
       } else {
         actions = []
-        if (this.state.activeAction === null) {
-          if (
-            selectionIsFolder &&
-            typeof this.props.onCreateFolder === 'function' &&
-            !this.state.nameFilter
-          ) {
-            actions.push(
-              <li key="action-add-folder">
-                <a
-                  onClick={this.handleActionBarAddFolderClick}
-                  href="#"
-                  role="button"
-                >
-                  <i className="fa fa-folder-o" aria-hidden="true" />
-                  &nbsp;Add Subfolder
-                </a>
-              </li>
-            )
-          }
-          if (
-            selectedItem.keyDerived && (
-              (selectionIsFolder && typeof this.props.onRenameFile === 'function') ||
-              (!selectionIsFolder && typeof this.props.onRenameFolder === 'function')
-            )
-          ) {
-            actions.push(
-              <li key="action-rename">
-                <a
-                  onClick={this.handleActionBarRenameClick}
-                  href="#"
-                  role="button"
-                >
-                  <i className="fa fa-i-cursor" aria-hidden="true" />
-                  &nbsp;Rename
-                </a>
-              </li>
-            )
-          }
-          if (
-            selectedItem.keyDerived && (
-              (!selectionIsFolder && typeof this.props.onDeleteFile === 'function') ||
-              (selectionIsFolder && typeof this.props.onDeleteFolder === 'function')
-            )
-          ) {
-            actions.push(
-              <li key="action-delete">
-                <a
-                  onClick={this.handleActionBarDeleteClick}
-                  href="#"
-                  role="button"
-                >
-                  <i className="fa fa-trash-o" aria-hidden="true" />
-                  &nbsp;Delete
-                </a>
-              </li>
-            )
-          }
+        if (
+          selectionIsFolder &&
+          typeof this.props.onCreateFolder === 'function' &&
+          !this.state.nameFilter
+        ) {
+          actions.push(
+            <li key="action-add-folder">
+              <a
+                onClick={this.handleActionBarAddFolderClick}
+                href="#"
+                role="button"
+              >
+                <i className="fa fa-folder-o" aria-hidden="true" />
+                &nbsp;Add Subfolder
+              </a>
+            </li>
+          )
+        }
+        if (
+          selectedItem.keyDerived && (
+            (selectionIsFolder && typeof this.props.onRenameFile === 'function') ||
+            (!selectionIsFolder && typeof this.props.onRenameFolder === 'function')
+          )
+        ) {
+          actions.push(
+            <li key="action-rename">
+              <a
+                onClick={this.handleActionBarRenameClick}
+                href="#"
+                role="button"
+              >
+                <i className="fa fa-i-cursor" aria-hidden="true" />
+                &nbsp;Rename
+              </a>
+            </li>
+          )
+        }
+        if (
+          selectedItem.keyDerived && (
+            (!selectionIsFolder && typeof this.props.onDeleteFile === 'function') ||
+            (selectionIsFolder && typeof this.props.onDeleteFolder === 'function')
+          )
+        ) {
+          actions.push(
+            <li key="action-delete">
+              <a
+                onClick={this.handleActionBarDeleteClick}
+                href="#"
+                role="button"
+              >
+                <i className="fa fa-trash-o" aria-hidden="true" />
+                &nbsp;Delete
+              </a>
+            </li>
+          )
         }
         if (actions.length) {
           actions = (<ul className="item-actions">{actions}</ul>)
@@ -469,7 +467,6 @@ class RawFileBrowser extends React.Component {
       // Nothing selected: We're in the 'root' folder. Only allowed action is adding a folder.
       actions = []
       if (
-        this.state.activeAction === null &&
         typeof this.props.onCreateFolder === 'function' &&
         !this.state.nameFilter
       ) {
