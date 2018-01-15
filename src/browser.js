@@ -5,17 +5,17 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
 // default components (most overridable)
-import DefaultDetail from './details'
-import DefaultFilter from './filters'
+import { DefaultDetail } from './details'
+import { DefaultFilter } from './filters'
 
 // default renderers
-import TableHeader from './headers'
-import TableFile from './files'
-import TableFolder from './folders'
+import { TableHeader } from './headers'
+import { TableFile } from './files'
+import { TableFolder } from './folders'
 
 // default processors
-import GroupByFolder from './groupers'
-import SortByName from './sorters'
+import { GroupByFolder } from './groupers'
+import { SortByName } from './sorters'
 
 const SEARCH_RESULTS_PER_PAGE = 20
 
