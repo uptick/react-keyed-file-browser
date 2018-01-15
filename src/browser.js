@@ -47,7 +47,7 @@ class RawFileBrowser extends React.Component {
       'table',
     ]).isRequired,
 
-    startOpen: PropTypes.bool.isRequired,
+    startOpen: PropTypes.bool.isRequired, // TODO: remove?
 
     headerRenderer: PropTypes.func,
     headerRendererProps: PropTypes.object,
