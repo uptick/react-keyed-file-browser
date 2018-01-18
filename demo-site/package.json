@@ -20,7 +20,7 @@
   "author": "ABA Systems Pty Ltd",
   "license": "MIT",
   "dependencies": {
-    "abas-demo-site": "^1.0.7",
+    "uptick-demo-site": "^1.0.7",
     "font-awesome": "^4.7.0",
     "moment": "^2.16.0",
     "react": "^0.14.8",
