@@ -1,6 +1,6 @@
 exclude: []
 
-layouts_dir: 'node_modules/abas-demo-site/dist'
+layouts_dir: 'node_modules/uptick-demo-site/dist'
 
 package_name: React Keyed File Browser
 package_github_url: https://github.com/uptick/react-keyed-file-browser
