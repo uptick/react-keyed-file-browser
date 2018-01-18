@@ -2904,8 +2904,8 @@ uid-number@^0.0.6:
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
 
 uptick-demo-site@latest:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/uptick-demo-site/-/uptick-demo-site-1.0.9.tgz#c75107c3d5776aa7855722f8d379aba9153dfa9f"
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/uptick-demo-site/-/uptick-demo-site-1.1.1.tgz#81bc0d09a78247b39c264cfc504fe08450a94975"
   dependencies:
     jquery "^3.1.1"
 
