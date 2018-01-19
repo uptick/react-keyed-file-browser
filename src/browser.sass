@@ -1,13 +1,18 @@
 $main-size: 1rem !default
 $main-padding: 0.5rem !default
+$theme-colour-text: #337ab7 !default
 
 div.rendered-react-keyed-file-browser
   div.action-bar
     margin-bottom: $main-padding
+    flex-wrap: wrap
+    display: flex
+    align-items: flex-start
 
     input[type="search"]
       display: block
-      width: 100%
+      flex-grow: 2
+      min-width: 300px
       padding: $main-padding/2 $main-padding
       font-size: $main-size
       line-height: 1em
@@ -23,6 +28,10 @@ div.rendered-react-keyed-file-browser
 
     ul.item-actions
       display: block
+      flex-grow: 1
+      min-width: 300px
+      margin-left: 10px
+      white-space: nowrap
       li
         display: inline-block
         margin: 0
