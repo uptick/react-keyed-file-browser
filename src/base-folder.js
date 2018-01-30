@@ -182,12 +182,12 @@ const dragSource = {
     const fileNameParts = props.fileKey.split('/')
     const folderName = fileNameParts[fileNameParts.length - 2]
 
-    const newKey = `${dropResult.path ? dropResult.path + '/' : ''}${folderName}/`
+    const newKey = `${dropResult.path}${folderName}/`
     // abort if the new folder name contains itself
     if (newKey.substr(0, props.fileKey.length) === props.fileKey) return
 
     if (newKey !== props.fileKey && props.browserProps.renameFolder) {
-      props.browserProps.openFolder(dropResult.path + '/')
+      props.browserProps.openFolder(dropResult.path)
       props.browserProps.renameFolder(props.fileKey, newKey)
     }
   },

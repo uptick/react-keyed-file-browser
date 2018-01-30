@@ -187,9 +187,9 @@ const dragSource = {
     const dropResult = monitor.getDropResult()
     const fileNameParts = props.fileKey.split('/')
     const fileName = fileNameParts[fileNameParts.length - 1]
-    const newKey = `${dropResult.path ? dropResult.path + '/' : ''}${fileName}`
+    const newKey = `${dropResult.path}${fileName}`
     if (newKey !== props.fileKey && props.browserProps.renameFile) {
-      props.browserProps.openFolder(dropResult.path + '/')
+      props.browserProps.openFolder(dropResult.path)
       props.browserProps.renameFile(props.fileKey, newKey)
     }
   },
@@ -209,10 +209,11 @@ const targetSource = {
       return
     }
     const key = props.newKey || props.fileKey
-    const path = key.substr(0, key.lastIndexOf('/') || key.length)
+    const slashIndex = key.lastIndexOf('/')
+    const path = (slashIndex !== -1) ? key.substr(0, slashIndex + 1) : ''
     const item = monitor.getItem()
     if (item.files && props.browserProps.createFiles) {
-      props.browserProps.createFiles(item.files, path + '/')
+      props.browserProps.createFiles(item.files, path)
     }
     return {
       path: path,
