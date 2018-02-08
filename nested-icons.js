@@ -1,1 +1,0 @@
-// TODO: Showcase thumbnail renderers
