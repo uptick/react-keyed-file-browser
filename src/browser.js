@@ -33,7 +33,7 @@ function getItemProps(file, browserProps) {
 
 class RawFileBrowser extends React.Component {
   static propTypes = {
-    files: PropTypes.array,
+    files: PropTypes.array.isRequired,
     actions: PropTypes.node,
     showActionBar: PropTypes.bool.isRequired,
     canFilter: PropTypes.bool.isRequired,
