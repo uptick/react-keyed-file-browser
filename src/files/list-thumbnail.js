@@ -7,13 +7,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
 
-@DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect)
-@DropTarget(
-  ['file', 'folder', NativeTypes.FILE],
-  BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect,
-)
-class ListThumbnailFile extends BaseFile {
+class RawListThumbnailFile extends BaseFile {
   static defaultProps = {
     showName: true,
     showSize: true,
@@ -133,4 +127,13 @@ class ListThumbnailFile extends BaseFile {
   }
 }
 
+@DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect)
+@DropTarget(
+  ['file', 'folder', NativeTypes.FILE],
+  BaseFileConnectors.targetSource,
+  BaseFileConnectors.targetCollect,
+)
+class ListThumbnailFile extends RawListThumbnailFile {}
+
 export default ListThumbnailFile
+export { RawListThumbnailFile }
