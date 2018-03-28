@@ -7,13 +7,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
 
-@DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect)
-@DropTarget(
-  ['file', 'folder', NativeTypes.FILE],
-  BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect,
-)
-class TableFile extends BaseFile {
+class RawTableFile extends BaseFile {
   render() {
     let icon
     if (this.isImage()) {
@@ -108,4 +102,13 @@ class TableFile extends BaseFile {
   }
 }
 
+@DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect)
+@DropTarget(
+  ['file', 'folder', NativeTypes.FILE],
+  BaseFileConnectors.targetSource,
+  BaseFileConnectors.targetCollect,
+)
+class TableFile extends RawTableFile {}
+
 export default TableFile
+export { RawTableFile }

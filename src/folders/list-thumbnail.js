@@ -6,13 +6,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import BaseFolder, { BaseFolderConnectors } from './../base-folder.js'
 import { BaseFileConnectors } from './../base-file.js'
 
-@DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect)
-@DropTarget(
-  ['file', 'folder', NativeTypes.FILE],
-  BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect,
-)
-class ListThumbnailFolder extends BaseFolder {
+class RawListThumbnailFolder extends BaseFolder {
   render() {
     const icon = (<i className={`fa fa-folder${this.props.isOpen ? '-open' : ''}-o`} aria-hidden="true" />)
 
@@ -126,4 +120,13 @@ class ListThumbnailFolder extends BaseFolder {
   }
 }
 
+@DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect)
+@DropTarget(
+  ['file', 'folder', NativeTypes.FILE],
+  BaseFileConnectors.targetSource,
+  BaseFileConnectors.targetCollect,
+)
+class ListThumbnailFolder extends RawListThumbnailFolder {}
+
 export default ListThumbnailFolder
+export { RawListThumbnailFolder }

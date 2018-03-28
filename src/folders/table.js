@@ -6,13 +6,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import BaseFolder, { BaseFolderConnectors } from './../base-folder.js'
 import { BaseFileConnectors } from './../base-file.js'
 
-@DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect)
-@DropTarget(
-  ['file', 'folder', NativeTypes.FILE],
-  BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect,
-)
-class TableFolder extends BaseFolder {
+class RawTableFolder extends BaseFolder {
   render() {
     let icon
     if (this.props.isOpen) {
@@ -97,5 +91,13 @@ class TableFolder extends BaseFolder {
     return this.connectDND(folder)
   }
 }
+
+@DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect)
+@DropTarget(
+  ['file', 'folder', NativeTypes.FILE],
+  BaseFileConnectors.targetSource,
+  BaseFileConnectors.targetCollect,
+)
+class TableFolder extends RawTableFolder {}
 
 export default TableFolder

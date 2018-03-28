@@ -7,12 +7,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 
 import { BaseFileConnectors } from './../base-file.js'
 
-@DropTarget(
-  ['file', 'folder', NativeTypes.FILE],
-  BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect,
-)
-class TableHeader extends React.Component {
+class RawTableHeader extends React.Component {
   static propTypes = {
     select: PropTypes.func,
     fileKey: PropTypes.string,
@@ -58,4 +53,12 @@ class TableHeader extends React.Component {
   }
 }
 
+@DropTarget(
+  ['file', 'folder', NativeTypes.FILE],
+  BaseFileConnectors.targetSource,
+  BaseFileConnectors.targetCollect,
+)
+class TableHeader extends RawTableHeader {}
+
 export default TableHeader
+export { RawTableHeader }
