@@ -101,3 +101,4 @@ class RawTableFolder extends BaseFolder {
 class TableFolder extends RawTableFolder {}
 
 export default TableFolder
+export { RawTableFolder }
