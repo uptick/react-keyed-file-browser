@@ -421,8 +421,8 @@ class RawFileBrowser extends React.Component {
         }
         if (
           selectedItem.keyDerived && (
-            (selectionIsFolder && typeof this.props.onRenameFile === 'function') ||
-            (!selectionIsFolder && typeof this.props.onRenameFolder === 'function')
+            (!selectionIsFolder && typeof this.props.onRenameFile === 'function') ||
+            (selectionIsFolder && typeof this.props.onRenameFolder === 'function')
           )
         ) {
           actions.push(
