@@ -15,7 +15,7 @@ class BaseFolder extends React.Component {
     connectDragSource: PropTypes.func,
     connectDropTarget: PropTypes.func,
     isDragging: PropTypes.bool,
-    action: PropTypes.func,
+    action: PropTypes.string,
 
     browserProps: PropTypes.shape({
       select: PropTypes.func,
