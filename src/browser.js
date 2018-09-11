@@ -332,7 +332,6 @@ class RawFileBrowser extends React.Component {
       fileRendererProps: this.props.fileRendererProps,
       folderRenderer: this.props.folderRenderer,
       folderRendererProps: this.props.folderRendererProps,
-      files: this.props.files,
 
       // browser state
       openFolders: this.state.openFolders,
@@ -538,6 +537,7 @@ class RawFileBrowser extends React.Component {
     const browserProps = this.getBrowserProps()
     const headerProps = {
       fileKey: '',
+      fileCount: this.props.files.length,
       browserProps: browserProps,
     }
     let renderedFiles
