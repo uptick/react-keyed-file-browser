@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Moment from 'moment'
 
-import FileBrowser from 'react-keyed-file-browser'
+import FileBrowser, {Icons} from 'react-keyed-file-browser'
 
 class NestedEditableDemo extends React.Component {
   state = {
@@ -149,6 +149,7 @@ class NestedEditableDemo extends React.Component {
     return (
       <FileBrowser
         files={this.state.files}
+        icons={Icons.FontAwesome(4)}
 
         onCreateFolder={this.handleCreateFolder}
         onCreateFiles={this.handleCreateFiles}

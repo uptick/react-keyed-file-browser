@@ -2,11 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Moment from 'moment'
 
-import FileBrowser, { FileRenderers, FolderRenderers, Groupers } from 'react-keyed-file-browser'
+import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons } from 'react-keyed-file-browser'
 
 const mount = document.querySelectorAll('div.demo-mount-grouped-thumbnails')
 ReactDOM.render(
   <FileBrowser
+    icons={Icons.FontAwesome(4)}
     files={[
       {
         key: 'cat.png',

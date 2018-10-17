@@ -17,6 +17,7 @@ class BaseFile extends React.Component {
     action: PropTypes.string,
 
     browserProps: PropTypes.shape({
+      icons: PropTypes.func,
       select: PropTypes.func,
       beginAction: PropTypes.func,
       endAction: PropTypes.func,

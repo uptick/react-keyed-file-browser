@@ -9,23 +9,28 @@ import { fileSize } from './utils.js'
 
 class RawTableFile extends BaseFile {
   render() {
+    const {
+      isDragging, isDeleting, isRenaming, isOver, isSelected,
+      action, url, browserProps, connectDragPreview,
+      depth, size, modified,
+    } = this.props
     let icon
     if (this.isImage()) {
-      icon = (<i className="fa fa-file-image-o" aria-hidden="true" />)
+      icon = browserProps.icons.Image
     } else if (this.isPdf()) {
-      icon = (<i className="fa fa-file-pdf-o" aria-hidden="true" />)
+      icon = browserProps.icons.PDF
     } else {
-      icon = (<i className="fa fa-file-o" aria-hidden="true" />)
+      icon = browserProps.icons.File
     }
 
-    const inAction = (this.props.isDragging || this.props.action)
+    const inAction = (isDragging || action)
 
     let name
-    if (!inAction && this.props.isDeleting) {
+    if (!inAction && isDeleting) {
       name = (
         <form className="deleting" onSubmit={this.handleDeleteSubmit}>
           <a
-            href={this.props.url || '#'}
+            href={url || '#'}
             download="download"
             onClick={this.handleFileClick}
           >
@@ -39,7 +44,7 @@ class RawTableFile extends BaseFile {
           </div>
         </form>
       )
-    } else if (!inAction && this.props.isRenaming) {
+    } else if (!inAction && isRenaming) {
       name = (
         <form className="renaming" onSubmit={this.handleRenameSubmit}>
           {icon}
@@ -56,7 +61,7 @@ class RawTableFile extends BaseFile {
     } else {
       name = (
         <a
-          href={this.props.url || '#'}
+          href={url || '#'}
           download="download"
           onClick={this.handleFileClick}
         >
@@ -71,29 +76,29 @@ class RawTableFile extends BaseFile {
         {name}
       </div>
     )
-    if (typeof this.props.browserProps.moveFile === 'function') {
-      draggable = this.props.connectDragPreview(draggable)
+    if (typeof browserProps.moveFile === 'function') {
+      draggable = connectDragPreview(draggable)
     }
 
     let row = (
       <tr
         className={ClassNames('file', {
-          pending: (this.props.action),
-          dragging: (this.props.isDragging),
-          dragover: (this.props.isOver),
-          selected: (this.props.isSelected),
+          pending: action,
+          dragging: isDragging,
+          dragover: isOver,
+          selected: isSelected,
         })}
         onClick={this.handleItemClick}
         onDoubleClick={this.handleItemDoubleClick}
       >
         <td className="name">
-          <div style={{paddingLeft: (this.props.depth * 16) + 'px'}}>
+          <div style={{paddingLeft: (depth * 16) + 'px'}}>
             {draggable}
           </div>
         </td>
-        <td className="size">{fileSize(this.props.size)}</td>
+        <td className="size">{fileSize(size)}</td>
         <td className="modified">
-          {typeof this.props.modified === 'undefined' ? '-' : Moment(this.props.modified, 'x').fromNow()}
+          {typeof modified === 'undefined' ? '-' : Moment(modified, 'x').fromNow()}
         </td>
       </tr>
     )

@@ -8,21 +8,20 @@ import { BaseFileConnectors } from './../base-file.js'
 
 class RawTableFolder extends BaseFolder {
   render() {
-    let icon
-    if (this.props.isOpen) {
-      icon = (<i className="fa fa-folder-open-o" aria-hidden="true" />)
-    } else {
-      icon = (<i className="fa fa-folder-o" aria-hidden="true" />)
-    }
+    const {
+      isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
+      action, url, browserProps, connectDragPreview, depth,
+    } = this.props
 
-    const inAction = (this.props.isDragging || this.props.action)
+    const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
+    const inAction = (isDragging || action)
 
     let name
-    if (!inAction && this.props.isDeleting) {
+    if (!inAction && isDeleting) {
       name = (
         <form className="deleting" onSubmit={this.handleDeleteSubmit}>
           <a
-            href={this.props.url}
+            href={url}
             download="download"
             onClick={this.handleFileClick}
           >
@@ -36,7 +35,7 @@ class RawTableFolder extends BaseFolder {
           </div>
         </form>
       )
-    } else if ((!inAction && this.props.isRenaming) || this.props.isDraft) {
+    } else if ((!inAction && isRenaming) || isDraft) {
       name = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
@@ -63,23 +62,23 @@ class RawTableFolder extends BaseFolder {
       )
     }
 
-    if (typeof this.props.browserProps.moveFolder === 'function') {
-      name = this.props.connectDragPreview(name)
+    if (typeof browserProps.moveFolder === 'function') {
+      name = connectDragPreview(name)
     }
 
     const folder = (
       <tr
         className={ClassNames('folder', {
-          pending: (this.props.action),
-          dragging: (this.props.isDragging),
-          dragover: this.props.isOver,
-          selected: this.props.isSelected,
+          pending: action,
+          dragging: isDragging,
+          dragover: isOver,
+          selected: isSelected,
         })}
         onClick={this.handleFolderClick}
         onDoubleClick={this.handleFolderDoubleClick}
       >
         <td className="name">
-          <div style={{paddingLeft: (this.props.depth * 16) + 'px'}}>
+          <div style={{paddingLeft: (depth * 16) + 'px'}}>
             {name}
           </div>
         </td>

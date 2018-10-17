@@ -10,6 +10,7 @@ import * as Details from './details'
 import * as Filters from './filters'
 import * as Groupers from './groupers'
 import * as Sorters from './sorters'
+import * as Icons from './icons'
 
 export default FileBrowser
 export {
@@ -28,4 +29,5 @@ export {
   Filters,
   Groupers,
   Sorters,
+  Icons,
 }
