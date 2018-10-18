@@ -16,30 +16,35 @@ class RawListThumbnailFile extends BaseFile {
   }
 
   render() {
+    const {
+      thumbnail_url: thumbnailUrl, action, url,
+      isDragging, isRenaming, isSelected, isSelectable, isOver, isDeleting,
+      showName, showSize, showModified, browserProps, connectDragPreview,
+    } = this.props
     let icon
-    if (this.props.thumbnail_url) {
+    if (thumbnailUrl) {
       icon = (
         <div className="image" style={{
-          backgroundImage: 'url(' + this.props.thumbnail_url + ')',
+          backgroundImage: 'url(' + thumbnailUrl + ')',
         }} />
       )
     } else if (this.isImage()) {
-      icon = (<i className="fa fa-file-image-o" aria-hidden="true" />)
+      icon = browserProps.icons.Image
     } else if (this.isPdf()) {
-      icon = (<i className="fa fa-file-pdf-o" aria-hidden="true" />)
+      icon = browserProps.icons.PDF
     } else {
-      icon = (<i className="fa fa-file-o" aria-hidden="true" />)
+      icon = browserProps.icons.File
     }
 
-    const inAction = (this.props.isDragging || this.props.action)
+    const inAction = (isDragging || action)
 
     let name
-    if (this.props.showName) {
-      if (!inAction && this.props.isDeleting) {
+    if (showName) {
+      if (!inAction && isDeleting) {
         name = (
           <form className="deleting" onSubmit={this.handleDeleteSubmit}>
             <a
-              href={this.props.url}
+              href={url}
               download="download"
               onClick={this.handleFileClick}
             >
@@ -52,7 +57,7 @@ class RawListThumbnailFile extends BaseFile {
             </div>
           </form>
         )
-      } else if (!inAction && this.props.isRenaming) {
+      } else if (!inAction && isRenaming) {
         name = (
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
             <input
@@ -67,7 +72,7 @@ class RawListThumbnailFile extends BaseFile {
         )
       } else {
         name = (
-          <a href={this.props.url} download="download" onClick={this.handleFileClick}>
+          <a href={url} download="download" onClick={this.handleFileClick}>
             {this.getName()}
           </a>
         )
@@ -75,26 +80,26 @@ class RawListThumbnailFile extends BaseFile {
     }
 
     let size
-    if (this.props.showSize) {
-      if (!this.props.isRenaming && !this.props.isDeleting) {
+    if (showSize) {
+      if (!isRenaming && !isDeleting) {
         size = (
-          <span className="size"><small>{fileSize(this.props.size)}</small></span>
+          <span className="size"><small>{fileSize(size)}</small></span>
         )
       }
     }
     let modified
-    if (this.props.showModified) {
-      if (!this.props.isRenaming && !this.props.isDeleting) {
+    if (showModified) {
+      if (!isRenaming && !isDeleting) {
         modified = (
           <span className="modified">
-            Last modified: {Moment(this.props.modified).fromNow()}
+            Last modified: {Moment(modified).fromNow()}
           </span>
         )
       }
     }
 
     let rowProps = {}
-    if (this.props.isSelectable) {
+    if (isSelectable) {
       rowProps = {
         onClick: this.handleItemClick,
       }
@@ -103,10 +108,10 @@ class RawListThumbnailFile extends BaseFile {
     let row = (
       <li
         className={ClassNames('file', {
-          pending: (this.props.action),
-          dragging: (this.props.isDragging),
-          dragover: (this.props.isOver),
-          selected: (this.props.isSelected),
+          pending: action,
+          dragging: isDragging,
+          dragover: isOver,
+          selected: isSelected,
         })}
         onDoubleClick={this.handleItemDoubleClick}
         {...rowProps}
@@ -119,8 +124,8 @@ class RawListThumbnailFile extends BaseFile {
         </div>
       </li>
     )
-    if (typeof this.props.browserProps.moveFile === 'function') {
-      row = this.props.connectDragPreview(row)
+    if (typeof browserProps.moveFile === 'function') {
+      row = connectDragPreview(row)
     }
 
     return this.connectDND(row)

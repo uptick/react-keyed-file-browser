@@ -8,16 +8,20 @@ import { BaseFileConnectors } from './../base-file.js'
 
 class RawListThumbnailFolder extends BaseFolder {
   render() {
-    const icon = (<i className={`fa fa-folder${this.props.isOpen ? '-open' : ''}-o`} aria-hidden="true" />)
+    const {
+      isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
+      url, action, browserProps, depth, keyDerived, connectDragPreview,
+    } = this.props
 
-    const inAction = (this.props.isDragging || this.props.action)
+    const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
+    const inAction = (isDragging || action)
 
     let name
-    if (!inAction && this.props.isDeleting) {
+    if (!inAction && isDeleting) {
       name = (
         <form className="deleting" onSubmit={this.handleDeleteSubmit}>
           <a
-            href={this.props.url}
+            href={url}
             download="download"
             onClick={this.handleFileClick}
           >
@@ -30,7 +34,7 @@ class RawListThumbnailFolder extends BaseFolder {
           </div>
         </form>
       )
-    } else if ((!inAction && this.props.isRenaming) || this.props.isDraft) {
+    } else if ((!inAction && isRenaming) || isDraft) {
       name = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
@@ -56,32 +60,32 @@ class RawListThumbnailFolder extends BaseFolder {
     }
 
     let children
-    if (this.props.isOpen && this.props.browserProps.nestChildren) {
+    if (isOpen && browserProps.nestChildren) {
       children = []
-      for (let childIndex = 0; childIndex < this.props.children.length; childIndex++) {
-        const file = this.props.children[childIndex]
+      for (let childIndex = 0; childIndex < children.length; childIndex++) {
+        const file = children[childIndex]
 
         const thisItemProps = {
-          ...this.props.browserProps.getItemProps(file, this.props.browserProps),
-          depth: this.props.depth + 1,
+          ...browserProps.getItemProps(file, browserProps),
+          depth: depth + 1,
         }
 
         if (file.size) {
           children.push(
-            <this.props.browserProps.fileRenderer
+            <browserProps.fileRenderer
               {...file}
               {...thisItemProps}
-              browserProps={this.props.browserProps}
-              {...this.props.browserProps.fileRendererProps}
+              browserProps={browserProps}
+              {...browserProps.fileRendererProps}
             />
           )
         } else {
           children.push(
-            <this.props.browserProps.folderRenderer
+            <browserProps.folderRenderer
               {...file}
               {...thisItemProps}
-              browserProps={this.props.browserProps}
-              {...this.props.browserProps.folderRendererProps}
+              browserProps={browserProps}
+              {...browserProps.folderRendererProps}
             />
           )
         }
@@ -96,11 +100,11 @@ class RawListThumbnailFolder extends BaseFolder {
     let folder = (
       <li
         className={ClassNames('folder', {
-          expanded: (this.props.isOpen && this.props.browserProps.nestChildren),
-          pending: (this.props.action),
-          dragging: (this.props.isDragging),
-          dragover: this.props.isOver,
-          selected: this.props.isSelected,
+          expanded: isOpen && browserProps.nestChildren,
+          pending: action,
+          dragging: isDragging,
+          dragover: isOver,
+          selected: isSelected,
         })}
         onClick={this.handleFolderClick}
         onDoubleClick={this.handleFolderDoubleClick}
@@ -112,8 +116,8 @@ class RawListThumbnailFolder extends BaseFolder {
         {children}
       </li>
     )
-    if (typeof this.props.browserProps.moveFolder === 'function' && this.props.keyDerived) {
-      folder = this.props.connectDragPreview(folder)
+    if (typeof browserProps.moveFolder === 'function' && keyDerived) {
+      folder = connectDragPreview(folder)
     }
 
     return this.connectDND(folder)

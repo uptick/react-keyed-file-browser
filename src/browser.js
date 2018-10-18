@@ -41,6 +41,17 @@ class RawFileBrowser extends React.Component {
     group: PropTypes.func.isRequired,
     sort: PropTypes.func.isRequired,
 
+    icons: PropTypes.shape({
+      Folder: PropTypes.element,
+      FolderOpen: PropTypes.element,
+      File: PropTypes.element,
+      PDF: PropTypes.element,
+      Image: PropTypes.element,
+      Delete: PropTypes.element,
+      Rename: PropTypes.element,
+      Loading: PropTypes.element,
+    }),
+
     nestChildren: PropTypes.bool.isRequired,
     renderStyle: PropTypes.oneOf([
       'list',
@@ -92,6 +103,8 @@ class RawFileBrowser extends React.Component {
     folderRendererProps: {},
     detailRenderer: DefaultDetail,
     detailRendererProps: {},
+
+    icons: {},
   }
 
   state = {
@@ -332,6 +345,7 @@ class RawFileBrowser extends React.Component {
       fileRendererProps: this.props.fileRendererProps,
       folderRenderer: this.props.folderRenderer,
       folderRendererProps: this.props.folderRendererProps,
+      icons: this.props.icons,
 
       // browser state
       openFolders: this.state.openFolders,
@@ -362,14 +376,19 @@ class RawFileBrowser extends React.Component {
     }
   }
   renderActionBar(selectedItem) {
+    const {
+      icons, canFilter, filterRendererProps,
+      filterRenderer: FilterRenderer, onCreateFolder,
+      onRenameFile, onRenameFolder, onDeleteFile, onDeleteFolder,
+    } = this.props
     const selectionIsFolder = (selectedItem && !selectedItem.size)
     let filter
-    if (this.props.canFilter) {
+    if (canFilter) {
       filter = (
-        <this.props.filterRenderer
+        <FilterRenderer
           value={this.state.nameFilter}
           updateFilter={this.updateFilter}
-          {...this.props.filterRendererProps}
+          {...filterRendererProps}
         />
       )
     }
@@ -396,14 +415,14 @@ class RawFileBrowser extends React.Component {
         actions = (
           // TODO: Enable plugging in custom spinner.
           <div className="item-actions">
-            <i className="icon loading fa fa-circle-o-notch fa-spin" /> {actionText}
+            {icons.Loading} {actionText}
           </div>
         )
       } else {
         actions = []
         if (
           selectionIsFolder &&
-          typeof this.props.onCreateFolder === 'function' &&
+          typeof onCreateFolder === 'function' &&
           !this.state.nameFilter
         ) {
           actions.push(
@@ -413,7 +432,7 @@ class RawFileBrowser extends React.Component {
                 href="#"
                 role="button"
               >
-                <i className="fa fa-folder-o" aria-hidden="true" />
+                {icons.Folder}
                 &nbsp;Add Subfolder
               </a>
             </li>
@@ -421,8 +440,8 @@ class RawFileBrowser extends React.Component {
         }
         if (
           selectedItem.keyDerived && (
-            (!selectionIsFolder && typeof this.props.onRenameFile === 'function') ||
-            (selectionIsFolder && typeof this.props.onRenameFolder === 'function')
+            (!selectionIsFolder && typeof onRenameFile === 'function') ||
+            (selectionIsFolder && typeof onRenameFolder === 'function')
           )
         ) {
           actions.push(
@@ -432,7 +451,7 @@ class RawFileBrowser extends React.Component {
                 href="#"
                 role="button"
               >
-                <i className="fa fa-i-cursor" aria-hidden="true" />
+                {icons.Rename}
                 &nbsp;Rename
               </a>
             </li>
@@ -440,8 +459,8 @@ class RawFileBrowser extends React.Component {
         }
         if (
           selectedItem.keyDerived && (
-            (!selectionIsFolder && typeof this.props.onDeleteFile === 'function') ||
-            (selectionIsFolder && typeof this.props.onDeleteFolder === 'function')
+            (!selectionIsFolder && typeof onDeleteFile === 'function') ||
+            (selectionIsFolder && typeof onDeleteFolder === 'function')
           )
         ) {
           actions.push(
@@ -451,7 +470,7 @@ class RawFileBrowser extends React.Component {
                 href="#"
                 role="button"
               >
-                <i className="fa fa-trash-o" aria-hidden="true" />
+                {icons.Delete}
                 &nbsp;Delete
               </a>
             </li>
@@ -467,7 +486,7 @@ class RawFileBrowser extends React.Component {
       // Nothing selected: We're in the 'root' folder. Only allowed action is adding a folder.
       actions = []
       if (
-        typeof this.props.onCreateFolder === 'function' &&
+        typeof onCreateFolder === 'function' &&
         !this.state.nameFilter
       ) {
         actions.push(
@@ -477,7 +496,7 @@ class RawFileBrowser extends React.Component {
               href="#"
               role="button"
             >
-              <i className="fa fa-folder-o" aria-hidden="true" />
+              {icons.Folder}
               &nbsp;Add Folder
             </a>
           </li>
@@ -498,6 +517,10 @@ class RawFileBrowser extends React.Component {
     )
   }
   renderFiles(files, depth) {
+    const {
+      fileRenderer: FileRenderer, fileRendererProps,
+      folderRenderer: FolderRenderer, folderRendererProps,
+    } = this.props
     const browserProps = this.getBrowserProps()
     let renderedFiles = []
     files.map((file) => {
@@ -508,21 +531,21 @@ class RawFileBrowser extends React.Component {
 
       if (file.size) {
         renderedFiles.push(
-          <this.props.fileRenderer
+          <FileRenderer
             {...file}
             {...thisItemProps}
             browserProps={browserProps}
-            {...this.props.fileRendererProps}
+            {...fileRendererProps}
           />
         )
       } else {
         if (!this.state.nameFilter) {
           renderedFiles.push(
-            <this.props.folderRenderer
+            <FolderRenderer
               {...file}
               {...thisItemProps}
               browserProps={browserProps}
-              {...this.props.folderRendererProps}
+              {...folderRendererProps}
             />
           )
         }
