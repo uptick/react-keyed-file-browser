@@ -46,7 +46,7 @@ var mount = document.querySelectorAll('div.browser-mount');
 ReactDOM.render(
   <FileBrowser
     files=[]
-    icons={icons.FontAwesome(4)}
+    icons={Icons.FontAwesome(4)}
   />,
   mount[0]
 );
