@@ -61,7 +61,7 @@ class RawListThumbnailFile extends BaseFile {
         name = (
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
             <input
-              ref="newName"
+              ref={el => this.newNameRef = el}
               type="text"
               value={this.state.newName}
               onChange={this.handleNewNameChange}

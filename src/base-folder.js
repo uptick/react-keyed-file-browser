@@ -49,9 +49,9 @@ class BaseFolder extends React.Component {
   }
   selectAllNewName = () => {
     window.requestAnimationFrame(() => {
-      const currentName = this.refs.newName.value
-      this.refs.newName.setSelectionRange(0, currentName.length)
-      this.refs.newName.focus()
+      const currentName = this.newNameRef.value
+      this.newNameRef.setSelectionRange(0, currentName.length)
+      this.newNameRef.focus()
     })
   }
 
@@ -79,7 +79,7 @@ class BaseFolder extends React.Component {
     this.props.browserProps.beginAction('rename', this.props.fileKey)
   }
   handleNewNameChange = (event) => {
-    const newName = this.refs.newName.value
+    const newName = this.newNameRef.value
     this.setState({newName: newName})
   }
   handleRenameSubmit = (event) => {
