@@ -65,7 +65,7 @@ class BaseFolder extends React.Component {
 
   handleFolderClick = (event) => {
     event.stopPropagation()
-    this.props.browserProps.select(this.props.fileKey)
+    this.props.browserProps.select(this.props.fileKey, 'folder')
   }
   handleFolderDoubleClick = (event) => {
     event.stopPropagation()
@@ -166,7 +166,7 @@ class BaseFolder extends React.Component {
 
 const dragSource = {
   beginDrag(props) {
-    props.browserProps.select(props.fileKey)
+    props.browserProps.select(props.fileKey, 'folder')
     return {
       key: props.fileKey,
     }

@@ -73,9 +73,8 @@ class BaseFile extends React.Component {
   }
 
   handleFileClick = (event) => {
-    if (event) {
-      event.preventDefault()
-    }
+    event && event.preventDefault()
+
     this.props.browserProps.preview({
       url: this.props.url,
       name: this.getName(),
@@ -85,7 +84,7 @@ class BaseFile extends React.Component {
   }
   handleItemClick = (event) => {
     event.stopPropagation()
-    this.props.browserProps.select(this.props.fileKey)
+    this.props.browserProps.select(this.props.fileKey, 'file')
   }
   handleItemDoubleClick = (event) => {
     event.stopPropagation()
@@ -176,7 +175,7 @@ class BaseFile extends React.Component {
 
 const dragSource = {
   beginDrag(props) {
-    props.browserProps.select(props.fileKey)
+    props.browserProps.select(props.fileKey, 'file')
     return {
       key: props.fileKey,
     }
