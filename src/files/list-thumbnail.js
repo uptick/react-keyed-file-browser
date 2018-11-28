@@ -83,7 +83,7 @@ class RawListThumbnailFile extends BaseFile {
     if (showSize) {
       if (!isRenaming && !isDeleting) {
         size = (
-          <span className="size"><small>{fileSize(size)}</small></span>
+          <span className="size"><small>{fileSize(this.props.size)}</small></span>
         )
       }
     }
@@ -92,7 +92,7 @@ class RawListThumbnailFile extends BaseFile {
       if (!isRenaming && !isDeleting) {
         modified = (
           <span className="modified">
-            Last modified: {Moment(modified).fromNow()}
+            Last modified: {Moment(this.props.modified).fromNow()}
           </span>
         )
       }
