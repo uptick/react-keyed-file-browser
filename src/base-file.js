@@ -38,10 +38,10 @@ class BaseFile extends React.Component {
   componentDidUpdate(oldProps, oldState) {
     if (!oldProps.isRenaming && this.props.isRenaming) {
       window.requestAnimationFrame(() => {
-        const currentName = this.refs.newName.value
+        const currentName = this.newNameRef.value
         const pointIndex = currentName.lastIndexOf('.')
-        this.refs.newName.setSelectionRange(0, pointIndex || currentName.length)
-        this.refs.newName.focus()
+        this.newNameRef.setSelectionRange(0, pointIndex || currentName.length)
+        this.newNameRef.focus()
       })
     }
   }
@@ -99,7 +99,7 @@ class BaseFile extends React.Component {
     this.props.browserProps.beginAction('rename', this.props.fileKey)
   }
   handleNewNameChange = (event) => {
-    const newName = this.refs.newName.value
+    const newName = this.newNameRef.value
     this.setState({newName: newName})
   }
   handleRenameSubmit = (event) => {

@@ -287,10 +287,11 @@ class RawFileBrowser extends React.Component {
 
   // event handlers
   handleGlobalClick = (event) => {
-    const inBrowser = !!(this.refs.browser.contains(event.target))
-    const inPreview = !!(
-      typeof this.refs.preview !== 'undefined' && this.refs.preview.contains(event.target)
-    )
+    const inBrowser = !!(this.browserRef && this.browserRef.contains(event.target))
+
+    // TODO: updated old-to-new ref styles, but this ref was never set
+    const inPreview = !!(this.previewRef && this.previewRef.contains(event.target))
+
     if (!inBrowser && !inPreview) {
       this.setState(state => {
         state.selection = null
@@ -725,7 +726,7 @@ class RawFileBrowser extends React.Component {
     return (
       <div className="rendered-react-keyed-file-browser">
         {this.props.actions}
-        <div className="rendered-file-browser" ref="browser">
+        <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
           {this.props.showActionBar && this.renderActionBar(selectedItem)}
           <div className="files">
             {renderedFiles}

@@ -49,7 +49,7 @@ class RawTableFile extends BaseFile {
         <form className="renaming" onSubmit={this.handleRenameSubmit}>
           {icon}
           <input
-            ref="newName"
+            ref={el => { this.newNameRef = el }}
             type="text"
             value={this.state.newName}
             onChange={this.handleNewNameChange}
