@@ -80,6 +80,16 @@ class RawFileBrowser extends React.Component {
     onRenameFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDeleteFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDeleteFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+
+    onSelect: PropTypes.func,
+    onSelectFile: PropTypes.func,
+    onSelectFolder: PropTypes.func,
+
+    onPreviewOpen: PropTypes.func,
+    onPreviewClose: PropTypes.func,
+
+    onFolderOpen: PropTypes.func,
+    onFolderClose: PropTypes.func,
   }
 
   static defaultProps = {
@@ -263,30 +273,32 @@ class RawFileBrowser extends React.Component {
   select = (key, selectedType) => {
     const { actionTarget } = this.state
     const shouldClearState = actionTarget !== null && actionTarget !== key
-
+    const selected = this.getFile(key)
+      
     this.setState({
       selection: key,
       actionTarget: shouldClearState ? null : actionTarget,
       activeAction: shouldClearState ? null : this.state.activeAction,
+    }, () => {
+      this.props.onSelect( selected )
+
+      if ('file' == selectedType) this.props.onSelectFile(selected)
+      if ('folder' == selectedType) this.props.onSelectFolder(selected)
     })
-
-    const selected = this.getFile(key)
-    this.props.onSelect( selected )
-
-    if ('file' == selectedType) this.props.onSelectFile(selected);
-    if ('folder' == selectedType) this.props.onSelectFolder(selected);
   }
 
   preview = (file) => {
     if (this.state.previewFile && this.state.previewFile.key !== file.key) this.closeDetail()
 
-    this.setState({previewFile: file})
-    this.props.onPreviewOpen( file )
+    this.setState({previewFile: file}, () => {
+      this.props.onPreviewOpen( file )
+    })
   }
 
   closeDetail = () => {
-    this.props.onPreviewClose( this.state.previewFile )
-    this.setState({previewFile: null})
+    this.setState({previewFile: null}, () => {
+      this.props.onPreviewClose( this.state.previewFile )
+    })
   }
 
   handleShowMoreClick = (event) => {
@@ -298,23 +310,27 @@ class RawFileBrowser extends React.Component {
   }
 
   toggleFolder = (folderKey) => {
+    const isOpen = folderKey in this.state.openFolders
+    
     this.setState(state => {
-      if (folderKey in state.openFolders) {
+      if (isOpen) {
         delete state.openFolders[folderKey]
-        this.props.onFolderClose( this.getFile(folderKey) )
       } else {
         state.openFolders[folderKey] = true
-        this.props.onFolderOpen( this.getFile(folderKey) )
       }
       return state
+    }, () => {
+      const callback = isOpen ? 'onFolderClose' : 'onFolderOpen'
+      this.props[callback]( this.getFile(folderKey) )
     })
   }
 
   openFolder = (folderKey) => {
     this.setState(state => {
       state.openFolders[folderKey] = true
-      this.props.onFolderOpen( this.getFile(folderKey) )
       return state
+    }, () => {
+      this.props.onFolderOpen( this.getFile(folderKey) )
     })
   }
 
