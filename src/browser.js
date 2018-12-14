@@ -159,22 +159,25 @@ class RawFileBrowser extends React.Component {
 
   // item manipulation
   createFiles = (files, prefix) => {
-    this.setState(state => {
+    this.setState(prevState => {
+      const stateChanges = { selection: null }
       if (prefix) {
-        state.openFolders[prefix] = true
+        stateChanges.openFolders = {
+          ...prevState.openFolders,
+          [prefix]: true,
+        }
       }
-      state.selection = null
-      return state
+      return stateChanges
     }, () => {
       this.props.onCreateFiles(files, prefix)
     })
   }
 
   createFolder = (key) => {
-    this.setState(state => {
-      state.activeAction = null
-      state.actionTarget = null
-      state.selection = key
+    this.setState({
+      activeAction: null,
+      actionTarget: null,
+      selection: key,
     }, this.props.onCreateFolder(key))
   }
 
@@ -189,15 +192,19 @@ class RawFileBrowser extends React.Component {
   }
 
   moveFolder = (oldKey, newKey) => {
-    this.setState(state => {
-      state.activeAction = null
-      state.actionTarget = null
-      state.selection = newKey
-      if (oldKey in state.openFolders) {
-        delete state.openFolders[newKey]
-        state.openFolders[newKey] = true
+    this.setState(prevState => {
+      const stateChanges = {
+        activeAction: null,
+        actionTarget: null,
+        selection: newKey,
       }
-      return state
+      if (oldKey in prevState.openFolders) {
+        stateChanges.openFolders = {
+          ...prevState.openFolders,
+          [newKey]: true,
+        }
+      }
+      return stateChanges
     }, () => {
       this.props.onMoveFolder(oldKey, newKey)
     })
@@ -214,17 +221,21 @@ class RawFileBrowser extends React.Component {
   }
 
   renameFolder = (oldKey, newKey) => {
-    this.setState(state => {
-      state.activeAction = null
-      state.actionTarget = null
-      if (state.selection.substr(0, oldKey.length) === oldKey) {
-        state.selection = state.selection.replace(oldKey, newKey)
+    this.setState(prevState => {
+      const stateChanges = {
+        activeAction: null,
+        actionTarget: null,
       }
-      if (oldKey in state.openFolders) {
-        delete state.openFolders[newKey]
-        state.openFolders[newKey] = true
+      if (prevState.selection.substr(0, oldKey.length) === oldKey) {
+        stateChanges.selection = prevState.selection.replace(oldKey, newKey)
       }
-      return state
+      if (oldKey in prevState.openFolders) {
+        stateChanges.openFolders = {
+          ...prevState.openFolders,
+          [newKey]: true,
+        }
+      }
+      return stateChanges
     }, () => {
       this.props.onRenameFolder(oldKey, newKey)
     })
@@ -241,14 +252,17 @@ class RawFileBrowser extends React.Component {
   }
 
   deleteFolder = (key) => {
-    this.setState(state => {
-      state.activeAction = null
-      state.actionTarget = null
-      state.selection = null
-      if (key in state.openFolders) {
-        delete state.openFolders[key]
+    this.setState(prevState => {
+      const stateChanges = {
+        activeAction: null,
+        actionTarget: null,
+        selection: null,
       }
-      return state
+      if (key in prevState.openFolders) {
+        stateChanges.openFolders = { ...prevState.openFolders }
+        delete stateChanges.openFolders[key]
+      }
+      return stateChanges
     }, () => {
       this.props.onDeleteFolder(key)
     })
@@ -256,16 +270,15 @@ class RawFileBrowser extends React.Component {
 
   // browser manipulation
   beginAction = (action, key) => {
-    this.setState(state => {
-      state.activeAction = action
-      state.actionTarget = key
-      return state
+    this.setState({
+      activeAction: action,
+      actionTarget: key,
     })
   }
 
   endAction = () => {
     if (this.state.selection !== null && this.state.selection.indexOf('__new__') !== -1) {
-      this.setState({selection: null})
+      this.setState({ selection: null })
     }
     this.beginAction(null, null)
   }
@@ -274,63 +287,70 @@ class RawFileBrowser extends React.Component {
     const { actionTarget } = this.state
     const shouldClearState = actionTarget !== null && actionTarget !== key
     const selected = this.getFile(key)
-      
-    this.setState({
+
+    this.setState(prevState => ({
       selection: key,
       actionTarget: shouldClearState ? null : actionTarget,
-      activeAction: shouldClearState ? null : this.state.activeAction,
-    }, () => {
-      this.props.onSelect( selected )
+      activeAction: shouldClearState ? null : prevState.activeAction,
+    }), () => {
+      this.props.onSelect(selected)
 
-      if ('file' == selectedType) this.props.onSelectFile(selected)
-      if ('folder' == selectedType) this.props.onSelectFolder(selected)
+      if (selectedType === 'file') this.props.onSelectFile(selected)
+      if (selectedType === 'folder') this.props.onSelectFolder(selected)
     })
   }
 
   preview = (file) => {
     if (this.state.previewFile && this.state.previewFile.key !== file.key) this.closeDetail()
 
-    this.setState({previewFile: file}, () => {
-      this.props.onPreviewOpen( file )
+    this.setState({
+      previewFile: file,
+    }, () => {
+      this.props.onPreviewOpen(file)
     })
   }
 
   closeDetail = () => {
-    this.setState({previewFile: null}, () => {
-      this.props.onPreviewClose( this.state.previewFile )
+    this.setState({
+      previewFile: null,
+    }, () => {
+      this.props.onPreviewClose(this.state.previewFile)
     })
   }
 
   handleShowMoreClick = (event) => {
     event.preventDefault()
-    this.setState(state => {
-      state.searchResultsShown += SEARCH_RESULTS_PER_PAGE
-      return state
-    })
+    this.setState(prevState => ({
+      searchResultsShown: prevState.searchResultsShown + SEARCH_RESULTS_PER_PAGE,
+    }))
   }
 
   toggleFolder = (folderKey) => {
     const isOpen = folderKey in this.state.openFolders
-    
-    this.setState(state => {
-      if (isOpen) {
-        delete state.openFolders[folderKey]
-      } else {
-        state.openFolders[folderKey] = true
+    this.setState(prevState => {
+      const stateChanges = {
+        openFolders: { ...prevState.openFolders },
       }
-      return state
+      if (isOpen) {
+        delete stateChanges.openFolders[folderKey]
+      } else {
+        stateChanges.openFolders[folderKey] = true
+      }
+      return stateChanges
     }, () => {
       const callback = isOpen ? 'onFolderClose' : 'onFolderOpen'
-      this.props[callback]( this.getFile(folderKey) )
+      this.props[callback](this.getFile(folderKey))
     })
   }
 
   openFolder = (folderKey) => {
-    this.setState(state => {
-      state.openFolders[folderKey] = true
-      return state
-    }, () => {
-      this.props.onFolderOpen( this.getFile(folderKey) )
+    this.setState(prevState => ({
+      openFolders: {
+        ...prevState.openFolders,
+        [folderKey]: true,
+      },
+    }), () => {
+      this.props.onFolderOpen(this.getFile(folderKey))
     })
   }
 
@@ -342,11 +362,10 @@ class RawFileBrowser extends React.Component {
     const inPreview = !!(this.previewRef && this.previewRef.contains(event.target))
 
     if (!inBrowser && !inPreview) {
-      this.setState(state => {
-        state.selection = null
-        state.actionTarget = null
-        state.activeAction = null
-        return state
+      this.setState({
+        selection: null,
+        actionTarget: null,
+        activeAction: null,
       })
     }
   }
@@ -363,30 +382,34 @@ class RawFileBrowser extends React.Component {
     if (this.state.activeAction === 'createFolder') {
       return
     }
-    let addKey = ''
-    if (this.state.selection) {
-      addKey += this.state.selection
-      if (addKey.substr(addKey.length - 1, addKey.length) !== '/') {
-        addKey += '/'
+    this.setState(prevState => {
+      let addKey = ''
+      if (prevState.selection) {
+        addKey += prevState.selection
+        if (addKey.substr(addKey.length - 1, addKey.length) !== '/') {
+          addKey += '/'
+        }
       }
-    }
-    addKey += '__new__/'
-    this.setState(state => {
-      state.actionTarget = addKey
-      state.activeAction = 'createFolder'
-      state.selection = addKey
-      if (this.state.selection) {
-        state.openFolders[this.state.selection] = true
+      addKey += '__new__/'
+      const stateChanges = {
+        actionTarget: addKey,
+        activeAction: 'createFolder',
+        selection: addKey,
       }
-      return state
+      if (prevState.selection) {
+        stateChanges.openFolders = {
+          ...prevState.openFolders,
+          [this.state.selection]: true,
+        }
+      }
+      return stateChanges
     })
   }
 
   updateFilter = (newValue) => {
-    this.setState(state => {
-      state.nameFilter = newValue
-      state.searchResultsShown = SEARCH_RESULTS_PER_PAGE
-      return state
+    this.setState({
+      nameFilter: newValue,
+      searchResultsShown: SEARCH_RESULTS_PER_PAGE,
     })
   }
 
