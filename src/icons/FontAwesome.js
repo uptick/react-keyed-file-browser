@@ -39,6 +39,7 @@ const FontAwesomeIcons = (majorVersion = 4) => {
         FolderOpen: <i className="fa fa-folder-open-o" aria-hidden="true" />,
         Delete: <i className="fa fa-trash-o" aria-hidden="true" />,
         Loading: <i className="fa fa-circle-o-notch fa-spin" aria-hidden="true" />,
+        Download: <i className="fa fa-download" aria-hidden="true" />,
       }
     case 5:
       IsFontAwesomeLoaded(5)
@@ -51,6 +52,7 @@ const FontAwesomeIcons = (majorVersion = 4) => {
         FolderOpen: <i className="far fa-folder-open" aria-hidden="true" />,
         Delete: <i className="far fa-trash-alt" aria-hidden="true" />,
         Loading: <i className="fas fa-circle-notch fa-spin" aria-hidden="true" />,
+        Download: <i className="fas fa-download" aria-hidden="true" />,
       }
     default:
       console.warn(
