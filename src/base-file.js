@@ -134,7 +134,7 @@ class BaseFile extends React.Component {
   }
   handleNewNameChange = (event) => {
     const newName = this.newNameRef.value
-    this.setState({newName: newName})
+    this.setState({ newName: newName })
   }
   handleRenameSubmit = (event) => {
     if (event) {
@@ -259,7 +259,7 @@ const targetSource = {
 function targetCollect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver({shallow: true}),
+    isOver: monitor.isOver({ shallow: true }),
   }
 }
 
