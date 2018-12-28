@@ -4,5 +4,17 @@ const IMAGE_EXTENSIONS = [
   'png',
   'bmp',
 ]
-
-export { IMAGE_EXTENSIONS }
+const VIDEO_EXTENSIONS = [
+  'mp4',
+  'flv',
+  'avi',
+  'wmv',
+  'mov',
+]
+const AUDIO_EXTENSIONS = [
+  'mp3',
+  'ogg',
+  'wav',
+  'aac',
+]
+export { IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, AUDIO_EXTENSIONS }
