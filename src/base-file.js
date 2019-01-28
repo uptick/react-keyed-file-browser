@@ -188,9 +188,9 @@ const dragSource = {
     const fileNameParts = props.fileKey.split('/')
     const fileName = fileNameParts[fileNameParts.length - 1]
     const newKey = `${dropResult.path}${fileName}`
-    if (newKey !== props.fileKey && props.browserProps.renameFile) {
+    if (newKey !== props.fileKey && props.browserProps.moveFile) {
       props.browserProps.openFolder(dropResult.path)
-      props.browserProps.renameFile(props.fileKey, newKey)
+      props.browserProps.moveFile(props.fileKey, newKey)
     }
   },
 }

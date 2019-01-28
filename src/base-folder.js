@@ -186,9 +186,9 @@ const dragSource = {
     // abort if the new folder name contains itself
     if (newKey.substr(0, props.fileKey.length) === props.fileKey) return
 
-    if (newKey !== props.fileKey && props.browserProps.renameFolder) {
+    if (newKey !== props.fileKey && props.browserProps.moveFolder) {
       props.browserProps.openFolder(dropResult.path)
-      props.browserProps.renameFolder(props.fileKey, newKey)
+      props.browserProps.moveFolder(props.fileKey, newKey)
     }
   },
 }
