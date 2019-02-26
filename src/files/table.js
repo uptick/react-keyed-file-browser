@@ -92,7 +92,7 @@ class RawTableFile extends BaseFile {
         onDoubleClick={this.handleItemDoubleClick}
       >
         <td className="name">
-          <div style={{paddingLeft: (depth * 16) + 'px'}}>
+          <div style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
           </div>
         </td>
