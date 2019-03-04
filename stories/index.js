@@ -1,8 +1,7 @@
 import React from 'react'
+import Moment from 'moment'
 import { storiesOf } from '@storybook/react'
 import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons } from '../src'
-import NestedEditableDemo from './nested-editable'
-import Moment from 'moment'
 import './stories'
 
 storiesOf('FileBrowser', module)
@@ -78,7 +77,4 @@ storiesOf('FileBrowser', module)
       fileRenderer={FileRenderers.ListThumbnailFile}
       folderRenderer={FolderRenderers.ListThumbnailFolder}
     />
-  ))
-  .add('Nested Table with Event Handlers', () => (
-    <NestedEditableDemo />
   ))
