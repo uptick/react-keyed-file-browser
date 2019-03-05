@@ -38,4 +38,4 @@ function relativeTimeWindows() {
   return windows
 }
 
-export {relativeTimeWindows}
+export { relativeTimeWindows }

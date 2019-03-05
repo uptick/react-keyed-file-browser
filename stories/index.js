@@ -78,47 +78,52 @@ storiesOf('FileBrowser', module)
       folderRenderer={FolderRenderers.ListThumbnailFolder}
     />
   ))
-  .add('Different Icons and Download Button', () => (
+  .add('Group By Folder', () => (
     <FileBrowser
       icons={Icons.FontAwesome(4)}
       files={[
         {
-          key: 'cat.doc',
+          key: 'new-folder/',
+          modified: +Moment().subtract(1, 'hours'),
+          size: 0,
+        },
+        {
+          key: 'documents/sub-documents/word.doc',
           modified: +Moment().subtract(1, 'hours'),
           size: 1.5 * 1024 * 1024,
         },
         {
-          key: 'kitten.pptx',
+          key: 'documents/sub-documents/presentation.pptx',
           modified: +Moment().subtract(3, 'days'),
           size: 545 * 1024,
         },
         {
-          key: 'elephant.txt',
+          key: 'documents/plain.txt',
           modified: +Moment().subtract(3, 'days'),
           size: 52 * 1024,
         },
         {
-          key: 'dog.pdf',
+          key: 'documents/pdf.pdf',
           modified: +Moment().subtract(1, 'hours'),
           size: 1.5 * 1024 * 1024,
         },
         {
-          key: 'turtle.xlsx',
+          key: 'documents/spreadsheet.xlsx',
           modified: +Moment().subtract(3, 'months'),
           size: 545 * 1024,
         },
         {
-          key: 'gecko.zip',
+          key: 'downloads/package.zip',
           modified: +Moment().subtract(2, 'days'),
           size: 52 * 1024,
         },
         {
-          key: 'centipede.mp4',
+          key: 'movies/video.mp4',
           modified: +Moment().subtract(0.5, 'hours'),
           size: 1.5 * 1024 * 1024,
         },
         {
-          key: 'possum.mp3',
+          key: 'music/song.mp3',
           modified: +Moment().subtract(32, 'days'),
           size: 545 * 1024,
         },
@@ -126,7 +131,7 @@ storiesOf('FileBrowser', module)
       renderStyle="list"
       onDownloadFile={() => {}}
       headerRenderer={null}
-      group={Groupers.GroupByModifiedRelative}
+      group={Groupers.GroupByFolder}
       fileRenderer={FileRenderers.ListThumbnailFile}
       folderRenderer={FolderRenderers.ListThumbnailFolder}
     />
