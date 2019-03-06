@@ -41,7 +41,7 @@ storiesOf('FileBrowser', module)
       icons={Icons.FontAwesome(4)}
       files={[
         {
-          key: 'cat.png',
+          key: 'cat.js',
           modified: +Moment().subtract(1, 'hours'),
           size: 1.5 * 1024 * 1024,
         },

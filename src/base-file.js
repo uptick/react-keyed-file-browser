@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import { IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, AUDIO_EXTENSIONS } from './constants.js'
+import { extensionMapping } from './constants.js'
 
 class BaseFile extends React.Component {
   static propTypes = {
@@ -58,53 +58,9 @@ class BaseFile extends React.Component {
     const blobs = this.props.fileKey.split('.')
     return blobs[blobs.length - 1].toLowerCase().trim()
   }
-  isImage() {
-    const extension = this.getExtension()
-    for (let extensionIndex = 0; extensionIndex < IMAGE_EXTENSIONS.length; extensionIndex++) {
-      const imageExtension = IMAGE_EXTENSIONS[extensionIndex]
-      if (extension === imageExtension) {
-        return true
-      }
-    }
-    return false
-  }
-  isVideo() {
-    const extension = this.getExtension()
-    for (let extensionIndex = 0; extensionIndex < VIDEO_EXTENSIONS.length; extensionIndex++) {
-      const videoExtension = VIDEO_EXTENSIONS[extensionIndex]
-      if (extension === videoExtension) {
-        return true
-      }
-    }
-    return false
-  }
-  isAudio() {
-    const extension = this.getExtension()
-    for (let extensionIndex = 0; extensionIndex < AUDIO_EXTENSIONS.length; extensionIndex++) {
-      const audioExtension = AUDIO_EXTENSIONS[extensionIndex]
-      if (extension === audioExtension) {
-        return true
-      }
-    }
-    return false
-  }
-  isArchive() {
-    return (this.getExtension() === 'zip' || this.getExtension() === 'rar' || this.getExtension() === '7z')
-  }
-  isExcel() {
-    return (this.getExtension() === 'xlsx' || this.getExtension() === 'xls')
-  }
-  isWord() {
-    return (this.getExtension() === 'docx' || this.getExtension() === 'doc')
-  }
-  isPowerPoint() {
-    return (this.getExtension() === 'pptx' || this.getExtension() === 'ppt')
-  }
-  isText() {
-    return (this.getExtension() === 'txt')
-  }
-  isPdf() {
-    return (this.getExtension() === 'pdf')
+
+  getFileType() {
+    return extensionMapping[this.getExtension()] || 'File'
   }
 
   handleFileClick = (event) => {
