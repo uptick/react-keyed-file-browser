@@ -17,6 +17,8 @@ import { TableFolder } from './folders'
 import { GroupByFolder } from './groupers'
 import { SortByName } from './sorters'
 
+import { isFolder } from './utils'
+
 const SEARCH_RESULTS_PER_PAGE = 20
 
 function getItemProps(file, browserProps) {
@@ -636,7 +638,7 @@ class RawFileBrowser extends React.Component {
         depth: this.state.nameFilter ? 0 : depth,
       }
 
-      if (file.size) {
+      if (!isFolder(file)) {
         renderedFiles.push(
           <FileRenderer
             {...file}
@@ -703,7 +705,7 @@ class RawFileBrowser extends React.Component {
     } else {
       const newFiles = []
       files.map((file) => {
-        if (file.size) {
+        if (!isFolder(file)) {
           newFiles.push(file)
         }
       })

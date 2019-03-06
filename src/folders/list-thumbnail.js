@@ -6,6 +6,8 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import BaseFolder, { BaseFolderConnectors } from './../base-folder.js'
 import { BaseFileConnectors } from './../base-file.js'
 
+import { isFolder } from '../utils'
+
 class RawListThumbnailFolder extends BaseFolder {
   render() {
     const {
@@ -70,7 +72,7 @@ class RawListThumbnailFolder extends BaseFolder {
           depth: depth + 1,
         }
 
-        if (file.size) {
+        if (!isFolder(file)) {
           children.push(
             <browserProps.fileRenderer
               {...file}
@@ -91,7 +93,7 @@ class RawListThumbnailFolder extends BaseFolder {
         }
       }
       if (children.length) {
-        children = (<ul style={{padding: '0 8px', paddingLeft: '16px'}}>{children}</ul>)
+        children = (<ul style={{ padding: '0 8px', paddingLeft: '16px' }}>{children}</ul>)
       } else {
         children = (<p>No items in this folder</p>)
       }

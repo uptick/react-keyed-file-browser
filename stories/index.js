@@ -9,6 +9,16 @@ storiesOf('FileBrowser', module)
     <FileBrowser
       files={[
         {
+          key: 'animals/',
+          modified: +Moment().subtract(1, 'hours'),
+          size: 0,
+        },
+        {
+          key: 'animals/dog.png',
+          modified: +Moment().subtract(1, 'hours'),
+          size: 0,
+        },
+        {
           key: 'cat.png',
           modified: +Moment().subtract(1, 'hours'),
           size: 1.5 * 1024 * 1024,

@@ -1,3 +1,5 @@
+import { isFolder } from '../utils'
+
 export default function(files, root) {
   const fileTree = {
     contents: [],
@@ -9,7 +11,7 @@ export default function(files, root) {
     let currentFolder = fileTree
     const folders = file.relativeKey.split('/')
     folders.map((folder, folderIndex) => {
-      if (folderIndex === folders.length - 1 && !file.size) {
+      if (folderIndex === folders.length - 1 && isFolder(file)) {
         for (let key in file) {
           currentFolder[key] = file[key]
         }
@@ -17,7 +19,7 @@ export default function(files, root) {
       if (folder === '') {
         return
       }
-      const isAFile = (file.size && (folderIndex === folders.length - 1))
+      const isAFile = (!isFolder(file) && (folderIndex === folders.length - 1))
       if (isAFile) {
         currentFolder.contents.push({
           ...file,
