@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import { IMAGE_EXTENSIONS } from './constants.js'
+import { extensionMapping } from './constants.js'
 
 class BaseFile extends React.Component {
   static propTypes = {
@@ -58,18 +58,9 @@ class BaseFile extends React.Component {
     const blobs = this.props.fileKey.split('.')
     return blobs[blobs.length - 1].toLowerCase().trim()
   }
-  isImage() {
-    const extension = this.getExtension()
-    for (let extensionIndex = 0; extensionIndex < IMAGE_EXTENSIONS.length; extensionIndex++) {
-      const imageExtension = IMAGE_EXTENSIONS[extensionIndex]
-      if (extension === imageExtension) {
-        return true
-      }
-    }
-    return false
-  }
-  isPdf() {
-    return (this.getExtension() === 'pdf')
+
+  getFileType() {
+    return extensionMapping[this.getExtension()] || 'File'
   }
 
   handleFileClick = (event) => {
@@ -99,7 +90,7 @@ class BaseFile extends React.Component {
   }
   handleNewNameChange = (event) => {
     const newName = this.newNameRef.value
-    this.setState({newName: newName})
+    this.setState({ newName: newName })
   }
   handleRenameSubmit = (event) => {
     if (event) {
@@ -224,7 +215,7 @@ const targetSource = {
 function targetCollect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver({shallow: true}),
+    isOver: monitor.isOver({ shallow: true }),
   }
 }
 

@@ -51,7 +51,6 @@ ReactDOM.render(
       },
     ]}
     renderStyle="list"
-    nestChildren
     headerRenderer={null}
     group={Groupers.GroupByModifiedRelative}
     fileRenderer={FileRenderers.ListThumbnailFile}

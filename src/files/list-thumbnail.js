@@ -28,12 +28,8 @@ class RawListThumbnailFile extends BaseFile {
           backgroundImage: 'url(' + thumbnailUrl + ')',
         }} />
       )
-    } else if (this.isImage()) {
-      icon = browserProps.icons.Image
-    } else if (this.isPdf()) {
-      icon = browserProps.icons.PDF
     } else {
-      icon = browserProps.icons.File
+      icon = browserProps.icons[this.getFileType()] || browserProps.icons.File
     }
 
     const inAction = (isDragging || action)

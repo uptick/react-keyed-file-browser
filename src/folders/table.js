@@ -78,7 +78,7 @@ class RawTableFolder extends BaseFolder {
         onDoubleClick={this.handleFolderDoubleClick}
       >
         <td className="name">
-          <div style={{paddingLeft: (depth * 16) + 'px'}}>
+          <div style={{ paddingLeft: (depth * 16) + 'px' }}>
             {name}
           </div>
         </td>

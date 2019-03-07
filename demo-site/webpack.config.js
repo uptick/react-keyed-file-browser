@@ -1,5 +1,3 @@
-var path = require('path');
-
 module.exports = {
   entry: './demos.js',
   output: {
@@ -7,19 +5,15 @@ module.exports = {
     filename: 'demos.js',
   },
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        loader: 'babel',
-        query: {
-          presets: [
-            'env',
-            'react',
-            'stage-0',
-          ],
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
+          rootMode: 'upward',
         },
       },
     ],
   },
-};
+}

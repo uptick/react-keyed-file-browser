@@ -14,15 +14,8 @@ class RawTableFile extends BaseFile {
       action, url, browserProps, connectDragPreview,
       depth, size, modified,
     } = this.props
-    let icon
-    if (this.isImage()) {
-      icon = browserProps.icons.Image
-    } else if (this.isPdf()) {
-      icon = browserProps.icons.PDF
-    } else {
-      icon = browserProps.icons.File
-    }
 
+    const icon = browserProps.icons[this.getFileType()] || browserProps.icons.File
     const inAction = (isDragging || action)
 
     let name
@@ -92,7 +85,7 @@ class RawTableFile extends BaseFile {
         onDoubleClick={this.handleItemDoubleClick}
       >
         <td className="name">
-          <div style={{paddingLeft: (depth * 16) + 'px'}}>
+          <div style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
           </div>
         </td>

@@ -8,19 +8,19 @@
     "space-before-function-paren": [2, {
       "anonymous": "never",
       "named": "never",
-      "asyncArrow": "always",
+      "asyncArrow": "always"
     }],
     "jsx-quotes": [2, "prefer-double"],
     "no-var": 2,
 
     "babel/no-invalid-this": 1,
     "babel/semi": [2, "never"],
-    "react/prop-types": 1,
+    "react/prop-types": 1
   },
   "extends": ["standard", "standard-react"],
   "env": {
     "browser": true,
     "jest": true,
-    "jasmine": true,
+    "jasmine": true
   }
 }

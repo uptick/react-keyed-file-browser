@@ -1,12 +1,13 @@
 import Moment from 'moment'
-import {relativeTimeWindows} from './utils'
+import { relativeTimeWindows } from './utils'
+import { isFolder } from '../utils'
 
 export default function(files, root) {
   const timeWindows = relativeTimeWindows()
 
   for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
     const file = files[fileIndex]
-    if (!file.size) { continue }
+    if (isFolder(file)) { continue }
     const newFile = {
       ...file,
       keyDerived: true,
@@ -39,7 +40,7 @@ export default function(files, root) {
     const timeWindow = timeWindows[windex]
     if (!timeWindow.items.length) { continue }
     grouped.push({
-      key: timeWindow.name.toLowerCase().replace(' ', '_'),
+      key: `${timeWindow.name.toLowerCase().replace(' ', '_')}/`,
       name: timeWindow.name,
       children: timeWindow.items,
       size: 0,
