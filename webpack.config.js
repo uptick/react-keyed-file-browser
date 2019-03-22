@@ -4,7 +4,7 @@ const NodeExternals = require('webpack-node-externals')
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, '/dist'),
+    path: path.join(__dirname, '/dist'),
     filename: 'react-keyed-file-browser.js',
     library: 'react-keyed-file-browser',
     libraryTarget: 'umd',
@@ -21,7 +21,7 @@ module.exports = {
       {
         test: /.*\.sass*/,
         loader: ['style-loader', 'css-loader', 'sass-loader'],
-        include: path.resolve(__dirname, './src'),
+        include: path.join(__dirname, '/src'),
       },
     ],
   },
