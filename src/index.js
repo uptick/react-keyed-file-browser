@@ -11,6 +11,7 @@ import * as Filters from './filters'
 import * as Groupers from './groupers'
 import * as Sorters from './sorters'
 import * as Icons from './icons'
+import * as Utils from './utils'
 
 export default FileBrowser
 export {
@@ -30,4 +31,5 @@ export {
   Groupers,
   Sorters,
   Icons,
+  Utils,
 }
