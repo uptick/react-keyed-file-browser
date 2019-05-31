@@ -80,7 +80,7 @@ class BaseFolder extends React.Component {
   }
   handleNewNameChange = (event) => {
     const newName = this.newNameRef.value
-    this.setState({newName: newName})
+    this.setState({ newName: newName })
   }
   handleRenameSubmit = (event) => {
     event.preventDefault()

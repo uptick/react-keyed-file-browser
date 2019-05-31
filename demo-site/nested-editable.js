@@ -54,12 +54,14 @@ class NestedEditableDemo extends React.Component {
     })
   }
   handleCreateFiles = (files, prefix) => {
-    this.setState(state => {
+    this.setState(prevState => {
       const newFiles = files.map((file) => {
         let newKey = prefix
         if (prefix !== '' && prefix.substring(prefix.length - 1, prefix.length) !== '/') {
           newKey += '/'
         }
+        const invalidChar = ['/', '\\']
+        if (invalidChar.some(char => file.name.indexOf(char) !== -1)) return
         newKey += file.name
         return {
           key: newKey,
@@ -67,21 +69,13 @@ class NestedEditableDemo extends React.Component {
           modified: +Moment(),
         }
       })
-
       const uniqueNewFiles = []
-      newFiles.map((newFile) => {
-        let exists = false
-        state.files.map((existingFile) => {
-          if (existingFile.key === newFile.key) {
-            exists = true
-          }
-        })
-        if (!exists) {
-          uniqueNewFiles.push(newFile)
-        }
+      newFiles.forEach((newFile) => {
+        const exists = prevState.files.some(existingFile => (existingFile.key === newFile.key))
+        if (!exists) uniqueNewFiles.push(newFile)
       })
-      state.files = state.files.concat(uniqueNewFiles)
-      return state
+      const updatedFiles = [...prevState.files, uniqueNewFiles]
+      return { files: updatedFiles }
     })
   }
   handleRenameFolder = (oldKey, newKey) => {
