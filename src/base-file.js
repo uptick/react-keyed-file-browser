@@ -108,15 +108,14 @@ class BaseFile extends React.Component {
       // })
       return
     }
-    if (newName.indexOf('/') !== -1) {
-      // todo: move to props handler
-      // window.notify({
-      //   style: 'error',
-      //   title: 'Invalid new file name',
-      //   body: 'File names cannot contain forward slashes.',
-      // })
-      return
-    }
+    const invalidChar = ['/', '\\']
+    if (invalidChar.some(char => newName.indexOf(char) !== -1)) return
+    // todo: move to props handler
+    // window.notify({
+    //   style: 'error',
+    //   title: 'Invalid new file name',
+    //   body: 'File names cannot contain forward slashes.',
+    // })
     let newKey = newName
     const slashIndex = this.props.fileKey.lastIndexOf('/')
     if (slashIndex !== -1) {
