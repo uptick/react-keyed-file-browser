@@ -80,7 +80,7 @@ class BaseFolder extends React.Component {
   }
   handleNewNameChange = (event) => {
     const newName = this.newNameRef.value
-    this.setState({newName: newName})
+    this.setState({ newName: newName })
   }
   handleRenameSubmit = (event) => {
     event.preventDefault()
@@ -97,15 +97,15 @@ class BaseFolder extends React.Component {
       // })
       return
     }
-    if (newName.indexOf('/') !== -1) {
-      // todo: move to props handler
-      // window.notify({
-      //   style: 'error',
-      //   title: 'Invalid new folder name',
-      //   body: 'Folder names cannot contain forward slashes.',
-      // })
-      return
-    }
+    const invalidChar = ['/', '\\']
+    if (invalidChar.some(char => newName.indexOf(char) !== -1)) return
+    // todo: move to props handler
+    // window.notify({
+    //   style: 'error',
+    //   title: 'Invalid new folder name',
+    //   body: 'Folder names cannot contain forward slashes.',
+    // })
+
     let newKey = this.props.fileKey.substr(0, this.props.fileKey.substr(0, this.props.fileKey.length - 1).lastIndexOf('/'))
     if (newKey.length) {
       newKey += '/'
