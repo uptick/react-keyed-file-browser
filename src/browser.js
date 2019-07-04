@@ -182,7 +182,9 @@ class RawFileBrowser extends React.Component {
       activeAction: null,
       actionTarget: null,
       selection: key,
-    }, this.props.onCreateFolder(key))
+    }, () => {
+      this.props.onCreateFolder(key)
+    })
   }
 
   moveFile = (oldKey, newKey) => {
