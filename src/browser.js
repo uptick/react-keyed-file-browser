@@ -83,6 +83,8 @@ class RawFileBrowser extends React.Component {
     onRenameFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDeleteFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDeleteFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onCopyFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onCopyFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDownloadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 
     onSelect: PropTypes.func,
@@ -247,6 +249,26 @@ class RawFileBrowser extends React.Component {
     })
   }
 
+  copyFile = (key) => {
+    this.setState({
+      activeAction: null,
+      actionTarget: null,
+      selection: key,
+    }, () => {
+      this.props.onCopyFile(key)
+    })
+  }
+
+  copyFolder = (key) => {
+    this.setState({
+      activeAction: null,
+      actionTarget: null,
+      selection: key,
+    }, () => {
+      this.props.onCopyFolder(key)
+    })
+  }
+
   deleteFile = (key) => {
     this.setState({
       activeAction: null,
@@ -384,6 +406,14 @@ class RawFileBrowser extends React.Component {
       })
     }
   }
+  handleActionBarCopyFileClick = (event) => {
+    event.preventDefault()
+    this.copyFile(this.state.selection)
+  }
+  handleActionBarCopyFolderClick = (event) => {
+    event.preventDefault()
+    this.copyFolder(this.state.selection)
+  }
   handleActionBarRenameClick = (event) => {
     event.preventDefault()
     this.beginAction('rename', this.state.selection)
@@ -465,6 +495,8 @@ class RawFileBrowser extends React.Component {
       moveFolder: this.props.onMoveFolder ? this.moveFolder : undefined,
       deleteFile: this.props.onDeleteFile ? this.deleteFile : undefined,
       deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : undefined,
+      copyFolder: this.props.onCopyFolder ? this.copyFolder : undefined,
+      copyFile: this.props.onCopyFile ? this.copyFile : undefined,
 
       getItemProps: getItemProps,
     }
@@ -475,6 +507,7 @@ class RawFileBrowser extends React.Component {
       icons, canFilter, filterRendererProps,
       filterRenderer: FilterRenderer, onCreateFolder,
       onRenameFile, onRenameFolder, onDeleteFile, onDeleteFolder, onDownloadFile,
+      onCopyFile, onCopyFolder,
     } = this.props
     const selectionIsFolder = (selectedItem && !selectedItem.size)
     let filter
@@ -529,6 +562,42 @@ class RawFileBrowser extends React.Component {
               >
                 {icons.Folder}
                 &nbsp;Add Subfolder
+              </a>
+            </li>
+          )
+        }
+        if (
+          !selectionIsFolder &&
+          typeof onCopyFile === 'function' &&
+          !this.state.nameFilter
+        ) {
+          actions.push(
+            <li key="action-copy">
+              <a
+                onClick={this.handleActionBarCopyFileClick}
+                href="#"
+                role="button"
+              >
+                {icons.Copy}
+                &nbsp;Copy
+              </a>
+            </li>
+          )
+        }
+        if (
+          selectionIsFolder &&
+          typeof onCopyFolder === 'function' &&
+          !this.state.nameFilter
+        ) {
+          actions.push(
+            <li key="action-copy">
+              <a
+                onClick={this.handleActionBarCopyFolderClick}
+                href="#"
+                role="button"
+              >
+                {icons.Copy}
+                &nbsp;Copy
               </a>
             </li>
           )

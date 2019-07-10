@@ -30,6 +30,7 @@ class BaseFolder extends React.Component {
       moveFolder: PropTypes.func,
       renameFolder: PropTypes.func,
       deleteFolder: PropTypes.func,
+      copyFolder: PropTypes.func,
     }),
   }
 
