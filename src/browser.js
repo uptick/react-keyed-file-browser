@@ -76,7 +76,6 @@ class RawFileBrowser extends React.Component {
     detailRenderer: PropTypes.func,
     detailRendererProps: PropTypes.object,
     actionRenderer: PropTypes.func,
-    actionRendererProps: PropTypes.object,
 
     onCreateFiles: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onCreateFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
@@ -123,7 +122,6 @@ class RawFileBrowser extends React.Component {
     detailRenderer: DefaultDetail,
     detailRendererProps: {},
     actionRenderer: DefaultAction,
-    actionRendererProps: {},
 
     icons: {},
 
@@ -479,7 +477,7 @@ class RawFileBrowser extends React.Component {
     const {
       icons, canFilter,
       filterRendererProps, filterRenderer: FilterRenderer,
-      actionRendererProps, actionRenderer: ActionRenderer,
+      actionRenderer: ActionRenderer,
       onCreateFolder, onRenameFile, onRenameFolder,
       onDeleteFile, onDeleteFolder, onDownloadFile,
     } = this.props
@@ -495,10 +493,8 @@ class RawFileBrowser extends React.Component {
       )
     }
 
-    let actions = null
-    actions = (
+    let actions = (
       <ActionRenderer
-        {...actionRendererProps}
         selectedItem={selectedItem}
         isFolder={selectionIsFolder}
 
@@ -514,7 +510,7 @@ class RawFileBrowser extends React.Component {
         canRenameFolder={typeof onRenameFolder === 'function'}
         onRenameFolder={this.handleActionBarRenameClick}
 
-        canDeleteFile={typeof onDeleteFile   === 'function'}
+        canDeleteFile={typeof onDeleteFile === 'function'}
         onDeleteFile={this.handleActionBarDeleteClick}
 
         canDeleteFolder={typeof onDeleteFolder === 'function'}
@@ -524,7 +520,6 @@ class RawFileBrowser extends React.Component {
         onDownloadFile={this.handleActionBarDownloadClick}
       />
     )
-
 
     return (
       <div className="action-bar">
