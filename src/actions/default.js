@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const Actions = (props) => {
   const {
@@ -70,11 +71,24 @@ const Actions = (props) => {
         )
       }
 
-      if (selectedItem.keyDerived && (canRenameFile || canRenameFolder)) {
+      if (selectedItem.keyDerived && !isFolder && canRenameFile) {
         actions.push(
           <li key="action-rename">
             <a
-              onClick={isFolder ? onRenameFolder : onRenameFile}
+              onClick={onRenameFile}
+              href="#"
+              role="button"
+            >
+              {icons.Rename}
+              &nbsp;Rename
+            </a>
+          </li>
+        )
+      } else if (selectedItem.keyDerived && isFolder && canRenameFolder) {
+        actions.push(
+          <li key="action-rename">
+            <a
+              onClick={onRenameFolder}
               href="#"
               role="button"
             >
@@ -85,11 +99,24 @@ const Actions = (props) => {
         )
       }
 
-      if (selectedItem.keyDerived && (canDeleteFile || canDeleteFolder)) {
+      if (selectedItem.keyDerived && !isFolder && canDeleteFile) {
         actions.push(
           <li key="action-delete">
             <a
-              onClick={isFolder ? onDeleteFolder : onDeleteFile}
+              onClick={onDeleteFile}
+              href="#"
+              role="button"
+            >
+              {icons.Delete}
+              &nbsp;Delete
+            </a>
+          </li>
+        )
+      } else if (selectedItem.keyDerived && isFolder && canDeleteFolder) {
+        actions.push(
+          <li key="action-delete">
+            <a
+              onClick={onDeleteFolder}
               href="#"
               role="button"
             >
@@ -146,6 +173,56 @@ const Actions = (props) => {
   }
 
   return actions
+}
+
+Actions.propTypes = {
+  selectedItem: PropTypes.object,
+  isFolder: PropTypes.bool,
+  icons: PropTypes.object,
+  nameFilter: PropTypes.string,
+
+  canCreateFolder: PropTypes.bool,
+  onCreateFolder: PropTypes.func,
+
+  canRenameFile: PropTypes.bool,
+  onRenameFile: PropTypes.func,
+
+  canRenameFolder: PropTypes.bool,
+  onRenameFolder: PropTypes.func,
+
+  canDeleteFile: PropTypes.bool,
+  onDeleteFile: PropTypes.func,
+
+  canDeleteFolder: PropTypes.bool,
+  onDeleteFolder: PropTypes.func,
+
+  canDownloadFile: PropTypes.bool,
+  onDownloadFile: PropTypes.func,
+}
+
+Actions.defaultProps = {
+  selectedItem: null,
+  isFolder: false,
+  icons: {},
+  nameFilter: '',
+
+  canCreateFolder: false,
+  onCreateFolder: null,
+
+  canRenameFile: false,
+  onRenameFile: null,
+
+  canRenameFolder: false,
+  onRenameFolder: null,
+
+  canDeleteFile: false,
+  onDeleteFile: null,
+
+  canDeleteFolder: false,
+  onDeleteFolder: null,
+
+  canDownloadFile: false,
+  onDownloadFile: null,
 }
 
 export default Actions
