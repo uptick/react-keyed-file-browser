@@ -18,6 +18,7 @@ import { GroupByFolder } from './groupers'
 import { SortByName } from './sorters'
 
 import { isFolder } from './utils'
+import { DefaultAction } from './actions'
 
 const SEARCH_RESULTS_PER_PAGE = 20
 
@@ -74,6 +75,8 @@ class RawFileBrowser extends React.Component {
     folderRendererProps: PropTypes.object,
     detailRenderer: PropTypes.func,
     detailRendererProps: PropTypes.object,
+    actionRenderer: PropTypes.func,
+    actionRendererProps: PropTypes.object,
 
     onCreateFiles: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onCreateFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
@@ -119,6 +122,8 @@ class RawFileBrowser extends React.Component {
     folderRendererProps: {},
     detailRenderer: DefaultDetail,
     detailRendererProps: {},
+    actionRenderer: DefaultAction,
+    actionRendererProps: {},
 
     icons: {},
 
@@ -472,9 +477,11 @@ class RawFileBrowser extends React.Component {
 
   renderActionBar(selectedItem) {
     const {
-      icons, canFilter, filterRendererProps,
-      filterRenderer: FilterRenderer, onCreateFolder,
-      onRenameFile, onRenameFolder, onDeleteFile, onDeleteFolder, onDownloadFile,
+      icons, canFilter,
+      filterRendererProps, filterRenderer: FilterRenderer,
+      actionRendererProps, actionRenderer: ActionRenderer,
+      onCreateFolder, onRenameFile, onRenameFolder,
+      onDeleteFile, onDeleteFolder, onDownloadFile,
     } = this.props
     const selectionIsFolder = (selectedItem && !selectedItem.size)
     let filter
@@ -488,135 +495,36 @@ class RawFileBrowser extends React.Component {
       )
     }
 
-    let actions
-    if (selectedItem) {
-      // Something is selected. Build custom actions depending on what it is.
-      if (selectedItem.action) {
-        // Selected item has an active action against it. Disable all other actions.
-        let actionText
-        switch (selectedItem.action) {
-          case 'delete':
-            actionText = 'Deleting ...'
-            break
+    let actions = null
+    actions = (
+      <ActionRenderer
+        {...actionRendererProps}
+        selectedItem={selectedItem}
+        isFolder={selectionIsFolder}
 
-          case 'rename':
-            actionText = 'Renaming ...'
-            break
+        icons={icons}
+        nameFilter={this.state.nameFilter}
 
-          default:
-            actionText = 'Moving ...'
-            break
-        }
-        actions = (
-          // TODO: Enable plugging in custom spinner.
-          <div className="item-actions">
-            {icons.Loading} {actionText}
-          </div>
-        )
-      } else {
-        actions = []
-        if (
-          selectionIsFolder &&
-          typeof onCreateFolder === 'function' &&
-          !this.state.nameFilter
-        ) {
-          actions.push(
-            <li key="action-add-folder">
-              <a
-                onClick={this.handleActionBarAddFolderClick}
-                href="#"
-                role="button"
-              >
-                {icons.Folder}
-                &nbsp;Add Subfolder
-              </a>
-            </li>
-          )
-        }
-        if (
-          selectedItem.keyDerived && (
-            (!selectionIsFolder && typeof onRenameFile === 'function') ||
-            (selectionIsFolder && typeof onRenameFolder === 'function')
-          )
-        ) {
-          actions.push(
-            <li key="action-rename">
-              <a
-                onClick={this.handleActionBarRenameClick}
-                href="#"
-                role="button"
-              >
-                {icons.Rename}
-                &nbsp;Rename
-              </a>
-            </li>
-          )
-        }
-        if (
-          selectedItem.keyDerived && (
-            (!selectionIsFolder && typeof onDeleteFile === 'function') ||
-            (selectionIsFolder && typeof onDeleteFolder === 'function')
-          )
-        ) {
-          actions.push(
-            <li key="action-delete">
-              <a
-                onClick={this.handleActionBarDeleteClick}
-                href="#"
-                role="button"
-              >
-                {icons.Delete}
-                &nbsp;Delete
-              </a>
-            </li>
-          )
-        }
-        if (!selectionIsFolder && typeof onDownloadFile === 'function') {
-          actions.push(
-            <li key="action-download">
-              <a
-                onClick={this.handleActionBarDownloadClick}
-                href="#"
-                role="button"
-              >
-                {icons.Download}
-                &nbsp;Download
-              </a>
-            </li>
-          )
-        }
-        if (actions.length) {
-          actions = (<ul className="item-actions">{actions}</ul>)
-        } else {
-          actions = (<div className="item-actions">&nbsp;</div>)
-        }
-      }
-    } else {
-      // Nothing selected: We're in the 'root' folder. Only allowed action is adding a folder.
-      actions = []
-      if (
-        typeof onCreateFolder === 'function' &&
-        !this.state.nameFilter
-      ) {
-        actions.push(
-          <li key="action-add-folder">
-            <a
-              onClick={this.handleActionBarAddFolderClick}
-              href="#"
-              role="button"
-            >
-              {icons.Folder}
-              &nbsp;Add Folder
-            </a>
-          </li>
-        )
-      }
-      if (actions.length) {
-        actions = (<ul className="item-actions">{actions}</ul>)
-      } else {
-        actions = (<div className="item-actions">&nbsp;</div>)
-      }
-    }
+        canCreateFolder={typeof onCreateFolder === 'function'}
+        onCreateFolder={this.handleActionBarAddFolderClick}
+
+        canRenameFile={typeof onRenameFile === 'function'}
+        onRenameFile={this.handleActionBarRenameClick}
+
+        canRenameFolder={typeof onRenameFolder === 'function'}
+        onRenameFolder={this.handleActionBarRenameClick}
+
+        canDeleteFile={typeof onDeleteFile   === 'function'}
+        onDeleteFile={this.handleActionBarDeleteClick}
+
+        canDeleteFolder={typeof onDeleteFolder === 'function'}
+        onDeleteFolder={this.handleActionBarDeleteClick}
+
+        canDownloadFile={typeof onDownloadFile === 'function'}
+        onDownloadFile={this.handleActionBarDownloadClick}
+      />
+    )
+
 
     return (
       <div className="action-bar">
