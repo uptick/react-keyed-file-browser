@@ -481,6 +481,7 @@ class RawFileBrowser extends React.Component {
       onCreateFolder, onRenameFile, onRenameFolder,
       onDeleteFile, onDeleteFolder, onDownloadFile,
     } = this.props
+    const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItem && !selectedItem.size)
     let filter
     if (canFilter) {
@@ -495,6 +496,8 @@ class RawFileBrowser extends React.Component {
 
     let actions = (
       <ActionRenderer
+        browserProps={browserProps}
+
         selectedItem={selectedItem}
         isFolder={selectionIsFolder}
 
