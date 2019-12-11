@@ -12,6 +12,7 @@ import { DefaultFilter } from './filters'
 import { TableHeader } from './headers'
 import { TableFile } from './files'
 import { TableFolder } from './folders'
+import { DefaultConfirmDeletion } from './confirmations'
 
 // default processors
 import { GroupByFolder } from './groupers'
@@ -76,6 +77,7 @@ class RawFileBrowser extends React.Component {
     detailRenderer: PropTypes.func,
     detailRendererProps: PropTypes.object,
     actionRenderer: PropTypes.func,
+    confirmDeletionRenderer: PropTypes.func,
 
     onCreateFiles: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onCreateFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
@@ -122,6 +124,7 @@ class RawFileBrowser extends React.Component {
     detailRenderer: DefaultDetail,
     detailRendererProps: {},
     actionRenderer: DefaultAction,
+    confirmDeletionRenderer: DefaultConfirmDeletion,
 
     icons: {},
 
@@ -442,6 +445,7 @@ class RawFileBrowser extends React.Component {
       fileRendererProps: this.props.fileRendererProps,
       folderRenderer: this.props.folderRenderer,
       folderRendererProps: this.props.folderRendererProps,
+      confirmDeletionRenderer: this.props.confirmDeletionRenderer,
       icons: this.props.icons,
 
       // browser state
