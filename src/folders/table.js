@@ -16,24 +16,19 @@ class RawTableFolder extends BaseFolder {
     const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
     const inAction = (isDragging || action)
 
+    const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer
+
     let name
     if (!inAction && isDeleting) {
       name = (
-        <form className="deleting" onSubmit={this.handleDeleteSubmit}>
-          <a
-            href={url}
-            download="download"
-            onClick={this.handleFileClick}
-          >
-            {icon}
-            {this.getName()}
-          </a>
-          <div>
-            <button type="submit">
-              Confirm Deletion
-            </button>
-          </div>
-        </form>
+        <ConfirmDeletionRenderer
+          handleDeleteSubmit={this.handleDeleteSubmit}
+          handleFileClick={this.handleFileClick}
+          url={url}
+        >
+          {icon}
+          {this.getName()}
+        </ConfirmDeletionRenderer>
       )
     } else if ((!inAction && isRenaming) || isDraft) {
       name = (

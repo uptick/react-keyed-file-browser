@@ -21,6 +21,7 @@ class RawListThumbnailFile extends BaseFile {
       isDragging, isRenaming, isSelected, isSelectable, isOver, isDeleting,
       showName, showSize, showModified, browserProps, connectDragPreview,
     } = this.props
+
     let icon
     if (thumbnailUrl) {
       icon = (
@@ -34,24 +35,19 @@ class RawListThumbnailFile extends BaseFile {
 
     const inAction = (isDragging || action)
 
+    const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer
+
     let name
     if (showName) {
       if (!inAction && isDeleting) {
         name = (
-          <form className="deleting" onSubmit={this.handleDeleteSubmit}>
-            <a
-              href={url}
-              download="download"
-              onClick={this.handleFileClick}
-            >
-              {this.getName()}
-            </a>
-            <div>
-              <button type="submit">
-                Confirm Deletion
-              </button>
-            </div>
-          </form>
+          <ConfirmDeletionRenderer
+            handleDeleteSubmit={this.handleDeleteSubmit}
+            handleFileClick={this.handleFileClick}
+            url={url}
+          >
+            {this.getName()}
+          </ConfirmDeletionRenderer>
         )
       } else if (!inAction && isRenaming) {
         name = (
