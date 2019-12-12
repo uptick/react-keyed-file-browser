@@ -57,8 +57,13 @@ class RawTableFolder extends BaseFolder {
       )
     }
 
-    if (typeof browserProps.moveFolder === 'function') {
-      name = connectDragPreview(name)
+    let draggable = (
+      <div>
+        {name}
+      </div>
+    )
+    if (typeof browserProps.moveFile === 'function') {
+      draggable = connectDragPreview(draggable)
     }
 
     const folder = (
@@ -74,7 +79,7 @@ class RawTableFolder extends BaseFolder {
       >
         <td className="name">
           <div style={{ paddingLeft: (depth * 16) + 'px' }}>
-            {name}
+            {draggable}
           </div>
         </td>
         <td />
