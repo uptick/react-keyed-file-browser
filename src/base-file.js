@@ -74,7 +74,7 @@ class BaseFile extends React.Component {
   }
   handleItemClick = (event) => {
     event.stopPropagation()
-    this.props.browserProps.select(this.props.fileKey, 'file')
+    this.props.browserProps.select(this.props.fileKey, 'file', event.ctrlKey, event.shiftKey)
   }
   handleItemDoubleClick = (event) => {
     event.stopPropagation()
@@ -135,7 +135,8 @@ class BaseFile extends React.Component {
     if (!this.props.browserProps.deleteFile) {
       return
     }
-    this.props.browserProps.deleteFile(this.props.fileKey)
+    console.log(this.props);
+    this.props.browserProps.deleteFile(this.props.browserProps.actionTargets)
   }
 
   handleCancelEdit = (event) => {
@@ -164,7 +165,7 @@ class BaseFile extends React.Component {
 
 const dragSource = {
   beginDrag(props) {
-    props.browserProps.select(props.fileKey, 'file')
+    // props.browserProps.select(props.fileKey, 'file')
     return {
       key: props.fileKey,
     }
@@ -174,12 +175,14 @@ const dragSource = {
     if (!monitor.didDrop()) return
 
     const dropResult = monitor.getDropResult()
-    const fileNameParts = props.fileKey.split('/')
-    const fileName = fileNameParts[fileNameParts.length - 1]
-    const newKey = `${dropResult.path}${fileName}`
-    if (newKey !== props.fileKey && props.browserProps.moveFile) {
-      props.browserProps.openFolder(dropResult.path)
-      props.browserProps.moveFile(props.fileKey, newKey)
+    for (let i in props.browserProps.selection) {
+      const fileKey = props.browserProps.selection[i]
+      const fileNameParts = fileKey.split('/')
+      const fileName = fileNameParts[fileNameParts.length - 1]
+      const newKey = `${dropResult.path}${fileName}`
+      if (newKey !== fileKey && props.browserProps.moveFile) {
+        props.browserProps.moveFile(fileKey, newKey)
+      }
     }
   },
 }

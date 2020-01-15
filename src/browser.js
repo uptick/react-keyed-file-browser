@@ -27,10 +27,10 @@ function getItemProps(file, browserProps) {
   return {
     key: `file-${file.key}`,
     fileKey: file.key,
-    isSelected: (file.key === browserProps.selection),
+    isSelected: (browserProps.selection.includes(file.key)),
     isOpen: file.key in browserProps.openFolders || browserProps.nameFilter,
-    isRenaming: browserProps.activeAction === 'rename' && browserProps.actionTarget === file.key,
-    isDeleting: browserProps.activeAction === 'delete' && browserProps.actionTarget === file.key,
+    isRenaming: browserProps.activeAction === 'rename' && browserProps.actionTargets.includes(file.key),
+    isDeleting: browserProps.activeAction === 'delete' && browserProps.actionTargets.includes(file.key),
     isDraft: !!file.draft,
   }
 }
@@ -141,9 +141,9 @@ class RawFileBrowser extends React.Component {
 
   state = {
     openFolders: {},
-    selection: null,
+    selection: [],
     activeAction: null,
-    actionTarget: null,
+    actionTargets: [],
 
     nameFilter: '',
     searchResultsShown: SEARCH_RESULTS_PER_PAGE,
@@ -170,7 +170,7 @@ class RawFileBrowser extends React.Component {
   // item manipulation
   createFiles = (files, prefix) => {
     this.setState(prevState => {
-      const stateChanges = { selection: null }
+      const stateChanges = { selection: [] }
       if (prefix) {
         stateChanges.openFolders = {
           ...prevState.openFolders,
@@ -186,8 +186,8 @@ class RawFileBrowser extends React.Component {
   createFolder = (key) => {
     this.setState({
       activeAction: null,
-      actionTarget: null,
-      selection: key,
+      actionTargets: [],
+      selection: [key],
     }, () => {
       this.props.onCreateFolder(key)
     })
@@ -196,8 +196,8 @@ class RawFileBrowser extends React.Component {
   moveFile = (oldKey, newKey) => {
     this.setState({
       activeAction: null,
-      actionTarget: null,
-      selection: newKey,
+      actionTargets: [],
+      selection: [newKey],
     }, () => {
       this.props.onMoveFile(oldKey, newKey)
     })
@@ -207,8 +207,8 @@ class RawFileBrowser extends React.Component {
     this.setState(prevState => {
       const stateChanges = {
         activeAction: null,
-        actionTarget: null,
-        selection: newKey,
+        actionTargets: [],
+        selection: [newKey],
       }
       if (oldKey in prevState.openFolders) {
         stateChanges.openFolders = {
@@ -225,8 +225,8 @@ class RawFileBrowser extends React.Component {
   renameFile = (oldKey, newKey) => {
     this.setState({
       activeAction: null,
-      actionTarget: null,
-      selection: newKey,
+      actionTargets: [],
+      selection: [newKey],
     }, () => {
       this.props.onRenameFile(oldKey, newKey)
     })
@@ -236,10 +236,10 @@ class RawFileBrowser extends React.Component {
     this.setState(prevState => {
       const stateChanges = {
         activeAction: null,
-        actionTarget: null,
+        actionTargets: [],
       }
-      if (prevState.selection.substr(0, oldKey.length) === oldKey) {
-        stateChanges.selection = prevState.selection.replace(oldKey, newKey)
+      if (prevState.selection[0].substr(0, oldKey.length) === oldKey) {
+        stateChanges.selection = [prevState.selection[0].replace(oldKey, newKey)]
       }
       if (oldKey in prevState.openFolders) {
         stateChanges.openFolders = {
@@ -253,13 +253,13 @@ class RawFileBrowser extends React.Component {
     })
   }
 
-  deleteFile = (key) => {
+  deleteFile = (keys) => {
     this.setState({
       activeAction: null,
-      actionTarget: null,
-      selection: null,
+      actionTargets: [],
+      selection: [],
     }, () => {
-      this.props.onDeleteFile(key)
+      this.props.onDeleteFile(keys)
     })
   }
 
@@ -267,8 +267,8 @@ class RawFileBrowser extends React.Component {
     this.setState(prevState => {
       const stateChanges = {
         activeAction: null,
-        actionTarget: null,
-        selection: null,
+        actionTargets: [],
+        selection: [],
       }
       if (key in prevState.openFolders) {
         stateChanges.openFolders = { ...prevState.openFolders }
@@ -280,38 +280,48 @@ class RawFileBrowser extends React.Component {
     })
   }
 
-  downloadFile = (key) => {
+  downloadFile = (keys) => {
     this.setState({
       activeAction: null,
-      actionTarget: null,
+      actionTargets: [],
     }, () => {
-      this.props.onDownloadFile(key)
+      this.props.onDownloadFile(keys)
     })
   }
 
   // browser manipulation
-  beginAction = (action, key) => {
+  beginAction = (action, keys) => {
     this.setState({
       activeAction: action,
-      actionTarget: key,
+      actionTargets: keys,
     })
   }
 
   endAction = () => {
     if (this.state.selection !== null && this.state.selection.indexOf('__new__') !== -1) {
-      this.setState({ selection: null })
+      this.setState({ selection: [] })
     }
     this.beginAction(null, null)
   }
 
-  select = (key, selectedType) => {
-    const { actionTarget } = this.state
-    const shouldClearState = actionTarget !== null && actionTarget !== key
+  select = (key, selectedType, ctrlKey, shiftKey) => {
+    const { actionTargets } = this.state
+    const shouldClearState = actionTargets.length && !actionTargets.includes(key)
     const selected = this.getFile(key)
 
+    let newSelection = [key]
+    if (ctrlKey || shiftKey) {
+      let indexOfKey = this.state.selection.indexOf(key);
+      if (indexOfKey !== -1) {
+        newSelection = [...this.state.selection.slice(0, indexOfKey), ...this.state.selection.slice(indexOfKey + 1)]
+      } else {
+        newSelection = [...this.state.selection, key]
+      }
+    }
+
     this.setState(prevState => ({
-      selection: key,
-      actionTarget: shouldClearState ? null : actionTarget,
+      selection: newSelection,
+      actionTargets: shouldClearState ? [] : actionTargets,
       activeAction: shouldClearState ? null : prevState.activeAction,
     }), () => {
       this.props.onSelect(selected)
@@ -384,8 +394,8 @@ class RawFileBrowser extends React.Component {
 
     if (!inBrowser && !inPreview) {
       this.setState({
-        selection: null,
-        actionTarget: null,
+        selection: [],
+        actionTargets: [],
         activeAction: null,
       })
     }
@@ -413,9 +423,9 @@ class RawFileBrowser extends React.Component {
       }
       addKey += '__new__/'
       const stateChanges = {
-        actionTarget: addKey,
+        actionTargets: [addKey],
         activeAction: 'createFolder',
-        selection: addKey,
+        selection: [addKey],
       }
       if (prevState.selection) {
         stateChanges.openFolders = {
@@ -453,7 +463,7 @@ class RawFileBrowser extends React.Component {
       nameFilter: this.state.nameFilter,
       selection: this.state.selection,
       activeAction: this.state.activeAction,
-      actionTarget: this.state.actionTarget,
+      actionTargets: this.state.actionTargets,
 
       // browser manipulation
       select: this.select,
@@ -477,7 +487,7 @@ class RawFileBrowser extends React.Component {
     }
   }
 
-  renderActionBar(selectedItem) {
+  renderActionBar(selectedItems) {
     const {
       icons, canFilter,
       filterRendererProps, filterRenderer: FilterRenderer,
@@ -486,7 +496,7 @@ class RawFileBrowser extends React.Component {
       onDeleteFile, onDeleteFolder, onDownloadFile,
     } = this.props
     const browserProps = this.getBrowserProps()
-    const selectionIsFolder = (selectedItem && !selectedItem.size)
+    const selectionIsFolder = (selectedItems.length === 1 && !selectedItems[0].size)
     let filter
     if (canFilter) {
       filter = (
@@ -502,7 +512,7 @@ class RawFileBrowser extends React.Component {
       <ActionRenderer
         browserProps={browserProps}
 
-        selectedItem={selectedItem}
+        selectedItems={selectedItems}
         isFolder={selectionIsFolder}
 
         icons={icons}
@@ -579,6 +589,7 @@ class RawFileBrowser extends React.Component {
   }
 
   render() {
+    const {selection} = this.state
     const browserProps = this.getBrowserProps()
     const headerProps = {
       browserProps,
@@ -590,7 +601,7 @@ class RawFileBrowser extends React.Component {
     let files = this.props.files.concat([])
     if (this.state.activeAction === 'createFolder') {
       files.push({
-        key: this.state.actionTarget,
+        key: this.state.actionTargets[0],
         size: 0,
         draft: true,
       })
@@ -623,10 +634,10 @@ class RawFileBrowser extends React.Component {
       })
       files = newFiles
     }
-    let selectedItem = null
+    let selectedItems = []
     const findSelected = (item) => {
-      if (item.key === this.state.selection) {
-        selectedItem = item
+      if (selection.includes(item.key)) {
+        selectedItems.push(item)
       }
       if (item.children) {
         item.children.map(findSelected)
@@ -746,7 +757,7 @@ class RawFileBrowser extends React.Component {
       <div className="rendered-react-keyed-file-browser">
         {this.props.actions}
         <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
-          {this.props.showActionBar && this.renderActionBar(selectedItem)}
+          {this.props.showActionBar && this.renderActionBar(selectedItems)}
           <div className="files">
             {renderedFiles}
           </div>
