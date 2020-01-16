@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { moveFilesAndFolders } from './utils'
 
 class BaseFolder extends React.Component {
   static propTypes = {
@@ -175,26 +176,7 @@ const dragSource = {
   },
 
   endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
-      return
-    }
-
-    const dropResult = monitor.getDropResult()
-
-    for (let i in props.browserProps.selection) {
-      const fileKey = props.browserProps.selection[i]
-      const fileNameParts = fileKey.split('/')
-      const folderName = fileNameParts[fileNameParts.length - 2]
-
-      const newKey = `${dropResult.path}${folderName}/`
-      // abort if the new folder name contains itself
-      if (newKey.substr(0, fileKey.length) === fileKey) return
-
-      if (newKey !== fileKey && props.browserProps.moveFolder) {
-        props.browserProps.openFolder(dropResult.path)
-        props.browserProps.moveFolder(fileKey, newKey)
-      }
-    }
+    moveFilesAndFolders(props, monitor, component)
   },
 }
 

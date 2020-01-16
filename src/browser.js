@@ -13,6 +13,7 @@ import { TableHeader } from './headers'
 import { TableFile } from './files'
 import { TableFolder } from './folders'
 import { DefaultConfirmDeletion } from './confirmations'
+import { MultipleConfirmDeletion } from './confirmations'
 
 // default processors
 import { GroupByFolder } from './groupers'
@@ -78,6 +79,7 @@ class RawFileBrowser extends React.Component {
     detailRendererProps: PropTypes.object,
     actionRenderer: PropTypes.func,
     confirmDeletionRenderer: PropTypes.func,
+    confirmMultipleDeletionRenderer: PropTypes.func,
 
     onCreateFiles: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onCreateFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
@@ -125,18 +127,19 @@ class RawFileBrowser extends React.Component {
     detailRendererProps: {},
     actionRenderer: DefaultAction,
     confirmDeletionRenderer: DefaultConfirmDeletion,
+    confirmMultipleDeletionRenderer: MultipleConfirmDeletion,
 
     icons: {},
 
-    onSelect: (fileOrFolder) => {}, // Always called when a file or folder is selected
-    onSelectFile: (file) => {}, //    Called after onSelect, only on file selection
-    onSelectFolder: (folder) => {}, //    Called after onSelect, only on folder selection
+    onSelect: (fileOrFolder) => { }, // Always called when a file or folder is selected
+    onSelectFile: (file) => { }, //    Called after onSelect, only on file selection
+    onSelectFolder: (folder) => { }, //    Called after onSelect, only on folder selection
 
-    onPreviewOpen: (file) => {}, // File opened
-    onPreviewClose: (file) => {}, // File closed
+    onPreviewOpen: (file) => { }, // File opened
+    onPreviewClose: (file) => { }, // File closed
 
-    onFolderOpen: (folder) => {}, // Folder opened
-    onFolderClose: (folder) => {}, // Folder closed
+    onFolderOpen: (folder) => { }, // Folder opened
+    onFolderClose: (folder) => { }, // Folder closed
   }
 
   state = {
@@ -293,7 +296,7 @@ class RawFileBrowser extends React.Component {
   beginAction = (action, keys) => {
     this.setState({
       activeAction: action,
-      actionTargets: keys,
+      actionTargets: keys || [],
     })
   }
 
@@ -456,6 +459,7 @@ class RawFileBrowser extends React.Component {
       folderRenderer: this.props.folderRenderer,
       folderRendererProps: this.props.folderRendererProps,
       confirmDeletionRenderer: this.props.confirmDeletionRenderer,
+      confirmMultipleDeletionRenderer: this.props.confirmMultipleDeletionRenderer,
       icons: this.props.icons,
 
       // browser state
@@ -588,8 +592,14 @@ class RawFileBrowser extends React.Component {
     return renderedFiles
   }
 
+  handleMultipleDeleteSubmit = () => {
+    console.log(this)
+    this.deleteFolder(this.state.selection.filter(selection => selection[selection.length - 1] === '/'))
+    this.deleteFile(this.state.selection.filter(selection => selection[selection.length - 1] !== '/'))
+  }
+
   render() {
-    const {selection} = this.state
+    const { selection } = this.state
     const browserProps = this.getBrowserProps()
     const headerProps = {
       browserProps,
@@ -753,11 +763,16 @@ class RawFileBrowser extends React.Component {
         break
     }
 
+    const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer
+
     return (
       <div className="rendered-react-keyed-file-browser">
         {this.props.actions}
         <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
           {this.props.showActionBar && this.renderActionBar(selectedItems)}
+          {this.state.activeAction === "delete" && this.state.selection.length > 1 && <ConfirmMultipleDeletionRenderer
+            handleDeleteSubmit={this.handleMultipleDeleteSubmit}
+          />}
           <div className="files">
             {renderedFiles}
           </div>
@@ -775,7 +790,7 @@ class RawFileBrowser extends React.Component {
 }
 
 @DragDropContext(HTML5Backend)
-class FileBrowser extends RawFileBrowser {}
+class FileBrowser extends RawFileBrowser { }
 
 export default FileBrowser
 export { RawFileBrowser }

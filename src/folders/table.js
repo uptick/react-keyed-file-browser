@@ -19,7 +19,7 @@ class RawTableFolder extends BaseFolder {
     const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer
 
     let name
-    if (!inAction && isDeleting) {
+    if (!inAction && isDeleting && browserProps.selection.length === 1) {
       name = (
         <ConfirmDeletionRenderer
           handleDeleteSubmit={this.handleDeleteSubmit}
