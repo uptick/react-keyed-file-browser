@@ -287,11 +287,11 @@ storiesOf('FileBrowser', module)
               files: newFiles
             })
           }}
-          onDeleteFolder={folderKey => {
+          onDeleteFolder={folderKeys => {
             const newFiles = []
-            store.get('files').map((file) => {
-              if (file.key.substr(0, folderKey.length) !== folderKey) {
-                newFiles.push(file)
+            store.get('files').map(file => {
+              if (!folderKeys.find(folderKey => file.key.substr(0, folderKey.length) === folderKey)) {
+                newFiles.push(file);
               }
             })
             store.set({

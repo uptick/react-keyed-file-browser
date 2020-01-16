@@ -165,7 +165,9 @@ class BaseFile extends React.Component {
 
 const dragSource = {
   beginDrag(props) {
-    // props.browserProps.select(props.fileKey, 'file')
+    if (!props.browserProps.selection.length) {
+      props.browserProps.select(props.fileKey, 'file')
+    }
     return {
       key: props.fileKey,
     }
