@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { moveFilesAndFolders } from './utils'
 
 class BaseFolder extends React.Component {
   static propTypes = {
@@ -65,7 +66,7 @@ class BaseFolder extends React.Component {
 
   handleFolderClick = (event) => {
     event.stopPropagation()
-    this.props.browserProps.select(this.props.fileKey, 'folder')
+    this.props.browserProps.select(this.props.fileKey, 'folder', event.ctrlKey, event.shiftKey)
   }
   handleFolderDoubleClick = (event) => {
     event.stopPropagation()
@@ -130,7 +131,7 @@ class BaseFolder extends React.Component {
     if (!this.props.browserProps.deleteFolder) {
       return
     }
-    this.props.browserProps.deleteFolder(this.props.fileKey)
+    this.props.browserProps.deleteFolder(this.props.browserProps.actionTargets)
   }
 
   handleCancelEdit = (event) => {
@@ -166,30 +167,16 @@ class BaseFolder extends React.Component {
 
 const dragSource = {
   beginDrag(props) {
-    props.browserProps.select(props.fileKey, 'folder')
+    if (!props.browserProps.selection.length) {
+      props.browserProps.select(props.fileKey, 'folder')
+    }
     return {
       key: props.fileKey,
     }
   },
 
   endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
-      return
-    }
-
-    const dropResult = monitor.getDropResult()
-
-    const fileNameParts = props.fileKey.split('/')
-    const folderName = fileNameParts[fileNameParts.length - 2]
-
-    const newKey = `${dropResult.path}${folderName}/`
-    // abort if the new folder name contains itself
-    if (newKey.substr(0, props.fileKey.length) === props.fileKey) return
-
-    if (newKey !== props.fileKey && props.browserProps.moveFolder) {
-      props.browserProps.openFolder(dropResult.path)
-      props.browserProps.moveFolder(props.fileKey, newKey)
-    }
+    moveFilesAndFolders(props, monitor, component)
   },
 }
 

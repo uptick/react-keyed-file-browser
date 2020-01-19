@@ -39,7 +39,7 @@ class RawListThumbnailFile extends BaseFile {
 
     let name
     if (showName) {
-      if (!inAction && isDeleting) {
+      if (!inAction && isDeleting && browserProps.selection.length === 1) {
         name = (
           <ConfirmDeletionRenderer
             handleDeleteSubmit={this.handleDeleteSubmit}
