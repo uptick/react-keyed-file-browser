@@ -12,8 +12,7 @@ import { DefaultFilter } from './filters'
 import { TableHeader } from './headers'
 import { TableFile } from './files'
 import { TableFolder } from './folders'
-import { DefaultConfirmDeletion } from './confirmations'
-import { MultipleConfirmDeletion } from './confirmations'
+import { DefaultConfirmDeletion, MultipleConfirmDeletion } from './confirmations'
 
 // default processors
 import { GroupByFolder } from './groupers'
@@ -41,6 +40,7 @@ class RawFileBrowser extends React.Component {
     files: PropTypes.array.isRequired,
     actions: PropTypes.node,
     showActionBar: PropTypes.bool.isRequired,
+    showPreview: PropTypes.bool,
     canFilter: PropTypes.bool.isRequired,
     noFilesMessage: PropTypes.string,
 
@@ -106,6 +106,7 @@ class RawFileBrowser extends React.Component {
     showActionBar: true,
     canFilter: true,
     noFilesMessage: 'No files.',
+    showPreview: true,
 
     group: GroupByFolder,
     sort: SortByName,
@@ -335,6 +336,8 @@ class RawFileBrowser extends React.Component {
   }
 
   preview = (file) => {
+    if (!this.props.showPreview) return
+
     if (this.state.previewFile && this.state.previewFile.key !== file.key) this.closeDetail()
 
     this.setState({
@@ -777,7 +780,7 @@ class RawFileBrowser extends React.Component {
             {renderedFiles}
           </div>
         </div>
-        {this.state.previewFile !== null && (
+        {this.props.showPreview && this.state.previewFile !== null && (
           <this.props.detailRenderer
             file={this.state.previewFile}
             close={this.closeDetail}
