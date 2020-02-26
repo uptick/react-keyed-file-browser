@@ -1,6 +1,6 @@
 {
   "name": "react-keyed-file-browser",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Folder based file browser given a flat keyed list of objects, powered by React.",
   "main": "index.js",
   "scripts": {
@@ -64,7 +64,7 @@
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-standard": "^4.0.0",
     "font-awesome": "^4.7.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "sass-loader": "^7.1.0",
