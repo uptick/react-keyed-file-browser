@@ -74,7 +74,7 @@ class BaseFile extends React.Component {
   }
   handleItemClick = (event) => {
     event.stopPropagation()
-    this.props.browserProps.select(this.props.fileKey, 'file', event.ctrlKey, event.shiftKey)
+    this.props.browserProps.select(this.props.fileKey, 'file', event.ctrlKey || event.metaKey, event.shiftKey)
   }
   handleItemDoubleClick = (event) => {
     event.stopPropagation()
