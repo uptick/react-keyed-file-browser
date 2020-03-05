@@ -1,70 +1,44 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Moment from 'moment'
 import { storiesOf } from '@storybook/react'
-import { State, Store } from "@sambego/storybook-state"
+import { State, Store } from '@sambego/storybook-state'
 import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons } from '../src'
 import './stories'
 
-const store = new Store({
-  files: [
-    {
-      key: 'animals/',
-      modified: +Moment().subtract(1, 'hours'),
-      size: 0,
-    },
-    {
-      key: 'animals/dog.png',
-      modified: +Moment().subtract(1, 'hours'),
-      size: 0,
-    },
-    {
-      key: 'cat.png',
-      modified: +Moment().subtract(1, 'hours'),
-      size: 1.5 * 1024 * 1024,
-    },
-    {
-      key: 'kitten.png',
-      modified: +Moment().subtract(3, 'days'),
-      size: 545 * 1024,
-    },
-    {
-      key: 'elephant.png',
-      modified: +Moment().subtract(3, 'days'),
-      size: 52 * 1024,
-    }
-  ]
-});
+const files = [
+  {
+    key: 'animals/',
+    modified: +Moment().subtract(1, 'hours'),
+    size: 0,
+  },
+  {
+    key: 'animals/dog.png',
+    modified: +Moment().subtract(1, 'hours'),
+    size: 0,
+  },
+  {
+    key: 'cat.png',
+    modified: +Moment().subtract(1, 'hours'),
+    size: 1.5 * 1024 * 1024,
+  },
+  {
+    key: 'kitten.png',
+    modified: +Moment().subtract(3, 'days'),
+    size: 545 * 1024,
+  },
+  {
+    key: 'elephant.png',
+    modified: +Moment().subtract(3, 'days'),
+    size: 52 * 1024,
+  },
+]
+
+const store = new Store({ files })
 
 storiesOf('FileBrowser', module)
   .add('Simple Flat & Read-Only Example', () => (
     <FileBrowser
-      files={[
-        {
-          key: 'animals/',
-          modified: +Moment().subtract(1, 'hours'),
-          size: 0,
-        },
-        {
-          key: 'animals/dog.png',
-          modified: +Moment().subtract(1, 'hours'),
-          size: 0,
-        },
-        {
-          key: 'cat.png',
-          modified: +Moment().subtract(1, 'hours'),
-          size: 1.5 * 1024 * 1024,
-        },
-        {
-          key: 'kitten.png',
-          modified: +Moment().subtract(3, 'days'),
-          size: 545 * 1024,
-        },
-        {
-          key: 'elephant.png',
-          modified: +Moment().subtract(3, 'days'),
-          size: 52 * 1024,
-        },
-      ]}
+      files={files}
     />
   ))
   .add('Different Renderers and Groupers', () => (
@@ -186,7 +160,7 @@ storiesOf('FileBrowser', module)
             store.set({
               files: store.get('files').concat([{
                 key: key,
-              }])
+              }]),
             })
           }}
           onCreateFiles={(files, prefix) => {
@@ -216,7 +190,7 @@ storiesOf('FileBrowser', module)
               }
             })
             store.set({
-              files: store.get('files').concat(uniqueNewFiles)
+              files: store.get('files').concat(uniqueNewFiles),
             })
           }}
           onMoveFolder={(oldKey, newKey) => {
@@ -233,7 +207,7 @@ storiesOf('FileBrowser', module)
               }
             })
             store.set({
-              files: newFiles
+              files: newFiles,
             })
           }}
           onMoveFile={(oldKey, newKey) => {
@@ -250,7 +224,7 @@ storiesOf('FileBrowser', module)
               }
             })
             store.set({
-              files: newFiles
+              files: newFiles,
             })
           }}
           onRenameFolder={(oldKey, newKey) => {
@@ -267,7 +241,7 @@ storiesOf('FileBrowser', module)
               }
             })
             store.set({
-              files: newFiles
+              files: newFiles,
             })
           }}
           onRenameFile={(oldKey, newKey) => {
@@ -284,23 +258,23 @@ storiesOf('FileBrowser', module)
               }
             })
             store.set({
-              files: newFiles
+              files: newFiles,
             })
           }}
           onDeleteFolder={folderKeys => {
             const newFiles = []
             store.get('files').map(file => {
               if (!folderKeys.find(folderKey => file.key.substr(0, folderKey.length) === folderKey)) {
-                newFiles.push(file);
+                newFiles.push(file)
               }
             })
             store.set({
-              files: newFiles
+              files: newFiles,
             })
           }}
           onDeleteFile={fileKeys => {
             store.set({
-              files: store.get('files').filter(file => !fileKeys.includes(file.key))
+              files: store.get('files').filter(file => !fileKeys.includes(file.key)),
             })
           }}
           onDownloadFile={fileKeys => {
