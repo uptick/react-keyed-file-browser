@@ -1,0 +1,14 @@
+language: node_js
+dist: bionic
+node_js: node
+cache: yarn
+
+branches:
+  only:
+    - master
+
+script:
+  - yarn lint
+
+notifications:
+  email: false

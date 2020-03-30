@@ -3,5 +3,5 @@ import MultipleConfirmDeletion from './multiple'
 
 export {
   DefaultConfirmDeletion,
-  MultipleConfirmDeletion
+  MultipleConfirmDeletion,
 }

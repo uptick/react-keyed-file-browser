@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Moment from 'moment'
 
 function relativeTimeWindows() {

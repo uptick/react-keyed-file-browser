@@ -25,9 +25,12 @@ class RawListThumbnailFile extends BaseFile {
     let icon
     if (thumbnailUrl) {
       icon = (
-        <div className="image" style={{
-          backgroundImage: 'url(' + thumbnailUrl + ')',
-        }} />
+        <div
+          className="image"
+          style={{
+            backgroundImage: 'url(' + thumbnailUrl + ')',
+          }}
+        />
       )
     } else {
       icon = browserProps.icons[this.getFileType()] || browserProps.icons.File
@@ -128,7 +131,7 @@ class RawListThumbnailFile extends BaseFile {
 @DropTarget(
   ['file', 'folder', NativeTypes.FILE],
   BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect,
+  BaseFileConnectors.targetCollect
 )
 class ListThumbnailFile extends RawListThumbnailFile {}
 

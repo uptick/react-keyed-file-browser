@@ -17,7 +17,7 @@ const IsFontAwesomeLoaded = (version) => {
 
   if (!fontNames.includes(css(span, 'font-family'))) {
     console.warn(
-      `Font Awesome ${version} was not detected but Font Awesome ${version} icons have been requested for \`react-object-list\``,
+      `Font Awesome ${version} was not detected but Font Awesome ${version} icons have been requested for \`react-object-list\``
     )
   } else {
     FontAwesomeLoaded = true

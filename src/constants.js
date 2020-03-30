@@ -46,7 +46,7 @@ const FILETYPE_EXTENSIONS = {
   ],
 }
 
-let extensionMapping = {}
+const extensionMapping = {}
 
 for (const [type, extensions] of Object.entries(FILETYPE_EXTENSIONS)) {
   for (const extension of extensions) {

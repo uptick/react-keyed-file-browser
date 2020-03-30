@@ -1,3 +1,4 @@
+// @ts-nocheck
 import PropTypes from 'prop-types'
 import React from 'react'
 import { moveFilesAndFolders } from './utils'
@@ -135,7 +136,7 @@ class BaseFile extends React.Component {
     if (!this.props.browserProps.deleteFile) {
       return
     }
-    console.log(this.props);
+
     this.props.browserProps.deleteFile(this.props.browserProps.actionTargets)
   }
 
