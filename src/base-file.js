@@ -169,7 +169,7 @@ const dragSource = {
       !props.browserProps.selection.length ||
       !props.browserProps.selection.includes(props.fileKey)
     ) {
-      props.browserProps.select(props.fileKey, "file");
+      props.browserProps.select(props.fileKey, 'file')
     }
     return {
       key: props.fileKey,
