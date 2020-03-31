@@ -12,7 +12,7 @@ export default function(files, root) {
     const folders = file.relativeKey.split('/')
     folders.map((folder, folderIndex) => {
       if (folderIndex === folders.length - 1 && isFolder(file)) {
-        for (let key in file) {
+        for (const key in file) {
           currentFolder[key] = file[key]
         }
       }
@@ -42,7 +42,7 @@ export default function(files, root) {
       prefix += '/'
     }
     let files = []
-    for (let folder in level.children) {
+    for (const folder in level.children) {
       files.push({
         ...level.children[folder],
         contents: undefined,

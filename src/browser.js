@@ -12,8 +12,7 @@ import { DefaultFilter } from './filters'
 import { TableHeader } from './headers'
 import { TableFile } from './files'
 import { TableFolder } from './folders'
-import { DefaultConfirmDeletion } from './confirmations'
-import { MultipleConfirmDeletion } from './confirmations'
+import { DefaultConfirmDeletion, MultipleConfirmDeletion } from './confirmations'
 
 // default processors
 import { GroupByFolder } from './groupers'
@@ -314,7 +313,7 @@ class RawFileBrowser extends React.Component {
 
     let newSelection = [key]
     if (ctrlKey || shiftKey) {
-      let indexOfKey = this.state.selection.indexOf(key);
+      const indexOfKey = this.state.selection.indexOf(key)
       if (indexOfKey !== -1) {
         newSelection = [...this.state.selection.slice(0, indexOfKey), ...this.state.selection.slice(indexOfKey + 1)]
       } else {
@@ -512,7 +511,7 @@ class RawFileBrowser extends React.Component {
       )
     }
 
-    let actions = (
+    const actions = (
       <ActionRenderer
         browserProps={browserProps}
 
@@ -644,7 +643,7 @@ class RawFileBrowser extends React.Component {
       })
       files = newFiles
     }
-    let selectedItems = []
+    const selectedItems = []
     const findSelected = (item) => {
       if (selection.includes(item.key)) {
         selectedItems.push(item)
@@ -659,38 +658,45 @@ class RawFileBrowser extends React.Component {
     }
 
     let header
+    /** @type any */
     let contents = this.renderFiles(files, 0)
     switch (this.props.renderStyle) {
       case 'table':
         if (!contents.length) {
           if (this.state.nameFilter) {
-            contents = (<tr>
-              <td colSpan="100">
-                No files matching "{this.state.nameFilter}".
-              </td>
-            </tr>)
+            contents = (
+              <tr>
+                <td colSpan={100}>
+                  No files matching "{this.state.nameFilter}".
+                </td>
+              </tr>
+            )
           } else {
-            contents = (<tr>
-              <td colSpan="100">
-                {this.props.noFilesMessage}
-              </td>
-            </tr>)
+            contents = (
+              <tr>
+                <td colSpan={100}>
+                  {this.props.noFilesMessage}
+                </td>
+              </tr>
+            )
           }
         } else {
           if (this.state.nameFilter) {
             const numFiles = contents.length
             contents = contents.slice(0, this.state.searchResultsShown)
             if (numFiles > contents.length) {
-              contents.push(<tr key="show-more">
-                <td colSpan="100">
-                  <a
-                    onClick={this.handleShowMoreClick}
-                    href="#"
-                  >
-                    Show more results
-                  </a>
-                </td>
-              </tr>)
+              contents.push(
+                <tr key="show-more">
+                  <td colSpan={100}>
+                    <a
+                      onClick={this.handleShowMoreClick}
+                      href="#"
+                    >
+                      Show more results
+                    </a>
+                  </td>
+                </tr>
+              )
             }
           }
         }
@@ -729,12 +735,14 @@ class RawFileBrowser extends React.Component {
             const numFiles = contents.length
             contents = contents.slice(0, this.state.searchResultsShown)
             if (numFiles > contents.length) {
-              more = (<a
-                onClick={this.handleShowMoreClick}
-                href="#"
-              >
-                Show more results
-              </a>)
+              more = (
+                <a
+                  onClick={this.handleShowMoreClick}
+                  href="#"
+                >
+                  Show more results
+                </a>
+              )
             }
           }
           contents = (
@@ -770,9 +778,10 @@ class RawFileBrowser extends React.Component {
         {this.props.actions}
         <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
           {this.props.showActionBar && this.renderActionBar(selectedItems)}
-          {this.state.activeAction === "delete" && this.state.selection.length > 1 && <ConfirmMultipleDeletionRenderer
-            handleDeleteSubmit={this.handleMultipleDeleteSubmit}
-          />}
+          {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
+            <ConfirmMultipleDeletionRenderer
+              handleDeleteSubmit={this.handleMultipleDeleteSubmit}
+            />}
           <div className="files">
             {renderedFiles}
           </div>

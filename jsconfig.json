@@ -1,5 +1,9 @@
 {
     "compilerOptions": {
-        "experimentalDecorators": true
-    }
+        "experimentalDecorators": true,
+        "checkJs": true,
+        "jsx": "react",
+        "downlevelIteration": true
+    },
+    "exclude": ["node_modules", "**/node_modules/*"]
 }

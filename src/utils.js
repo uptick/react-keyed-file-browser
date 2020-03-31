@@ -9,8 +9,8 @@ function moveFilesAndFolders(props, monitor, component) {
 
   const dropResult = monitor.getDropResult()
 
-  let folders = []
-  let files = []
+  const folders = []
+  const files = []
 
   props.browserProps.selection.forEach(selection => {
     selection[selection.length - 1] === '/' ? folders.push(selection) : files.push(selection)
