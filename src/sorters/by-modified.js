@@ -1,8 +1,4 @@
-import Moment from 'moment'
-
-function lastModifiedComparer(a, b) {
-  return (+Moment(a.modified) < +Moment(b.modified))
-}
+import { compareAsc } from 'date-fns'
 
 function lastModifiedSort(allFiles) {
   const folders = []
@@ -19,7 +15,7 @@ function lastModifiedSort(allFiles) {
     }
   }
 
-  files = files.sort(lastModifiedComparer)
+  files = files.sort(compareAsc)
 
   for (let folderIndex = 0; folderIndex < folders.length; folderIndex++) {
     const folder = folders[folderIndex]

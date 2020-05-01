@@ -1,8 +1,8 @@
 import React from 'react'
-import Moment from 'moment'
 import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
+import { formatDistanceToNow } from 'date-fns'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
@@ -87,7 +87,7 @@ class RawListThumbnailFile extends BaseFile {
       if (!isRenaming && !isDeleting) {
         modified = (
           <span className="modified">
-            Last modified: {Moment(this.props.modified).fromNow()}
+            Last modified: {formatDistanceToNow(this.props.modified)}
           </span>
         )
       }
