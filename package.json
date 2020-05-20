@@ -35,8 +35,8 @@
     "classnames": "^2.2.6",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
-    "react-dnd": "^2.1.4",
-    "react-dnd-html5-backend": "^2.1.2"
+    "react-dnd": "^8.0",
+    "react-dnd-html5-backend": "^8.0"
   },
   "peerDependencies": {
     "react": "0.14.x || 15.x || 16.x",
