@@ -86,7 +86,7 @@ class BaseFolder extends React.Component {
   }
   handleRenameSubmit = (event) => {
     event.preventDefault()
-    if (!this.props.browserProps.renameFolder) {
+    if (!this.props.browserProps.renameFolder && !this.props.isDraft) {
       return
     }
     const newName = this.state.newName.trim()
