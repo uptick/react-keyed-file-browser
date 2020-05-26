@@ -1,3 +1,4 @@
+// @ts-nocheck
 import PropTypes from 'prop-types'
 import React from 'react'
 import { moveFilesAndFolders } from './utils'
@@ -74,7 +75,7 @@ class BaseFile extends React.Component {
   }
   handleItemClick = (event) => {
     event.stopPropagation()
-    this.props.browserProps.select(this.props.fileKey, 'file', event.ctrlKey, event.shiftKey)
+    this.props.browserProps.select(this.props.fileKey, 'file', event.ctrlKey || event.metaKey, event.shiftKey)
   }
   handleItemDoubleClick = (event) => {
     event.stopPropagation()
@@ -135,7 +136,7 @@ class BaseFile extends React.Component {
     if (!this.props.browserProps.deleteFile) {
       return
     }
-    console.log(this.props);
+
     this.props.browserProps.deleteFile(this.props.browserProps.actionTargets)
   }
 
@@ -165,7 +166,10 @@ class BaseFile extends React.Component {
 
 const dragSource = {
   beginDrag(props) {
-    if (!props.browserProps.selection.length) {
+    if (
+      !props.browserProps.selection.length ||
+      !props.browserProps.selection.includes(props.fileKey)
+    ) {
       props.browserProps.select(props.fileKey, 'file')
     }
     return {

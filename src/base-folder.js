@@ -1,3 +1,4 @@
+// @ts-nocheck
 import PropTypes from 'prop-types'
 import React from 'react'
 import { moveFilesAndFolders } from './utils'
@@ -66,7 +67,7 @@ class BaseFolder extends React.Component {
 
   handleFolderClick = (event) => {
     event.stopPropagation()
-    this.props.browserProps.select(this.props.fileKey, 'folder', event.ctrlKey, event.shiftKey)
+    this.props.browserProps.select(this.props.fileKey, 'folder', event.ctrlKey || event.metaKey, event.shiftKey)
   }
   handleFolderDoubleClick = (event) => {
     event.stopPropagation()
@@ -85,7 +86,7 @@ class BaseFolder extends React.Component {
   }
   handleRenameSubmit = (event) => {
     event.preventDefault()
-    if (!this.props.browserProps.renameFolder) {
+    if (!this.props.browserProps.renameFolder && !this.props.isDraft) {
       return
     }
     const newName = this.state.newName.trim()

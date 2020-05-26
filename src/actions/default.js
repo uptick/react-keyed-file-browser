@@ -28,12 +28,13 @@ const Actions = (props) => {
 
   } = props
 
+  /** @type any */
   let actions = []
 
   if (selectedItems.length) {
     // Something is selected. Build custom actions depending on what it is.
-    let selectedItemsAction = selectedItems.filter(item => item.action)
-    if (selectedItemsAction.length === selectedItems.length && [... new Set(selectedItemsAction)].length === 1) {
+    const selectedItemsAction = selectedItems.filter(item => item.action)
+    if (selectedItemsAction.length === selectedItems.length && [...new Set(selectedItemsAction)].length === 1) {
       // Selected item has an active action against it. Disable all other actions.
       let actionText
       switch (selectedItemsAction[0].action) {
@@ -72,7 +73,7 @@ const Actions = (props) => {
         )
       }
 
-      let itemsWithoutKeyDerived = selectedItems.find(item => !item.keyDerived)
+      const itemsWithoutKeyDerived = selectedItems.find(item => !item.keyDerived)
       if (!itemsWithoutKeyDerived && !isFolder && canRenameFile && selectedItems.length === 1) {
         actions.push(
           <li key="action-rename">

@@ -1,5 +1,6 @@
 # react-keyed-file-browser
 
+[![Build Status](https://travis-ci.org/uptick/react-keyed-file-browser.svg?branch=master)](https://travis-ci.org/uptick/react-keyed-file-browser)
 [![npm version](https://badge.fury.io/js/react-keyed-file-browser.svg)](http://badge.fury.io/js/react-keyed-file-browser)
 ![Downloads](http://img.shields.io/npm/dm/react-keyed-file-browser.svg?style=flat)
 

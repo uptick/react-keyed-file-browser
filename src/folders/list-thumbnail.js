@@ -126,7 +126,7 @@ class RawListThumbnailFolder extends BaseFolder {
 @DropTarget(
   ['file', 'folder', NativeTypes.FILE],
   BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect,
+  BaseFileConnectors.targetCollect
 )
 class ListThumbnailFolder extends RawListThumbnailFolder {}
 

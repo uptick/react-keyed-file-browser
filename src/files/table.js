@@ -68,7 +68,7 @@ class RawTableFile extends BaseFile {
       draggable = connectDragPreview(draggable)
     }
 
-    let row = (
+    const row = (
       <tr
         className={ClassNames('file', {
           pending: action,
@@ -99,7 +99,7 @@ class RawTableFile extends BaseFile {
 @DropTarget(
   ['file', 'folder', NativeTypes.FILE],
   BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect,
+  BaseFileConnectors.targetCollect
 )
 class TableFile extends RawTableFile {}
 
