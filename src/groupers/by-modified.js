@@ -1,4 +1,4 @@
-import { parseISO, format, startOfMonth, endOfMonth } from 'date-fns'
+import { format, startOfMonth, endOfMonth } from 'date-fns'
 import { relativeTimeWindows } from './utils'
 import { isFolder } from '../utils'
 
@@ -14,7 +14,7 @@ export default function(files, root) {
     }
 
     let allocated = false
-    const fileModified = +parseISO(newFile.modified)
+    const fileModified = +newFile.modified
     for (let windex = 0; windex < timeWindows.length; windex++) {
       const timeWindow = timeWindows[windex]
       if (fileModified > +timeWindow.begins && fileModified <= +timeWindow.ends) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import Moment from 'moment'
+import { addHours, subHours, subDays, subMonths } from 'date-fns'
 import { storiesOf } from '@storybook/react'
 import { State, Store } from '@sambego/storybook-state'
 import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons } from '../src'
@@ -8,27 +8,27 @@ import './stories'
 const files = [
   {
     key: 'animals/',
-    modified: +Moment().subtract(1, 'hours'),
+    modified: addHours(new Date(), 1).getTime(),
     size: 0,
   },
   {
     key: 'animals/dog.png',
-    modified: +Moment().subtract(1, 'hours'),
+    modified: subHours(new Date(), 1).getTime(),
     size: 0,
   },
   {
     key: 'cat.png',
-    modified: +Moment().subtract(1, 'hours'),
+    modified: subHours(new Date(), 1).getTime(),
     size: 1.5 * 1024 * 1024,
   },
   {
     key: 'kitten.png',
-    modified: +Moment().subtract(3, 'days'),
+    modified: subDays(new Date(), 3).getTime(),
     size: 545 * 1024,
   },
   {
     key: 'elephant.png',
-    modified: +Moment().subtract(3, 'days'),
+    modified: subDays(new Date(), 3).getTime(),
     size: 52 * 1024,
   },
 ]
@@ -36,53 +36,49 @@ const files = [
 const store = new Store({ files })
 
 storiesOf('FileBrowser', module)
-  .add('Simple Flat & Read-Only Example', () => (
-    <FileBrowser
-      files={files}
-    />
-  ))
+  .add('Simple Flat & Read-Only Example', () => <FileBrowser files={files} />)
   .add('Different Renderers and Groupers', () => (
     <FileBrowser
       icons={Icons.FontAwesome(4)}
       files={[
         {
           key: 'cat.js',
-          modified: +Moment().subtract(1, 'hours'),
+          modified: subHours(new Date(), 1).getTime(),
           size: 1.5 * 1024 * 1024,
         },
         {
           key: 'kitten.png',
-          modified: +Moment().subtract(3, 'days'),
+          modified: subDays(new Date(), 3).getTime(),
           size: 545 * 1024,
         },
         {
           key: 'elephant.png',
-          modified: +Moment().subtract(3, 'days'),
+          modified: subDays(new Date(), 3).getTime(),
           size: 52 * 1024,
         },
         {
           key: 'dog.png',
-          modified: +Moment().subtract(1, 'hours'),
+          modified: subHours(new Date(), 1).getTime(),
           size: 1.5 * 1024 * 1024,
         },
         {
           key: 'turtle.png',
-          modified: +Moment().subtract(3, 'months'),
+          modified: subMonths(new Date(), 3).getTime(),
           size: 545 * 1024,
         },
         {
           key: 'gecko.png',
-          modified: +Moment().subtract(2, 'days'),
+          modified: subDays(new Date(), 2).getTime(),
           size: 52 * 1024,
         },
         {
           key: 'centipede.png',
-          modified: +Moment().subtract(0.5, 'hours'),
+          modified: subHours(new Date(), 0.5).getTime(),
           size: 1.5 * 1024 * 1024,
         },
         {
           key: 'possum.png',
-          modified: +Moment().subtract(32, 'days'),
+          modified: subDays(new Date(), 32).getTime(),
           size: 545 * 1024,
         },
       ]}
@@ -99,52 +95,52 @@ storiesOf('FileBrowser', module)
       files={[
         {
           key: 'new-folder/',
-          modified: +Moment().subtract(1, 'hours'),
+          modified: subHours(new Date(), 1).getTime(),
           size: 0,
         },
         {
           key: 'documents/sub-documents/word.doc',
-          modified: +Moment().subtract(1, 'hours'),
+          modified: subHours(new Date(), 1).getTime(),
           size: 1.5 * 1024 * 1024,
         },
         {
           key: 'documents/sub-documents/presentation.pptx',
-          modified: +Moment().subtract(3, 'days'),
+          modified: subDays(new Date(), 3).getTime(),
           size: 545 * 1024,
         },
         {
           key: 'documents/plain.txt',
-          modified: +Moment().subtract(3, 'days'),
+          modified: subDays(new Date(), 3).getTime(),
           size: 52 * 1024,
         },
         {
           key: 'documents/pdf.pdf',
-          modified: +Moment().subtract(1, 'hours'),
+          modified: subHours(new Date(), 1).getTime(),
           size: 1.5 * 1024 * 1024,
         },
         {
           key: 'documents/spreadsheet.xlsx',
-          modified: +Moment().subtract(3, 'months'),
+          modified: subMonths(new Date(), 3).getTime(),
           size: 545 * 1024,
         },
         {
           key: 'downloads/package.zip',
-          modified: +Moment().subtract(2, 'days'),
+          modified: subDays(new Date(), 2).getTime(),
           size: 52 * 1024,
         },
         {
           key: 'movies/video.mp4',
-          modified: +Moment().subtract(0.5, 'hours'),
+          modified: subHours(new Date(), 0.5).getTime(),
           size: 1.5 * 1024 * 1024,
         },
         {
           key: 'music/song.mp3',
-          modified: +Moment().subtract(32, 'days'),
+          modified: subDays(new Date(), 32).getTime(),
           size: 545 * 1024,
         },
       ]}
       renderStyle="list"
-      onDownloadFile={() => { }}
+      onDownloadFile={() => {}}
       headerRenderer={null}
       group={Groupers.GroupByFolder}
       fileRenderer={FileRenderers.ListThumbnailFile}
@@ -153,27 +149,34 @@ storiesOf('FileBrowser', module)
   ))
   .add('Simple Flat & Read-Only Example With Bulk Actions', () => (
     <State store={store}>
-      {state => (
+      {(state) => (
         <FileBrowser
           icons={Icons.FontAwesome(4)}
-          onCreateFolder={key => {
+          onCreateFolder={(key) => {
             store.set({
-              files: store.get('files').concat([{
-                key: key,
-              }]),
+              files: store.get('files').concat([
+                {
+                  key: key,
+                  modified: Date.now(),
+                  size: (Math.floor(Math.random() * 100) + 1) * 1024,
+                },
+              ]),
             })
           }}
           onCreateFiles={(files, prefix) => {
             const newFiles = store.get('files').map((file) => {
               let newKey = prefix
-              if (prefix !== '' && prefix.substring(prefix.length - 1, prefix.length) !== '/') {
+              if (
+                prefix !== '' &&
+                prefix.substring(prefix.length - 1, prefix.length) !== '/'
+              ) {
                 newKey += '/'
               }
               newKey += file.name
               return {
                 key: newKey,
                 size: file.size,
-                modified: +Moment(),
+                modified: Date.now(),
               }
             })
 
@@ -200,7 +203,7 @@ storiesOf('FileBrowser', module)
                 newFiles.push({
                   ...file,
                   key: file.key.replace(oldKey, newKey),
-                  modified: +Moment(),
+                  modified: Date.now(),
                 })
               } else {
                 newFiles.push(file)
@@ -217,7 +220,7 @@ storiesOf('FileBrowser', module)
                 newFiles.push({
                   ...file,
                   key: newKey,
-                  modified: +Moment(),
+                  modified: Date.now(),
                 })
               } else {
                 newFiles.push(file)
@@ -234,7 +237,7 @@ storiesOf('FileBrowser', module)
                 newFiles.push({
                   ...file,
                   key: file.key.replace(oldKey, newKey),
-                  modified: +Moment(),
+                  modified: Date.now(),
                 })
               } else {
                 newFiles.push(file)
@@ -251,7 +254,7 @@ storiesOf('FileBrowser', module)
                 newFiles.push({
                   ...file,
                   key: newKey,
-                  modified: +Moment(),
+                  modified: Date.now(),
                 })
               } else {
                 newFiles.push(file)
@@ -261,10 +264,15 @@ storiesOf('FileBrowser', module)
               files: newFiles,
             })
           }}
-          onDeleteFolder={folderKeys => {
+          onDeleteFolder={(folderKeys) => {
             const newFiles = []
-            store.get('files').map(file => {
-              if (!folderKeys.find(folderKey => file.key.substr(0, folderKey.length) === folderKey)) {
+            store.get('files').map((file) => {
+              if (
+                !folderKeys.find(
+                  (folderKey) =>
+                    file.key.substr(0, folderKey.length) === folderKey
+                )
+              ) {
                 newFiles.push(file)
               }
             })
@@ -272,12 +280,14 @@ storiesOf('FileBrowser', module)
               files: newFiles,
             })
           }}
-          onDeleteFile={fileKeys => {
+          onDeleteFile={(fileKeys) => {
             store.set({
-              files: store.get('files').filter(file => !fileKeys.includes(file.key)),
+              files: store
+                .get('files')
+                .filter((file) => !fileKeys.includes(file.key)),
             })
           }}
-          onDownloadFile={fileKeys => {
+          onDownloadFile={(fileKeys) => {
             console.log('Downloading files: ', fileKeys)
           }}
           files={state.files}

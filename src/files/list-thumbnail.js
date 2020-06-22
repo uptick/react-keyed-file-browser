@@ -87,7 +87,7 @@ class RawListThumbnailFile extends BaseFile {
       if (!isRenaming && !isDeleting) {
         modified = (
           <span className="modified">
-            Last modified: {formatDistanceToNow(this.props.modified)}
+            Last modified: {formatDistanceToNow(this.props.modified, { addSuffix: true })}
           </span>
         )
       }

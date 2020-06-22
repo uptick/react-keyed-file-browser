@@ -9,7 +9,7 @@ import {
   addWeeks,
   startOfMonth,
   endOfMonth,
-  getMonth
+  getMonth,
 } from 'date-fns'
 
 function relativeTimeWindows() {
@@ -43,7 +43,7 @@ function relativeTimeWindows() {
     windows.push({
       name: 'Earlier this Month',
       begins: startOfMonth(now),
-      ends: endOfMonth(),
+      ends: endOfMonth(now),
       items: [],
     })
   }
