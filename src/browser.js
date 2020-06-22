@@ -22,7 +22,7 @@ import { isFolder } from './utils'
 import { DefaultAction } from './actions'
 
 const SEARCH_RESULTS_PER_PAGE = 20
-const regexForNewFolderOrFileSelection = /.*\/__new__[\/]?$/gm
+const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
 
 function getItemProps(file, browserProps) {
   return {
