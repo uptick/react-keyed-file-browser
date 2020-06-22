@@ -41,7 +41,7 @@ class RawFileBrowser extends React.Component {
     actions: PropTypes.node,
     showActionBar: PropTypes.bool.isRequired,
     canFilter: PropTypes.bool.isRequired,
-    showFoldersOnFilter: PropTypes.bool.isRequired,
+    showFoldersOnFilter: PropTypes.bool,
     noFilesMessage: PropTypes.string,
 
     group: PropTypes.func.isRequired,
