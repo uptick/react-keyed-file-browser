@@ -22,6 +22,7 @@ import { isFolder } from './utils'
 import { DefaultAction } from './actions'
 
 const SEARCH_RESULTS_PER_PAGE = 20
+const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
 
 function getItemProps(file, browserProps) {
   return {
@@ -300,7 +301,9 @@ class RawFileBrowser extends React.Component {
   }
 
   endAction = () => {
-    if (this.state.selection !== null && this.state.selection.indexOf('__new__') !== -1) {
+    if (this.state.selection && this.state.selection.length > 0 && (
+      this.state.selection.filter((selection) => selection.match(regexForNewFolderOrFileSelection)).length > 0
+    )) {
       this.setState({ selection: [] })
     }
     this.beginAction(null, null)
@@ -417,19 +420,20 @@ class RawFileBrowser extends React.Component {
     }
     this.setState(prevState => {
       let addKey = ''
-      if (prevState.selection) {
+      if (prevState.selection && prevState.selection.length > 0) {
         addKey += prevState.selection
         if (addKey.substr(addKey.length - 1, addKey.length) !== '/') {
           addKey += '/'
         }
       }
-      addKey += '__new__/'
+
+      if (addKey !== '__new__/' && !addKey.endsWith('/__new__/')) addKey += '__new__/'
       const stateChanges = {
         actionTargets: [addKey],
         activeAction: 'createFolder',
         selection: [addKey],
       }
-      if (prevState.selection) {
+      if (prevState.selection && prevState.selection.length > 0) {
         stateChanges.openFolders = {
           ...prevState.openFolders,
           [this.state.selection]: true,
