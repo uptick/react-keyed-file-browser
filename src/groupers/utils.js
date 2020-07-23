@@ -1,38 +1,49 @@
 // @ts-nocheck
-import Moment from 'moment'
+import {
+  startOfToday,
+  endOfToday,
+  startOfYesterday,
+  endOfYesterday,
+  startOfWeek,
+  endOfWeek,
+  addWeeks,
+  startOfMonth,
+  endOfMonth,
+  getMonth,
+} from 'date-fns'
 
 function relativeTimeWindows() {
   const windows = []
-  const now = Moment()
+  const now = new Date()
   windows.push({
     name: 'Today',
-    begins: Moment().startOf('day'),
-    ends: Moment().endOf('day'),
+    begins: startOfToday(),
+    ends: endOfToday(),
     items: [],
   })
   windows.push({
     name: 'Yesterday',
-    begins: Moment(windows[windows.length - 1].begins - Moment.duration(24, 'hours')),
-    ends: Moment(windows[windows.length - 1].ends - Moment.duration(24, 'hours')),
+    begins: startOfYesterday(),
+    ends: endOfYesterday(),
     items: [],
   })
   windows.push({
     name: 'Earlier this Week',
-    begins: windows[0].begins.clone().startOf('week'),
-    ends: windows[0].begins.clone().startOf('week').endOf('week'),
+    begins: startOfWeek(now),
+    ends: endOfWeek(now),
     items: [],
   })
   windows.push({
     name: 'Last Week',
-    begins: Moment(windows[2].begins - Moment.duration(7, 'days')),
-    ends: Moment(windows[2].begins - Moment.duration(7, 'days')).endOf('week'),
+    begins: startOfWeek(addWeeks(now, -1)),
+    ends: endOfWeek(addWeeks(now, -1)),
     items: [],
   })
-  if (Moment(windows[windows.length - 1].begins).month() === now.month()) {
+  if (getMonth(windows[windows.length - 1].begins) === getMonth(now)) {
     windows.push({
       name: 'Earlier this Month',
-      begins: Moment().startOf('month'),
-      ends: Moment().startOf('month').endOf('month'),
+      begins: startOfMonth(now),
+      ends: endOfMonth(now),
       items: [],
     })
   }

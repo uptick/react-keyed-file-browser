@@ -1,8 +1,8 @@
 import React from 'react'
-import Moment from 'moment'
 import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
+import { formatDistanceToNow } from 'date-fns'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
@@ -86,7 +86,7 @@ class RawTableFile extends BaseFile {
         </td>
         <td className="size">{fileSize(size)}</td>
         <td className="modified">
-          {typeof modified === 'undefined' ? '-' : Moment(modified, 'x').fromNow()}
+          {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, { addSuffix: true })}
         </td>
       </tr>
     )

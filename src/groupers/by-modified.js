@@ -1,4 +1,4 @@
-import Moment from 'moment'
+import { format, startOfMonth, endOfMonth } from 'date-fns'
 import { relativeTimeWindows } from './utils'
 import { isFolder } from '../utils'
 
@@ -14,7 +14,7 @@ export default function(files, root) {
     }
 
     let allocated = false
-    const fileModified = +Moment(newFile.modified)
+    const fileModified = +newFile.modified
     for (let windex = 0; windex < timeWindows.length; windex++) {
       const timeWindow = timeWindows[windex]
       if (fileModified > +timeWindow.begins && fileModified <= +timeWindow.ends) {
@@ -25,9 +25,9 @@ export default function(files, root) {
     }
     if (!allocated) {
       const newWindow = {
-        name: Moment(newFile.modified).format('MMMM YYYY'),
-        begins: Moment(newFile.modified).startOf('month'),
-        ends: Moment(newFile.modified).startOf('month').endOf('month'),
+        name: format(newFile.modified, 'MMMM yyyy'),
+        begins: startOfMonth(newFile.modified),
+        ends: endOfMonth(newFile.modified),
         items: [],
       }
       newWindow.items.push(newFile)
