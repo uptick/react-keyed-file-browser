@@ -29,7 +29,7 @@ import FileBrowser from 'react-keyed-file-browser'
 var mount = document.querySelectorAll('div.browser-mount');
 ReactDOM.render(
   <FileBrowser
-    files=[]
+    files={[]}
   />,
   mount[0]
 );
@@ -46,7 +46,7 @@ import FileBrowser, {Icons} from 'react-keyed-file-browser'
 var mount = document.querySelectorAll('div.browser-mount');
 ReactDOM.render(
   <FileBrowser
-    files=[]
+    files={[]}
     icons={Icons.FontAwesome(4)}
   />,
   mount[0]
@@ -56,7 +56,7 @@ ReactDOM.render(
 or your own icons by specifying as so:
 ```javascript
   <FileBrowser
-    files=[]
+    files={[]}
     icons={{
       File: <i className="file" aria-hidden="true" />,
       Image: <i className="file-image" aria-hidden="true" />,
