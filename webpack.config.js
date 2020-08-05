@@ -8,6 +8,7 @@ module.exports = {
     filename: 'react-keyed-file-browser.js',
     library: 'react-keyed-file-browser',
     libraryTarget: 'umd',
+    publicPath:'./'
   },
   module: {
     rules: [

@@ -13,11 +13,12 @@ class Filter extends React.Component {
   }
 
   render() {
+    const i18n = this.props.i18n ? this.props.i18n : null;
     return (
       <input
         ref={el => { this.filterRef = el }}
         type="search"
-        placeholder="Filter files"
+        placeholder= {i18n ?i18n.messages['filter_files']: 'Filter files'}
         value={this.props.value}
         onChange={this.handleFilterChange}
       />

@@ -15,6 +15,8 @@ class RawListThumbnailFolder extends BaseFolder {
       url, action, browserProps, depth, keyDerived, connectDragPreview,
     } = this.props
 
+    const i18n = this.props.i18n ? this.props.i18n : null;
+
     const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
 
     const inAction = (isDragging || action)
@@ -91,7 +93,7 @@ class RawListThumbnailFolder extends BaseFolder {
       if (children.length) {
         children = (<ul style={{ padding: '0 8px', paddingLeft: '16px' }}>{children}</ul>)
       } else {
-        children = (<p>No items in this folder</p>)
+        children = (<p>{i18n ? i18n.messages['no_items_in_folder'] : 'No items in this folder'}</p>)
       }
     }
 

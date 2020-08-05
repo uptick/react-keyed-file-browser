@@ -67,7 +67,7 @@ class RawTableFile extends BaseFile {
     if (typeof browserProps.moveFile === 'function') {
       draggable = connectDragPreview(draggable)
     }
-
+    const options = this.props.locale? { addSuffix: true, locale:this.props.locale} : { addSuffix: true}
     const row = (
       <tr
         className={ClassNames('file', {
@@ -86,7 +86,7 @@ class RawTableFile extends BaseFile {
         </td>
         <td className="size">{fileSize(size)}</td>
         <td className="modified">
-          {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, { addSuffix: true })}
+          {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, options)}
         </td>
       </tr>
     )

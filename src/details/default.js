@@ -22,18 +22,19 @@ class Detail extends React.Component {
   render() {
     let name = this.props.file.key.split('/')
     name = name.length ? name[name.length - 1] : ''
+    const i18n = this.props.i18n ? this.props.i18n: null
 
     return (
       <div>
-        <h2>Item Detail</h2>
+        <h2>{i18n? i18n.messages['item_details']: 'Item details'}</h2>
         <dl>
-          <dt>Key</dt>
+          <dt>{i18n? i18n.messages['key'] : 'key'}</dt>
           <dd>{this.props.file.key}</dd>
 
-          <dt>Name</dt>
+          <dt>{i18n? i18n.messages['name'] : 'name'}</dt>
           <dd>{name}</dd>
         </dl>
-        <a href="#" onClick={this.handleCloseClick}>Close</a>
+        <a href="#" onClick={this.handleCloseClick}>{i18n ? i18n.messages['close']: 'Close'}</a>
       </div>
     )
   }

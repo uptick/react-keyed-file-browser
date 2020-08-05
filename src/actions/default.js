@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import i18n from '../i18n';
 
 const Actions = (props) => {
   const {
@@ -28,6 +29,8 @@ const Actions = (props) => {
 
   } = props
 
+  const i18n = props.i18n ? props.i18n: null;
+
   /** @type any */
   let actions = []
 
@@ -39,15 +42,15 @@ const Actions = (props) => {
       let actionText
       switch (selectedItemsAction[0].action) {
         case 'delete':
-          actionText = 'Deleting ...'
+          actionText = i18n? `${i18n.messages['deleting']}`: 'Deleting...'
           break
 
         case 'rename':
-          actionText = 'Renaming ...'
+          actionText = i18n? `${i18n.messages['renaming']}`: 'Renaming...';
           break
 
         default:
-          actionText = 'Moving ...'
+          actionText = i18n? `${i18n.messages['rkfb.moving']}`: 'Moving...';
           break
       }
 
@@ -67,7 +70,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Folder}
-              &nbsp;Add Subfolder
+              &nbsp;{i18n? i18n.messages['add_subfolder']:'Add Subfolder'}
             </a>
           </li>
         )
@@ -83,7 +86,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              &nbsp;{i18n ? i18n.messages['rename']:'Rename'}
             </a>
           </li>
         )
@@ -96,7 +99,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              &nbsp;{i18n?i18n.messages['rename']:'Rename'}
             </a>
           </li>
         )
@@ -111,7 +114,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              &nbsp;{i18n? i18n.messages['delete']: 'Delete'}
             </a>
           </li>
         )
@@ -124,7 +127,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              &nbsp;{i18n? i18n.messages['delete']: 'Delete'}
             </a>
           </li>
         )
@@ -139,7 +142,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Download}
-              &nbsp;Download
+              &nbsp;{i18n? i18n.messages['download']: 'Download'}
             </a>
           </li>
         )
@@ -162,7 +165,7 @@ const Actions = (props) => {
             role="button"
           >
             {icons.Folder}
-            &nbsp;Add Folder
+            &nbsp;{i18n? i18n.messages['add_folder']: 'Add Folder'}
           </a>
         </li>
       )

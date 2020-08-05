@@ -3,7 +3,8 @@ import { addHours, subHours, subDays, subMonths } from 'date-fns'
 import { storiesOf } from '@storybook/react'
 import { State, Store } from '@sambego/storybook-state'
 import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons } from '../src'
-import './stories'
+import './stories';
+import i18n from '../src/i18n';
 
 const files = [
   {
@@ -36,7 +37,9 @@ const files = [
 const store = new Store({ files })
 
 storiesOf('FileBrowser', module)
-  .add('Simple Flat & Read-Only Example', () => <FileBrowser files={files} />)
+  .add('Simple Flat & Read-Only Example', () => 
+    (<FileBrowser files={files} />)
+  )
   .add('Different Renderers and Groupers', () => (
     <FileBrowser
       icons={Icons.FontAwesome(4)}
@@ -295,3 +298,19 @@ storiesOf('FileBrowser', module)
       )}
     </State>
   ))
+  .add('Simple Flat & Read-Only Example, with translation to spanish', () =>{ 
+    i18n.changeLanguage('es');
+    const translation = { 
+      messages: i18n.t('rkfb',{returnObjects: true}),
+      language: i18n.language
+    }
+    return (<FileBrowser files={files} i18n={translation}/>)
+  })
+  .add('Simple Flat & Read-Only Example, with translation to Brazilian portuguese', () =>{ 
+    i18n.changeLanguage('pt-BR');
+    const translation = { 
+      messages: i18n.t('rkfb',{returnObjects: true}),
+      language: i18n.language
+    }
+    return (<FileBrowser files={files} i18n={translation}/>)
+  })

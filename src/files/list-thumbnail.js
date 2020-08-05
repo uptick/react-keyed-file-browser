@@ -7,6 +7,7 @@ import { formatDistanceToNow } from 'date-fns'
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
 
+
 class RawListThumbnailFile extends BaseFile {
   static defaultProps = {
     showName: true,
@@ -21,7 +22,7 @@ class RawListThumbnailFile extends BaseFile {
       isDragging, isRenaming, isSelected, isSelectable, isOver, isDeleting,
       showName, showSize, showModified, browserProps, connectDragPreview,
     } = this.props
-
+    const i18n = this.props.i18n ? this.props.i18n : null
     let icon
     if (thumbnailUrl) {
       icon = (
@@ -85,9 +86,10 @@ class RawListThumbnailFile extends BaseFile {
     let modified
     if (showModified) {
       if (!isRenaming && !isDeleting) {
+        const options = this.props.locale? { addSuffix: true, locale:this.props.locale} : { addSuffix: true}
         modified = (
           <span className="modified">
-            Last modified: {formatDistanceToNow(this.props.modified, { addSuffix: true })}
+            {i18n ? i18n.messages['last_modified'] : 'Last modified'}: {formatDistanceToNow(this.props.modified, options)}
           </span>
         )
       }
