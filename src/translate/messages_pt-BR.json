@@ -1,0 +1,25 @@
+{
+    "rkfb":{
+        "file":"arquivo",
+        "size":"tamanho",
+        "last_modified":"Última modificação",
+        "add_subfolder": "Criar subpasta",
+        "add_folder": "Criar pasta",
+        "rename": "Renomear",
+        "delete": "Excluir",
+        "download":"Baixar",
+        "deleting":"Exluindo...",
+        "renaming":"Renomeando...",
+        "moving":"Movendo...",
+        "confirm_deletion": "Confirmar exclusão",
+        "item_details":"Detelhas do item",
+        "key":"chave",
+        "name":"nome",
+        "close":"Fechar",
+        "filter_files":"Filtrar arquivos",
+        "no_items_in_folder":"Não há arquivos nesta pasta",
+        "no_files": "sem arquivos",
+        "no_files_matching": "Nenhum arquivo correspondente",
+        "show_more_results":"Mostrar mais resultados"
+    }
+}

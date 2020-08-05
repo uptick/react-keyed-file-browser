@@ -1,0 +1,25 @@
+{
+    "rkfb":{
+        "file":"archivo",
+        "size":"tamaño",
+        "last_modified":"Última modificación",
+        "add_subfolder": "Crear subcarpeta",
+        "add_folder": "Crear carpeta",
+        "rename": "Renombrar",
+        "delete": "Borrar",
+        "download":"Descargar",
+        "deleting":"Borrando...",
+        "renaming":"Renombrando...",
+        "moving":"Moviendo...",
+        "confirm_deletion": "Confirmar eliminación",
+        "item_details":"Detalles del artículo",
+        "key":"llave",
+        "name":"nombre",
+        "close":"Cerrar",
+        "filter_files":"Filtrar archivos",
+        "no_files": "sin archivos",
+        "no_items_in_folder":"No hay archivos en esta carpeta",
+        "no_files_matching": "No hay archivos coincidentes",
+        "show_more_results":"Mostrar más resultados"
+    }
+}
