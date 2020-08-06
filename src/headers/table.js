@@ -21,6 +21,8 @@ class RawTableHeader extends React.Component {
       moveFolder: PropTypes.func,
       moveFile: PropTypes.func,
     }),
+
+    messages: PropTypes.object,
   }
 
   handleHeaderClick(event) {
@@ -28,7 +30,7 @@ class RawTableHeader extends React.Component {
   }
 
   render() {
-    const i18n = this.props.i18n ? this.props.i18n : null  
+    const { messages } = this.props  
     const header = (
       <tr
         className={ClassNames('folder', {
@@ -36,9 +38,9 @@ class RawTableHeader extends React.Component {
           selected: this.props.isSelected,
         })}
       >
-        <th>{i18n ? i18n.messages['file'] : 'file'}</th>
-        <th className="size">{i18n ? i18n.messages['size'] : 'size'}</th>
-        <th className="modified">{i18n ?i18n.messages['last_modified']: 'Last modified'}</th>
+        <th>{ messages.file }</th>
+        <th className="size">{ messages.size }</th>
+        <th className="modified">{ messages.last_modified }</th>
       </tr>
     )
 

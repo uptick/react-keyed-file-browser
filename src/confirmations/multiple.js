@@ -1,22 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import i18n from '../i18n';
 
 const MultipleConfirmDeletion = (props) => {
   const {
     handleDeleteSubmit,
+    messages
   } = props
-  const i18n = props.i18n? props.i18n : null
 
   return (
     <button className="deleting" onClick={handleDeleteSubmit}>
-      {i18n? i18n.messages['confirm_deletion']: 'Confirm Deletion'}
+      { messages.confirm_deletion }
     </button>
   )
 }
 
 MultipleConfirmDeletion.propTypes = {
   handleDeleteSubmit: PropTypes.func,
+  messages: PropTypes.object,
 }
 
 export default MultipleConfirmDeletion

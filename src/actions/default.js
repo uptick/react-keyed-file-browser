@@ -25,10 +25,8 @@ const Actions = (props) => {
 
     canDownloadFile,
     onDownloadFile,
-
+    messages,
   } = props
-
-  const i18n = props.i18n ? props.i18n: null;
 
   /** @type any */
   let actions = []
@@ -41,15 +39,15 @@ const Actions = (props) => {
       let actionText
       switch (selectedItemsAction[0].action) {
         case 'delete':
-          actionText = i18n? `${i18n.messages['deleting']}`: 'Deleting...'
+          actionText = `${ messages.deleting }`
           break
 
         case 'rename':
-          actionText = i18n? `${i18n.messages['renaming']}`: 'Renaming...';
+          actionText = `${ messages.renaming }`
           break
 
         default:
-          actionText = i18n? `${i18n.messages['rkfb.moving']}`: 'Moving...';
+          actionText = `${ messages.moving }`
           break
       }
 
@@ -69,7 +67,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Folder}
-              &nbsp;{i18n? i18n.messages['add_subfolder']:'Add Subfolder'}
+              &nbsp;{ messages.add_subfolder }
             </a>
           </li>
         )
@@ -85,7 +83,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;{i18n ? i18n.messages['rename']:'Rename'}
+              &nbsp;{ messages.rename }
             </a>
           </li>
         )
@@ -98,7 +96,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;{i18n?i18n.messages['rename']:'Rename'}
+              &nbsp;{ messages.rename }
             </a>
           </li>
         )
@@ -113,7 +111,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;{i18n? i18n.messages['delete']: 'Delete'}
+              &nbsp;{ messages.delete }
             </a>
           </li>
         )
@@ -126,7 +124,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;{i18n? i18n.messages['delete']: 'Delete'}
+              &nbsp;{ messages.delete }
             </a>
           </li>
         )
@@ -141,7 +139,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Download}
-              &nbsp;{i18n? i18n.messages['download']: 'Download'}
+              &nbsp;{ messages.download }
             </a>
           </li>
         )
@@ -164,7 +162,7 @@ const Actions = (props) => {
             role="button"
           >
             {icons.Folder}
-            &nbsp;{i18n? i18n.messages['add_folder']: 'Add Folder'}
+            &nbsp;{ messages.add_folder }
           </a>
         </li>
       )
@@ -203,6 +201,8 @@ Actions.propTypes = {
 
   canDownloadFile: PropTypes.bool,
   onDownloadFile: PropTypes.func,
+
+  messages: PropTypes.object,
 }
 
 Actions.defaultProps = {

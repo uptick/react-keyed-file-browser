@@ -17,6 +17,7 @@
         "name":"name",
         "close":"Close",
         "filter_files":"Filter files",
+        "no_files": "No files",
         "no_items_in_folder":"No items in this folder",
         "no_files_matching": "No files matching",
         "show_more_results":"Show more results"

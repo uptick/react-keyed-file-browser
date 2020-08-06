@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 const ConfirmDeletion = (props) => {
   const {
@@ -7,8 +7,8 @@ const ConfirmDeletion = (props) => {
     handleDeleteSubmit,
     handleFileClick,
     url,
+    messages,
   } = props
-  const i18n = props.i18n? props.i18n : null
 
   return (
     <form className="deleting" onSubmit={handleDeleteSubmit}>
@@ -21,7 +21,7 @@ const ConfirmDeletion = (props) => {
       </a>
       <div>
         <button type="submit">
-          {i18n ? i18n.messages['confirm_deletion']: 'Confirm Deletion'}
+          { messages.confirm_deletion }
         </button>
       </div>
     </form>
@@ -33,6 +33,7 @@ ConfirmDeletion.propTypes = {
   handleDeleteSubmit: PropTypes.func,
   handleFileClick: PropTypes.func,
   url: PropTypes.string,
+  messages: PropTypes.object,
 }
 
 ConfirmDeletion.defaultProps = {

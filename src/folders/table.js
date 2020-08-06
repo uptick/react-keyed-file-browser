@@ -7,10 +7,12 @@ import BaseFolder, { BaseFolderConnectors } from './../base-folder.js'
 import { BaseFileConnectors } from './../base-file.js'
 
 class RawTableFolder extends BaseFolder {
+ 
   render() {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
       action, url, browserProps, connectDragPreview, depth,
+      messages
     } = this.props
 
     const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
@@ -25,6 +27,7 @@ class RawTableFolder extends BaseFolder {
           handleDeleteSubmit={this.handleDeleteSubmit}
           handleFileClick={this.handleFileClick}
           url={url}
+          messages={ messages }
         >
           {icon}
           {this.getName()}
