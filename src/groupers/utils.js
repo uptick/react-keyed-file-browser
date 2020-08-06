@@ -16,32 +16,32 @@ function relativeTimeWindows() {
   const windows = []
   const now = new Date()
   windows.push({
-    name: 'today',
+    name: 'Today',
     begins: startOfToday(),
     ends: endOfToday(),
     items: [],
   })
   windows.push({
-    name:  'yesterday',
+    name:  'Yesterday',
     begins: startOfYesterday(),
     ends: endOfYesterday(),
     items: [],
   })
   windows.push({
-    name:  'earlier_this_week',
+    name:  'Earlier this Week',
     begins: startOfWeek(now),
     ends: endOfWeek(now),
     items: [],
   })
   windows.push({
-    name:  'last_week',
+    name:  'Last Week',
     begins: startOfWeek(addWeeks(now, -1)),
     ends: endOfWeek(addWeeks(now, -1)),
     items: [],
   })
   if (getMonth(windows[windows.length - 1].begins) === getMonth(now)) {
     windows.push({
-      name:  'earlier_this_month',
+      name:  'Earlier this Month',
       begins: startOfMonth(now),
       ends: endOfMonth(now),
       items: [],
