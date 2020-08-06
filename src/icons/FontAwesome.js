@@ -61,7 +61,7 @@ const FontAwesomeIcons = (majorVersion = 4) => {
         PowerPoint: <i className="far fa-file-powerpoint" aria-hidden="true" />,
         Text: <i className="far fa-file-alt" aria-hidden="true" />,
         PDF: <i className="far fa-file-pdf" aria-hidden="true" />,
-        Rename: <i className="far fa-i-cursor" aria-hidden="true" />,
+        Rename: <i className="fas fa-i-cursor" aria-hidden="true" />,
         Folder: <i className="far fa-folder" aria-hidden="true" />,
         FolderOpen: <i className="far fa-folder-open" aria-hidden="true" />,
         Delete: <i className="far fa-trash-alt" aria-hidden="true" />,
