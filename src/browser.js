@@ -48,7 +48,6 @@ class RawFileBrowser extends React.Component {
     showActionBar: PropTypes.bool.isRequired,
     canFilter: PropTypes.bool.isRequired,
     showFoldersOnFilter: PropTypes.bool,
-    noFilesMessage: PropTypes.string,
 
     group: PropTypes.func.isRequired,
     sort: PropTypes.func.isRequired,
@@ -116,7 +115,6 @@ class RawFileBrowser extends React.Component {
     showActionBar: true,
     canFilter: true,
     showFoldersOnFilter: false,
-    noFilesMessage: 'No files',
 
     group: GroupByFolder,
     sort: SortByName,
@@ -746,7 +744,7 @@ class RawFileBrowser extends React.Component {
             contents = (
               <tr>
                 <td colSpan={100}>
-                  {this.props.noFilesMessage}
+                  {i18n.messages.no_files}
                 </td>
               </tr>
             )
