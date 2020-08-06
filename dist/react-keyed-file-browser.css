@@ -1,0 +1,177 @@
+div.rendered-react-keyed-file-browser div.action-bar {
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  display: flex;
+  align-items: flex-start; }
+  div.rendered-react-keyed-file-browser div.action-bar input[type="search"] {
+    display: block;
+    flex-grow: 2;
+    min-width: 300px;
+    padding: 0.25rem 0.5rem;
+    line-height: 1em;
+    margin-bottom: 0.5rem;
+    border: 0.1rem solid #ddd; }
+  div.rendered-react-keyed-file-browser div.action-bar .item-actions {
+    text-align: right;
+    margin: 0;
+    padding: 0; }
+  div.rendered-react-keyed-file-browser div.action-bar ul.item-actions {
+    display: block;
+    flex-grow: 1;
+    min-width: 300px;
+    margin-left: 10px;
+    white-space: nowrap; }
+    div.rendered-react-keyed-file-browser div.action-bar ul.item-actions li {
+      display: inline-block;
+      margin: 0; }
+      div.rendered-react-keyed-file-browser div.action-bar ul.item-actions li:not(:last-child) {
+        margin-right: 0.5rem; }
+
+div.rendered-react-keyed-file-browser div.files table {
+  width: 100%;
+  margin-bottom: 2rem;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+  div.rendered-react-keyed-file-browser div.files table th, div.rendered-react-keyed-file-browser div.files table td {
+    font-weight: normal;
+    text-align: left;
+    margin: 0;
+    padding: 0.5rem; }
+  div.rendered-react-keyed-file-browser div.files table th {
+    font-weight: bold; }
+  div.rendered-react-keyed-file-browser div.files table th.size, div.rendered-react-keyed-file-browser div.files table th.modified, div.rendered-react-keyed-file-browser div.files table td.size, div.rendered-react-keyed-file-browser div.files table td.modified {
+    text-align: right; }
+  div.rendered-react-keyed-file-browser div.files table th.name i, div.rendered-react-keyed-file-browser div.files table td.name i {
+    padding-right: 0.5rem; }
+  div.rendered-react-keyed-file-browser div.files table thead th {
+    border-bottom: 0.1rem solid #ddd; }
+  div.rendered-react-keyed-file-browser div.files table tr:not(:last-child) td {
+    border-bottom: 0.1rem solid #eee; }
+  div.rendered-react-keyed-file-browser div.files table td.name {
+    padding-left: 0.8rem; }
+    div.rendered-react-keyed-file-browser div.files table td.name form.renaming {
+      display: flex;
+      align-items: center; }
+      div.rendered-react-keyed-file-browser div.files table td.name form.renaming i {
+        flex-grow: 0;
+        flex-shrink: 0; }
+      div.rendered-react-keyed-file-browser div.files table td.name form.renaming input[type="text"] {
+        flex: 1; }
+  div.rendered-react-keyed-file-browser div.files table tr td {
+    cursor: pointer; }
+  div.rendered-react-keyed-file-browser div.files table tr.selected td {
+    font-weight: bold; }
+    div.rendered-react-keyed-file-browser div.files table tr.selected td input, div.rendered-react-keyed-file-browser div.files table tr.selected td button {
+      font-weight: normal; }
+    div.rendered-react-keyed-file-browser div.files table tr.selected td.name {
+      position: relative; }
+      div.rendered-react-keyed-file-browser div.files table tr.selected td.name:after {
+        content: ' ';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0.3rem;
+        height: 100%;
+        background: #1d4567; }
+  div.rendered-react-keyed-file-browser div.files table tr.dragover td, div.rendered-react-keyed-file-browser div.files table tr.dragover th {
+    background: #eee; }
+
+div.rendered-file-browser div.files li.file.pending, div.rendered-file-browser div.files li.file.dragging, div.rendered-file-browser div.files li.folder.pending, div.rendered-file-browser div.files li.folder.dragging {
+  opacity: 0.4; }
+
+div.rendered-file-browser div.files li.file.dragover, div.rendered-file-browser div.files li.folder.dragover {
+  background: #eee; }
+
+div.rendered-file-browser div.files li.file.selected > div.item, div.rendered-file-browser div.files li.folder.selected > div.item {
+  color: #fff;
+  background: #ccc; }
+  div.rendered-file-browser div.files li.file.selected > div.item .text-muted, div.rendered-file-browser div.files li.folder.selected > div.item .text-muted {
+    color: #e6e6e6; }
+  div.rendered-file-browser div.files li.file.selected > div.item a:not(.btn), div.rendered-file-browser div.files li.file.selected > div.item.folder a:not(.btn), div.rendered-file-browser div.files li.file.selected > div.item i, div.rendered-file-browser div.files li.folder.selected > div.item a:not(.btn), div.rendered-file-browser div.files li.folder.selected > div.item.folder a:not(.btn), div.rendered-file-browser div.files li.folder.selected > div.item i {
+    color: #fff; }
+
+div.rendered-file-browser div.files ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(3, 1fr); }
+  div.rendered-file-browser div.files ul li.folder {
+    grid-column: 1/4; }
+    div.rendered-file-browser div.files ul li.folder > div.item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-left: 4px;
+      border: 1px solid #eee; }
+      div.rendered-file-browser div.files ul li.folder > div.item span.name {
+        flex: 1;
+        line-height: folder-size; }
+      div.rendered-file-browser div.files ul li.folder > div.item span.thumb {
+        flex-basis: 45px;
+        border: none;
+        text-align: center; }
+        div.rendered-file-browser div.files ul li.folder > div.item span.thumb > i {
+          line-height: 45px;
+          font-size: 18px; }
+      div.rendered-file-browser div.files ul li.folder > div.item form.renaming {
+        margin-top: 8px;
+        margin-right: 8px; }
+    div.rendered-file-browser div.files ul li.folder > p {
+      margin: 8px;
+      margin-bottom: 0;
+      padding: 0; }
+    div.rendered-file-browser div.files ul li.folder.expanded {
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eee;
+      border-left: 4px solid #eee;
+      border-right: 1px solid #eee; }
+      div.rendered-file-browser div.files ul li.folder.expanded > div.item {
+        padding-left: 0px;
+        margin-right: -1px;
+        margin-left: -1px; }
+      div.rendered-file-browser div.files ul li.folder.expanded.selected {
+        border-bottom: 1px solid #ccc;
+        border-left: 4px solid #ccc;
+        border-right: 1px solid #ccc; }
+  div.rendered-file-browser div.files ul li.selected.folder > div.item {
+    border: 1px solid #bfbfbf; }
+    div.rendered-file-browser div.files ul li.selected.folder > div.item span.thumb {
+      border: none; }
+  div.rendered-file-browser div.files ul li.file {
+    margin: 4px;
+    padding: 0; }
+    div.rendered-file-browser div.files ul li.file > div.item {
+      display: flex;
+      flex-direction: column;
+      padding: 4px;
+      margin: 0; }
+      div.rendered-file-browser div.files ul li.file > div.item span.thumb {
+        flex-basis: 120px;
+        text-align: center;
+        position: relative;
+        border: 1px solid #eee;
+        margin-bottom: 10px; }
+        div.rendered-file-browser div.files ul li.file > div.item span.thumb > i {
+          font-size: 40px;
+          line-height: 120px; }
+        div.rendered-file-browser div.files ul li.file > div.item span.thumb div.image {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-size: cover;
+          background-position: 50% 50%;
+          background-repeat: no-repeat; }
+  div.rendered-file-browser div.files ul li.selected.file > div.item span.thumb {
+    border: 1px solid #bfbfbf; }
+  div.rendered-file-browser div.files ul li.selected.file > div.item span.thumb div.image {
+    opacity: 0.8; }
+
+div.rendered-file-browser p.loading, div.rendered-file-browser p.empty {
+  margin: 16px 0; }
