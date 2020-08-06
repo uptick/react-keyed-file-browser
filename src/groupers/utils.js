@@ -22,26 +22,26 @@ function relativeTimeWindows() {
     items: [],
   })
   windows.push({
-    name:  'Yesterday',
+    name: 'Yesterday',
     begins: startOfYesterday(),
     ends: endOfYesterday(),
     items: [],
   })
   windows.push({
-    name:  'Earlier this Week',
+    name: 'Earlier this Week',
     begins: startOfWeek(now),
     ends: endOfWeek(now),
     items: [],
   })
   windows.push({
-    name:  'Last Week',
+    name: 'Last Week',
     begins: startOfWeek(addWeeks(now, -1)),
     ends: endOfWeek(addWeeks(now, -1)),
     items: [],
   })
   if (getMonth(windows[windows.length - 1].begins) === getMonth(now)) {
     windows.push({
-      name:  'Earlier this Month',
+      name: 'Earlier this Month',
       begins: startOfMonth(now),
       ends: endOfMonth(now),
       items: [],
