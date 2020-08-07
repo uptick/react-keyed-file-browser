@@ -212,8 +212,8 @@ class RawFileBrowser extends React.Component {
 
   componentDidUpdate(prevProps){
     const { i18n } = this.props
-    
-    if(prevProps.i18n !== i18n){
+
+    if(prevProps.i18n.language !== i18n.language){
 
       this.getLocale(i18n.language).then(locale=>{
         this.setState({
