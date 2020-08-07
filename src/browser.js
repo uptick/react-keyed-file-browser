@@ -210,6 +210,20 @@ class RawFileBrowser extends React.Component {
     })
   }
 
+  componentDidUpdate(prevProps){
+    const { i18n } = this.props
+    
+    if(prevProps.i18n !== i18n){
+
+      this.getLocale(i18n.language).then(locale=>{
+        this.setState({
+          locale,
+        })
+      })
+
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('click', this.handleGlobalClick)
   }
