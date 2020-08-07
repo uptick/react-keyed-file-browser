@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-js": "./node_modules/.bin/webpack --mode=production",
     "build-css": "./node_modules/.bin/node-sass src/browser.sass dist/react-keyed-file-browser.css",
-    "build": "npm run build-js; npm run build-css",
+    "build": "npm run build-js && npm run build-css",
     "prepublish": "npm run build",
     "storybook": "start-storybook -p 9001",
     "lint": "eslint src"
