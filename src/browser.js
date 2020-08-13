@@ -95,6 +95,7 @@ class RawFileBrowser extends React.Component {
     onDeleteFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDeleteFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDownloadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onDownloadFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 
     onSelect: PropTypes.func,
     onSelectFile: PropTypes.func,
@@ -298,6 +299,15 @@ class RawFileBrowser extends React.Component {
     })
   }
 
+  downloadFolder = (keys) => {
+    this.setState({
+      activeAction: null,
+      actionTargets: [],
+    }, () => {
+      this.props.onDownloadFolder(keys)
+    })
+  }
+
   // browser manipulation
   beginAction = (action, keys) => {
     this.setState({
@@ -450,8 +460,19 @@ class RawFileBrowser extends React.Component {
   }
   handleActionBarDownloadClick = (event) => {
     event.preventDefault()
+
+    const files = this.getFiles()
+    const selectedItems = this.getSelectedItems(files)
+
+    const selectionIsFolder = (selectedItems.length === 1 && !selectedItems[0].size)
+    if (selectionIsFolder) {
+      this.downloadFolder(this.state.selection)
+      return
+    }
+
     this.downloadFile(this.state.selection)
   }
+
   updateFilter = (newValue) => {
     this.setState({
       nameFilter: newValue,
@@ -507,6 +528,7 @@ class RawFileBrowser extends React.Component {
       actionRenderer: ActionRenderer,
       onCreateFolder, onRenameFile, onRenameFolder,
       onDeleteFile, onDeleteFolder, onDownloadFile,
+      onDownloadFolder,
     } = this.props
     const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItems.length === 1 && !selectedItems[0].size)
@@ -548,6 +570,9 @@ class RawFileBrowser extends React.Component {
 
         canDownloadFile={typeof onDownloadFile === 'function'}
         onDownloadFile={this.handleActionBarDownloadClick}
+
+        canDownloadFolder={typeof onDownloadFolder === 'function'}
+        onDownloadFolder={this.handleActionBarDownloadClick}
       />
     )
 
@@ -607,16 +632,7 @@ class RawFileBrowser extends React.Component {
     this.deleteFile(this.state.selection.filter(selection => selection[selection.length - 1] !== '/'))
   }
 
-  render() {
-    const { selection } = this.state
-    const browserProps = this.getBrowserProps()
-    const headerProps = {
-      browserProps,
-      fileKey: '',
-      fileCount: this.props.files.length,
-    }
-    let renderedFiles
-
+  getFiles() {
     let files = this.props.files.concat([])
     if (this.state.activeAction === 'createFolder') {
       files.push({
@@ -653,6 +669,14 @@ class RawFileBrowser extends React.Component {
       })
       files = newFiles
     }
+    if (typeof this.props.sort === 'function') {
+      files = this.props.sort(files)
+    }
+    return files
+  }
+
+  getSelectedItems(files) {
+    const { selection } = this.state
     const selectedItems = []
     const findSelected = (item) => {
       if (selection.includes(item.key)) {
@@ -663,9 +687,20 @@ class RawFileBrowser extends React.Component {
       }
     }
     files.map(findSelected)
-    if (typeof this.props.sort === 'function') {
-      files = this.props.sort(files)
+    return selectedItems
+  }
+
+  render() {
+    const browserProps = this.getBrowserProps()
+    const headerProps = {
+      browserProps,
+      fileKey: '',
+      fileCount: this.props.files.length,
     }
+    let renderedFiles
+
+    const files = this.getFiles()
+    const selectedItems = this.getSelectedItems(files)
 
     let header
     /** @type any */
