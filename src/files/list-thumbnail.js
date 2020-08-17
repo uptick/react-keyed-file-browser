@@ -7,7 +7,6 @@ import { formatDistanceToNow } from 'date-fns'
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
 
-
 class RawListThumbnailFile extends BaseFile {
   static defaultProps = {
     showName: true,
@@ -49,7 +48,7 @@ class RawListThumbnailFile extends BaseFile {
             handleDeleteSubmit={this.handleDeleteSubmit}
             handleFileClick={this.handleFileClick}
             url={url}
-            messages={ messages }
+            messages={messages}
           >
             {this.getName()}
           </ConfirmDeletionRenderer>
@@ -87,10 +86,10 @@ class RawListThumbnailFile extends BaseFile {
     let modified
     if (showModified) {
       if (!isRenaming && !isDeleting) {
-        const options = this.props.locale ? { addSuffix: true, locale:this.props.locale } : { addSuffix: true }
+        const options = this.props.locale ? { addSuffix: true, locale: this.props.locale } : { addSuffix: true }
         modified = (
           <span className="modified">
-            { messages.last_modified }: {formatDistanceToNow(this.props.modified, options)}
+            {messages.last_modified}: {formatDistanceToNow(this.props.modified, options)}
           </span>
         )
       }

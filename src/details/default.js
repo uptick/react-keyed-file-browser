@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 class Detail extends React.Component {
-  
   static propTypes = {
     file: PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -13,7 +12,6 @@ class Detail extends React.Component {
     close: PropTypes.func,
     messages: PropTypes.object,
   }
-
 
   handleCloseClick = (event) => {
     if (event) {
@@ -29,15 +27,15 @@ class Detail extends React.Component {
 
     return (
       <div>
-        <h2>{ messages.item_details }</h2>
+        <h2>{messages.item_details}</h2>
         <dl>
-          <dt>{ messages.key }</dt>
+          <dt>{messages.key}</dt>
           <dd>{this.props.file.key}</dd>
 
-          <dt>{ messages.name }</dt>
+          <dt>{messages.name}</dt>
           <dd>{name}</dd>
         </dl>
-        <a href="#" onClick={this.handleCloseClick}>{ messages.close }</a>
+        <a href="#" onClick={this.handleCloseClick}>{messages.close}</a>
       </div>
     )
   }

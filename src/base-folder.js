@@ -32,7 +32,7 @@ class BaseFolder extends React.Component {
       moveFolder: PropTypes.func,
       renameFolder: PropTypes.func,
       deleteFolder: PropTypes.func,
-      
+
       messages: PropTypes.object,
     }),
   }

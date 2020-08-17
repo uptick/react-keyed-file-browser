@@ -13,7 +13,7 @@ class RawTableFile extends BaseFile {
       isDragging, isDeleting, isRenaming, isOver, isSelected,
       action, url, browserProps, connectDragPreview,
       depth, size, modified,
-      messages
+      messages,
     } = this.props
 
     const icon = browserProps.icons[this.getFileType()] || browserProps.icons.File
@@ -28,7 +28,7 @@ class RawTableFile extends BaseFile {
           handleDeleteSubmit={this.handleDeleteSubmit}
           handleFileClick={this.handleFileClick}
           url={url}
-          messages={ messages }
+          messages={messages}
         >
           {icon}
           {this.getName()}
@@ -69,7 +69,7 @@ class RawTableFile extends BaseFile {
     if (typeof browserProps.moveFile === 'function') {
       draggable = connectDragPreview(draggable)
     }
-    const options = this.props.locale? { addSuffix: true, locale:this.props.locale} : { addSuffix: true}
+    const options = this.props.locale ? { addSuffix: true, locale: this.props.locale } : { addSuffix: true }
     const row = (
       <tr
         className={ClassNames('file', {

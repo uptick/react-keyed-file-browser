@@ -9,7 +9,6 @@ import { BaseFileConnectors } from './../base-file.js'
 import { isFolder } from '../utils'
 
 class RawListThumbnailFolder extends BaseFolder {
-  
   render() {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
@@ -30,7 +29,7 @@ class RawListThumbnailFolder extends BaseFolder {
           handleDeleteSubmit={this.handleDeleteSubmit}
           handleFileClick={this.handleFileClick}
           url={url}
-          messages={ messages }
+          messages={messages}
         >
           {this.getName()}
         </ConfirmDeletionRenderer>
@@ -94,7 +93,7 @@ class RawListThumbnailFolder extends BaseFolder {
       if (children.length) {
         children = (<ul style={{ padding: '0 8px', paddingLeft: '16px' }}>{children}</ul>)
       } else {
-        children = (<p>{ messages.no_items_in_folder }</p>)
+        children = (<p>{messages.no_items_in_folder}</p>)
       }
     }
 

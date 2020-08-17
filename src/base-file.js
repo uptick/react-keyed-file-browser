@@ -29,7 +29,7 @@ class BaseFile extends React.Component {
       moveFolder: PropTypes.func,
       renameFile: PropTypes.func,
       deleteFile: PropTypes.func,
-      
+
       messages: PropTypes.object,
     }),
   }

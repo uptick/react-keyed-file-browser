@@ -30,7 +30,7 @@ class RawTableHeader extends React.Component {
   }
 
   render() {
-    const { messages } = this.props  
+    const { messages } = this.props
     const header = (
       <tr
         className={ClassNames('folder', {
@@ -38,9 +38,9 @@ class RawTableHeader extends React.Component {
           selected: this.props.isSelected,
         })}
       >
-        <th>{ messages.file }</th>
-        <th className="size">{ messages.size }</th>
-        <th className="modified">{ messages.last_modified }</th>
+        <th>{messages.file}</th>
+        <th className="size">{messages.size}</th>
+        <th className="modified">{messages.last_modified}</th>
       </tr>
     )
 

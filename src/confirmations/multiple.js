@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 const MultipleConfirmDeletion = (props) => {
   const {
     handleDeleteSubmit,
-    messages
+    messages,
   } = props
 
   return (
     <button className="deleting" onClick={handleDeleteSubmit}>
-      { messages.confirm_deletion }
+      {messages.confirm_deletion}
     </button>
   )
 }

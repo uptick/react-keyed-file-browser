@@ -39,15 +39,15 @@ const Actions = (props) => {
       let actionText
       switch (selectedItemsAction[0].action) {
         case 'delete':
-          actionText = `${ messages.deleting }`
+          actionText = `${messages.deleting}`
           break
 
         case 'rename':
-          actionText = `${ messages.renaming }`
+          actionText = `${messages.renaming}`
           break
 
         default:
-          actionText = `${ messages.moving }`
+          actionText = `${messages.moving}`
           break
       }
 
@@ -67,7 +67,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Folder}
-              &nbsp;{ messages.add_subfolder }
+              &nbsp;{messages.add_subfolder}
             </a>
           </li>
         )
@@ -83,7 +83,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;{ messages.rename }
+              &nbsp;{messages.rename}
             </a>
           </li>
         )
@@ -96,7 +96,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;{ messages.rename }
+              &nbsp;{messages.rename}
             </a>
           </li>
         )
@@ -111,7 +111,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;{ messages.delete }
+              &nbsp;{messages.delete}
             </a>
           </li>
         )
@@ -124,7 +124,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;{ messages.delete }
+              &nbsp;{messages.delete}
             </a>
           </li>
         )
@@ -139,7 +139,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Download}
-              &nbsp;{ messages.download }
+              &nbsp;{messages.download}
             </a>
           </li>
         )
@@ -162,7 +162,7 @@ const Actions = (props) => {
             role="button"
           >
             {icons.Folder}
-            &nbsp;{ messages.add_folder }
+            &nbsp;{messages.add_folder}
           </a>
         </li>
       )

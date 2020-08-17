@@ -37,7 +37,7 @@ const files = [
 const store = new Store({ files })
 
 storiesOf('FileBrowser', module)
-  .add('Simple Flat & Read-Only Example', () => 
+  .add('Simple Flat & Read-Only Example', () =>
     (<FileBrowser files={files} />)
   )
   .add('Different Renderers and Groupers', () => (
@@ -298,20 +298,20 @@ storiesOf('FileBrowser', module)
       )}
     </State>
   ))
-  storiesOf('FileBrowser.i18n', module)
+storiesOf('FileBrowser.i18n', module)
   .add('Simple Flat & Read-Only Example, with es translations', () => {
     i18n.changeLanguage('es')
-    const translation = { 
-      messages: i18n.t('rkfb',{returnObjects: true}),
-      language: i18n.language
+    const translation = {
+      messages: i18n.t('rkfb', { returnObjects: true }),
+      language: i18n.language,
     }
-    return (<FileBrowser files={files} i18n={translation}/>)
+    return (<FileBrowser files={files} i18n={translation} />)
   })
   .add('Different Renderers and Groupers, with es translation', () => {
     i18n.changeLanguage('es')
-    const translation = { 
-      messages: i18n.t('rkfb',{returnObjects: true}),
-      language: i18n.language
+    const translation = {
+      messages: i18n.t('rkfb', { returnObjects: true }),
+      language: i18n.language,
     }
     return (
       <FileBrowser
@@ -369,9 +369,9 @@ storiesOf('FileBrowser', module)
   })
   .add('Group By Folder, with pt-BR translation', () => {
     i18n.changeLanguage('pt-BR')
-    const translation = { 
-      messages: i18n.t('rkfb',{returnObjects: true}),
-      language: i18n.language
+    const translation = {
+      messages: i18n.t('rkfb', { returnObjects: true }),
+      language: i18n.language,
     }
 
     return (
@@ -434,11 +434,11 @@ storiesOf('FileBrowser', module)
       />
     )
   })
-  .add('Simple Flat & Read-Only Example With Bulk Actions, With pt-BR translations', () =>{ 
+  .add('Simple Flat & Read-Only Example With Bulk Actions, With pt-BR translations', () => {
     i18n.changeLanguage('pt-BR')
-    const translation = { 
-      messages: i18n.t('rkfb',{returnObjects: true}),
-      language: i18n.language
+    const translation = {
+      messages: i18n.t('rkfb', { returnObjects: true }),
+      language: i18n.language,
     }
     return (
       <State store={store}>
@@ -590,4 +590,3 @@ storiesOf('FileBrowser', module)
       </State>
     )
   })
-  

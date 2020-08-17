@@ -24,7 +24,6 @@ import { DefaultAction } from './actions'
 const SEARCH_RESULTS_PER_PAGE = 20
 const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
 
-
 function getItemProps(file, browserProps) {
   return {
     key: `file-${file.key}`,
@@ -107,7 +106,7 @@ class RawFileBrowser extends React.Component {
     onFolderClose: PropTypes.func,
     i18n: PropTypes.shape({
       messages: PropTypes.object,
-      language: PropTypes.string
+      language: PropTypes.string,
     }),
   }
 
@@ -141,30 +140,30 @@ class RawFileBrowser extends React.Component {
     icons: {},
 
     i18n: {
-      language:'en',
-      messages:{
-        file:"file",
-        size:"size",
-        last_modified:"Last modified",
-        add_subfolder: "Add Subfolder",
-        add_folder: "Add Folder",
-        rename: "Rename",
-        delete: "Delete",
-        download:"Download",
-        deleting:"Deleting...",
-        renaming:"Renaming...",
-        moving:"Moving...",
-        confirm_deletion: "Confirm Deletion",
-        item_details:"Item details",
-        key:"key",
-        name:"name",
-        close:"Close",
-        filter_files:"Filter files",
-        no_files: "No files",
-        no_items_in_folder:"No items in this folder",
-        no_files_matching: "No files matching",
-        show_more_results:"Show more results"
-      }
+      language: 'en',
+      messages: {
+        file: 'file',
+        size: 'size',
+        last_modified: 'Last modified',
+        add_subfolder: 'Add Subfolder',
+        add_folder: 'Add Folder',
+        rename: 'Rename',
+        delete: 'Delete',
+        download: 'Download',
+        deleting: 'Deleting...',
+        renaming: 'Renaming...',
+        moving: 'Moving...',
+        confirm_deletion: 'Confirm Deletion',
+        item_details: 'Item details',
+        key: 'key',
+        name: 'name',
+        close: 'Close',
+        filter_files: 'Filter files',
+        no_files: 'No files',
+        no_items_in_folder: 'No items in this folder',
+        no_files_matching: 'No files matching',
+        show_more_results: 'Show more results',
+      },
     },
 
     onSelect: (fileOrFolder) => { }, // Always called when a file or folder is selected
@@ -191,7 +190,7 @@ class RawFileBrowser extends React.Component {
 
     addFolder: null,
 
-    locale: null
+    locale: null,
   }
 
   componentDidMount() {
@@ -200,27 +199,25 @@ class RawFileBrowser extends React.Component {
     if (this.props.renderStyle === 'table' && this.props.nestChildren) {
       console.warn('Invalid settings: Cannot nest table children in file browser')
     }
-    
-    window.addEventListener('click', this.handleGlobalClick);
 
-    this.getLocale(i18n.language).then(locale=>{
+    window.addEventListener('click', this.handleGlobalClick)
+
+    this.getLocale(i18n.language).then(locale => {
       this.setState({
         locale,
       })
     })
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
     const { i18n } = this.props
 
-    if(prevProps.i18n.language !== i18n.language){
-
-      this.getLocale(i18n.language).then(locale=>{
+    if (prevProps.i18n.language !== i18n.language) {
+      this.getLocale(i18n.language).then(locale => {
         this.setState({
           locale,
         })
       })
-
     }
   }
 
@@ -228,12 +225,12 @@ class RawFileBrowser extends React.Component {
     window.removeEventListener('click', this.handleGlobalClick)
   }
 
-  getLocale = async (lng) =>{
-    lng = lng.includes('-')? lng.replace(/\-/g,'') : lng
+  getLocale = async (lng) => {
+    lng = lng.includes('-') ? lng.replace(/-/g, '') : lng
     const localeLng = await import('date-fns/locale')
     return localeLng[lng]
   }
- 
+
   getFile = (key) => this.props.files.find(f => f.key === key)
 
   // item manipulation
@@ -578,7 +575,7 @@ class RawFileBrowser extends React.Component {
           value={this.state.nameFilter}
           updateFilter={this.updateFilter}
           {...filterRendererProps}
-          messages = { i18n.messages }
+          messages={i18n.messages}
         />
       )
     }
@@ -611,7 +608,7 @@ class RawFileBrowser extends React.Component {
         canDownloadFile={typeof onDownloadFile === 'function'}
         onDownloadFile={this.handleActionBarDownloadClick}
 
-        messages = {i18n.messages}
+        messages={i18n.messages}
       />
     )
 
@@ -629,7 +626,7 @@ class RawFileBrowser extends React.Component {
       folderRenderer: FolderRenderer, folderRendererProps,
       i18n,
     } = this.props
-    const { locale } = this.state;
+    const { locale } = this.state
     const browserProps = this.getBrowserProps()
     let renderedFiles = []
 
@@ -646,7 +643,7 @@ class RawFileBrowser extends React.Component {
             {...thisItemProps}
             browserProps={browserProps}
             {...fileRendererProps}
-            messages = {i18n.messages}
+            messages={i18n.messages}
             locale={locale}
           />
         )
@@ -658,7 +655,7 @@ class RawFileBrowser extends React.Component {
               {...thisItemProps}
               browserProps={browserProps}
               {...folderRendererProps}
-              messages = { i18n.messages }
+              messages={i18n.messages}
               locale={locale}
             />
           )
@@ -748,7 +745,7 @@ class RawFileBrowser extends React.Component {
             contents = (
               <tr>
                 <td colSpan={100}>
-                  { i18n.messages.no_files_matching } "{this.state.nameFilter}".
+                  {i18n.messages.no_files_matching} "{this.state.nameFilter}".
                 </td>
               </tr>
             )
@@ -773,7 +770,7 @@ class RawFileBrowser extends React.Component {
                       onClick={this.handleShowMoreClick}
                       href="#"
                     >
-                      { i18n.messages.show_more_results }
+                      {i18n.messages.show_more_results}
                     </a>
                   </td>
                 </tr>
@@ -788,7 +785,7 @@ class RawFileBrowser extends React.Component {
               <this.props.headerRenderer
                 {...headerProps}
                 {...this.props.headerRendererProps}
-                messages = { i18n.messages }
+                messages={i18n.messages}
               />
             </thead>
           )
@@ -807,9 +804,9 @@ class RawFileBrowser extends React.Component {
       case 'list':
         if (!contents.length) {
           if (this.state.nameFilter) {
-            contents = (<p className="empty">{ i18n.messages.no_files_matching } "{this.state.nameFilter}"</p>)
+            contents = (<p className="empty">{i18n.messages.no_files_matching} "{this.state.nameFilter}"</p>)
           } else {
-            contents = (<p className="empty">{ i18n.messages.no_files }</p>)
+            contents = (<p className="empty">{i18n.messages.no_files}</p>)
           }
         } else {
           let more
@@ -822,7 +819,7 @@ class RawFileBrowser extends React.Component {
                   onClick={this.handleShowMoreClick}
                   href="#"
                 >
-                  { i18n.messages.show_more_results}
+                  {i18n.messages.show_more_results}
                 </a>
               )
             }
@@ -840,7 +837,7 @@ class RawFileBrowser extends React.Component {
             <this.props.headerRenderer
               {...headerProps}
               {...this.props.headerRendererProps}
-              messages = { i18n.messages }
+              messages={i18n.messages}
             />
           )
         }
@@ -864,7 +861,7 @@ class RawFileBrowser extends React.Component {
           {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
             <ConfirmMultipleDeletionRenderer
               handleDeleteSubmit={this.handleMultipleDeleteSubmit}
-              messages = { i18n.messages }
+              messages={i18n.messages}
             />}
           <div className="files">
             {renderedFiles}
@@ -875,7 +872,7 @@ class RawFileBrowser extends React.Component {
             file={this.state.previewFile}
             close={this.closeDetail}
             {...this.props.detailRendererProps}
-            messages = { i18n.messages }
+            messages={i18n.messages}
           />
         )}
       </div>

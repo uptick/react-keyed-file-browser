@@ -19,7 +19,7 @@ class Filter extends React.Component {
       <input
         ref={el => { this.filterRef = el }}
         type="search"
-        placeholder= { messages.filter_files }
+        placeholder={messages.filter_files}
         value={this.props.value}
         onChange={this.handleFilterChange}
       />
