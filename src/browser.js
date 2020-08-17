@@ -104,10 +104,8 @@ class RawFileBrowser extends React.Component {
 
     onFolderOpen: PropTypes.func,
     onFolderClose: PropTypes.func,
-    i18n: PropTypes.shape({
-      messages: PropTypes.object,
-      language: PropTypes.string,
-    }),
+    messages: PropTypes.object,
+    language: PropTypes.string,
   }
 
   static defaultProps = {
@@ -139,31 +137,29 @@ class RawFileBrowser extends React.Component {
 
     icons: {},
 
-    i18n: {
-      language: 'en',
-      messages: {
-        file: 'file',
-        size: 'size',
-        last_modified: 'Last modified',
-        add_subfolder: 'Add Subfolder',
-        add_folder: 'Add Folder',
-        rename: 'Rename',
-        delete: 'Delete',
-        download: 'Download',
-        deleting: 'Deleting...',
-        renaming: 'Renaming...',
-        moving: 'Moving...',
-        confirm_deletion: 'Confirm Deletion',
-        item_details: 'Item details',
-        key: 'key',
-        name: 'name',
-        close: 'Close',
-        filter_files: 'Filter files',
-        no_files: 'No files',
-        no_items_in_folder: 'No items in this folder',
-        no_files_matching: 'No files matching',
-        show_more_results: 'Show more results',
-      },
+    language: 'en',
+    messages: {
+      file: 'file',
+      size: 'size',
+      last_modified: 'Last modified',
+      add_subfolder: 'Add Subfolder',
+      add_folder: 'Add Folder',
+      rename: 'Rename',
+      delete: 'Delete',
+      download: 'Download',
+      deleting: 'Deleting...',
+      renaming: 'Renaming...',
+      moving: 'Moving...',
+      confirm_deletion: 'Confirm Deletion',
+      item_details: 'Item details',
+      key: 'key',
+      name: 'name',
+      close: 'Close',
+      filter_files: 'Filter files',
+      no_files: 'No files',
+      no_items_in_folder: 'No items in this folder',
+      no_files_matching: 'No files matching',
+      show_more_results: 'Show more results',
     },
 
     onSelect: (fileOrFolder) => { }, // Always called when a file or folder is selected
@@ -194,7 +190,7 @@ class RawFileBrowser extends React.Component {
   }
 
   componentDidMount() {
-    const { i18n } = this.props
+    const { language } = this.props
 
     if (this.props.renderStyle === 'table' && this.props.nestChildren) {
       console.warn('Invalid settings: Cannot nest table children in file browser')
@@ -202,7 +198,7 @@ class RawFileBrowser extends React.Component {
 
     window.addEventListener('click', this.handleGlobalClick)
 
-    this.getLocale(i18n.language).then(locale => {
+    this.getLocale(language).then(locale => {
       this.setState({
         locale,
       })
@@ -210,10 +206,10 @@ class RawFileBrowser extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { i18n } = this.props
+    const { language } = this.props
 
-    if (prevProps.i18n.language !== i18n.language) {
-      this.getLocale(i18n.language).then(locale => {
+    if (prevProps.language !== language) {
+      this.getLocale(language).then(locale => {
         this.setState({
           locale,
         })
@@ -564,7 +560,7 @@ class RawFileBrowser extends React.Component {
       actionRenderer: ActionRenderer,
       onCreateFolder, onRenameFile, onRenameFolder,
       onDeleteFile, onDeleteFolder, onDownloadFile,
-      i18n,
+      messages,
     } = this.props
     const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItems.length === 1 && !selectedItems[0].size)
@@ -575,7 +571,7 @@ class RawFileBrowser extends React.Component {
           value={this.state.nameFilter}
           updateFilter={this.updateFilter}
           {...filterRendererProps}
-          messages={i18n.messages}
+          messages={messages}
         />
       )
     }
@@ -608,7 +604,7 @@ class RawFileBrowser extends React.Component {
         canDownloadFile={typeof onDownloadFile === 'function'}
         onDownloadFile={this.handleActionBarDownloadClick}
 
-        messages={i18n.messages}
+        messages={messages}
       />
     )
 
@@ -624,7 +620,7 @@ class RawFileBrowser extends React.Component {
     const {
       fileRenderer: FileRenderer, fileRendererProps,
       folderRenderer: FolderRenderer, folderRendererProps,
-      i18n,
+      messages,
     } = this.props
     const { locale } = this.state
     const browserProps = this.getBrowserProps()
@@ -643,7 +639,7 @@ class RawFileBrowser extends React.Component {
             {...thisItemProps}
             browserProps={browserProps}
             {...fileRendererProps}
-            messages={i18n.messages}
+            messages={messages}
             locale={locale}
           />
         )
@@ -655,7 +651,7 @@ class RawFileBrowser extends React.Component {
               {...thisItemProps}
               browserProps={browserProps}
               {...folderRendererProps}
-              messages={i18n.messages}
+              messages={messages}
               locale={locale}
             />
           )
@@ -676,7 +672,7 @@ class RawFileBrowser extends React.Component {
 
   render() {
     const { selection } = this.state
-    const { i18n } = this.props
+    const { messages } = this.props
     const browserProps = this.getBrowserProps()
     const headerProps = {
       browserProps,
@@ -745,7 +741,7 @@ class RawFileBrowser extends React.Component {
             contents = (
               <tr>
                 <td colSpan={100}>
-                  {i18n.messages.no_files_matching} "{this.state.nameFilter}".
+                  {messages.no_files_matching} "{this.state.nameFilter}".
                 </td>
               </tr>
             )
@@ -753,7 +749,7 @@ class RawFileBrowser extends React.Component {
             contents = (
               <tr>
                 <td colSpan={100}>
-                  {i18n.messages.no_files}
+                  {messages.no_files}
                 </td>
               </tr>
             )
@@ -770,7 +766,7 @@ class RawFileBrowser extends React.Component {
                       onClick={this.handleShowMoreClick}
                       href="#"
                     >
-                      {i18n.messages.show_more_results}
+                      {messages.show_more_results}
                     </a>
                   </td>
                 </tr>
@@ -785,7 +781,7 @@ class RawFileBrowser extends React.Component {
               <this.props.headerRenderer
                 {...headerProps}
                 {...this.props.headerRendererProps}
-                messages={i18n.messages}
+                messages={messages}
               />
             </thead>
           )
@@ -804,9 +800,9 @@ class RawFileBrowser extends React.Component {
       case 'list':
         if (!contents.length) {
           if (this.state.nameFilter) {
-            contents = (<p className="empty">{i18n.messages.no_files_matching} "{this.state.nameFilter}"</p>)
+            contents = (<p className="empty">{messages.no_files_matching} "{this.state.nameFilter}"</p>)
           } else {
-            contents = (<p className="empty">{i18n.messages.no_files}</p>)
+            contents = (<p className="empty">{messages.no_files}</p>)
           }
         } else {
           let more
@@ -819,7 +815,7 @@ class RawFileBrowser extends React.Component {
                   onClick={this.handleShowMoreClick}
                   href="#"
                 >
-                  {i18n.messages.show_more_results}
+                  {messages.show_more_results}
                 </a>
               )
             }
@@ -837,7 +833,7 @@ class RawFileBrowser extends React.Component {
             <this.props.headerRenderer
               {...headerProps}
               {...this.props.headerRendererProps}
-              messages={i18n.messages}
+              messages={messages}
             />
           )
         }
@@ -861,7 +857,7 @@ class RawFileBrowser extends React.Component {
           {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
             <ConfirmMultipleDeletionRenderer
               handleDeleteSubmit={this.handleMultipleDeleteSubmit}
-              messages={i18n.messages}
+              messages={messages}
             />}
           <div className="files">
             {renderedFiles}
@@ -872,7 +868,7 @@ class RawFileBrowser extends React.Component {
             file={this.state.previewFile}
             close={this.closeDetail}
             {...this.props.detailRendererProps}
-            messages={i18n.messages}
+            messages={messages}
           />
         )}
       </div>

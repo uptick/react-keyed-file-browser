@@ -309,10 +309,9 @@ storiesOf('FileBrowser.i18n', module)
   })
   .add('Different Renderers and Groupers, with es translation', () => {
     i18n.changeLanguage('es')
-    const translation = {
-      messages: i18n.t('rkfb', { returnObjects: true }),
-      language: i18n.language,
-    }
+    const messages = i18n.t('rkfb', { returnObjects: true })
+    const language = i18n.language
+
     return (
       <FileBrowser
         icons={Icons.FontAwesome(4)}
@@ -363,16 +362,15 @@ storiesOf('FileBrowser.i18n', module)
         group={Groupers.GroupByModifiedRelative}
         fileRenderer={FileRenderers.ListThumbnailFile}
         folderRenderer={FolderRenderers.ListThumbnailFolder}
-        i18n={translation}
+        language={language}
+        messages={messages}
       />
     )
   })
   .add('Group By Folder, with pt-BR translation', () => {
     i18n.changeLanguage('pt-BR')
-    const translation = {
-      messages: i18n.t('rkfb', { returnObjects: true }),
-      language: i18n.language,
-    }
+    const messages = i18n.t('rkfb', { returnObjects: true })
+    const language = i18n.language
 
     return (
       <FileBrowser
@@ -430,16 +428,16 @@ storiesOf('FileBrowser.i18n', module)
         group={Groupers.GroupByFolder}
         fileRenderer={FileRenderers.ListThumbnailFile}
         folderRenderer={FolderRenderers.ListThumbnailFolder}
-        i18n={translation}
+        language={language}
+        messages={messages}
       />
     )
   })
   .add('Simple Flat & Read-Only Example With Bulk Actions, With pt-BR translations', () => {
     i18n.changeLanguage('pt-BR')
-    const translation = {
-      messages: i18n.t('rkfb', { returnObjects: true }),
-      language: i18n.language,
-    }
+    const messages = i18n.t('rkfb', { returnObjects: true })
+    const language = i18n.language
+
     return (
       <State store={store}>
         {(state) => (
@@ -584,7 +582,8 @@ storiesOf('FileBrowser.i18n', module)
               console.log('Downloading files: ', fileKeys)
             }}
             files={state.files}
-            i18n={translation}
+            messages={messages}
+            language={language}
           />
         )}
       </State>
