@@ -301,11 +301,9 @@ storiesOf('FileBrowser', module)
 storiesOf('FileBrowser.i18n', module)
   .add('Simple Flat & Read-Only Example, with es translations', () => {
     i18n.changeLanguage('es')
-    const translation = {
-      messages: i18n.t('rkfb', { returnObjects: true }),
-      language: i18n.language,
-    }
-    return (<FileBrowser files={files} i18n={translation} />)
+    const messages = i18n.t('rkfb', { returnObjects: true })
+    const language = i18n.language
+    return (<FileBrowser files={files} language={language} messages={messages} />)
   })
   .add('Different Renderers and Groupers, with es translation', () => {
     i18n.changeLanguage('es')
