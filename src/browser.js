@@ -464,7 +464,7 @@ class RawFileBrowser extends React.Component {
     const files = this.getFiles()
     const selectedItems = this.getSelectedItems(files)
 
-    const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]) && !selectedItems[0].size)
+    const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
     if (selectionIsFolder) {
       this.downloadFolder(this.state.selection)
       return
@@ -531,7 +531,7 @@ class RawFileBrowser extends React.Component {
       onDownloadFolder,
     } = this.props
     const browserProps = this.getBrowserProps()
-    const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]) && !selectedItems[0].size)
+    const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
     let filter
     if (canFilter) {
       filter = (
