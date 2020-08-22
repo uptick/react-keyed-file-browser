@@ -400,10 +400,7 @@ class RawFileBrowser extends React.Component {
   handleGlobalClick = (event) => {
     const inBrowser = !!(this.browserRef && this.browserRef.contains(event.target))
 
-    // TODO: updated old-to-new ref styles, but this ref was never set
-    const inPreview = !!(this.previewRef && this.previewRef.contains(event.target))
-
-    if (!inBrowser && !inPreview) {
+    if (!inBrowser) {
       this.setState({
         selection: [],
         actionTargets: [],
