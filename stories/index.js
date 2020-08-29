@@ -37,6 +37,48 @@ const files = [
   },
 ]
 
+const longListOfFiles = [
+  {key: 'dog.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'cat.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'rabbit.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'fish.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'donkey.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'crocodile.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'parrot.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'monkey.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'llama.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'giraffe.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'elephant.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'ladybug.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'hamster.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'snake.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'squirrel.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'tiger.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'poodle.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'sloth.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'camel.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'kangaroo.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'spider.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'bear.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'puma.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'zebra.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'gazelle.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'vulture.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'panda.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'dolphin.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'turtle.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'whale.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'gorilla.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'ant.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'mouse.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'moose.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'deer.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'husky.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'elk.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'mantis.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+  {key: 'duck.png', modified: subHours(new Date(), Math.floor(Math.random() * 100)), size : 1024 * Math.ceil(Math.random() * 10)},
+]
+
 const store = new Store({ files })
 
 export const simpleFlatAndReadOnlyExample = () => <FileBrowser files={files} />
@@ -300,4 +342,12 @@ export const simpleFlatAndReadOnlyExampleWithBulkActions = () => (
       />
     )}
   </State>
+)
+
+export const aLotOfFiles = () => (
+  <FileBrowser
+    files={longListOfFiles}
+    onDeleteFile={(args) => { console.log("Deleting file: ", args) }}
+    onRenameFile={(args) => { console.log("Renaming file: ", args) }}
+  />
 )
