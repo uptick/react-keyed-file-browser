@@ -41,22 +41,12 @@ class BaseFolder extends React.Component {
     newName: this.props.isDraft ? 'New folder' : this.getName(),
   }
 
-  componentDidMount() {
-    if (this.props.isDraft) {
-      this.selectAllNewName()
+  selectFolderNameFromRef(element) {
+    if (element) {
+      const currentName = element.value
+      element.setSelectionRange(0, currentName.length)
+      element.focus()
     }
-  }
-  componentDidUpdate(oldProps, oldState) {
-    if (!oldProps.isRenaming && this.props.isRenaming) {
-      this.selectAllNewName()
-    }
-  }
-  selectAllNewName = () => {
-    window.requestAnimationFrame(() => {
-      const currentName = this.newNameRef.value
-      this.newNameRef.setSelectionRange(0, currentName.length)
-      this.newNameRef.focus()
-    })
   }
 
   getName() {
@@ -83,7 +73,7 @@ class BaseFolder extends React.Component {
     this.props.browserProps.beginAction('rename', this.props.fileKey)
   }
   handleNewNameChange = (event) => {
-    const newName = this.newNameRef.value
+    const newName = event.target.value
     this.setState({ newName: newName })
   }
   handleRenameSubmit = (event) => {

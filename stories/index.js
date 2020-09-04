@@ -1,10 +1,14 @@
 import React from 'react'
 import { addHours, subHours, subDays, subMonths } from 'date-fns'
-import { storiesOf } from '@storybook/react'
 import { State, Store } from '@sambego/storybook-state'
 import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons } from '../src'
 import './stories'
 import i18n from '../src/i18n'
+
+export default {
+  title: 'File Browser',
+  component: FileBrowser,
+}
 
 const files = [
   {
@@ -179,71 +183,36 @@ storiesOf('FileBrowser', module)
               return {
                 key: newKey,
                 size: file.size,
-                modified: Date.now(),
-              }
-            })
 
-            const uniqueNewFiles = []
-            newFiles.map((newFile) => {
-              let exists = false
-              state.files.map((existingFile) => {
-                if (existingFile.key === newFile.key) {
-                  exists = true
-                }
-              })
-              if (!exists) {
-                uniqueNewFiles.push(newFile)
-              }
-            })
-            store.set({
-              files: store.get('files').concat(uniqueNewFiles),
-            })
-          }}
-          onMoveFolder={(oldKey, newKey) => {
-            const newFiles = []
-            store.get('files').map((file) => {
-              if (file.key.substr(0, oldKey.length) === oldKey) {
-                newFiles.push({
-                  ...file,
-                  key: file.key.replace(oldKey, newKey),
-                  modified: Date.now(),
-                })
-              } else {
-                newFiles.push(file)
-              }
-            })
-            store.set({
-              files: newFiles,
-            })
-          }}
-          onMoveFile={(oldKey, newKey) => {
-            const newFiles = []
-            store.get('files').map((file) => {
-              if (file.key === oldKey) {
-                newFiles.push({
-                  ...file,
-                  key: newKey,
-                  modified: Date.now(),
-                })
-              } else {
-                newFiles.push(file)
-              }
-            })
-            store.set({
-              files: newFiles,
-            })
-          }}
-          onRenameFolder={(oldKey, newKey) => {
-            const newFiles = []
-            store.get('files').map((file) => {
-              if (file.key.substr(0, oldKey.length) === oldKey) {
-                newFiles.push({
-                  ...file,
-                  key: file.key.replace(oldKey, newKey),
-                  modified: Date.now(),
-                })
-              } else {
-                newFiles.push(file)
+                modified: Date.now(),
+                size: (Math.floor(Math.random() * 100) + 1) * 1024,
+              },
+            ]),
+          })
+        }}
+        onCreateFiles={(files, prefix) => {
+          const newFiles = store.get('files').map((file) => {
+            let newKey = prefix
+            if (
+              prefix !== '' &&
+              prefix.substring(prefix.length - 1, prefix.length) !== '/'
+            ) {
+              newKey += '/'
+            }
+            newKey += file.name
+            return {
+              key: newKey,
+              size: file.size,
+              modified: Date.now(),
+            }
+          })
+
+          const uniqueNewFiles = []
+          newFiles.map((newFile) => {
+            let exists = false
+            state.files.map((existingFile) => {
+              if (existingFile.key === newFile.key) {
+                exists = true
               }
             })
             store.set({
@@ -587,3 +556,4 @@ storiesOf('FileBrowser.i18n', module)
       </State>
     )
   })
+

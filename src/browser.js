@@ -94,6 +94,7 @@ class RawFileBrowser extends React.Component {
     onDeleteFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDeleteFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDownloadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onDownloadFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 
     onSelect: PropTypes.func,
     onSelectFile: PropTypes.func,
@@ -351,6 +352,15 @@ class RawFileBrowser extends React.Component {
     })
   }
 
+  downloadFolder = (keys) => {
+    this.setState({
+      activeAction: null,
+      actionTargets: [],
+    }, () => {
+      this.props.onDownloadFolder(keys)
+    })
+  }
+
   // browser manipulation
   beginAction = (action, keys) => {
     this.setState({
@@ -453,10 +463,7 @@ class RawFileBrowser extends React.Component {
   handleGlobalClick = (event) => {
     const inBrowser = !!(this.browserRef && this.browserRef.contains(event.target))
 
-    // TODO: updated old-to-new ref styles, but this ref was never set
-    const inPreview = !!(this.previewRef && this.previewRef.contains(event.target))
-
-    if (!inBrowser && !inPreview) {
+    if (!inBrowser) {
       this.setState({
         selection: [],
         actionTargets: [],
@@ -503,8 +510,19 @@ class RawFileBrowser extends React.Component {
   }
   handleActionBarDownloadClick = (event) => {
     event.preventDefault()
+
+    const files = this.getFiles()
+    const selectedItems = this.getSelectedItems(files)
+
+    const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
+    if (selectionIsFolder) {
+      this.downloadFolder(this.state.selection)
+      return
+    }
+
     this.downloadFile(this.state.selection)
   }
+
   updateFilter = (newValue) => {
     this.setState({
       nameFilter: newValue,
@@ -563,7 +581,7 @@ class RawFileBrowser extends React.Component {
       messages,
     } = this.props
     const browserProps = this.getBrowserProps()
-    const selectionIsFolder = (selectedItems.length === 1 && !selectedItems[0].size)
+    const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
     let filter
     if (canFilter) {
       filter = (
@@ -605,6 +623,7 @@ class RawFileBrowser extends React.Component {
         onDownloadFile={this.handleActionBarDownloadClick}
 
         messages={messages}
+
       />
     )
 
@@ -717,6 +736,14 @@ class RawFileBrowser extends React.Component {
       })
       files = newFiles
     }
+    if (typeof this.props.sort === 'function') {
+      files = this.props.sort(files)
+    }
+    return files
+  }
+
+  getSelectedItems(files) {
+    const { selection } = this.state
     const selectedItems = []
     const findSelected = (item) => {
       if (selection.includes(item.key)) {
@@ -727,9 +754,20 @@ class RawFileBrowser extends React.Component {
       }
     }
     files.map(findSelected)
-    if (typeof this.props.sort === 'function') {
-      files = this.props.sort(files)
+    return selectedItems
+  }
+
+  render() {
+    const browserProps = this.getBrowserProps()
+    const headerProps = {
+      browserProps,
+      fileKey: '',
+      fileCount: this.props.files.length,
     }
+    let renderedFiles
+
+    const files = this.getFiles()
+    const selectedItems = this.getSelectedItems(files)
 
     let header
     /** @type any */

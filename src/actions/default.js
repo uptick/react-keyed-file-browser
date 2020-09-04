@@ -130,11 +130,11 @@ const Actions = (props) => {
         )
       }
 
-      if (!isFolder && canDownloadFile) {
+      if ((!isFolder && canDownloadFile) || (isFolder && canDownloadFolder)) {
         actions.push(
           <li key="action-download">
             <a
-              onClick={onDownloadFile}
+              onClick={isFolder ? onDownloadFolder : onDownloadFile}
               href="#"
               role="button"
             >
@@ -228,6 +228,9 @@ Actions.defaultProps = {
 
   canDownloadFile: false,
   onDownloadFile: null,
+
+  canDownloadFolder: false,
+  onDownloadFolder: null,
 }
 
 export default Actions
