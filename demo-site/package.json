@@ -36,7 +36,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-cli": "^6.6.4",
     "babel-loader": "^8.0.5",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.29.1",
