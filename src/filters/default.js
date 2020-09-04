@@ -5,6 +5,7 @@ class Filter extends React.Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     updateFilter: PropTypes.func,
+    messages: PropTypes.object,
   }
 
   handleFilterChange = (event) => {
@@ -13,10 +14,11 @@ class Filter extends React.Component {
   }
 
   render() {
+    const { messages } = this.props
     return (
       <input
         type="search"
-        placeholder="Filter files"
+        placeholder={messages.filter_files}
         value={this.props.value}
         onChange={this.handleFilterChange}
       />

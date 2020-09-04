@@ -11,6 +11,7 @@ class RawTableFolder extends BaseFolder {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
       action, url, browserProps, connectDragPreview, depth,
+      messages,
     } = this.props
 
     const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
@@ -25,6 +26,7 @@ class RawTableFolder extends BaseFolder {
           handleDeleteSubmit={this.handleDeleteSubmit}
           handleFileClick={this.handleFileClick}
           url={url}
+          messages={messages}
         >
           {icon}
           {this.getName()}

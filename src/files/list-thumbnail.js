@@ -20,8 +20,8 @@ class RawListThumbnailFile extends BaseFile {
       thumbnail_url: thumbnailUrl, action, url,
       isDragging, isRenaming, isSelected, isSelectable, isOver, isDeleting,
       showName, showSize, showModified, browserProps, connectDragPreview,
+      messages,
     } = this.props
-
     let icon
     if (thumbnailUrl) {
       icon = (
@@ -48,6 +48,7 @@ class RawListThumbnailFile extends BaseFile {
             handleDeleteSubmit={this.handleDeleteSubmit}
             handleFileClick={this.handleFileClick}
             url={url}
+            messages={messages}
           >
             {this.getName()}
           </ConfirmDeletionRenderer>
@@ -85,9 +86,10 @@ class RawListThumbnailFile extends BaseFile {
     let modified
     if (showModified) {
       if (!isRenaming && !isDeleting) {
+        const options = this.props.locale ? { addSuffix: true, locale: this.props.locale } : { addSuffix: true }
         modified = (
           <span className="modified">
-            Last modified: {formatDistanceToNow(this.props.modified, { addSuffix: true })}
+            {messages.last_modified}: {formatDistanceToNow(this.props.modified, options)}
           </span>
         )
       }

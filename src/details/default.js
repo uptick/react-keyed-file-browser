@@ -10,6 +10,7 @@ class Detail extends React.Component {
       url: PropTypes.string,
     }).isRequired,
     close: PropTypes.func,
+    messages: PropTypes.object,
   }
 
   handleCloseClick = (event) => {
@@ -22,18 +23,19 @@ class Detail extends React.Component {
   render() {
     let name = this.props.file.key.split('/')
     name = name.length ? name[name.length - 1] : ''
+    const { messages } = this.props
 
     return (
       <div>
-        <h2>Item Detail</h2>
+        <h2>{messages.item_details}</h2>
         <dl>
-          <dt>Key</dt>
+          <dt>{messages.key}</dt>
           <dd>{this.props.file.key}</dd>
 
-          <dt>Name</dt>
+          <dt>{messages.name}</dt>
           <dd>{name}</dd>
         </dl>
-        <a href="#" onClick={this.handleCloseClick}>Close</a>
+        <a href="#" onClick={this.handleCloseClick}>{messages.close}</a>
       </div>
     )
   }

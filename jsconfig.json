@@ -3,7 +3,9 @@
         "experimentalDecorators": true,
         "checkJs": true,
         "jsx": "react",
-        "downlevelIteration": true
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "downlevelIteration": true,
     },
     "exclude": ["node_modules", "**/node_modules/*"]
 }

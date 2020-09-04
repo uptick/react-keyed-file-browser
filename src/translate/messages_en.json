@@ -1,0 +1,25 @@
+{
+    "rkfb":{
+        "file":"File",
+        "size":"size",
+        "last_modified":"Last modified",
+        "add_subfolder": "Add Subfolder",
+        "add_folder": "Add Folder",
+        "rename": "Rename",
+        "delete": "Delete",
+        "download":"Download",
+        "deleting":"Deleting...",
+        "renaming":"Renaming...",
+        "moving":"Moving...",
+        "confirm_deletion": "Confirm Deletion",
+        "item_details":"Item details",
+        "key":"key",
+        "name":"name",
+        "close":"Close",
+        "filter_files":"Filter files",
+        "no_files": "No files",
+        "no_items_in_folder":"No items in this folder",
+        "no_files_matching": "No files matching",
+        "show_more_results":"Show more results"
+    }
+}

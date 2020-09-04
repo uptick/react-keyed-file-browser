@@ -13,6 +13,7 @@ class RawListThumbnailFolder extends BaseFolder {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
       url, action, browserProps, depth, keyDerived, connectDragPreview,
+      messages,
     } = this.props
 
     const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
@@ -28,6 +29,7 @@ class RawListThumbnailFolder extends BaseFolder {
           handleDeleteSubmit={this.handleDeleteSubmit}
           handleFileClick={this.handleFileClick}
           url={url}
+          messages={messages}
         >
           {this.getName()}
         </ConfirmDeletionRenderer>
@@ -91,7 +93,7 @@ class RawListThumbnailFolder extends BaseFolder {
       if (children.length) {
         children = (<ul style={{ padding: '0 8px', paddingLeft: '16px' }}>{children}</ul>)
       } else {
-        children = (<p>No items in this folder</p>)
+        children = (<p>{messages.no_items_in_folder}</p>)
       }
     }
 

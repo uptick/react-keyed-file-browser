@@ -25,10 +25,7 @@ const Actions = (props) => {
 
     canDownloadFile,
     onDownloadFile,
-
-    canDownloadFolder,
-    onDownloadFolder,
-
+    messages,
   } = props
 
   /** @type any */
@@ -42,15 +39,15 @@ const Actions = (props) => {
       let actionText
       switch (selectedItemsAction[0].action) {
         case 'delete':
-          actionText = 'Deleting ...'
+          actionText = `${messages.deleting}`
           break
 
         case 'rename':
-          actionText = 'Renaming ...'
+          actionText = `${messages.renaming}`
           break
 
         default:
-          actionText = 'Moving ...'
+          actionText = `${messages.moving}`
           break
       }
 
@@ -70,7 +67,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Folder}
-              &nbsp;Add Subfolder
+              &nbsp;{messages.add_subfolder}
             </a>
           </li>
         )
@@ -86,7 +83,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              &nbsp;{messages.rename}
             </a>
           </li>
         )
@@ -99,7 +96,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              &nbsp;{messages.rename}
             </a>
           </li>
         )
@@ -114,7 +111,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              &nbsp;{messages.delete}
             </a>
           </li>
         )
@@ -127,7 +124,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              &nbsp;{messages.delete}
             </a>
           </li>
         )
@@ -142,7 +139,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Download}
-              &nbsp;Download
+              &nbsp;{messages.download}
             </a>
           </li>
         )
@@ -165,7 +162,7 @@ const Actions = (props) => {
             role="button"
           >
             {icons.Folder}
-            &nbsp;Add Folder
+            &nbsp;{messages.add_folder}
           </a>
         </li>
       )
@@ -205,8 +202,7 @@ Actions.propTypes = {
   canDownloadFile: PropTypes.bool,
   onDownloadFile: PropTypes.func,
 
-  canDownloadFolder: PropTypes.bool,
-  onDownloadFolder: PropTypes.func,
+  messages: PropTypes.object,
 }
 
 Actions.defaultProps = {
