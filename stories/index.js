@@ -1,7 +1,12 @@
 import React from 'react'
 import { addHours, subHours, subDays, subMonths } from 'date-fns'
 import { State, Store } from '@sambego/storybook-state'
-import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons } from '../src'
+import FileBrowser, {
+  FileRenderers,
+  FolderRenderers,
+  Groupers,
+  Icons,
+} from '../src'
 import './stories'
 
 export default {
@@ -91,6 +96,29 @@ export const differentRendersAndGroupers = () => (
     group={Groupers.GroupByModifiedRelative}
     fileRenderer={FileRenderers.ListThumbnailFile}
     folderRenderer={FolderRenderers.ListThumbnailFolder}
+  />
+)
+
+export const selectHandler = () => (
+  <FileBrowser
+    icons={Icons.FontAwesome(4)}
+    files={`a/,0,0
+a/b/,0,0
+a/b/c-1.csv,1596791355222,383
+a/b/c-2.csv,1596791353289,363
+x/y/z/broken.csv,1598519377165,323`
+      .split('\n')
+      .map((line) => {
+        const [key, modified, size] = line.split(',')
+        return {
+          key,
+          modified: parseInt(modified, 10),
+          size: parseInt(size, 10),
+        }
+      })}
+    onSelect={(x) => {
+      console.log(x)
+    }}
   />
 )
 

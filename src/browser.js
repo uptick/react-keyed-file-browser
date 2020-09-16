@@ -175,7 +175,21 @@ class RawFileBrowser extends React.Component {
     window.removeEventListener('click', this.handleGlobalClick)
   }
 
-  getFile = (key) => this.props.files.find(f => f.key === key)
+  getFile = (key) => {
+    let hasPrefix = false
+    const exactFolder = this.props.files.find((f) => {
+      if (f.key.startsWith(key)) {
+        hasPrefix = true
+      }
+      return f.key === key
+    })
+    if (exactFolder) {
+      return exactFolder
+    }
+    if (hasPrefix) {
+      return { key, modified: 0, size: 0, relativeKey: key }
+    }
+  }
 
   // item manipulation
   createFiles = (files, prefix) => {
