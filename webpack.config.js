@@ -13,12 +13,12 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        loader: ['babel-loader'],
+        loader: [require.resolve('babel-loader')],
         include: path.join(__dirname, './src/'),
       },
       {
         test: /.*\.sass*/,
-        loader: ['style-loader', 'css-loader', 'sass-loader'],
+        loader: [require.resolve('style-loader'), require.resolve('css-loader'), require.resolve('sass-loader')],
         include: path.join(__dirname, '/src'),
       },
     ],

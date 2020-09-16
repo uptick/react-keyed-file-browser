@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 // drag and drop
-import HTML5Backend from 'react-dnd-html5-backend'
-import { DragDropContext } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
 
 // default components (most overridable)
 import { DefaultDetail } from './details'
@@ -840,8 +840,6 @@ class RawFileBrowser extends React.Component {
   }
 }
 
-@DragDropContext(HTML5Backend)
-class FileBrowser extends RawFileBrowser { }
-
+const FileBrowser = (props) => (<DndProvider backend={HTML5Backend}><RawFileBrowser {...props} /></DndProvider>)
 export default FileBrowser
 export { RawFileBrowser }
