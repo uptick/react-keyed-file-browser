@@ -34,6 +34,9 @@
     "url": "https://github.com/uptick/react-keyed-file-browser/issues"
   },
   "homepage": "https://github.com/uptick/react-keyed-file-browser#readme",
+  "engines": {
+    "node": ">=10.13.0",
+  },
   "dependencies": {
     "classnames": "^2.2.6",
     "date-fns": "^2.16.1",
