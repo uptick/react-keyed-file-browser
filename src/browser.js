@@ -854,6 +854,6 @@ class RawFileBrowser extends React.Component {
   }
 }
 
-const FileBrowser = (props) => (<DndProvider backend={HTML5Backend}><RawFileBrowser {...props} /></DndProvider>)
+const FileBrowser = React.forwardRef((props, ref) => (<DndProvider backend={HTML5Backend}><RawFileBrowser {...props} ref={ref} /></DndProvider>))
 export default FileBrowser
 export { RawFileBrowser }
