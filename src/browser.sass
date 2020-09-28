@@ -3,10 +3,14 @@ $theme-colour-text: #337ab7 !default
 
 div.rendered-react-keyed-file-browser
   div.action-bar
-    margin-bottom: $main-padding
+    padding-bottom: $main-padding
     flex-wrap: wrap
     display: flex
     align-items: flex-start
+    position: sticky
+    top: 0
+    z-index: 10
+    background: linear-gradient(0deg, rgba(255,255,255,0.5863389301032913) 0%, rgba(255,255,255,0.8524453726803222) 7%, rgba(255,255,255,1) 16%, rgba(255,255,255,1) 100%)
 
     input[type="search"]
       display: block
