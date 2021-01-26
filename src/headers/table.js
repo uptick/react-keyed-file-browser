@@ -30,6 +30,7 @@ class RawTableHeader extends React.Component {
 
   render() {
     const header = (
+      <div>
       <Translation>
           { t =>
           <tr
@@ -44,6 +45,7 @@ class RawTableHeader extends React.Component {
           </tr>
           }
       </Translation>
+      </div>
     )
 
     if (
