@@ -6,6 +6,7 @@ import { DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
 import { BaseFileConnectors } from './../base-file.js'
+import { Translation } from 'react-i18next';
 
 class RawTableHeader extends React.Component {
   static propTypes = {
@@ -29,16 +30,20 @@ class RawTableHeader extends React.Component {
 
   render() {
     const header = (
-      <tr
-        className={ClassNames('folder', {
-          dragover: this.props.isOver,
-          selected: this.props.isSelected,
-        })}
-      >
-        <th>File</th>
-        <th className="size">Size</th>
-        <th className="modified">Last Modified</th>
-      </tr>
+      <Translation>
+          { t =>
+          <tr
+          className={ClassNames('folder', {
+              dragover: this.props.isOver,
+              selected: this.props.isSelected,
+            })}
+          >
+            <th>File</th>
+            <th className="size">{t('size')}</th>
+            <th className="modified">Last Modified</th>
+          </tr>
+          }
+      </Translation>
     )
 
     if (

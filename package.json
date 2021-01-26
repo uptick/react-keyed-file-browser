@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/uptick/react-keyed-file-browser.git"
+    "url": "git+https://github.com/uptick/react-keyed-file-browser.git#master"
   },
   "keywords": [
     "react",
@@ -34,9 +34,11 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "date-fns": "^2.12.0",
+    "i18next": "^19.8.4",
     "prop-types": "^15.7.2",
     "react-dnd": "^8.0",
-    "react-dnd-html5-backend": "^8.0"
+    "react-dnd-html5-backend": "^8.0",
+    "react-i18next": "^11.8.5"
   },
   "peerDependencies": {
     "react": "0.14.x || 15.x || 16.x",
