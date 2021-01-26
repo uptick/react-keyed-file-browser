@@ -42,3 +42,6 @@ jspm_packages
 # Jekyll
 demo-site/_site/
 demo-site/dist/
+
+#exmaple project
+example/
