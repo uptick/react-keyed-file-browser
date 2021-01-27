@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+// i18n
+import i18n from './i18n'
 // drag and drop
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
@@ -20,6 +22,7 @@ import { SortByName } from './sorters'
 
 import { isFolder } from './utils'
 import { DefaultAction } from './actions'
+import { LOCALES } from './i18n'
 
 const SEARCH_RESULTS_PER_PAGE = 20
 const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
@@ -43,6 +46,7 @@ class RawFileBrowser extends React.Component {
       modified: PropTypes.number,
       size: PropTypes.number,
     })).isRequired,
+    locale: PropTypes.string,
     actions: PropTypes.node,
     showActionBar: PropTypes.bool.isRequired,
     canFilter: PropTypes.bool.isRequired,
@@ -113,6 +117,7 @@ class RawFileBrowser extends React.Component {
     canFilter: true,
     showFoldersOnFilter: false,
     noFilesMessage: 'No files.',
+    locale: 'en',
 
     group: GroupByFolder,
     sort: SortByName,
@@ -164,6 +169,10 @@ class RawFileBrowser extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props.locale) {
+      i18n.changeLanguage(this.props.locale).then(r => null)
+    }
+
     if (this.props.renderStyle === 'table' && this.props.nestChildren) {
       console.warn('Invalid settings: Cannot nest table children in file browser')
     }

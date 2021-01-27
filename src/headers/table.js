@@ -6,6 +6,7 @@ import { DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
 import { BaseFileConnectors } from './../base-file.js'
+import { withNamespaces } from 'react-i18next'
 
 class RawTableHeader extends React.Component {
   static propTypes = {
@@ -28,6 +29,7 @@ class RawTableHeader extends React.Component {
   }
 
   render() {
+    const { t } = this.props
     const header = (
       <tr
         className={ClassNames('folder', {
@@ -35,9 +37,9 @@ class RawTableHeader extends React.Component {
           selected: this.props.isSelected,
         })}
       >
-        <th>File</th>
-        <th className="size">'size'</th>
-        <th className="modified">Last Modified</th>
+        <th>{t('file')}</th>
+        <th className="size">{t('size')}</th>
+        <th className="modified">{t('lastModified')}</th>
       </tr>
     )
 
@@ -60,5 +62,5 @@ class RawTableHeader extends React.Component {
 )
 class TableHeader extends RawTableHeader {}
 
-export default TableHeader
+export default withNamespaces()(TableHeader)
 export { RawTableHeader }

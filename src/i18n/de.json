@@ -1,4 +1,24 @@
 {
+    "file" : "Datei",
     "size": "Größe",
-    "lastModified" : "Zuletzt geändert"
+    "lastModified" : "Zuletzt geändert",
+
+
+    "deleting"  : "Lösche...",
+    "renaming"  : "Bennen um...",
+    "moving"    : "Verschiebe...",
+    "addSubfolder" : "Unterordner hinzufügen",
+    "rename" : "Umbenennen",
+    "delete" : "Löschen",
+    "download" : "Herunterladen",
+    "addFolder" : "Ordner hinzufügen",
+
+    "confirmDeletion" : "Löschen",
+
+    "itemDetail"  : "Details",
+    "name" : "Name",
+
+    "filterFiles" : "Filter",
+
+    "noItemsInThisFolder" : "Keine Dateien in diesem Ordner"
 }

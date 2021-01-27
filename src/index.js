@@ -18,8 +18,7 @@ import * as Sorters from './sorters'
 import * as Icons from './icons'
 import * as Utils from './utils'
 
-
-export default withNamespaces()(FileBrowser)
+export default FileBrowser
 export {
   RawFileBrowser, // Use this one if you want to wrap with dragdrop context yourself.
 

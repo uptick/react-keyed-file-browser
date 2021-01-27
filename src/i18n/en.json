@@ -1,4 +1,24 @@
 {
-    "size": "Sizeeeee",
-    "lastModified" : "Last Modified"
+    "file" : "File",
+    "size": "Size",
+    "lastModified" : "Last Modified",
+
+
+    "deleting"  : "Deleting...",
+    "renaming"  : "Renaming...",
+    "moving"    : "Moving....",
+    "addSubfolder" : "Add Subfolder",
+    "rename" : "Rename",
+    "delete" : "Delete",
+    "download" : "Download",
+    "addFolder" : "Add Folder",
+
+    "confirmDeletion" : "Confirm Deletion",
+
+    "itemDetail"  : "Item Detail",
+    "name" : "Name",
+
+    "filterFiles" : "Filter",
+
+    "noItemsInThisFolder" : "No Files in this folder"
 }

@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withNamespaces } from 'react-i18next'
 
 const Actions = (props) => {
+  const { t } = props
+
   const {
     selectedItems,
     isFolder,
@@ -42,15 +45,15 @@ const Actions = (props) => {
       let actionText
       switch (selectedItemsAction[0].action) {
         case 'delete':
-          actionText = 'Deleting ...'
+          actionText = t('deleting')
           break
 
         case 'rename':
-          actionText = 'Renaming ...'
+          actionText = t('renaming')
           break
 
         default:
-          actionText = 'Moving ...'
+          actionText = t('moving')
           break
       }
 
@@ -70,7 +73,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Folder}
-              &nbsp;Add Subfolder
+              &nbsp;{t('addSubfolder')}
             </a>
           </li>
         )
@@ -86,7 +89,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              &nbsp;{t('rename')}
             </a>
           </li>
         )
@@ -99,7 +102,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              &nbsp;{t('rename')}
             </a>
           </li>
         )
@@ -114,7 +117,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              &nbsp;{t('delete')}
             </a>
           </li>
         )
@@ -127,7 +130,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              &nbsp;{t('delete')}
             </a>
           </li>
         )
@@ -142,7 +145,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Download}
-              &nbsp;Download
+              &nbsp;{t('download')}
             </a>
           </li>
         )
@@ -165,7 +168,7 @@ const Actions = (props) => {
             role="button"
           >
             {icons.Folder}
-            &nbsp;Add Folder
+            &nbsp;{t('addFolder')}
           </a>
         </li>
       )
@@ -237,4 +240,4 @@ Actions.defaultProps = {
   onDownloadFolder: null,
 }
 
-export default Actions
+export default withNamespaces()(Actions)

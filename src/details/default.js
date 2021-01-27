@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { withNamespaces } from 'react-i18next'
 
 class Detail extends React.Component {
   static propTypes = {
@@ -20,17 +21,18 @@ class Detail extends React.Component {
   }
 
   render() {
+    const { t } = this.props
     let name = this.props.file.key.split('/')
     name = name.length ? name[name.length - 1] : ''
 
     return (
       <div>
-        <h2>Item Detail</h2>
+        <h2>{t('itemDetail')}</h2>
         <dl>
           <dt>Key</dt>
           <dd>{this.props.file.key}</dd>
 
-          <dt>Name</dt>
+          <dt>{t('name')}</dt>
           <dd>{name}</dd>
         </dl>
         <a href="#" onClick={this.handleCloseClick}>Close</a>
@@ -39,4 +41,4 @@ class Detail extends React.Component {
   }
 }
 
-export default Detail
+export default withNamespaces()(Detail)
