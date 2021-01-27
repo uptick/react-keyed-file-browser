@@ -3,6 +3,9 @@ import { reactI18nextModule } from 'react-i18next'
 import de from './i18n/de.json'
 import en from './i18n/en.json'
 
+import deLocale from 'date-fns/locale/de'
+import enLocale from 'date-fns/locale/en-US'
+
 export const LOCALES =
   {
     EN: 'en',
@@ -26,5 +29,12 @@ i18n
       escapeValue: false, // react already safes from xss
     },
   })
+
+export function getDateFnsLocale() {
+  const currentLang = i18n.language
+
+  if (currentLang === LOCALES.DE) { return deLocale }
+  return enLocale
+}
 
 export default i18n

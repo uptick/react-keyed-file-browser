@@ -2,7 +2,8 @@ import React from 'react'
 import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import { formatDistanceToNow, Locale } from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
+import { getDateFnsLocale } from '../i18n'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
@@ -86,7 +87,7 @@ class RawTableFile extends BaseFile {
         </td>
         <td className="size">{fileSize(size)}</td>
         <td className="modified">
-          {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, { addSuffix: true /*Todo: Locale*/ })}
+          {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, { addSuffix: true, locale: getDateFnsLocale() })}
         </td>
       </tr>
     )
