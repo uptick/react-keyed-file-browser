@@ -100,6 +100,7 @@ class RawFileBrowser extends React.Component {
     onDeleteFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDownloadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDownloadFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onUploadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 
     onSelect: PropTypes.func,
     onSelectFile: PropTypes.func,
@@ -493,6 +494,11 @@ class RawFileBrowser extends React.Component {
     this.downloadFile(this.state.selection)
   }
 
+  handleActionBarUploadClick = (event) => {
+    const keys = this.state.selection.filter(selection => selection[selection.length - 1] === '/')
+    this.props.onUploadFile(keys)
+  }
+
   updateFilter = (newValue) => {
     this.setState({
       nameFilter: newValue,
@@ -548,7 +554,7 @@ class RawFileBrowser extends React.Component {
       actionRenderer: ActionRenderer,
       onCreateFolder, onRenameFile, onRenameFolder,
       onDeleteFile, onDeleteFolder, onDownloadFile,
-      onDownloadFolder,
+      onDownloadFolder, onUploadFile,
     } = this.props
     const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
@@ -593,6 +599,9 @@ class RawFileBrowser extends React.Component {
 
         canDownloadFolder={typeof onDownloadFolder === 'function'}
         onDownloadFolder={this.handleActionBarDownloadClick}
+
+        canUploadFile={typeof onUploadFile === 'function'}
+        onUploadFile={this.handleActionBarUploadClick}
       />
     )
 

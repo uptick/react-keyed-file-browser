@@ -32,10 +32,14 @@ const Actions = (props) => {
     canDownloadFolder,
     onDownloadFolder,
 
+    canUploadFile,
+    onUploadFile,
+
   } = props
 
   /** @type any */
   let actions = []
+
 
   if (selectedItems.length) {
     // Something is selected. Build custom actions depending on what it is.
@@ -151,12 +155,28 @@ const Actions = (props) => {
         )
       }
 
+      if (canUploadFile && onUploadFile) {
+        actions.push(
+          <li key="action-upload-file">
+            <a
+              onClick={onUploadFile}
+              href="#"
+              role="button"
+            >
+              {icons.File}
+              &nbsp;{t('upload')}
+            </a>
+          </li>
+        )
+      }
       if (actions.length) {
         actions = (<ul className="item-actions">{actions}</ul>)
       } else {
         actions = (<div className="item-actions">&nbsp;</div>)
       }
     }
+
+
   } else {
     // Nothing selected: We're in the 'root' folder. Only allowed action is adding a folder.
     if (canCreateFolder && !nameFilter) {
@@ -173,6 +193,22 @@ const Actions = (props) => {
         </li>
       )
     }
+
+    if (canUploadFile && onUploadFile) {
+      actions.push(
+        <li key="action-upload-file">
+          <a
+            onClick={onUploadFile}
+            href="#"
+            role="button"
+          >
+            {icons.File}
+            &nbsp;{t('upload')}
+          </a>
+        </li>
+      )
+    }
+
 
     if (actions.length) {
       actions = (<ul className="item-actions">{actions}</ul>)
@@ -210,6 +246,9 @@ Actions.propTypes = {
 
   canDownloadFolder: PropTypes.bool,
   onDownloadFolder: PropTypes.func,
+
+  canUploadFile: PropTypes.bool,
+  onUploadFile: PropTypes.func,
 }
 
 Actions.defaultProps = {
@@ -238,6 +277,9 @@ Actions.defaultProps = {
 
   canDownloadFolder: false,
   onDownloadFolder: null,
+
+  canUploadFile: false,
+  onUploadFile: null,
 }
 
 export default withNamespaces()(Actions)

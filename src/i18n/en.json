@@ -11,6 +11,7 @@
     "rename" : "Rename",
     "delete" : "Delete",
     "download" : "Download",
+    "upload" : "Upload",
     "addFolder" : "Add Folder",
 
     "confirmDeletion" : "Confirm Deletion",

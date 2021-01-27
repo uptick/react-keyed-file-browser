@@ -11,6 +11,7 @@
     "rename" : "Umbenennen",
     "delete" : "Löschen",
     "download" : "Herunterladen",
+    "upload" : "Hochladen",
     "addFolder" : "Ordner hinzufügen",
 
     "confirmDeletion" : "Löschen",
