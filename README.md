@@ -1,7 +1,10 @@
 # react-keyed-file-browser
 
-`react-keyed-file-browser` with I18n extensions: 
-
-Currently supported locales: de, en
-
 Forked from https://github.com/uptick/react-keyed-file-browser
+
+## Extenions
+
+- i18n: en,de;  prop: `locale="de"`(finished)
+- Upload button in action header (in progress)
+
+
