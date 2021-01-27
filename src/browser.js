@@ -23,6 +23,7 @@ import { SortByName } from './sorters'
 
 import { isFolder } from './utils'
 import { DefaultAction } from './actions'
+import { withNamespaces } from 'react-i18next'
 
 const SEARCH_RESULTS_PER_PAGE = 20
 const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
@@ -117,7 +118,7 @@ class RawFileBrowser extends React.Component {
     showActionBar: true,
     canFilter: true,
     showFoldersOnFilter: false,
-    noFilesMessage: 'No files.',
+    noFilesMessage: '',
     locale: 'en',
 
     group: GroupByFolder,
@@ -160,7 +161,7 @@ class RawFileBrowser extends React.Component {
     selection: [],
     activeAction: null,
     actionTargets: [],
-
+    t: () => {},
     nameFilter: '',
     searchResultsShown: SEARCH_RESULTS_PER_PAGE,
 
@@ -170,8 +171,8 @@ class RawFileBrowser extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.locale) {
-      i18n.changeLanguage(this.props.locale).then(r => null)
+    if (!this.state.locale && this.props.locale) {
+      i18n.changeLanguage(this.props.locale).then(r => this.setState({ t: this.props.t }))
     }
 
     if (this.props.renderStyle === 'table' && this.props.nestChildren) {
@@ -720,6 +721,7 @@ class RawFileBrowser extends React.Component {
   }
 
   render() {
+    const { t } = this.props
     const browserProps = this.getBrowserProps()
     const headerProps = {
       browserProps,
@@ -741,7 +743,7 @@ class RawFileBrowser extends React.Component {
             contents = (
               <tr>
                 <td colSpan={100}>
-                  No files matching "{this.state.nameFilter}".
+                  {this.state.t('noFilesMatching')}"{this.state.nameFilter}".
                 </td>
               </tr>
             )
@@ -749,7 +751,7 @@ class RawFileBrowser extends React.Component {
             contents = (
               <tr>
                 <td colSpan={100}>
-                  {this.props.noFilesMessage}
+                  {this.props.noFilesMessage? this.props.noFilesMessage : this.state.t('noFiles')}
                 </td>
               </tr>
             )
@@ -799,9 +801,9 @@ class RawFileBrowser extends React.Component {
       case 'list':
         if (!contents.length) {
           if (this.state.nameFilter) {
-            contents = (<p className="empty">No files matching "{this.state.nameFilter}"</p>)
+            contents = (<p className="empty">{this.state.t('noFilesMatching') + this.state.nameFilter}</p>)
           } else {
-            contents = (<p className="empty">No files.</p>)
+            contents = (<p className="empty">{this.state.t('noFiles')}</p>)
           }
         } else {
           let more
@@ -875,5 +877,5 @@ class RawFileBrowser extends React.Component {
 @DragDropContext(HTML5Backend)
 class FileBrowser extends RawFileBrowser { }
 
-export default FileBrowser
+export default withNamespaces()(FileBrowser)
 export { RawFileBrowser }

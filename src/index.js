@@ -1,7 +1,6 @@
 // @ts-nocheck
 // i18n
-import './i18n.js'
-import { withNamespaces } from 'react-i18next'
+
 
 import FileBrowser, { RawFileBrowser } from './browser'
 import BaseFile, { BaseFileConnectors } from './base-file'

@@ -1,4 +1,7 @@
 {
+
+    "noFiles" : "Keine Dateien",
+    "noFilesMatching" : "Keine Datei entspricht ",
     "file" : "Datei",
     "size": "Größe",
     "lastModified" : "Zuletzt geändert",

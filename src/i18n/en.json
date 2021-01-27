@@ -1,4 +1,7 @@
 {
+
+    "noFiles" : "No Files",
+    "noFilesMatching" : "No files matching",
     "file" : "File",
     "size": "Size",
     "lastModified" : "Last Modified",
