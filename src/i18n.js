@@ -36,5 +36,3 @@ export function getDateFnsLocale() {
   if (currentLang === LOCALES.DE) { return deLocale }
   return enLocale
 }
-
-export default i18n

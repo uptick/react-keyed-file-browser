@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 // i18n
-import i18n from './i18n'
+// eslint-disable-next-line import/no-duplicates
+import i18n from 'i18next'
 // drag and drop
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
@@ -22,7 +23,6 @@ import { SortByName } from './sorters'
 
 import { isFolder } from './utils'
 import { DefaultAction } from './actions'
-import { LOCALES } from './i18n'
 
 const SEARCH_RESULTS_PER_PAGE = 20
 const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
