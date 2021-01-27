@@ -495,9 +495,8 @@ class RawFileBrowser extends React.Component {
     this.downloadFile(this.state.selection)
   }
 
-  handleActionBarUploadClick = (event) => {
-    const keys = this.state.selection.filter(selection => selection[selection.length - 1] === '/')
-    this.props.onUploadFile(keys)
+  handleActionBarUploadClick = () => {
+    this.props.onUploadFile(this.state.selection)
   }
 
   updateFilter = (newValue) => {
