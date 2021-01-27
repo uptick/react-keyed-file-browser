@@ -1,23 +1,15 @@
 import i18n from 'i18next'
-import { initReactI18next } from 'react-i18next'
-
-// the translations
-// (tip move them in a JSON file and import them)
-
-function parseJsonFile(path) {
-  const request = new XMLHttpRequest()
-  request.open('GET', path, false)
-  request.send(null)
-  return JSON.parse(request.responseText)
-}
+import { reactI18nextModule } from "react-i18next";
+import de from './i18n/de.json'
+import en from './i18n/en.json'
 
 const resources = {
-  en: parseJsonFile('./i18n/en.json'),
-  de: parseJsonFile('./i18n/de.json'),
+  en: en,
+  de: de,
 }
 
 i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
+  .use(reactI18nextModule) // passes i18n down to react-i18next
   .init({
     resources,
     lng: 'de',

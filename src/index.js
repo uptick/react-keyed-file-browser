@@ -1,4 +1,8 @@
 // @ts-nocheck
+// i18n
+import './i18n.js'
+import { withNamespaces } from 'react-i18next'
+
 import FileBrowser, { RawFileBrowser } from './browser'
 import BaseFile, { BaseFileConnectors } from './base-file'
 import BaseFolder, { BaseFolderConnectors } from './base-folder'
@@ -14,7 +18,8 @@ import * as Sorters from './sorters'
 import * as Icons from './icons'
 import * as Utils from './utils'
 
-export default FileBrowser
+
+export default withNamespaces()(FileBrowser)
 export {
   RawFileBrowser, // Use this one if you want to wrap with dragdrop context yourself.
 
