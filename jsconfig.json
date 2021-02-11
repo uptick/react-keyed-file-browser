@@ -3,7 +3,8 @@
         "experimentalDecorators": true,
         "checkJs": true,
         "jsx": "react",
-        "downlevelIteration": true
+        "downlevelIteration": true,
+        "resolveJsonModule": true
     },
     "exclude": ["node_modules", "**/node_modules/*"]
 }
