@@ -11,7 +11,7 @@ import noNbLocale from "date-fns/locale/nb";
 export const LOCALES = {
   EN: "en",
   DE: "de",
-  NO_NB: "no-NB",
+  NO_NB: "no_NB",
 };
 
 const resources = {
