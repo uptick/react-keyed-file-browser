@@ -4,9 +4,9 @@ import React from 'react'
 // eslint-disable-next-line import/no-duplicates
 import i18n from 'i18next'
 // drag and drop
-import HTML5Backend from 'react-dnd-html5-backend'
-import { DragDropContext } from 'react-dnd'
-
+// import HTML5Backend from 'react-dnd-html5-backend'  ->> Imported from props
+// import { DragDropContext } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
 // default components (most overridable)
 import { DefaultDetail } from './details'
 import { DefaultFilter } from './filters'
@@ -46,6 +46,7 @@ class RawFileBrowser extends React.Component {
       key: PropTypes.string.isRequired,
       modified: PropTypes.number,
       size: PropTypes.number,
+      backend: PropTypes.object,
     })).isRequired,
     locale: PropTypes.string,
     actions: PropTypes.node,
@@ -120,6 +121,7 @@ class RawFileBrowser extends React.Component {
     showFoldersOnFilter: false,
     noFilesMessage: '',
     locale: 'en',
+    backend: null,
 
     group: GroupByFolder,
     sort: SortByName,
@@ -517,6 +519,7 @@ class RawFileBrowser extends React.Component {
       confirmDeletionRenderer: this.props.confirmDeletionRenderer,
       confirmMultipleDeletionRenderer: this.props.confirmMultipleDeletionRenderer,
       icons: this.props.icons,
+      backend: this.props.backend,
 
       // browser state
       openFolders: this.state.openFolders,
@@ -750,7 +753,7 @@ class RawFileBrowser extends React.Component {
             contents = (
               <tr>
                 <td colSpan={100}>
-                  {this.props.noFilesMessage? this.props.noFilesMessage : this.state.t('noFiles')}
+                  {this.props.noFilesMessage ? this.props.noFilesMessage : this.state.t('noFiles')}
                 </td>
               </tr>
             )
@@ -849,31 +852,33 @@ class RawFileBrowser extends React.Component {
     const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer
 
     return (
-      <div className="rendered-react-keyed-file-browser">
-        {this.props.actions}
-        <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
-          {this.props.showActionBar && this.renderActionBar(selectedItems)}
-          {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
-            <ConfirmMultipleDeletionRenderer
-              handleDeleteSubmit={this.handleMultipleDeleteSubmit}
-            />}
-          <div className="files">
-            {renderedFiles}
+      <DndProvider backend={this.props.backend}>
+        <div className="rendered-react-keyed-file-browser">
+          {this.props.actions}
+          <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
+            {this.props.showActionBar && this.renderActionBar(selectedItems)}
+            {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
+              <ConfirmMultipleDeletionRenderer
+                handleDeleteSubmit={this.handleMultipleDeleteSubmit}
+              />}
+            <div className="files">
+              {renderedFiles}
+            </div>
           </div>
+          {this.state.previewFile !== null && (
+            <this.props.detailRenderer
+              file={this.state.previewFile}
+              close={this.closeDetail}
+              {...this.props.detailRendererProps}
+            />
+          )}
         </div>
-        {this.state.previewFile !== null && (
-          <this.props.detailRenderer
-            file={this.state.previewFile}
-            close={this.closeDetail}
-            {...this.props.detailRendererProps}
-          />
-        )}
-      </div>
+      </DndProvider>
     )
   }
 }
 
-@DragDropContext(HTML5Backend)
+// @DragDropContext(HTML5Backend)
 class FileBrowser extends RawFileBrowser { }
 
 export default withNamespaces()(FileBrowser)
