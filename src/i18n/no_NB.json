@@ -1,0 +1,28 @@
+{
+
+    "noFiles" : "Ingen filer",
+    "noFilesMatching" : "Ingen filer funnet",
+    "file" : "Fil",
+    "size": "Størrelse",
+    "lastModified" : "Sist endret",
+
+
+    "deleting"  : "Sletter...",
+    "renaming"  : "Endrer navn...",
+    "moving"    : "Flytter....",
+    "addSubfolder" : "Legg til undermappe",
+    "rename" : "Endre navn",
+    "delete" : "Slett",
+    "download" : "Last ned",
+    "upload" : "Last opp",
+    "addFolder" : "Legg til mappe",
+
+    "confirmDeletion" : "Bekreft sletting",
+
+    "itemDetail"  : "Detaljer",
+    "name" : "Navn",
+
+    "filterFiles" : "Filter",
+
+    "noItemsInThisFolder" : "Det er ingen filer i denne mappen"
+}
