@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withNamespaces } from 'react-i18next'
 
 const Actions = (props) => {
+  const { t } = props
+
   const {
     selectedItems,
     isFolder,
@@ -29,6 +32,12 @@ const Actions = (props) => {
     canDownloadFolder,
     onDownloadFolder,
 
+    canUploadFile,
+    onUploadFile,
+
+    canExternalViewer,
+    onExternalViewerClick,
+
   } = props
 
   /** @type any */
@@ -42,15 +51,15 @@ const Actions = (props) => {
       let actionText
       switch (selectedItemsAction[0].action) {
         case 'delete':
-          actionText = 'Deleting ...'
+          actionText = t('deleting')
           break
 
         case 'rename':
-          actionText = 'Renaming ...'
+          actionText = t('renaming')
           break
 
         default:
-          actionText = 'Moving ...'
+          actionText = t('moving')
           break
       }
 
@@ -70,7 +79,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Folder}
-              &nbsp;Add Subfolder
+              &nbsp;{t('addSubfolder')}
             </a>
           </li>
         )
@@ -86,7 +95,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              &nbsp;{t('rename')}
             </a>
           </li>
         )
@@ -99,7 +108,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              &nbsp;{t('rename')}
             </a>
           </li>
         )
@@ -114,7 +123,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              &nbsp;{t('delete')}
             </a>
           </li>
         )
@@ -127,7 +136,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              &nbsp;{t('delete')}
             </a>
           </li>
         )
@@ -142,12 +151,41 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Download}
-              &nbsp;Download
+              &nbsp;{t('download')}
             </a>
           </li>
         )
       }
 
+      if (canUploadFile && onUploadFile) {
+        actions.push(
+          <li key="action-upload-file">
+            <a
+              onClick={onUploadFile}
+              href="#"
+              role="button"
+            >
+              {icons.File}
+              &nbsp;{t('upload')}
+            </a>
+          </li>
+        )
+      }
+
+      if (canExternalViewer && onExternalViewerClick) {
+        actions.push(
+          <li key="action-external-viewer">
+            <a
+              onClick={onExternalViewerClick}
+              href="#"
+              role="button"
+            >
+              {icons.ExternalViewer}
+              &nbsp;{t('externalViewer')}
+            </a>
+          </li>
+        )
+      }
       if (actions.length) {
         actions = (<ul className="item-actions">{actions}</ul>)
       } else {
@@ -165,12 +203,40 @@ const Actions = (props) => {
             role="button"
           >
             {icons.Folder}
-            &nbsp;Add Folder
+            &nbsp;{t('addFolder')}
           </a>
         </li>
       )
     }
 
+    if (canUploadFile && onUploadFile) {
+      actions.push(
+        <li key="action-upload-file">
+          <a
+            onClick={onUploadFile}
+            href="#"
+            role="button"
+          >
+            {icons.File}
+            &nbsp;{t('upload')}
+          </a>
+        </li>
+      )
+    }
+    if (canExternalViewer && onExternalViewerClick) {
+      actions.push(
+        <li key="action-external-viewer">
+          <a
+            onClick={onExternalViewerClick}
+            href="#"
+            role="button"
+          >
+            {icons.ExternalViewer}
+            &nbsp;{t('externalViewer')}
+          </a>
+        </li>
+      )
+    }
     if (actions.length) {
       actions = (<ul className="item-actions">{actions}</ul>)
     } else {
@@ -207,6 +273,12 @@ Actions.propTypes = {
 
   canDownloadFolder: PropTypes.bool,
   onDownloadFolder: PropTypes.func,
+
+  canUploadFile: PropTypes.bool,
+  onUploadFile: PropTypes.func,
+
+  canExternalViewer: PropTypes.bool,
+  onExternalViewerClick: PropTypes.func,
 }
 
 Actions.defaultProps = {
@@ -235,6 +307,12 @@ Actions.defaultProps = {
 
   canDownloadFolder: false,
   onDownloadFolder: null,
+
+  canUploadFile: false,
+  onUploadFile: null,
+
+  canExternalViewer: false,
+  onExternalViewerClick: null,
 }
 
-export default Actions
+export default withNamespaces()(Actions)

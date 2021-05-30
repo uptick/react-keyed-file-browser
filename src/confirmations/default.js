@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withNamespaces } from 'react-i18next'
 
 const ConfirmDeletion = (props) => {
+  const { t } = props
   const {
     children,
     handleDeleteSubmit,
@@ -20,7 +22,7 @@ const ConfirmDeletion = (props) => {
       </a>
       <div>
         <button type="submit">
-          Confirm Deletion
+          {t('confirmDeletion')}
         </button>
       </div>
     </form>
@@ -38,4 +40,4 @@ ConfirmDeletion.defaultProps = {
   url: '#',
 }
 
-export default ConfirmDeletion
+export default withNamespaces()(ConfirmDeletion)

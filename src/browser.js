@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+// i18n
+// eslint-disable-next-line import/no-duplicates
+import i18n from 'i18next'
 // drag and drop
-import HTML5Backend from 'react-dnd-html5-backend'
-import { DragDropContext } from 'react-dnd'
-
+// import HTML5Backend from 'react-dnd-html5-backend'  ->> Imported from props
+// import { DragDropContext } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
 // default components (most overridable)
 import { DefaultDetail } from './details'
 import { DefaultFilter } from './filters'
@@ -20,6 +23,7 @@ import { SortByName } from './sorters'
 
 import { isFolder } from './utils'
 import { DefaultAction } from './actions'
+import { withNamespaces } from 'react-i18next'
 
 const SEARCH_RESULTS_PER_PAGE = 20
 const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
@@ -42,7 +46,9 @@ class RawFileBrowser extends React.Component {
       key: PropTypes.string.isRequired,
       modified: PropTypes.number,
       size: PropTypes.number,
+      backend: PropTypes.object,
     })).isRequired,
+    locale: PropTypes.string,
     actions: PropTypes.node,
     showActionBar: PropTypes.bool.isRequired,
     canFilter: PropTypes.bool.isRequired,
@@ -96,6 +102,8 @@ class RawFileBrowser extends React.Component {
     onDeleteFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDownloadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDownloadFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onUploadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onExternalViewerClick: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 
     onSelect: PropTypes.func,
     onSelectFile: PropTypes.func,
@@ -112,7 +120,9 @@ class RawFileBrowser extends React.Component {
     showActionBar: true,
     canFilter: true,
     showFoldersOnFilter: false,
-    noFilesMessage: 'No files.',
+    noFilesMessage: '',
+    locale: 'en',
+    backend: null,
 
     group: GroupByFolder,
     sort: SortByName,
@@ -154,7 +164,7 @@ class RawFileBrowser extends React.Component {
     selection: [],
     activeAction: null,
     actionTargets: [],
-
+    t: () => {},
     nameFilter: '',
     searchResultsShown: SEARCH_RESULTS_PER_PAGE,
 
@@ -164,6 +174,10 @@ class RawFileBrowser extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.state.locale && this.props.locale) {
+      i18n.changeLanguage(this.props.locale).then(r => this.setState({ t: this.props.t }))
+    }
+
     if (this.props.renderStyle === 'table' && this.props.nestChildren) {
       console.warn('Invalid settings: Cannot nest table children in file browser')
     }
@@ -484,6 +498,16 @@ class RawFileBrowser extends React.Component {
     this.downloadFile(this.state.selection)
   }
 
+  handleActionBarUploadClick = () => {
+    this.props.onUploadFile(this.state.selection)
+  }
+
+  handleActionBarExternalViewerClick = () => {
+    const files = this.getFiles()
+    const selectedItems = this.getSelectedItems(files)
+    this.props.onExternalViewerClick(selectedItems.length === 1 ? selectedItems[0] : null)
+  }
+
   updateFilter = (newValue) => {
     this.setState({
       nameFilter: newValue,
@@ -502,6 +526,7 @@ class RawFileBrowser extends React.Component {
       confirmDeletionRenderer: this.props.confirmDeletionRenderer,
       confirmMultipleDeletionRenderer: this.props.confirmMultipleDeletionRenderer,
       icons: this.props.icons,
+      backend: this.props.backend,
 
       // browser state
       openFolders: this.state.openFolders,
@@ -539,10 +564,12 @@ class RawFileBrowser extends React.Component {
       actionRenderer: ActionRenderer,
       onCreateFolder, onRenameFile, onRenameFolder,
       onDeleteFile, onDeleteFolder, onDownloadFile,
-      onDownloadFolder,
+      onDownloadFolder, onUploadFile, onExternalViewerClick,
     } = this.props
     const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
+    const hasFileExternalViewer = (selectedItems.length === 1 && selectedItems[0]?.with_external_viewer)
+
     let filter
     if (canFilter) {
       filter = (
@@ -584,6 +611,12 @@ class RawFileBrowser extends React.Component {
 
         canDownloadFolder={typeof onDownloadFolder === 'function'}
         onDownloadFolder={this.handleActionBarDownloadClick}
+
+        canUploadFile={typeof onUploadFile === 'function'}
+        onUploadFile={this.handleActionBarUploadClick}
+
+        canExternalViewer={typeof onExternalViewerClick === 'function' && hasFileExternalViewer}
+        onExternalViewerClick={this.handleActionBarExternalViewerClick}
       />
     )
 
@@ -638,7 +671,7 @@ class RawFileBrowser extends React.Component {
   }
 
   handleMultipleDeleteSubmit = () => {
-    console.log(this)
+
     this.deleteFolder(this.state.selection.filter(selection => selection[selection.length - 1] === '/'))
     this.deleteFile(this.state.selection.filter(selection => selection[selection.length - 1] !== '/'))
   }
@@ -702,6 +735,7 @@ class RawFileBrowser extends React.Component {
   }
 
   render() {
+    const { t } = this.props
     const browserProps = this.getBrowserProps()
     const headerProps = {
       browserProps,
@@ -723,7 +757,7 @@ class RawFileBrowser extends React.Component {
             contents = (
               <tr>
                 <td colSpan={100}>
-                  No files matching "{this.state.nameFilter}".
+                  {this.state.t('noFilesMatching')}"{this.state.nameFilter}".
                 </td>
               </tr>
             )
@@ -731,7 +765,7 @@ class RawFileBrowser extends React.Component {
             contents = (
               <tr>
                 <td colSpan={100}>
-                  {this.props.noFilesMessage}
+                  {this.props.noFilesMessage ? this.props.noFilesMessage : this.state.t('noFiles')}
                 </td>
               </tr>
             )
@@ -781,9 +815,9 @@ class RawFileBrowser extends React.Component {
       case 'list':
         if (!contents.length) {
           if (this.state.nameFilter) {
-            contents = (<p className="empty">No files matching "{this.state.nameFilter}"</p>)
+            contents = (<p className="empty">{this.state.t('noFilesMatching') + this.state.nameFilter}</p>)
           } else {
-            contents = (<p className="empty">No files.</p>)
+            contents = (<p className="empty">{this.state.t('noFiles')}</p>)
           }
         } else {
           let more
@@ -830,32 +864,34 @@ class RawFileBrowser extends React.Component {
     const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer
 
     return (
-      <div className="rendered-react-keyed-file-browser">
-        {this.props.actions}
-        <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
-          {this.props.showActionBar && this.renderActionBar(selectedItems)}
-          {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
-            <ConfirmMultipleDeletionRenderer
-              handleDeleteSubmit={this.handleMultipleDeleteSubmit}
-            />}
-          <div className="files">
-            {renderedFiles}
+      <DndProvider backend={this.props.backend}>
+        <div className="rendered-react-keyed-file-browser">
+          {this.props.actions}
+          <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
+            {this.props.showActionBar && this.renderActionBar(selectedItems)}
+            {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
+              <ConfirmMultipleDeletionRenderer
+                handleDeleteSubmit={this.handleMultipleDeleteSubmit}
+              />}
+            <div className="files">
+              {renderedFiles}
+            </div>
           </div>
+          {this.state.previewFile !== null && (
+            <this.props.detailRenderer
+              file={this.state.previewFile}
+              close={this.closeDetail}
+              {...this.props.detailRendererProps}
+            />
+          )}
         </div>
-        {this.state.previewFile !== null && (
-          <this.props.detailRenderer
-            file={this.state.previewFile}
-            close={this.closeDetail}
-            {...this.props.detailRendererProps}
-          />
-        )}
-      </div>
+      </DndProvider>
     )
   }
 }
 
-@DragDropContext(HTML5Backend)
+// @DragDropContext(HTML5Backend)
 class FileBrowser extends RawFileBrowser { }
 
-export default FileBrowser
+export default withNamespaces()(FileBrowser)
 export { RawFileBrowser }

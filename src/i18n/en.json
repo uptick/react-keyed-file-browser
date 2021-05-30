@@ -1,0 +1,29 @@
+{
+
+    "noFiles" : "No Files",
+    "noFilesMatching" : "No files matching",
+    "file" : "File",
+    "size": "Size",
+    "lastModified" : "Last Modified",
+
+
+    "deleting"  : "Deleting...",
+    "renaming"  : "Renaming...",
+    "moving"    : "Moving....",
+    "addSubfolder" : "Add Subfolder",
+    "rename" : "Rename",
+    "delete" : "Delete",
+    "download" : "Download",
+    "upload" : "Upload",
+    "addFolder" : "Add Folder",
+    "externalViewer" : "External Viewer",
+
+    "confirmDeletion" : "Confirm Deletion",
+
+    "itemDetail"  : "Item Detail",
+    "name" : "Name",
+
+    "filterFiles" : "Filter",
+
+    "noItemsInThisFolder" : "No Files in this folder"
+}

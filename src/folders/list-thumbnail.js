@@ -7,12 +7,13 @@ import BaseFolder, { BaseFolderConnectors } from './../base-folder.js'
 import { BaseFileConnectors } from './../base-file.js'
 
 import { isFolder } from '../utils'
+import { withNamespaces } from 'react-i18next'
 
 class RawListThumbnailFolder extends BaseFolder {
   render() {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
-      url, action, browserProps, depth, keyDerived, connectDragPreview,
+      url, action, browserProps, depth, keyDerived, connectDragPreview, t,
     } = this.props
 
     const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
@@ -91,7 +92,7 @@ class RawListThumbnailFolder extends BaseFolder {
       if (children.length) {
         children = (<ul style={{ padding: '0 8px', paddingLeft: '16px' }}>{children}</ul>)
       } else {
-        children = (<p>No items in this folder</p>)
+        children = (<p>{t('noItemsInThisFolder')}</p>)
       }
     }
 
@@ -130,5 +131,5 @@ class RawListThumbnailFolder extends BaseFolder {
 )
 class ListThumbnailFolder extends RawListThumbnailFolder {}
 
-export default ListThumbnailFolder
+export default withNamespaces()(ListThumbnailFolder)
 export { RawListThumbnailFolder }

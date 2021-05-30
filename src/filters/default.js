@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { withNamespaces } from 'react-i18next'
 
 class Filter extends React.Component {
   static propTypes = {
@@ -13,10 +14,11 @@ class Filter extends React.Component {
   }
 
   render() {
+    const { t } = this.props
     return (
       <input
         type="search"
-        placeholder="Filter files"
+        placeholder={t('filterFiles')}
         value={this.props.value}
         onChange={this.handleFilterChange}
       />
@@ -24,4 +26,4 @@ class Filter extends React.Component {
   }
 }
 
-export default Filter
+export default withNamespaces()(Filter)
