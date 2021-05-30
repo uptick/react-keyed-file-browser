@@ -35,11 +35,13 @@ const Actions = (props) => {
     canUploadFile,
     onUploadFile,
 
+    canExternalViewer,
+    onExternalViewerClick,
+
   } = props
 
   /** @type any */
   let actions = []
-
 
   if (selectedItems.length) {
     // Something is selected. Build custom actions depending on what it is.
@@ -169,14 +171,27 @@ const Actions = (props) => {
           </li>
         )
       }
+
+      if (canExternalViewer && onExternalViewerClick) {
+        actions.push(
+          <li key="action-external-viewer">
+            <a
+              onClick={onExternalViewerClick}
+              href="#"
+              role="button"
+            >
+              {icons.ExternalViewer}
+              &nbsp;{t('externalViewer')}
+            </a>
+          </li>
+        )
+      }
       if (actions.length) {
         actions = (<ul className="item-actions">{actions}</ul>)
       } else {
         actions = (<div className="item-actions">&nbsp;</div>)
       }
     }
-
-
   } else {
     // Nothing selected: We're in the 'root' folder. Only allowed action is adding a folder.
     if (canCreateFolder && !nameFilter) {
@@ -208,8 +223,20 @@ const Actions = (props) => {
         </li>
       )
     }
-
-
+    if (canExternalViewer && onExternalViewerClick) {
+      actions.push(
+        <li key="action-external-viewer">
+          <a
+            onClick={onExternalViewerClick}
+            href="#"
+            role="button"
+          >
+            {icons.ExternalViewer}
+            &nbsp;{t('externalViewer')}
+          </a>
+        </li>
+      )
+    }
     if (actions.length) {
       actions = (<ul className="item-actions">{actions}</ul>)
     } else {
@@ -249,6 +276,9 @@ Actions.propTypes = {
 
   canUploadFile: PropTypes.bool,
   onUploadFile: PropTypes.func,
+
+  canExternalViewer: PropTypes.bool,
+  onExternalViewerClick: PropTypes.func,
 }
 
 Actions.defaultProps = {
@@ -280,6 +310,9 @@ Actions.defaultProps = {
 
   canUploadFile: false,
   onUploadFile: null,
+
+  canExternalViewer: false,
+  onExternalViewerClick: null,
 }
 
 export default withNamespaces()(Actions)

@@ -103,6 +103,7 @@ class RawFileBrowser extends React.Component {
     onDownloadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDownloadFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onUploadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onExternalViewerClick: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 
     onSelect: PropTypes.func,
     onSelectFile: PropTypes.func,
@@ -501,6 +502,12 @@ class RawFileBrowser extends React.Component {
     this.props.onUploadFile(this.state.selection)
   }
 
+  handleActionBarExternalViewerClick = () => {
+    const files = this.getFiles()
+    const selectedItems = this.getSelectedItems(files)
+    this.props.onExternalViewerClick(selectedItems.length === 1 ? selectedItems[0] : null)
+  }
+
   updateFilter = (newValue) => {
     this.setState({
       nameFilter: newValue,
@@ -557,10 +564,12 @@ class RawFileBrowser extends React.Component {
       actionRenderer: ActionRenderer,
       onCreateFolder, onRenameFile, onRenameFolder,
       onDeleteFile, onDeleteFolder, onDownloadFile,
-      onDownloadFolder, onUploadFile,
+      onDownloadFolder, onUploadFile, onExternalViewerClick,
     } = this.props
     const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
+    const hasFileExternalViewer = (selectedItems.length === 1 && selectedItems[0]?.with_external_viewer)
+
     let filter
     if (canFilter) {
       filter = (
@@ -605,6 +614,9 @@ class RawFileBrowser extends React.Component {
 
         canUploadFile={typeof onUploadFile === 'function'}
         onUploadFile={this.handleActionBarUploadClick}
+
+        canExternalViewer={typeof onExternalViewerClick === 'function' && hasFileExternalViewer}
+        onExternalViewerClick={this.handleActionBarExternalViewerClick}
       />
     )
 
@@ -659,7 +671,7 @@ class RawFileBrowser extends React.Component {
   }
 
   handleMultipleDeleteSubmit = () => {
-    console.log(this)
+
     this.deleteFolder(this.state.selection.filter(selection => selection[selection.length - 1] === '/'))
     this.deleteFile(this.state.selection.filter(selection => selection[selection.length - 1] !== '/'))
   }
