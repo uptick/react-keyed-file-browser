@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { Component } from 'react'
 // drag and drop
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -830,33 +830,39 @@ class RawFileBrowser extends React.Component {
     const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer
 
     return (
-      <DndProvider backend={HTML5Backend}>
-        <div className="rendered-react-keyed-file-browser">
-          {this.props.actions}
-          <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
-            {this.props.showActionBar && this.renderActionBar(selectedItems)}
-            {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
-              <ConfirmMultipleDeletionRenderer
-                handleDeleteSubmit={this.handleMultipleDeleteSubmit}
-              />}
-            <div className="files">
-              {renderedFiles}
-            </div>
+      <div className="rendered-react-keyed-file-browser">
+        {this.props.actions}
+        <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
+          {this.props.showActionBar && this.renderActionBar(selectedItems)}
+          {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
+            <ConfirmMultipleDeletionRenderer
+              handleDeleteSubmit={this.handleMultipleDeleteSubmit}
+            />}
+          <div className="files">
+            {renderedFiles}
           </div>
-          {this.state.previewFile !== null && (
-            <this.props.detailRenderer
-              file={this.state.previewFile}
-              close={this.closeDetail}
-              {...this.props.detailRendererProps}
-            />
-          )}
         </div>
-      </DndProvider>
+        {this.state.previewFile !== null && (
+          <this.props.detailRenderer
+            file={this.state.previewFile}
+            close={this.closeDetail}
+            {...this.props.detailRendererProps}
+          />
+        )}
+      </div>
     )
   }
 }
 
-class FileBrowser extends RawFileBrowser { }
+class FileBrowser extends Component {
+  render() {
+    return (
+      <DndProvider backend={HTML5Backend}>
+        <RawFileBrowser {...this.props} />
+      </DndProvider>
+    )
+  }
+}
 
 export default FileBrowser
 

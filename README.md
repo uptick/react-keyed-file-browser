@@ -77,6 +77,19 @@ Optionally, include the built css with an import:
 
 ```
 
+Optionally, use your own React DND Provider:
+
+```javascript
+import { RawFileBrowser } from 'react-keyed-file-browser'
+
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+
+<DndProvider backend={HTML5Backend}>
+  <RawFileBrowser files={[]}/>
+</DndProvider>
+```
+
 or tag:
 
 ```html
