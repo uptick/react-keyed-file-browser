@@ -1,1 +1,1 @@
-module.exports = require('./dist/react-keyed-file-browser');
+module.exports = require('./dist/react-keyed-file-browser')
