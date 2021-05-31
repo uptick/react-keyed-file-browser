@@ -41,6 +41,7 @@ const files = [
 ]
 
 const store = new Store({ files })
+const dndStore = new Store({ files })
 
 export const simpleFlatAndReadOnlyExample = () => <FileBrowser files={files} />
 
@@ -306,14 +307,14 @@ export const simpleFlatAndReadOnlyExampleWithBulkActions = () => (
 )
 
 export const withCustomDNDProvider = () => (
-  <State store={store}>
+  <State store={dndStore}>
     {(state) => (
       <DndProvider backend={HTML5Backend}>
         <RawFileBrowser
           icons={Icons.FontAwesome(4)}
           onCreateFolder={(key) => {
-            store.set({
-              files: store.get('files').concat([
+            dndStore.set({
+              files: dndStore.get('files').concat([
                 {
                   key: key,
                   modified: Date.now(),
@@ -323,7 +324,7 @@ export const withCustomDNDProvider = () => (
             })
           }}
           onCreateFiles={(files, prefix) => {
-            const newFiles = store.get('files').map((file) => {
+            const newFiles = dndStore.get('files').map((file) => {
               let newKey = prefix
               if (
                 prefix !== '' &&
@@ -351,13 +352,13 @@ export const withCustomDNDProvider = () => (
                 uniqueNewFiles.push(newFile)
               }
             })
-            store.set({
-              files: store.get('files').concat(uniqueNewFiles),
+            dndStore.set({
+              files: dndStore.get('files').concat(uniqueNewFiles),
             })
           }}
           onMoveFolder={(oldKey, newKey) => {
             const newFiles = []
-            store.get('files').map((file) => {
+            dndStore.get('files').map((file) => {
               if (file.key.substr(0, oldKey.length) === oldKey) {
                 newFiles.push({
                   ...file,
@@ -368,13 +369,13 @@ export const withCustomDNDProvider = () => (
                 newFiles.push(file)
               }
             })
-            store.set({
+            dndStore.set({
               files: newFiles,
             })
           }}
           onMoveFile={(oldKey, newKey) => {
             const newFiles = []
-            store.get('files').map((file) => {
+            dndStore.get('files').map((file) => {
               if (file.key === oldKey) {
                 newFiles.push({
                   ...file,
@@ -385,13 +386,13 @@ export const withCustomDNDProvider = () => (
                 newFiles.push(file)
               }
             })
-            store.set({
+            dndStore.set({
               files: newFiles,
             })
           }}
           onRenameFolder={(oldKey, newKey) => {
             const newFiles = []
-            store.get('files').map((file) => {
+            dndStore.get('files').map((file) => {
               if (file.key.substr(0, oldKey.length) === oldKey) {
                 newFiles.push({
                   ...file,
@@ -402,13 +403,13 @@ export const withCustomDNDProvider = () => (
                 newFiles.push(file)
               }
             })
-            store.set({
+            dndStore.set({
               files: newFiles,
             })
           }}
           onRenameFile={(oldKey, newKey) => {
             const newFiles = []
-            store.get('files').map((file) => {
+            dndStore.get('files').map((file) => {
               if (file.key === oldKey) {
                 newFiles.push({
                   ...file,
@@ -419,13 +420,13 @@ export const withCustomDNDProvider = () => (
                 newFiles.push(file)
               }
             })
-            store.set({
+            dndStore.set({
               files: newFiles,
             })
           }}
           onDeleteFolder={(folderKeys) => {
             const newFiles = []
-            store.get('files').map((file) => {
+            dndStore.get('files').map((file) => {
               if (
                 !folderKeys.find(
                   (folderKey) =>
@@ -435,13 +436,13 @@ export const withCustomDNDProvider = () => (
                 newFiles.push(file)
               }
             })
-            store.set({
+            dndStore.set({
               files: newFiles,
             })
           }}
           onDeleteFile={(fileKeys) => {
-            store.set({
-              files: store
+            dndStore.set({
+              files: dndStore
                 .get('files')
                 .filter((file) => !fileKeys.includes(file.key)),
             })
