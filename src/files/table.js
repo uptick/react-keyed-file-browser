@@ -3,6 +3,7 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { formatDistanceToNow } from 'date-fns'
+import flow from 'lodash/flow'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
@@ -95,13 +96,8 @@ class RawTableFile extends BaseFile {
   }
 }
 
-@DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect)
-@DropTarget(
-  ['file', 'folder', NativeTypes.FILE],
-  BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect
-)
 class TableFile extends RawTableFile {}
 
-export default TableFile
+export default flow(DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect))(TableFile)
+
 export { RawTableFile }

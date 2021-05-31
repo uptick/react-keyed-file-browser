@@ -2,6 +2,7 @@ import React from 'react'
 import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
+import flow from 'lodash/flow'
 
 import BaseFolder, { BaseFolderConnectors } from './../base-folder.js'
 import { BaseFileConnectors } from './../base-file.js'
@@ -91,13 +92,8 @@ class RawTableFolder extends BaseFolder {
   }
 }
 
-@DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect)
-@DropTarget(
-  ['file', 'folder', NativeTypes.FILE],
-  BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect
-)
 class TableFolder extends RawTableFolder {}
 
-export default TableFolder
+export default flow(DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect), DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect))(TableFolder)
+
 export { RawTableFolder }

@@ -2,6 +2,7 @@ import React from 'react'
 import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
+import flow from 'lodash/flow'
 
 import BaseFolder, { BaseFolderConnectors } from './../base-folder.js'
 import { BaseFileConnectors } from './../base-file.js'
@@ -122,13 +123,7 @@ class RawListThumbnailFolder extends BaseFolder {
   }
 }
 
-@DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect)
-@DropTarget(
-  ['file', 'folder', NativeTypes.FILE],
-  BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect
-)
 class ListThumbnailFolder extends RawListThumbnailFolder {}
 
-export default ListThumbnailFolder
+export default flow(DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect), DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect))(ListThumbnailFolder)
 export { RawListThumbnailFolder }
