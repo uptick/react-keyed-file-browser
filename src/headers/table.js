@@ -53,12 +53,11 @@ class RawTableHeader extends React.Component {
   }
 }
 
-@DropTarget(
-  ['file', 'folder', NativeTypes.FILE],
-  BaseFileConnectors.targetSource,
+const TableHeader = DropTarget(
+  ['file', 'folder', NativeTypes.FILE], 
+  BaseFileConnectors.targetSource, 
   BaseFileConnectors.targetCollect
-)
-class TableHeader extends RawTableHeader {}
+)(RawTableHeader)
 
 export default TableHeader
 export { RawTableHeader }

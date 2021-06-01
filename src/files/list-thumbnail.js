@@ -3,6 +3,7 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { formatDistanceToNow } from 'date-fns'
+import flow from 'lodash/flow'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
@@ -127,13 +128,10 @@ class RawListThumbnailFile extends BaseFile {
   }
 }
 
-@DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect)
-@DropTarget(
-  ['file', 'folder', NativeTypes.FILE],
-  BaseFileConnectors.targetSource,
-  BaseFileConnectors.targetCollect
-)
-class ListThumbnailFile extends RawListThumbnailFile {}
+const ListThumbnailFile = flow(
+  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), 
+  DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
+)(RawListThumbnailFile)
 
 export default ListThumbnailFile
 export { RawListThumbnailFile }

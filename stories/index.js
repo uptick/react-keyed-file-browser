@@ -1,7 +1,10 @@
 import React from 'react'
 import { addHours, subHours, subDays, subMonths } from 'date-fns'
 import { State, Store } from '@sambego/storybook-state'
-import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons } from '../src'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+
+import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons, RawFileBrowser } from '../src'
 import './stories'
 
 export default {
@@ -38,6 +41,7 @@ const files = [
 ]
 
 const store = new Store({ files })
+const dndStore = new Store({ files })
 
 export const simpleFlatAndReadOnlyExample = () => <FileBrowser files={files} />
 
@@ -298,6 +302,157 @@ export const simpleFlatAndReadOnlyExampleWithBulkActions = () => (
         }}
         files={state.files}
       />
+    )}
+  </State>
+)
+
+export const withCustomDNDProvider = () => (
+  <State store={dndStore}>
+    {(state) => (
+      <DndProvider backend={HTML5Backend}>
+        <RawFileBrowser
+          icons={Icons.FontAwesome(4)}
+          onCreateFolder={(key) => {
+            dndStore.set({
+              files: dndStore.get('files').concat([
+                {
+                  key: key,
+                  modified: Date.now(),
+                  size: (Math.floor(Math.random() * 100) + 1) * 1024,
+                },
+              ]),
+            })
+          }}
+          onCreateFiles={(files, prefix) => {
+            const newFiles = dndStore.get('files').map((file) => {
+              let newKey = prefix
+              if (
+                prefix !== '' &&
+              prefix.substring(prefix.length - 1, prefix.length) !== '/'
+              ) {
+                newKey += '/'
+              }
+              newKey += file.name
+              return {
+                key: newKey,
+                size: file.size,
+                modified: Date.now(),
+              }
+            })
+
+            const uniqueNewFiles = []
+            newFiles.map((newFile) => {
+              let exists = false
+              state.files.map((existingFile) => {
+                if (existingFile.key === newFile.key) {
+                  exists = true
+                }
+              })
+              if (!exists) {
+                uniqueNewFiles.push(newFile)
+              }
+            })
+            dndStore.set({
+              files: dndStore.get('files').concat(uniqueNewFiles),
+            })
+          }}
+          onMoveFolder={(oldKey, newKey) => {
+            const newFiles = []
+            dndStore.get('files').map((file) => {
+              if (file.key.substr(0, oldKey.length) === oldKey) {
+                newFiles.push({
+                  ...file,
+                  key: file.key.replace(oldKey, newKey),
+                  modified: Date.now(),
+                })
+              } else {
+                newFiles.push(file)
+              }
+            })
+            dndStore.set({
+              files: newFiles,
+            })
+          }}
+          onMoveFile={(oldKey, newKey) => {
+            const newFiles = []
+            dndStore.get('files').map((file) => {
+              if (file.key === oldKey) {
+                newFiles.push({
+                  ...file,
+                  key: newKey,
+                  modified: Date.now(),
+                })
+              } else {
+                newFiles.push(file)
+              }
+            })
+            dndStore.set({
+              files: newFiles,
+            })
+          }}
+          onRenameFolder={(oldKey, newKey) => {
+            const newFiles = []
+            dndStore.get('files').map((file) => {
+              if (file.key.substr(0, oldKey.length) === oldKey) {
+                newFiles.push({
+                  ...file,
+                  key: file.key.replace(oldKey, newKey),
+                  modified: Date.now(),
+                })
+              } else {
+                newFiles.push(file)
+              }
+            })
+            dndStore.set({
+              files: newFiles,
+            })
+          }}
+          onRenameFile={(oldKey, newKey) => {
+            const newFiles = []
+            dndStore.get('files').map((file) => {
+              if (file.key === oldKey) {
+                newFiles.push({
+                  ...file,
+                  key: newKey,
+                  modified: Date.now(),
+                })
+              } else {
+                newFiles.push(file)
+              }
+            })
+            dndStore.set({
+              files: newFiles,
+            })
+          }}
+          onDeleteFolder={(folderKeys) => {
+            const newFiles = []
+            dndStore.get('files').map((file) => {
+              if (
+                !folderKeys.find(
+                  (folderKey) =>
+                    file.key.substr(0, folderKey.length) === folderKey
+                )
+              ) {
+                newFiles.push(file)
+              }
+            })
+            dndStore.set({
+              files: newFiles,
+            })
+          }}
+          onDeleteFile={(fileKeys) => {
+            dndStore.set({
+              files: dndStore
+                .get('files')
+                .filter((file) => !fileKeys.includes(file.key)),
+            })
+          }}
+          onDownloadFile={(fileKeys) => {
+            console.log('Downloading files: ', fileKeys)
+          }}
+          files={state.files}
+        />
+      </DndProvider>
     )}
   </State>
 )
