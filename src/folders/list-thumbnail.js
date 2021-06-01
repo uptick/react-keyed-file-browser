@@ -123,7 +123,10 @@ class RawListThumbnailFolder extends BaseFolder {
   }
 }
 
-class ListThumbnailFolder extends RawListThumbnailFolder {}
+const ListThumbnailFolder = flow(
+  DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect), 
+  DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
+)(RawListThumbnailFolder)
 
-export default flow(DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect), DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect))(ListThumbnailFolder)
+export default ListThumbnailFolder
 export { RawListThumbnailFolder }

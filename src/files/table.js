@@ -96,8 +96,10 @@ class RawTableFile extends BaseFile {
   }
 }
 
-class TableFile extends RawTableFile {}
+const TableFile = flow(
+  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), 
+  DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
+)(RawTableFile)
 
-export default flow(DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect))(TableFile)
-
+export default TableFile
 export { RawTableFile }
