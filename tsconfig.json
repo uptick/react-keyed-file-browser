@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "target": "esnext",
+        "lib": ["esnext", "dom"],
+        "strict": true,
+        "noImplicitAny": false,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "outDir": "dist",
+    },
+
+    "include": ["src/**/*"],
+
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src/**/*.stories.tsx",
+        "src/**/*.test.tsx"
+      ]
+}
