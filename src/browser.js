@@ -29,7 +29,7 @@ function getItemProps(file, browserProps) {
     key: `file-${file.key}`,
     fileKey: file.key,
     isSelected: (browserProps.selection.includes(file.key)),
-    isOpen: file.key in browserProps.openFolders || browserProps.nameFilter,
+    isOpen: file.key in browserProps.openFolders && !browserProps.nameFilter,
     isRenaming: browserProps.activeAction === 'rename' && browserProps.actionTargets.includes(file.key),
     isDeleting: browserProps.activeAction === 'delete' && browserProps.actionTargets.includes(file.key),
     isDraft: !!file.draft,
