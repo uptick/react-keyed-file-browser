@@ -416,7 +416,7 @@ class RawFileBrowser extends React.Component {
         [folderKey]: true,
       },
     }), () => {
-      this.props.onFolderOpen(this.getFile(folderKey))
+      this.props.onFolderOpen(this.getFile(folderKey), this.getBrowserProps())
     })
   }
 
