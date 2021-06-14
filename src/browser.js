@@ -6,7 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 // default components (most overridable)
 import { DefaultDetail } from './details'
-import { DefaultFilter } from './filters'
+import { DefaultFilter, DefaultFilterLogic } from './filters'
 
 // default renderers
 import { TableHeader } from './headers'
@@ -48,6 +48,7 @@ class RawFileBrowser extends React.Component {
     canFilter: PropTypes.bool.isRequired,
     showFoldersOnFilter: PropTypes.bool,
     noFilesMessage: PropTypes.string,
+    getFilteredFiles: PropTypes.func,
 
     group: PropTypes.func.isRequired,
     sort: PropTypes.func.isRequired,
@@ -113,6 +114,7 @@ class RawFileBrowser extends React.Component {
     canFilter: true,
     showFoldersOnFilter: false,
     noFilesMessage: 'No files.',
+    getFilteredFiles: DefaultFilterLogic,
 
     group: GroupByFolder,
     sort: SortByName,
@@ -517,6 +519,7 @@ class RawFileBrowser extends React.Component {
       beginAction: this.beginAction,
       endAction: this.endAction,
       preview: this.preview,
+      updateFilter: this.updateFilter,
 
       // item manipulation
       createFiles: this.props.onCreateFiles ? this.createFiles : undefined,
@@ -653,21 +656,7 @@ class RawFileBrowser extends React.Component {
       })
     }
     if (this.state.nameFilter) {
-      const filteredFiles = []
-      const terms = this.state.nameFilter.toLowerCase().split(' ')
-      files.map((file) => {
-        let skip = false
-        terms.map((term) => {
-          if (file.key.toLowerCase().trim().indexOf(term) === -1) {
-            skip = true
-          }
-        })
-        if (skip) {
-          return
-        }
-        filteredFiles.push(file)
-      })
-      files = filteredFiles
+      files = this.props.getFilteredFiles(this.state.nameFilter, files)
     }
     if (typeof this.props.group === 'function') {
       files = this.props.group(files, '')
