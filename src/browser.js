@@ -49,6 +49,7 @@ class RawFileBrowser extends React.Component {
     showFoldersOnFilter: PropTypes.bool,
     noFilesMessage: PropTypes.string,
     getFilteredFiles: PropTypes.func,
+    flattenFilterResults: PropTypes.bool,
 
     group: PropTypes.func.isRequired,
     sort: PropTypes.func.isRequired,
@@ -115,6 +116,7 @@ class RawFileBrowser extends React.Component {
     showFoldersOnFilter: false,
     noFilesMessage: 'No files.',
     getFilteredFiles: DefaultFilterLogic,
+    flattenFilterResults: true,
 
     group: GroupByFolder,
     sort: SortByName,
@@ -602,6 +604,7 @@ class RawFileBrowser extends React.Component {
     const {
       fileRenderer: FileRenderer, fileRendererProps,
       folderRenderer: FolderRenderer, folderRendererProps,
+      flattenFilterResults,
     } = this.props
     const browserProps = this.getBrowserProps()
     let renderedFiles = []
@@ -609,7 +612,7 @@ class RawFileBrowser extends React.Component {
     files.map((file) => {
       const thisItemProps = {
         ...browserProps.getItemProps(file, browserProps),
-        depth: this.state.nameFilter ? 0 : depth,
+        depth: this.state.nameFilter && flattenFilterResults ? 0 : depth,
       }
 
       if (!isFolder(file)) {
