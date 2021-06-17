@@ -29,7 +29,7 @@ function getItemProps(file, browserProps) {
     key: `file-${file.key}`,
     fileKey: file.key,
     isSelected: (browserProps.selection.includes(file.key)),
-    isOpen: file.key in browserProps.openFolders && !browserProps.nameFilter,
+    isOpen: file.key in browserProps.openFolders || (browserProps.assumeOpenOnFilter && browserProps.nameFilter),
     isRenaming: browserProps.activeAction === 'rename' && browserProps.actionTargets.includes(file.key),
     isDeleting: browserProps.activeAction === 'delete' && browserProps.actionTargets.includes(file.key),
     isDraft: !!file.draft,
@@ -50,6 +50,7 @@ class RawFileBrowser extends React.Component {
     noFilesMessage: PropTypes.string,
     getFilteredFiles: PropTypes.func,
     flattenFilterResults: PropTypes.bool,
+    assumeOpenOnFilter: PropTypes.bool,
 
     group: PropTypes.func.isRequired,
     sort: PropTypes.func.isRequired,
@@ -117,6 +118,7 @@ class RawFileBrowser extends React.Component {
     noFilesMessage: 'No files.',
     getFilteredFiles: DefaultFilterLogic,
     flattenFilterResults: true,
+    assumeOpenOnFilter: true,
 
     group: GroupByFolder,
     sort: SortByName,
@@ -506,6 +508,7 @@ class RawFileBrowser extends React.Component {
       confirmDeletionRenderer: this.props.confirmDeletionRenderer,
       confirmMultipleDeletionRenderer: this.props.confirmMultipleDeletionRenderer,
       icons: this.props.icons,
+      assumeOpenOnFilter: this.props.assumeOpenOnFilter,
 
       // browser state
       openFolders: this.state.openFolders,

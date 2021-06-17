@@ -132,8 +132,7 @@ class BaseFolder extends React.Component {
   }
 
   toggleFolder = () => {
-    const operation = this.props.browserProps.nameFilter ? 'openFolder' : 'toggleFolder'
-    this.props.browserProps[operation](this.props.fileKey)
+    this.props.browserProps.toggleFolder(this.props.fileKey)
   }
 
   connectDND(render) {
