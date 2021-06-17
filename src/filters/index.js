@@ -1,5 +1,5 @@
 import DefaultFilter from './default.js'
-import { DefaultFilterLogic } from './defaultLogic'
+import { DefaultFilterLogic } from './default-logic'
 
 export {
   DefaultFilter,
