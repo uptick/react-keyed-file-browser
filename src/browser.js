@@ -5,18 +5,18 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 // default components (most overridable)
-import { DefaultDetail } from './details'
+import { DefaultDetails } from './details'
 import { DefaultFilter } from './filters'
 
 // default renderers
 import { TableHeader } from './headers'
 import { TableFile } from './files'
 import { TableFolder } from './folders'
-import { DefaultConfirmDeletion, MultipleConfirmDeletion } from './confirmations'
+import { SingleConfirmation, MultipleConfirmation } from './confirmations'
 
 // default processors
-import { GroupByFolder } from './groupers'
-import { SortByName } from './sorters'
+import { groupByFolder } from './groupers'
+import { sortByName } from './sorters'
 
 import { isFolder } from './utils'
 import { DefaultAction } from './actions'
@@ -114,8 +114,8 @@ class RawFileBrowser extends React.Component {
     showFoldersOnFilter: false,
     noFilesMessage: 'No files.',
 
-    group: GroupByFolder,
-    sort: SortByName,
+    group: groupByFolder,
+    sort: sortByName,
 
     nestChildren: false,
     renderStyle: 'table',
@@ -130,11 +130,11 @@ class RawFileBrowser extends React.Component {
     fileRendererProps: {},
     folderRenderer: TableFolder,
     folderRendererProps: {},
-    detailRenderer: DefaultDetail,
+    detailRenderer: DefaultDetails,
     detailRendererProps: {},
     actionRenderer: DefaultAction,
-    confirmDeletionRenderer: DefaultConfirmDeletion,
-    confirmMultipleDeletionRenderer: MultipleConfirmDeletion,
+    confirmDeletionRenderer: SingleConfirmation,
+    confirmMultipleDeletionRenderer: MultipleConfirmation,
 
     icons: {},
 

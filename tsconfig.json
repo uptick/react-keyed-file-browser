@@ -4,10 +4,16 @@
         "target": "esnext",
         "lib": ["esnext", "dom"],
         "strict": true,
+        "jsx": "react",
         "noImplicitAny": false,
         "esModuleInterop": true,
         "moduleResolution": "node",
         "outDir": "dist",
+        "baseUrl": "./",
+        "paths": {
+            "@module/*": ["./src/*"]
+          },
+        "typeRoots": ["src/types.ts", "./node_modules/@types"]
     },
 
     "include": ["src/**/*"],

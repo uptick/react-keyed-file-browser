@@ -1,8 +1,8 @@
 // @ts-nocheck
 import PropTypes from 'prop-types'
 import React from 'react'
-import { moveFilesAndFolders } from './utils'
-import { extensionMapping } from './constants.js'
+import { move } from './utils'
+import { EXTENSION } from './constants'
 
 class BaseFile extends React.Component {
   static propTypes = {
@@ -59,7 +59,7 @@ class BaseFile extends React.Component {
   }
 
   getFileType() {
-    return extensionMapping[this.getExtension()] || 'File'
+    return EXTENSION.TYPES[this.getExtension()] || 'File'
   }
 
   handleFileClick = (event) => {
@@ -176,7 +176,7 @@ const dragSource = {
   },
 
   endDrag(props, monitor, component) {
-    moveFilesAndFolders(props, monitor, component)
+    move(props, monitor, component)
   },
 }
 

@@ -1,0 +1,6 @@
+export { isFontAwesomeEnabled } from './is-font-awesome-enabled'
+export { relativeTimeWindows } from './relative-time-windows'
+export { floatPrecision } from './float-precision'
+export { isFolder } from './is-folder'
+export { fileSize } from './file-size'
+export { move } from './move'
