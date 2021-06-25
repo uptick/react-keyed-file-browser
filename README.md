@@ -41,7 +41,10 @@ Include icons from FontAwesome 4:
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import FileBrowser, {Icons} from 'react-keyed-file-browser'
+import FileBrowser, { Icons } from 'react-keyed-file-browser'
+
+// this imports the FontAwesome Icon Styles
+import 'font-awesome/css/font-awesome.min.css'
 
 var mount = document.querySelectorAll('div.browser-mount');
 ReactDOM.render(
