@@ -607,8 +607,6 @@ class RawFileBrowser extends React.Component {
     const browserProps = this.getBrowserProps()
     let renderedFiles = []
 
-    console.log({ fileRendererProps })
-
     files.map((file) => {
       const thisItemProps = {
         ...browserProps.getItemProps(file, browserProps),
