@@ -76,6 +76,7 @@ class BaseFolder extends React.Component {
   }
   handleRenameSubmit = (event) => {
     event.preventDefault()
+    event.stopPropagation()
     if (!this.props.browserProps.renameFolder && !this.props.isDraft) {
       return
     }
@@ -119,6 +120,7 @@ class BaseFolder extends React.Component {
   }
   handleDeleteSubmit = (event) => {
     event.preventDefault()
+    event.stopPropagation()
     if (!this.props.browserProps.deleteFolder) {
       return
     }
