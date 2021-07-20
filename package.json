@@ -1,12 +1,12 @@
 {
   "name": "react-keyed-file-browser",
-  "version": "1.13.0",
+  "version": "1.13.1",
   "description": "Folder based file browser given a flat keyed list of objects, powered by React.",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "publish-demo": "git branch -D gh-pages; git push origin --delete gh-pages; git checkout -b gh-pages; cd demo-site; yarn; npm run build; cd ..; git add .; git add -f demo-site/dist; git add -f demo-site/node_modules/uptick-demo-site/dist; git commit -m \"Demo site build\"; git push origin gh-pages; git checkout master; git push origin `git subtree split --prefix demo-site gh-pages`:gh-pages --force;",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-js": "rm -rf dist && node ./esbuild.js",
+    "build-js": "./node_modules/.bin/webpack --mode=production",
     "build-css": "./node_modules/.bin/node-sass src/browser.sass dist/react-keyed-file-browser.css",
     "build": "npm run build-js && npm run build-css",
     "prepublish": "npm run build",
@@ -50,9 +50,9 @@
     "@storybook/react": "^6.2.9",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
-    "css-loader": "^3.4.2",
+    "css-loader": "^6.2.0",
     "esbuild": "^0.12.5",
-    "esbuild-node-externals": "^1.2.0",
+    "esbuild-loader": "^2.13.1",
     "eslint": "^7.27.0",
     "eslint-config-standard": "*",
     "eslint-config-standard-react": "*",
@@ -65,8 +65,11 @@
     "node-sass": "^6.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "sass-loader": "^10.1.1",
-    "style-loader": "^1.1.3",
-    "typescript": "^4.3.2"
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.1.0",
+    "typescript": "^4.3.2",
+    "webpack": "^4.29.1",
+    "webpack-cli": "^4.7.0",
+    "webpack-node-externals": "^1.5.4"
   }
 }
