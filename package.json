@@ -1,15 +1,8 @@
 {
   "name": "react-keyed-file-browser",
-  "version": "1.12.1",
+  "version": "1.13.0",
   "description": "Folder based file browser given a flat keyed list of objects, powered by React.",
   "main": "dist/index.js",
-  "module": "dist/index.js",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.js"
-    }
-  },
   "scripts": {
     "publish-demo": "git branch -D gh-pages; git push origin --delete gh-pages; git checkout -b gh-pages; cd demo-site; yarn; npm run build; cd ..; git add .; git add -f demo-site/dist; git add -f demo-site/node_modules/uptick-demo-site/dist; git commit -m \"Demo site build\"; git push origin gh-pages; git checkout master; git push origin `git subtree split --prefix demo-site gh-pages`:gh-pages --force;",
     "test": "echo \"Error: no test specified\" && exit 1",

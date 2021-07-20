@@ -1,17 +1,34 @@
-const { build } = require("esbuild");
-const { nodeExternalsPlugin } = require("esbuild-node-externals");
+const { build } = require('esbuild')
+const { nodeExternalsPlugin } = require('esbuild-node-externals')
 
-build({
-  entryPoints: ["src/index.js"],
-  outdir: "dist",
+const configuration = {
+  outdir: 'dist',
+  entryPoints: ['src/index.js'],
   bundle: true,
   sourcemap: true,
   minify: true,
-  splitting: true,
-  format: "esm",
-  target: ["es2015"],
+  target: 'es2015',
   loader: {
-    ".js": "jsx",
+    '.js': 'jsx',
   },
   plugins: [nodeExternalsPlugin()],
-}).catch(() => process.exit(1));
+}
+
+async function esbuild() {
+  // build esm version.
+  await build({
+    ...configuration,
+    format: 'esm',
+    splitting: true,
+    outExtension: { '.js': '.esm.js' },
+    outdir: 'dist',
+  }).catch(() => process.exit(1))
+
+  // build cjs version.
+  await build({
+    ...configuration,
+    format: 'cjs',
+  }).catch(() => process.exit(1))
+}
+
+esbuild()
