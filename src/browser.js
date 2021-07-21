@@ -6,7 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 // default components (most overridable)
 import { DefaultDetail } from './details'
-import { DefaultFilter } from './filters'
+import { DefaultFilter, DefaultFilterLogic } from './filters'
 
 // default renderers
 import { TableHeader } from './headers'
@@ -29,7 +29,7 @@ function getItemProps(file, browserProps) {
     key: `file-${file.key}`,
     fileKey: file.key,
     isSelected: (browserProps.selection.includes(file.key)),
-    isOpen: file.key in browserProps.openFolders || browserProps.nameFilter,
+    isOpen: file.key in browserProps.openFolders || (browserProps.assumeOpenOnFilter && browserProps.nameFilter),
     isRenaming: browserProps.activeAction === 'rename' && browserProps.actionTargets.includes(file.key),
     isDeleting: browserProps.activeAction === 'delete' && browserProps.actionTargets.includes(file.key),
     isDraft: !!file.draft,
@@ -48,6 +48,9 @@ class RawFileBrowser extends React.Component {
     canFilter: PropTypes.bool.isRequired,
     showFoldersOnFilter: PropTypes.bool,
     noFilesMessage: PropTypes.string,
+    getFilteredFiles: PropTypes.func,
+    flattenFilterResults: PropTypes.bool,
+    assumeOpenOnFilter: PropTypes.bool,
 
     group: PropTypes.func.isRequired,
     sort: PropTypes.func.isRequired,
@@ -113,6 +116,9 @@ class RawFileBrowser extends React.Component {
     canFilter: true,
     showFoldersOnFilter: false,
     noFilesMessage: 'No files.',
+    getFilteredFiles: DefaultFilterLogic,
+    flattenFilterResults: true,
+    assumeOpenOnFilter: true,
 
     group: GroupByFolder,
     sort: SortByName,
@@ -502,6 +508,7 @@ class RawFileBrowser extends React.Component {
       confirmDeletionRenderer: this.props.confirmDeletionRenderer,
       confirmMultipleDeletionRenderer: this.props.confirmMultipleDeletionRenderer,
       icons: this.props.icons,
+      assumeOpenOnFilter: this.props.assumeOpenOnFilter,
 
       // browser state
       openFolders: this.state.openFolders,
@@ -517,6 +524,7 @@ class RawFileBrowser extends React.Component {
       beginAction: this.beginAction,
       endAction: this.endAction,
       preview: this.preview,
+      updateFilter: this.updateFilter,
 
       // item manipulation
       createFiles: this.props.onCreateFiles ? this.createFiles : undefined,
@@ -599,6 +607,7 @@ class RawFileBrowser extends React.Component {
     const {
       fileRenderer: FileRenderer, fileRendererProps,
       folderRenderer: FolderRenderer, folderRendererProps,
+      flattenFilterResults,
     } = this.props
     const browserProps = this.getBrowserProps()
     let renderedFiles = []
@@ -606,7 +615,7 @@ class RawFileBrowser extends React.Component {
     files.map((file) => {
       const thisItemProps = {
         ...browserProps.getItemProps(file, browserProps),
-        depth: this.state.nameFilter ? 0 : depth,
+        depth: this.state.nameFilter && flattenFilterResults ? 0 : depth,
       }
 
       if (!isFolder(file)) {
@@ -653,21 +662,7 @@ class RawFileBrowser extends React.Component {
       })
     }
     if (this.state.nameFilter) {
-      const filteredFiles = []
-      const terms = this.state.nameFilter.toLowerCase().split(' ')
-      files.map((file) => {
-        let skip = false
-        terms.map((term) => {
-          if (file.key.toLowerCase().trim().indexOf(term) === -1) {
-            skip = true
-          }
-        })
-        if (skip) {
-          return
-        }
-        filteredFiles.push(file)
-      })
-      files = filteredFiles
+      files = this.props.getFilteredFiles(this.state.nameFilter, files)
     }
     if (typeof this.props.group === 'function') {
       files = this.props.group(files, '')

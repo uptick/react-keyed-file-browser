@@ -20,8 +20,10 @@ class BaseFolder extends React.Component {
     action: PropTypes.string,
 
     browserProps: PropTypes.shape({
+      nameFilter: PropTypes.string,
       select: PropTypes.func,
       toggleFolder: PropTypes.func,
+      openFolder: PropTypes.func,
       beginAction: PropTypes.func,
       endAction: PropTypes.func,
       preview: PropTypes.func,
