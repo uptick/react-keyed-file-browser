@@ -29,6 +29,7 @@ class BaseFile extends React.Component {
       moveFolder: PropTypes.func,
       renameFile: PropTypes.func,
       deleteFile: PropTypes.func,
+      downloadFile: PropTypes.func,
     }),
   }
 
@@ -77,7 +78,7 @@ class BaseFile extends React.Component {
   }
   handleItemDoubleClick = (event) => {
     event.stopPropagation()
-    this.handleFileClick()
+    this.props.browserProps.downloadFile(this.props.fileKey)
   }
 
   handleRenameClick = (event) => {

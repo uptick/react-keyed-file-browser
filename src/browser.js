@@ -323,7 +323,7 @@ class RawFileBrowser extends React.Component {
       activeAction: null,
       actionTargets: [],
     }, () => {
-      this.props.onDownloadFile(keys)
+      if (typeof this.props.onDownloadFile === 'function') { this.props.onDownloadFile(keys) }
     })
   }
 
@@ -542,7 +542,7 @@ class RawFileBrowser extends React.Component {
       beginAction: this.beginAction,
       endAction: this.endAction,
       preview: this.preview,
-
+      downloadFile: this.downloadFile,
       // item manipulation
       createFiles: this.props.onCreateFiles ? this.createFiles : undefined,
       createFolder: this.props.onCreateFolder ? this.createFolder : undefined,
@@ -671,7 +671,6 @@ class RawFileBrowser extends React.Component {
   }
 
   handleMultipleDeleteSubmit = () => {
-
     this.deleteFolder(this.state.selection.filter(selection => selection[selection.length - 1] === '/'))
     this.deleteFile(this.state.selection.filter(selection => selection[selection.length - 1] !== '/'))
   }
