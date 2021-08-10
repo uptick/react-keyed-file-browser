@@ -78,7 +78,7 @@ class BaseFile extends React.Component {
   }
   handleItemDoubleClick = (event) => {
     event.stopPropagation()
-    this.props.browserProps.downloadFile(this.props.fileKey)
+    this.props.browserProps.downloadFile([this.props.fileKey])
   }
 
   handleRenameClick = (event) => {
