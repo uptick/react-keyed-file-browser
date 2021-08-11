@@ -508,6 +508,10 @@ class RawFileBrowser extends React.Component {
     this.props.onExternalViewerClick(selectedItems.length === 1 ? selectedItems[0] : null)
   }
 
+  handleFileDoubleClick = (itemKey) => {
+    if (typeof this.props.onFileDoubleClick === 'function') { this.props.onFileDoubleClick(itemKey) }
+  }
+
   updateFilter = (newValue) => {
     this.setState({
       nameFilter: newValue,
@@ -542,7 +546,7 @@ class RawFileBrowser extends React.Component {
       beginAction: this.beginAction,
       endAction: this.endAction,
       preview: this.preview,
-      downloadFile: this.downloadFile,
+      fileDoubleClick: this.handleFileDoubleClick,
       // item manipulation
       createFiles: this.props.onCreateFiles ? this.createFiles : undefined,
       createFolder: this.props.onCreateFolder ? this.createFolder : undefined,
@@ -617,6 +621,9 @@ class RawFileBrowser extends React.Component {
 
         canExternalViewer={typeof onExternalViewerClick === 'function' && hasFileExternalViewer}
         onExternalViewerClick={this.handleActionBarExternalViewerClick}
+
+        // canFileDoubleClick={typeof onFileDoubleClick === 'function'}
+        onFileDoubleClick={this.handleFileDoubleClick}
       />
     )
 
