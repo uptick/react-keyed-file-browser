@@ -48,6 +48,7 @@ class RawFileBrowser extends React.Component {
     canFilter: PropTypes.bool.isRequired,
     showFoldersOnFilter: PropTypes.bool,
     noFilesMessage: PropTypes.string,
+    searchResultsPerPage: PropTypes.number,
 
     group: PropTypes.func.isRequired,
     sort: PropTypes.func.isRequired,
@@ -113,6 +114,7 @@ class RawFileBrowser extends React.Component {
     canFilter: true,
     showFoldersOnFilter: false,
     noFilesMessage: 'No files.',
+    searchResultsPerPage: SEARCH_RESULTS_PER_PAGE,
 
     group: GroupByFolder,
     sort: SortByName,
@@ -156,7 +158,7 @@ class RawFileBrowser extends React.Component {
     actionTargets: [],
 
     nameFilter: '',
-    searchResultsShown: SEARCH_RESULTS_PER_PAGE,
+    searchResultsShown: this.props.searchResultsPerPage,
 
     previewFile: null,
 
@@ -387,7 +389,7 @@ class RawFileBrowser extends React.Component {
   handleShowMoreClick = (event) => {
     event.preventDefault()
     this.setState(prevState => ({
-      searchResultsShown: prevState.searchResultsShown + SEARCH_RESULTS_PER_PAGE,
+      searchResultsShown: prevState.searchResultsShown + this.props.searchResultsPerPage,
     }))
   }
 
@@ -487,7 +489,7 @@ class RawFileBrowser extends React.Component {
   updateFilter = (newValue) => {
     this.setState({
       nameFilter: newValue,
-      searchResultsShown: SEARCH_RESULTS_PER_PAGE,
+      searchResultsShown: this.props.searchResultsPerPage,
     })
   }
 
@@ -742,11 +744,12 @@ class RawFileBrowser extends React.Component {
             contents = contents.slice(0, this.state.searchResultsShown)
             if (numFiles > contents.length) {
               contents.push(
-                <tr key="show-more">
+                <tr key="show-more" className="show-more-row">
                   <td colSpan={100}>
                     <a
                       onClick={this.handleShowMoreClick}
                       href="#"
+                      className="show-more"
                     >
                       Show more results
                     </a>
@@ -795,6 +798,7 @@ class RawFileBrowser extends React.Component {
                 <a
                   onClick={this.handleShowMoreClick}
                   href="#"
+                  className="show-more"
                 >
                   Show more results
                 </a>
