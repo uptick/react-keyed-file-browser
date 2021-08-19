@@ -7,13 +7,14 @@ import { getDateFnsLocale } from '../i18n'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
+import { BROWSER_COLUMNS } from '../browser'
 
 class RawTableFile extends BaseFile {
   render() {
     const {
       isDragging, isDeleting, isRenaming, isOver, isSelected,
       action, url, browserProps, connectDragPreview,
-      depth, size, modified,
+      depth, size, modified, columns,
     } = this.props
 
     const icon = browserProps.icons[this.getFileType()] || browserProps.icons.File
@@ -80,15 +81,17 @@ class RawTableFile extends BaseFile {
         onClick={this.handleItemClick}
         onDoubleClick={this.handleItemDoubleClick}
       >
-        <td className="name">
+        {columns?.includes(BROWSER_COLUMNS.FILE) ? <td className="name">
           <div style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
           </div>
-        </td>
-        <td className="size">{fileSize(size)}</td>
-        <td className="modified">
-          {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, { addSuffix: true, locale: getDateFnsLocale() })}
-        </td>
+        </td> : null}
+        {columns?.includes(BROWSER_COLUMNS.SIZE) ? <td className="size">{fileSize(size)}</td> : null}
+        {columns?.includes(BROWSER_COLUMNS.LAST_MODIFIED)
+          ? <td className="modified">
+            {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, { addSuffix: true, locale: getDateFnsLocale() })}
+          </td>
+          : null}
       </tr>
     )
 

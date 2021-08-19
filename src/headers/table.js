@@ -7,11 +7,13 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 
 import { BaseFileConnectors } from './../base-file.js'
 import { withNamespaces } from 'react-i18next'
+import { BROWSER_COLUMNS } from '../browser'
 
 class RawTableHeader extends React.Component {
   static propTypes = {
     select: PropTypes.func,
     fileKey: PropTypes.string,
+    columns: PropTypes.array,
 
     connectDropTarget: PropTypes.func,
     isOver: PropTypes.bool,
@@ -37,9 +39,9 @@ class RawTableHeader extends React.Component {
           selected: this.props.isSelected,
         })}
       >
-        <th>{t('file')}</th>
-        <th className="size">{t('size')}</th>
-        <th className="modified">{t('lastModified')}</th>
+        {this.props.columns?.includes(BROWSER_COLUMNS.FILE) ? <th>{t('file')}</th> : null}
+        {this.props.columns?.includes(BROWSER_COLUMNS.SIZE) ? <th className="size">{t('size')}</th> : null}
+        {this.props.columns?.includes(BROWSER_COLUMNS.LAST_MODIFIED) ? <th className="modified">{t('lastModified')}</th> : null}
       </tr>
     )
 

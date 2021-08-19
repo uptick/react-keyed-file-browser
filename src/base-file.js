@@ -12,6 +12,8 @@ class BaseFile extends React.Component {
     newKey: PropTypes.string,
     isRenaming: PropTypes.bool,
 
+    columns: PropTypes.array,
+
     connectDragSource: PropTypes.func,
     connectDropTarget: PropTypes.func,
     isDragging: PropTypes.bool,

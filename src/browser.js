@@ -28,6 +28,13 @@ import { withNamespaces } from 'react-i18next'
 const SEARCH_RESULTS_PER_PAGE = 20
 const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
 
+export const BROWSER_COLUMNS =
+  {
+    FILE: 'file',
+    SIZE: 'size',
+    LAST_MODIFIED: 'lastModified',
+  }
+
 function getItemProps(file, browserProps) {
   return {
     key: `file-${file.key}`,
@@ -69,6 +76,8 @@ class RawFileBrowser extends React.Component {
       Loading: PropTypes.element,
       Download: PropTypes.element,
     }),
+
+    columns: PropTypes.array,
 
     nestChildren: PropTypes.bool.isRequired,
     renderStyle: PropTypes.oneOf([
@@ -129,6 +138,8 @@ class RawFileBrowser extends React.Component {
 
     nestChildren: false,
     renderStyle: 'table',
+
+    columns: Object.keys(BROWSER_COLUMNS).map((key) => BROWSER_COLUMNS[key]),
 
     startOpen: false,
 
@@ -656,6 +667,7 @@ class RawFileBrowser extends React.Component {
             {...thisItemProps}
             browserProps={browserProps}
             {...fileRendererProps}
+            columns={this.props.columns}
           />
         )
       } else {
@@ -803,6 +815,7 @@ class RawFileBrowser extends React.Component {
               <this.props.headerRenderer
                 {...headerProps}
                 {...this.props.headerRendererProps}
+                columns={this.props.columns}
               />
             </thead>
           )

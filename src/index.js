@@ -1,8 +1,7 @@
 // @ts-nocheck
 // i18n
 
-
-import FileBrowser, { RawFileBrowser } from './browser'
+import FileBrowser, { RawFileBrowser, BROWSER_COLUMNS } from './browser'
 import BaseFile, { BaseFileConnectors } from './base-file'
 import BaseFolder, { BaseFolderConnectors } from './base-folder'
 
@@ -36,4 +35,5 @@ export {
   Sorters,
   Icons,
   Utils,
+  BROWSER_COLUMNS,
 }
