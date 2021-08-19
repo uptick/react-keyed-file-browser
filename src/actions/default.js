@@ -279,6 +279,8 @@ Actions.propTypes = {
 
   canExternalViewer: PropTypes.bool,
   onExternalViewerClick: PropTypes.func,
+
+  onFileDoubleClick: PropTypes.func,
 }
 
 Actions.defaultProps = {
@@ -313,6 +315,8 @@ Actions.defaultProps = {
 
   canExternalViewer: false,
   onExternalViewerClick: null,
+
+  onFileDoubleClick: null,
 }
 
 export default withNamespaces()(Actions)
