@@ -49,6 +49,7 @@ class RawFileBrowser extends React.Component {
     showFoldersOnFilter: PropTypes.bool,
     noFilesMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     noMatchingFilesMessage: PropTypes.func,
+    showMoreResults: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
     group: PropTypes.func.isRequired,
     sort: PropTypes.func.isRequired,
@@ -115,6 +116,7 @@ class RawFileBrowser extends React.Component {
     showFoldersOnFilter: false,
     noFilesMessage: 'No files.',
     noMatchingFilesMessage: (filter) => `No files matching "${filter}".`,
+    showMoreResults: 'Show more results',
 
     group: GroupByFolder,
     sort: SortByName,
@@ -750,7 +752,7 @@ class RawFileBrowser extends React.Component {
                       onClick={this.handleShowMoreClick}
                       href="#"
                     >
-                      Show more results
+                      {this.props.showMoreResults}
                     </a>
                   </td>
                 </tr>
@@ -798,7 +800,7 @@ class RawFileBrowser extends React.Component {
                   onClick={this.handleShowMoreClick}
                   href="#"
                 >
-                  Show more results
+                  {this.props.showMoreResults}
                 </a>
               )
             }
