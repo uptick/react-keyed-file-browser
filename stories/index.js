@@ -40,6 +40,14 @@ const files = [
   },
 ]
 
+const moreThan20Files = Array(21).fill(
+  {
+    key: 'cat.png',
+    modified: subHours(new Date(), 1).getTime(),
+    size: 1.5 * 1024 * 1024,
+  },
+)
+
 const store = new Store({ files })
 const dndStore = new Store({ files })
 
@@ -95,6 +103,45 @@ export const differentRendersAndGroupers = () => (
     group={Groupers.GroupByModifiedRelative}
     fileRenderer={FileRenderers.ListThumbnailFile}
     folderRenderer={FolderRenderers.ListThumbnailFolder}
+  />
+)
+
+export const customerRenderAndCustomNoMatchingFilesMessage = () => (
+  <>
+    <p>Search for a string not contained in the file names in order to see the custom No Results message.</p>
+    <FileBrowser
+      files={files}
+      actionRenderer={() => (
+        <ul className="item-actions">
+          <li key="action-sample">
+            <a
+              href="#"
+              role="button"
+            >
+              Do nothing
+            </a>
+          </li>
+        </ul>
+      )}
+      noMatchingFilesMessage={(filter) => `There are no files that match "${filter}".`}
+    />
+  </>
+)
+
+export const moreThan20FilesWithCustomShowMore = () => (
+  <>
+    <p>Search for "cat" to see the Show More Results message at the bottom of the table.</p>
+    <FileBrowser
+      files={moreThan20Files}
+      showMoreResults="Show me more results"
+    />
+  </>
+)
+
+export const emptyFilesListWithCustomNoFilesMessage = () => (
+  <FileBrowser
+    files={[]}
+    noFilesMessage="There are no files."
   />
 )
 
