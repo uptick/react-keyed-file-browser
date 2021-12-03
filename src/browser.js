@@ -405,7 +405,7 @@ class RawFileBrowser extends React.Component {
       return stateChanges
     }, () => {
       const callback = isOpen ? 'onFolderClose' : 'onFolderOpen'
-      this.props[callback](this.getFile(folderKey))
+      this.props[callback](this.getFile(folderKey), this.getBrowserProps())
     })
   }
 
@@ -416,7 +416,7 @@ class RawFileBrowser extends React.Component {
         [folderKey]: true,
       },
     }), () => {
-      this.props.onFolderOpen(this.getFile(folderKey))
+      this.props.onFolderOpen(this.getFile(folderKey), this.getBrowserProps())
     })
   }
 
