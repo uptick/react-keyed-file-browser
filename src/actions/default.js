@@ -172,6 +172,21 @@ const Actions = (props) => {
         )
       }
 
+      if ((!isFolder && canDownloadFile) || (isFolder && canDownloadFolder)) {
+        actions.push(
+          <li key="action-download">
+            <a
+              onClick={isFolder ? onDownloadFolder : onDownloadFile}
+              href="#"
+              role="button"
+            >
+              {icons.Download}
+              &nbsp;{t('download')}
+            </a>
+          </li>
+        )
+      }
+
       if (actions.length) {
         actions = (<ul className="item-actions">{actions}</ul>)
       } else {
@@ -223,21 +238,6 @@ const Actions = (props) => {
         </li>
       )
     }
-    if ((!isFolder && canDownloadFile) || (isFolder && canDownloadFolder)) {
-      actions.push(
-        <li key="action-download">
-          <a
-            onClick={isFolder ? onDownloadFolder : onDownloadFile}
-            href="#"
-            role="button"
-          >
-            {icons.Download}
-            &nbsp;{t('download')}
-          </a>
-        </li>
-      )
-    }
-
     if (actions.length) {
       actions = (<ul className="item-actions">{actions}</ul>)
     } else {
