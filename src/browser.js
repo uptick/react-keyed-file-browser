@@ -862,11 +862,9 @@ class FileBrowser extends Component {
 
   render() {
     return (
-      <>Hello World
-        {/*<DndProvider backend={HTML5Backend}>
+      <DndProvider backend={HTML5Backend}>
         <RawFileBrowser {...this.props} />
-    </DndProvider>*/}
-      </>
+      </DndProvider>
     )
   }
 }
