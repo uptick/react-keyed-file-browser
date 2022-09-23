@@ -11,10 +11,12 @@ class RawTableFolder extends BaseFolder {
   render() {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
-      action, url, browserProps, connectDragPreview, depth,
+      action, url, browserProps, connectDragPreview, depth, isGateway
     } = this.props
 
-    const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
+    const icon = browserProps.icons[true ? 
+      'Gateway' :
+      (isOpen ? 'FolderOpen' : 'Folder')]
     const inAction = (isDragging || action)
 
     const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer

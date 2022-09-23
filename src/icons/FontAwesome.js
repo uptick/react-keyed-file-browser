@@ -43,7 +43,7 @@ const FontAwesomeIcons = (majorVersion = 4) => {
         PDF: <i className="fa fa-file-pdf-o" aria-hidden="true" />,
         Rename: <i className="fa fa-i-cursor" aria-hidden="true" />,
         Gateway: <i className="fa fa-download" aria-hidden="true" />,
-        Folder: <i className="fa fa-image-o" aria-hidden="true" />, //folder-o
+        Folder: <i className="fa fa-folder-o" aria-hidden="true" />,
         FolderOpen: <i className="fa fa-folder-open-o" aria-hidden="true" />,
         Delete: <i className="fa fa-trash-o" aria-hidden="true" />,
         Loading: <i className="fa fa-circle-o-notch fa-spin" aria-hidden="true" />,
