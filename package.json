@@ -37,6 +37,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "date-fns": "^2.22.1",
+    "esbuild-linux-64": "^0.15.9",
     "lodash.flow": "^3.5.0",
     "prop-types": "^15.7.2",
     "react-dnd": "^14.0.2",
