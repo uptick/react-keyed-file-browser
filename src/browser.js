@@ -860,15 +860,13 @@ class RawFileBrowser extends React.Component {
 
 class FileBrowser extends Component {
 
-  componentDidMount() {
-    console.log("HELLO BRO");
-  }
-
   render() {
     return (
-      <DndProvider backend={HTML5Backend}>
+      <>Hello World
+        {/*<DndProvider backend={HTML5Backend}>
         <RawFileBrowser {...this.props} />
-      </DndProvider>
+    </DndProvider>*/}
+      </>
     )
   }
 }
