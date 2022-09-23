@@ -62,7 +62,7 @@ class RawTableFile extends BaseFile {
     }
 
     let draggable = (
-      <div>
+      <div className="nameLbl">
         {name}
       </div>
     )
@@ -82,12 +82,12 @@ class RawTableFile extends BaseFile {
         onDoubleClick={this.handleItemDoubleClick}
       >
         <td className="name">
-          <div style={{ paddingLeft: (depth * 16) + 'px' }}>
+          <div className="nameBox" style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
             {isSensor && (
               <>
-                <button>Analysis</button>
-                <button>Data Log</button>
+                <button className="rowBtn">Analysis</button>
+                <button className="rowBtn">Data Log</button>
               </>
             )}
           </div>
