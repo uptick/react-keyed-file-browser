@@ -84,11 +84,13 @@ class RawTableFile extends BaseFile {
         <td className="name">
           <div style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
+            {isSensor && (
+              <>
+                <button>Analysis</button>
+                <button>Data Log</button>
+              </>
+            )}
           </div>
-        </td>
-        <td className="size">{fileSize(size)}</td>
-        <td className="modified">
-          {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, { addSuffix: true })}
         </td>
       </tr>
     )

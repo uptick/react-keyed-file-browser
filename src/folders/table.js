@@ -83,10 +83,13 @@ class RawTableFolder extends BaseFolder {
         <td className="name">
           <div style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
+            {isGateway && (
+              <>
+                <button>Edit</button>
+              </>
+            )}
           </div>
         </td>
-        <td />
-        <td />
       </tr>
     )
 
