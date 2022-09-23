@@ -14,7 +14,7 @@ class RawTableFolder extends BaseFolder {
       action, url, browserProps, connectDragPreview, depth, isGateway
     } = this.props
 
-    const icon = browserProps.icons[true ? 
+    const icon = browserProps.icons[isGateway ? 
       'Gateway' :
       (isOpen ? 'FolderOpen' : 'Folder')]
     const inAction = (isDragging || action)
@@ -53,7 +53,7 @@ class RawTableFolder extends BaseFolder {
       name = (
         <div>
           <a onClick={this.toggleFolder}>
-            {icon} Hello World
+            {icon}
             {this.getName()}
           </a>
         </div>
