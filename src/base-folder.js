@@ -7,6 +7,9 @@ class BaseFolder extends React.Component {
   static propTypes = {
     name: PropTypes.string,
     fileKey: PropTypes.string,
+    
+    // Use a unique icon + different functionality for gateway folder
+    isGateway: PropTypes.bool,
 
     newName: PropTypes.string,
     keyDerived: PropTypes.bool,
