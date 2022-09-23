@@ -14,7 +14,7 @@ class RawTableFolder extends BaseFolder {
       action, url, browserProps, connectDragPreview, depth, isGateway
     } = this.props
 
-    const icon = browserProps.icons[isGateway ? 
+    const icon = browserProps.icons[isGateway ?
       'Gateway' :
       (isOpen ? 'FolderOpen' : 'Folder')]
     const inAction = (isDragging || action)
@@ -61,7 +61,7 @@ class RawTableFolder extends BaseFolder {
     }
 
     let draggable = (
-      <div>
+      <div className="nameLbl">
         {name}
       </div>
     )
@@ -81,11 +81,11 @@ class RawTableFolder extends BaseFolder {
         onDoubleClick={this.handleFolderDoubleClick}
       >
         <td className="name">
-          <div style={{ paddingLeft: (depth * 16) + 'px' }}>
+          <div className="nameBox" style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
             {isGateway && (
               <>
-                <button>Edit</button>
+                <button className="rowBtn">Edit</button>
               </>
             )}
           </div>
@@ -98,7 +98,7 @@ class RawTableFolder extends BaseFolder {
 }
 
 const TableFolder = flow(
-  DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect), 
+  DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect),
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawTableFolder)
 

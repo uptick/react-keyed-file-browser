@@ -8,10 +8,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-js": "./node_modules/.bin/webpack --mode=production",
     "build-css": "./node_modules/.bin/node-sass src/browser.sass dist/react-keyed-file-browser.css",
-    "build": "npm run build-js && npm run build-css",
+    "build": "npm run build-js && npm run build-css && copyfiles dist/* app/src",
     "prepublish": "npm run build",
     "storybook": "start-storybook -p 9001",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "start": "webpack serve --config webpack.config.js"
   },
   "files": [
     "dist/**"
@@ -71,6 +72,7 @@
     "typescript": "^4.3.2",
     "webpack": "^4.29.1",
     "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^4.11.1",
     "webpack-node-externals": "^1.5.4"
   }
 }
