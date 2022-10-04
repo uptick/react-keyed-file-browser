@@ -35,7 +35,8 @@ const icon = (url) => {
     transform: "translateY(0.2em)",
     backgroundSize: "contain",
     display: "inline-block",
-    filter: "saturate(0.5) contrast(1.6)"
+    filter: "saturate(0.5) contrast(1.6)",
+    paddingRight: "0.2em"
   }
 }
 
@@ -64,11 +65,11 @@ const FontAwesomeIcons = (majorVersion = 4) => {
 
         // Button Icons
         Rename: <i
-          style={icon("https://cdn-icons-png.flaticon.com/512/5082/5082720.png")}
+          style={icon("https://cdn-icons-png.flaticon.com/512/4904/4904522.png")}
           aria-hidden="true"
         />,
         Delete: <i
-          style={icon("https://cdn-icons-png.flaticon.com/512/5082/5082720.png")}
+          style={icon("https://cdn-icons-png.flaticon.com/512/2496/2496733.png")}
           aria-hidden="true"
         />,
         Loading: <i className="fa fa-circle-o-notch fa-spin" aria-hidden="true" />,

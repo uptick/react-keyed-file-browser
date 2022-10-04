@@ -70,7 +70,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Folder}
-              &nbsp;Add Subfolder
+              Add Subfolder
             </a>
           </li>
         )
@@ -86,7 +86,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              Rename
             </a>
           </li>
         )
@@ -99,7 +99,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              Rename
             </a>
           </li>
         )
@@ -114,7 +114,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              Delete
             </a>
           </li>
         )
@@ -127,7 +127,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              Delete
             </a>
           </li>
         )
