@@ -31,9 +31,11 @@ const icon = (url) => {
     backgroundImage: `url(${url})`,
     width: "1.3em",
     height: "1.3em",
-    backgroundRepeat: " no-repeat",
-    transform: " translateY(0.2em)",
+    backgroundRepeat: "no-repeat",
+    transform: "translateY(0.2em)",
     backgroundSize: "contain",
+    display: "inline-block",
+    filter: "saturate(0.5) contrast(1.6)"
   }
 }
 
@@ -44,19 +46,19 @@ const FontAwesomeIcons = (majorVersion = 4) => {
       return {
         // File Icons
         Gateway: <i
-          style={icon("https://upload.wikimedia.org/wikipedia/commons/f/f3/Folder.svg")}
+          style={icon("https://cdn-icons-png.flaticon.com/512/4945/4945853.png")}
           aria-hidden="true"
         />,
         Sensor: <i
-          style={icon("https://upload.wikimedia.org/wikipedia/commons/f/f3/Folder.svg")}
+          style={icon("https://cdn-icons-png.flaticon.com/512/4674/4674109.png")}
           aria-hidden="true"
         />,
         Folder: <i
-          style={icon("https://upload.wikimedia.org/wikipedia/commons/f/f3/Folder.svg")}
+          style={icon("https://cdn-icons-png.flaticon.com/512/3139/3139112.png")}
           aria-hidden="true"
         />,
         FolderOpen: <i
-          style={icon("https://upload.wikimedia.org/wikipedia/commons/f/f3/Folder.svg")}
+          style={icon("https://cdn-icons-png.flaticon.com/512/5082/5082720.png")}
           aria-hidden="true"
         />,
 
