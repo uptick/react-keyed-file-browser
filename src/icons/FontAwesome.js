@@ -63,8 +63,14 @@ const FontAwesomeIcons = (majorVersion = 4) => {
         />,
 
         // Button Icons
-        Rename: <i className="fa fa-i-cursor" aria-hidden="true" />,
-        Delete: <i className="fa fa-trash-o" aria-hidden="true" />,
+        Rename: <i
+          style={icon("https://cdn-icons-png.flaticon.com/512/5082/5082720.png")}
+          aria-hidden="true"
+        />,
+        Delete: <i
+          style={icon("https://cdn-icons-png.flaticon.com/512/5082/5082720.png")}
+          aria-hidden="true"
+        />,
         Loading: <i className="fa fa-circle-o-notch fa-spin" aria-hidden="true" />,
         Download: <i className="fa fa-download" aria-hidden="true" />,
       }
