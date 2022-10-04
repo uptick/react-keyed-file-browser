@@ -26,26 +26,42 @@ const IsFontAwesomeLoaded = (version) => {
   return FontAwesomeLoaded
 }
 
+const icon = (url) => {
+  return {
+    backgroundImage: url,
+    width: "1.3em",
+    height: "1.3em",
+    backgroundRepeat: " no-repeat",
+    transform: " translateY(0.2em)",
+    backgroundSize: "contain",
+  }
+}
+
 const FontAwesomeIcons = (majorVersion = 4) => {
   switch (majorVersion) {
     case 4:
       IsFontAwesomeLoaded(4)
       return {
-        File: <i className="fa fa-file-o" aria-hidden="true" />,
-        Image: <i className="fa fa-file-image-o" aria-hidden="true" />,
-        Video: <i className="fa fa-file-video-o" aria-hidden="true" />,
-        Audio: <i className="fa fa-file-audio-o" aria-hidden="true" />,
-        Archive: <i className="fa fa-file-archive-o" aria-hidden="true" />,
-        Word: <i className="fa fa-file-word-o" aria-hidden="true" />,
-        Excel: <i className="fa fa-file-excel-o" aria-hidden="true" />,
-        PowerPoint: <i className="fa fa-file-powerpoint-o" aria-hidden="true" />,
-        Text: <i className="fa fa-file-text-o" aria-hidden="true" />,
-        PDF: <i className="fa fa-file-pdf-o" aria-hidden="true" />,
+        // File Icons
+        Gateway: <i
+          style={icon("https://upload.wikimedia.org/wikipedia/commons/f/f3/Folder.svg")}
+          aria-hidden="true"
+        />,
+        Sensor: <i
+          style={icon("https://upload.wikimedia.org/wikipedia/commons/f/f3/Folder.svg")}
+          aria-hidden="true"
+        />,
+        Folder: <i
+          style={icon("https://upload.wikimedia.org/wikipedia/commons/f/f3/Folder.svg")}
+          aria-hidden="true"
+        />,
+        FolderOpen: <i
+          style={icon("https://upload.wikimedia.org/wikipedia/commons/f/f3/Folder.svg")}
+          aria-hidden="true"
+        />,
+
+        // Button Icons
         Rename: <i className="fa fa-i-cursor" aria-hidden="true" />,
-        Gateway: <i className="fa fa-wifi" aria-hidden="true" />,
-        Sensor: <i className="fa fa-bolt" aria-hidden="true" />,
-        Folder: <i className="fa fa-folder-o" aria-hidden="true" />,
-        FolderOpen: <i className="fa fa-folder-open-o" aria-hidden="true" />,
         Delete: <i className="fa fa-trash-o" aria-hidden="true" />,
         Loading: <i className="fa fa-circle-o-notch fa-spin" aria-hidden="true" />,
         Download: <i className="fa fa-download" aria-hidden="true" />,
