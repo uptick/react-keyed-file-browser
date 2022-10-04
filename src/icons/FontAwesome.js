@@ -28,7 +28,7 @@ const IsFontAwesomeLoaded = (version) => {
 
 const icon = (url) => {
   return {
-    backgroundImage: url,
+    backgroundImage: `url(${url})`,
     width: "1.3em",
     height: "1.3em",
     backgroundRepeat: " no-repeat",
