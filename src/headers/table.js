@@ -29,14 +29,14 @@ class RawTableHeader extends React.Component {
 
   render() {
     const header = (
-      <tr
+      <div
         className={ClassNames('folder', {
           dragover: this.props.isOver,
           selected: this.props.isSelected,
         })}
       >
-        <th>Devices</th>
-      </tr>
+        Devices
+      </div>
     )
 
     if (
