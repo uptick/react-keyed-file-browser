@@ -69,7 +69,7 @@ const Actions = (props) => {
               href="#"
               role="button"
             >
-              {icons.Folder}
+              {icons.FolderAdd}
               Add Subfolder
             </a>
           </li>
@@ -164,7 +164,7 @@ const Actions = (props) => {
             href="#"
             role="button"
           >
-            {icons.Folder}
+            {icons.FolderAdd}
             &nbsp;Add Folder
           </a>
         </li>

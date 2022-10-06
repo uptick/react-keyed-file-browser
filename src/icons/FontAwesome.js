@@ -61,6 +61,10 @@ const FontAwesomeIcons = (majorVersion = 4) => {
           class="folderOpenFileIcon"
           aria-hidden="true"
         />,
+        FolderAdd: <i
+          class="folderAddFileIcon"
+          aria-hidden="true"
+        />,
 
         // Button Icons
         Rename: <i
