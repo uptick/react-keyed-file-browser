@@ -47,11 +47,12 @@ const FontAwesomeIcons = (majorVersion = 4) => {
       return {
         // File Icons
         Gateway: <i
-          style={icon("./images/GatewayFileIcon.png")}
+          style={icon("../Images/GatewayFileIcon.png")}
           aria-hidden="true"
         />,
         Sensor: <i
-          style={icon("https://cdn-icons-png.flaticon.com/512/4674/4674109.png")}
+        style={icon("http://localhost:3000/static/media/GatewayFileIcon.png")}
+          //style={icon("https://cdn-icons-png.flaticon.com/512/4674/4674109.png")}
           aria-hidden="true"
         />,
         Folder: <i
