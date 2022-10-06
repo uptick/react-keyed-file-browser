@@ -133,6 +133,19 @@ const Actions = (props) => {
         )
       }
 
+      actions.push(
+        <li key="action-add-gateway">
+          <a
+            onClick={onDeleteFolder}
+            href="#"
+            role="button"
+          >
+            {icons.GatewayAdd}
+            Add Gateway
+          </a>
+        </li>
+      )
+
       if ((!isFolder && canDownloadFile) || (isFolder && canDownloadFolder)) {
         actions.push(
           <li key="action-download">
