@@ -26,19 +26,6 @@ const IsFontAwesomeLoaded = (version) => {
   return FontAwesomeLoaded
 }
 
-const icon = (url) => {
-  return {
-    backgroundImage: `url(${url})`,
-    width: "1.3em",
-    height: "1.3em",
-    backgroundRepeat: "no-repeat",
-    transform: "translateY(0.2em)",
-    backgroundSize: "contain",
-    display: "inline-block",
-    paddingRight: "0.2em"
-  }
-}
-
 const FontAwesomeIcons = (majorVersion = 4) => {
   switch (majorVersion) {
     case 4:
@@ -68,11 +55,11 @@ const FontAwesomeIcons = (majorVersion = 4) => {
 
         // Button Icons
         Rename: <i
-          style={icon("https://cdn-icons-png.flaticon.com/512/4904/4904522.png")}
+          class="renameFileIcon"
           aria-hidden="true"
         />,
         Delete: <i
-          style={icon("https://cdn-icons-png.flaticon.com/512/2496/2496733.png")}
+          class="deleteFileIcon"
           aria-hidden="true"
         />,
         Loading: <i className="fa fa-circle-o-notch fa-spin" aria-hidden="true" />,
