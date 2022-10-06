@@ -3,7 +3,6 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import flow from 'lodash/flow';
-import { withRouter } from './withRouter';
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 
@@ -83,8 +82,6 @@ class RawTableFile extends BaseFile {
             {isSensor && (
               <>
                 <div className="rowBtn" onClick={() => {
-                  //this.setState({ user });
-                  //this.props.navigate('/test');
                   window.open(`${window.location.origin}/test`, '_blank').focus();
                 }}>
                   <i className="fa fa-chart-simple" aria-hidden="true" />
@@ -113,5 +110,5 @@ const TableFile = flow(
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawTableFile)
 
-export default withRouter(TableFile)
+export default TableFile
 export { RawTableFile }
