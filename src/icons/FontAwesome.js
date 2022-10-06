@@ -47,7 +47,7 @@ const FontAwesomeIcons = (majorVersion = 4) => {
       return {
         // File Icons
         Gateway: <i
-          style={icon("https://cdn-icons-png.flaticon.com/512/4945/4945853.png")}
+          style={icon("./images/GatewayFileIcon.png")}
           aria-hidden="true"
         />,
         Sensor: <i
