@@ -87,12 +87,15 @@ class RawTableFile extends BaseFile {
             {isSensor && (
               <>
                 <div class="rowBtn">
-                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <i class="fa fa-chart-simple" aria-hidden="true"/>
                   Analysis
                 </div>
                 <div class="rowBtn">
-                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <i class="fa fa-list" aria-hidden="true"/>
                   Data Log
+                </div>
+                <div class="device-settings">
+                  <i class="fa fa-gear" aria-hidden="true"/>
                 </div>
               </>
             )}
