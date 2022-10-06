@@ -35,7 +35,6 @@ const icon = (url) => {
     transform: "translateY(0.2em)",
     backgroundSize: "contain",
     display: "inline-block",
-    filter: "saturate(0.5) contrast(1.6)",
     paddingRight: "0.2em"
   }
 }
@@ -52,17 +51,14 @@ const FontAwesomeIcons = (majorVersion = 4) => {
         />,
         Sensor: <i
           class="sensorFileIcon"
-          style={icon("https://cdn-icons-png.flaticon.com/512/4674/4674109.png")}
           aria-hidden="true"
         />,
         Folder: <i
           class="folderFileIcon"
-          style={icon("https://cdn-icons-png.flaticon.com/512/3139/3139112.png")}
           aria-hidden="true"
         />,
         FolderOpen: <i
           class="folderOpenFileIcon"
-          style={icon("https://cdn-icons-png.flaticon.com/512/5082/5082720.png")}
           aria-hidden="true"
         />,
 
