@@ -2,11 +2,10 @@ import React from 'react'
 import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import { formatDistanceToNow } from 'date-fns'
-import flow from 'lodash/flow'
+import flow from 'lodash/flow';
+import { Link } from "react-router-dom";
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
-import { fileSize } from './utils.js'
 
 class RawTableFile extends BaseFile {
   render() {
@@ -82,16 +81,18 @@ class RawTableFile extends BaseFile {
             {draggable}
             {isSensor && (
               <>
+                <Link to="/">
+                  <div class="rowBtn">
+                    <i class="fa fa-chart-simple" aria-hidden="true" />
+                    Analysis
+                  </div>
+                </Link>
                 <div class="rowBtn">
-                  <i class="fa fa-chart-simple" aria-hidden="true"/>
-                  Analysis
-                </div>
-                <div class="rowBtn">
-                  <i class="fa fa-list" aria-hidden="true"/>
+                  <i class="fa fa-list" aria-hidden="true" />
                   Data Log
                 </div>
                 <div class="device-settings">
-                  <i class="fa fa-gear" aria-hidden="true"/>
+                  <i class="fa fa-gear" aria-hidden="true" />
                 </div>
               </>
             )}
