@@ -763,12 +763,10 @@ class RawFileBrowser extends React.Component {
 
         if (this.props.headerRenderer) {
           header = (
-            <thead>
-              <this.props.headerRenderer
-                {...headerProps}
-                {...this.props.headerRendererProps}
-              />
-            </thead>
+            <this.props.headerRenderer
+              {...headerProps}
+              {...this.props.headerRendererProps}
+            />
           )
         }
 
