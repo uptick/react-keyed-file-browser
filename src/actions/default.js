@@ -30,7 +30,6 @@ const Actions = (props) => {
     onDownloadFolder,
 
   } = props;
-  console.log(props);
 
   /** @type any */
   let actions = []

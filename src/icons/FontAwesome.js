@@ -33,37 +33,37 @@ const FontAwesomeIcons = (majorVersion = 4) => {
       return {
         // File Icons
         Gateway: <i
-          class="gatewayFileIcon"
+          className="gatewayFileIcon"
           aria-hidden="true"
         />,
         Sensor: <i
-          class="sensorFileIcon"
+          className="sensorFileIcon"
           aria-hidden="true"
         />,
         Folder: <i
-          class="folderFileIcon"
+          className="folderFileIcon"
           aria-hidden="true"
         />,
         FolderOpen: <i
-          class="folderOpenFileIcon"
+          className="folderOpenFileIcon"
           aria-hidden="true"
         />,
         FolderAdd: <i
-          class="folderAddFileIcon"
+          className="folderAddFileIcon"
           aria-hidden="true"
         />,
 
         // Button Icons
         Rename: <i
-          class="renameFileIcon"
+          className="renameFileIcon"
           aria-hidden="true"
         />,
         Delete: <i
-          class="deleteFileIcon"
+          className="deleteFileIcon"
           aria-hidden="true"
         />,
         GatewayAdd: <i
-          class="gatewayAddFileIcon"
+          className="gatewayAddFileIcon"
           aria-hidden="true"
         />,
         Loading: <i className="fa fa-circle-o-notch fa-spin" aria-hidden="true" />,

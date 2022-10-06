@@ -83,18 +83,18 @@ class RawTableFile extends BaseFile {
             {draggable}
             {isSensor && (
               <>
-                <div class="rowBtn" onClick={() => {
+                <div className="rowBtn" onClick={() => {
                   navigate("/posts");
                 }}>
-                  <i class="fa fa-chart-simple" aria-hidden="true" />
+                  <i className="fa fa-chart-simple" aria-hidden="true" />
                   Analysis
                 </div>
-                <div class="rowBtn">
-                  <i class="fa fa-list" aria-hidden="true" />
+                <div className="rowBtn">
+                  <i className="fa fa-list" aria-hidden="true" />
                   Data Log
                 </div>
-                <div class="device-settings">
-                  <i class="fa fa-gear" aria-hidden="true" />
+                <div className="device-settings">
+                  <i className="fa fa-gear" aria-hidden="true" />
                 </div>
               </>
             )}
