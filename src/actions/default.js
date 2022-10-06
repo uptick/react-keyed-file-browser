@@ -29,7 +29,8 @@ const Actions = (props) => {
     canDownloadFolder,
     onDownloadFolder,
 
-  } = props
+  } = props;
+  console.log(props);
 
   /** @type any */
   let actions = []
