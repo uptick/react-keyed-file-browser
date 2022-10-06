@@ -9,11 +9,6 @@ import BaseFile, { BaseFileConnectors } from './../base-file.js'
 
 class RawTableFile extends BaseFile {
 
-  constructor() {
-    super()
-    this.yourFunctionHere = this.yourFunctionHere.bind(this);
-  }
-
   render() {
     const {
       isDragging, isDeleting, isRenaming, isOver, isSelected,
@@ -88,7 +83,9 @@ class RawTableFile extends BaseFile {
             {isSensor && (
               <>
                 <div className="rowBtn" onClick={() => {
-                  this.props.navigate('/test');
+                  //this.setState({ user });
+                  //this.props.navigate('/test');
+                  window.open(`${window.location.origin}/test`, '_blank').focus();
                 }}>
                   <i className="fa fa-chart-simple" aria-hidden="true" />
                   Analysis
