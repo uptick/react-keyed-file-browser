@@ -12,8 +12,6 @@ const ConfirmDeletion = (props) => {
   return (
     <form className="deleting" onSubmit={handleDeleteSubmit}>
       <a
-        href={url}
-        download="download"
         onClick={handleFileClick}
       >
         {children}
