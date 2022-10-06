@@ -51,9 +51,7 @@ class RawTableFile extends BaseFile {
     } else {
       name = (
         <a
-          href={url || '#'}
-          download="download"
-          onClick={this.handleFileClick}
+          //onClick={this.handleFileClick}
         >
           {icon}
           {this.getName()}
