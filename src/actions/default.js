@@ -62,21 +62,19 @@ const Actions = (props) => {
         </div>
       )
     } else {
-      if (isFolder && canCreateFolder && !nameFilter) {
-        if (!selectedItems[0].isGateway) {
-          actions.push(
-            <li key="action-add-gateway">
-              <a
-                onClick={onDeleteFolder}
-                href="#"
-                role="button"
-              >
-                {icons.GatewayAdd}
-                Add Gateway
-              </a>
-            </li>
-          )
-        }
+      if (isFolder && canCreateFolder && !nameFilter && !selectedItems[0].isGateway) {
+        actions.push(
+          <li key="action-add-gateway">
+            <a
+              onClick={onDeleteFolder}
+              href="#"
+              role="button"
+            >
+              {icons.GatewayAdd}
+              Add Gateway
+            </a>
+          </li>
+        )
         actions.push(
           <li key="action-add-folder">
             <a

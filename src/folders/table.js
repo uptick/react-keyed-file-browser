@@ -85,7 +85,9 @@ class RawTableFolder extends BaseFolder {
             {draggable}
             {isGateway && (
               <>
-                <button className="rowBtn">Edit</button>
+                <div class="device-settings">
+                  <i class="fa fa-gear" aria-hidden="true" />
+                </div>
               </>
             )}
           </div>
