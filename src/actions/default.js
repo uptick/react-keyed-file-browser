@@ -63,6 +63,18 @@ const Actions = (props) => {
     } else {
       if (isFolder && canCreateFolder && !nameFilter) {
         actions.push(
+          <li key="action-add-gateway">
+            <a
+              onClick={onDeleteFolder}
+              href="#"
+              role="button"
+            >
+              {icons.GatewayAdd}
+              Add Gateway
+            </a>
+          </li>
+        )
+        actions.push(
           <li key="action-add-folder">
             <a
               onClick={onCreateFolder}
@@ -133,19 +145,6 @@ const Actions = (props) => {
         )
       }
 
-      actions.push(
-        <li key="action-add-gateway">
-          <a
-            onClick={onDeleteFolder}
-            href="#"
-            role="button"
-          >
-            {icons.GatewayAdd}
-            Add Gateway
-          </a>
-        </li>
-      )
-
       if ((!isFolder && canDownloadFile) || (isFolder && canDownloadFolder)) {
         actions.push(
           <li key="action-download">
@@ -155,7 +154,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Download}
-              &nbsp;Download
+              Download
             </a>
           </li>
         )
@@ -171,6 +170,18 @@ const Actions = (props) => {
     // Nothing selected: We're in the 'root' folder. Only allowed action is adding a folder.
     if (canCreateFolder && !nameFilter) {
       actions.push(
+        <li key="action-add-gateway">
+          <a
+            onClick={onDeleteFolder}
+            href="#"
+            role="button"
+          >
+            {icons.GatewayAdd}
+            Add Gateway
+          </a>
+        </li>
+      )
+      actions.push(
         <li key="action-add-folder">
           <a
             onClick={onCreateFolder}
@@ -178,7 +189,7 @@ const Actions = (props) => {
             role="button"
           >
             {icons.FolderAdd}
-            &nbsp;Add Folder
+            Add Folder
           </a>
         </li>
       )
