@@ -3,12 +3,16 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import flow from 'lodash/flow';
-import { useNavigate } from "react-router-dom";
+import { withRouter } from './withRouter';
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 
 class RawTableFile extends BaseFile {
-  navigate = useNavigate();
+
+  constructor() {
+    super()
+    this.yourFunctionHere = this.yourFunctionHere.bind(this);
+  }
 
   render() {
     const {
@@ -84,7 +88,7 @@ class RawTableFile extends BaseFile {
             {isSensor && (
               <>
                 <div className="rowBtn" onClick={() => {
-                  navigate("/posts");
+                  this.props.navigate('/test');
                 }}>
                   <i className="fa fa-chart-simple" aria-hidden="true" />
                   Analysis
