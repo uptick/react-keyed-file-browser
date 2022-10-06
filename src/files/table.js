@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 
 class RawTableFile extends BaseFile {
+  navigate = useNavigate();
+
   render() {
     const {
       isDragging, isDeleting, isRenaming, isOver, isSelected,
@@ -82,7 +84,6 @@ class RawTableFile extends BaseFile {
             {isSensor && (
               <>
                 <div class="rowBtn" onClick={() => {
-                  const navigate = useNavigate();
                   navigate("/posts");
                 }}>
                   <i class="fa fa-chart-simple" aria-hidden="true" />
