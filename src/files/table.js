@@ -3,7 +3,7 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import flow from 'lodash/flow';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 
@@ -81,12 +81,13 @@ class RawTableFile extends BaseFile {
             {draggable}
             {isSensor && (
               <>
-                <Link to="/">
-                  <div class="rowBtn">
-                    <i class="fa fa-chart-simple" aria-hidden="true" />
-                    Analysis
-                  </div>
-                </Link>
+                <div class="rowBtn" onClick={() => {
+                  const navigate = useNavigate();
+                  navigate("/posts");
+                }}>
+                  <i class="fa fa-chart-simple" aria-hidden="true" />
+                  Analysis
+                </div>
                 <div class="rowBtn">
                   <i class="fa fa-list" aria-hidden="true" />
                   Data Log
