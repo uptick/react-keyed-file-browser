@@ -50,9 +50,7 @@ class RawTableFile extends BaseFile {
       )
     } else {
       name = (
-        <a
-          //onClick={this.handleFileClick}
-        >
+        <a>
           {icon}
           {this.getName()}
         </a>
