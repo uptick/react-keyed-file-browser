@@ -47,19 +47,21 @@ const FontAwesomeIcons = (majorVersion = 4) => {
       return {
         // File Icons
         Gateway: <i
-          style={icon("../Images/GatewayFileIcon.png")}
+          class="gatewayFileIcon"
           aria-hidden="true"
         />,
         Sensor: <i
-        style={icon("http://localhost:3000/static/media/GatewayFileIcon.png")}
-          //style={icon("https://cdn-icons-png.flaticon.com/512/4674/4674109.png")}
+          class="sensorFileIcon"
+          style={icon("https://cdn-icons-png.flaticon.com/512/4674/4674109.png")}
           aria-hidden="true"
         />,
         Folder: <i
+          class="folderFileIcon"
           style={icon("https://cdn-icons-png.flaticon.com/512/3139/3139112.png")}
           aria-hidden="true"
         />,
         FolderOpen: <i
+          class="folderOpenFileIcon"
           style={icon("https://cdn-icons-png.flaticon.com/512/5082/5082720.png")}
           aria-hidden="true"
         />,
