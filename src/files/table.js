@@ -86,14 +86,18 @@ class RawTableFile extends BaseFile {
                     '_blank').focus();
                 }}>
                   <i className="fa fa-chart-simple" aria-hidden="true" />
-                  Analysis
+                  {window.innerWidth > 550 (<>
+                    Analysis
+                  </>)}
                 </div>
                 <div className="rowBtn" onClick={() => {
                   window.open(`${window.location.origin}/data-log?id=${sensorId}`,
                     '_blank').focus();
                 }}>
                   <i className="fa fa-list" aria-hidden="true" />
-                  Data Log
+                  {window.innerWidth > 550 (<>
+                    Data Log
+                  </>)}
                 </div>
                 <div className="device-settings">
                   <i className="fa fa-gear" aria-hidden="true" />
