@@ -771,7 +771,6 @@ class RawFileBrowser extends React.Component {
 
         renderedFiles = (
           <>
-            {header}
             <table cellSpacing="0" cellPadding="0">
               <tbody>
                 {contents}
@@ -823,7 +822,6 @@ class RawFileBrowser extends React.Component {
 
         renderedFiles = (
           <div>
-            {header}
             {contents}
           </div>
         )
@@ -841,6 +839,7 @@ class RawFileBrowser extends React.Component {
             <ConfirmMultipleDeletionRenderer
               handleDeleteSubmit={this.handleMultipleDeleteSubmit}
             />}
+          {header}
           <div className="files">
             {renderedFiles}
           </div>

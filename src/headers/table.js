@@ -30,7 +30,7 @@ class RawTableHeader extends React.Component {
   render() {
     const header = (
       <div
-        className={ClassNames('folder', {
+        className={ClassNames('file-browser-header', {
           dragover: this.props.isOver,
           selected: this.props.isSelected,
         })}
