@@ -86,7 +86,7 @@ class RawTableFile extends BaseFile {
                     '_blank').focus();
                 }}>
                   <i className="fa fa-chart-simple" aria-hidden="true" />
-                  {window.innerWidth > 550 (<>
+                  {(window.innerWidth > 550) && (<>
                     Analysis
                   </>)}
                 </div>
@@ -95,7 +95,7 @@ class RawTableFile extends BaseFile {
                     '_blank').focus();
                 }}>
                   <i className="fa fa-list" aria-hidden="true" />
-                  {window.innerWidth > 550 (<>
+                  {(window.innerWidth > 550) && (<>
                     Data Log
                   </>)}
                 </div>
