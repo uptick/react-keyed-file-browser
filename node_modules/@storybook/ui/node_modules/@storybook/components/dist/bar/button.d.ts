@@ -1,0 +1,10 @@
+/// <reference types="@emotion/core" />
+export interface TabButtonProps {
+    active?: boolean;
+    textColor?: string;
+}
+export declare const TabButton: import("@emotion/styled-base").StyledComponent<import("react").DetailedHTMLProps<import("react").ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, TabButtonProps, import("@storybook/theming").Theme>;
+export interface IconButtonProps {
+    active?: boolean;
+}
+export declare const IconButton: import("@emotion/styled-base").StyledComponent<import("react").DetailedHTMLProps<import("react").ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, IconButtonProps, import("@storybook/theming").Theme>;
