@@ -82,6 +82,7 @@ class RawTableFile extends BaseFile {
             {isSensor && (
               <>
                 <div className="rowBtn" onClick={() => {
+                  //
                   analysisFunc();
                 }}>
                   <i className="fa fa-chart-simple" aria-hidden="true" />
