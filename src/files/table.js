@@ -83,8 +83,6 @@ class RawTableFile extends BaseFile {
               <>
                 <div className="rowBtn" onClick={() => {
                   analysisFunc();
-                  window.open(`${window.location.origin}/analysis?id=${sensorId}`,
-                    '_blank').focus();
                 }}>
                   <i className="fa fa-chart-simple" aria-hidden="true" />
                   {(window.innerWidth > 550) && (<>
