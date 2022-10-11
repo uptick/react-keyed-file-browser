@@ -12,7 +12,7 @@ class RawTableFile extends BaseFile {
     const {
       isDragging, isDeleting, isRenaming, isOver, isSelected,
       action, url, browserProps, connectDragPreview,
-      depth, size, modified, isSensor, sensorId
+      depth, size, modified, isSensor, sensorId, analysisFunc
     } = this.props
 
     const icon = browserProps.icons[isSensor ? "Sensor" : this.getFileType()] ||
@@ -82,6 +82,7 @@ class RawTableFile extends BaseFile {
             {isSensor && (
               <>
                 <div className="rowBtn" onClick={() => {
+                  analysisFunc();
                   window.open(`${window.location.origin}/analysis?id=${sensorId}`,
                     '_blank').focus();
                 }}>
