@@ -129,7 +129,7 @@ class RawListThumbnailFile extends BaseFile {
 }
 
 const ListThumbnailFile = flow(
-  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), 
+  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect),
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawListThumbnailFile)
 

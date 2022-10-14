@@ -97,7 +97,7 @@ class RawTableFile extends BaseFile {
 }
 
 const TableFile = flow(
-  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), 
+  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect),
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawTableFile)
 

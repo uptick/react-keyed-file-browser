@@ -29,12 +29,13 @@ class BaseFile extends React.Component {
       moveFolder: PropTypes.func,
       renameFile: PropTypes.func,
       deleteFile: PropTypes.func,
+      actionTargets: PropTypes.object,
     }),
-  }
+  };
 
   state = {
     newName: this.getName(),
-  }
+  };
 
   selectFileNameFromRef(element) {
     if (element) {
@@ -70,26 +71,31 @@ class BaseFile extends React.Component {
       key: this.props.fileKey,
       extension: this.getExtension(),
     })
-  }
+  };
   handleItemClick = (event) => {
     event.stopPropagation()
-    this.props.browserProps.select(this.props.fileKey, 'file', event.ctrlKey || event.metaKey, event.shiftKey)
-  }
+    this.props.browserProps.select(
+      this.props.fileKey,
+      'file',
+      event.ctrlKey || event.metaKey,
+      event.shiftKey
+    )
+  };
   handleItemDoubleClick = (event) => {
     event.stopPropagation()
     this.handleFileClick()
-  }
+  };
 
   handleRenameClick = (event) => {
     if (!this.props.browserProps.renameFile) {
       return
     }
     this.props.browserProps.beginAction('rename', this.props.fileKey)
-  }
+  };
   handleNewNameChange = (event) => {
     const newName = event.target.value
     this.setState({ newName: newName })
-  }
+  };
   handleRenameSubmit = (event) => {
     if (event) {
       event.preventDefault()
@@ -108,7 +114,7 @@ class BaseFile extends React.Component {
       return
     }
     const invalidChar = ['/', '\\']
-    if (invalidChar.some(char => newName.indexOf(char) !== -1)) return
+    if (invalidChar.some((char) => newName.indexOf(char) !== -1)) return
     // todo: move to props handler
     // window.notify({
     //   style: 'error',
@@ -121,14 +127,14 @@ class BaseFile extends React.Component {
       newKey = `${this.props.fileKey.substr(0, slashIndex)}/${newName}`
     }
     this.props.browserProps.renameFile(this.props.fileKey, newKey)
-  }
+  };
 
   handleDeleteClick = (event) => {
     if (!this.props.browserProps.deleteFile) {
       return
     }
     this.props.browserProps.beginAction('delete', this.props.fileKey)
-  }
+  };
   handleDeleteSubmit = (event) => {
     event.preventDefault()
     if (!this.props.browserProps.deleteFile) {
@@ -136,14 +142,14 @@ class BaseFile extends React.Component {
     }
 
     this.props.browserProps.deleteFile(this.props.browserProps.actionTargets)
-  }
+  };
 
   handleCancelEdit = (event) => {
     this.props.browserProps.endAction()
-  }
+  };
 
   connectDND(render) {
-    const inAction = (this.props.isDragging || this.props.action)
+    const inAction = this.props.isDragging || this.props.action
     if (
       typeof this.props.browserProps.moveFile === 'function' &&
       !inAction &&
@@ -195,7 +201,7 @@ const targetSource = {
     }
     const key = props.newKey || props.fileKey
     const slashIndex = key.lastIndexOf('/')
-    const path = (slashIndex !== -1) ? key.substr(0, slashIndex + 1) : ''
+    const path = slashIndex !== -1 ? key.substr(0, slashIndex + 1) : ''
     const item = monitor.getItem()
     if (item.files && props.browserProps.createFiles) {
       props.browserProps.createFiles(item.files, path)
@@ -221,6 +227,4 @@ const BaseFileConnectors = {
 }
 
 export default BaseFile
-export {
-  BaseFileConnectors,
-}
+export { BaseFileConnectors }

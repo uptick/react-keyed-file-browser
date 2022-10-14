@@ -93,7 +93,7 @@ class RawTableFolder extends BaseFolder {
 }
 
 const TableFolder = flow(
-  DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect), 
+  DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect),
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawTableFolder)
 

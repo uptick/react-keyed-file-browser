@@ -607,7 +607,7 @@ class RawFileBrowser extends React.Component {
     const browserProps = this.getBrowserProps()
     let renderedFiles = []
 
-    files.map((file) => {
+    files.forEach((file) => {
       const thisItemProps = {
         ...browserProps.getItemProps(file, browserProps),
         depth: this.state.nameFilter ? 0 : depth,
@@ -659,9 +659,9 @@ class RawFileBrowser extends React.Component {
     if (this.state.nameFilter) {
       const filteredFiles = []
       const terms = this.state.nameFilter.toLowerCase().split(' ')
-      files.map((file) => {
+      files.forEach((file) => {
         let skip = false
-        terms.map((term) => {
+        terms.forEach((term) => {
           if (file.key.toLowerCase().trim().indexOf(term) === -1) {
             skip = true
           }
@@ -677,7 +677,7 @@ class RawFileBrowser extends React.Component {
       files = this.props.group(files, '')
     } else {
       const newFiles = []
-      files.map((file) => {
+      files.forEach((file) => {
         if (!isFolder(file)) {
           newFiles.push(file)
         }
@@ -720,6 +720,8 @@ class RawFileBrowser extends React.Component {
     let header
     /** @type any */
     let contents = this.renderFiles(files, 0)
+
+    const { headerRenderer, detailRenderer } = this.props
     switch (this.props.renderStyle) {
       case 'table':
         if (!contents.length) {
@@ -764,7 +766,7 @@ class RawFileBrowser extends React.Component {
         if (this.props.headerRenderer) {
           header = (
             <thead>
-              <this.props.headerRenderer
+              <headerRenderer
                 {...headerProps}
                 {...this.props.headerRendererProps}
               />
@@ -815,7 +817,7 @@ class RawFileBrowser extends React.Component {
 
         if (this.props.headerRenderer) {
           header = (
-            <this.props.headerRenderer
+            <headerRenderer
               {...headerProps}
               {...this.props.headerRendererProps}
             />
@@ -847,7 +849,7 @@ class RawFileBrowser extends React.Component {
           </div>
         </div>
         {this.state.previewFile !== null && (
-          <this.props.detailRenderer
+          <detailRenderer
             file={this.state.previewFile}
             close={this.closeDetail}
             {...this.props.detailRendererProps}

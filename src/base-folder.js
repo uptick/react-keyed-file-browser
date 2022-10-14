@@ -32,12 +32,14 @@ class BaseFolder extends React.Component {
       moveFolder: PropTypes.func,
       renameFolder: PropTypes.func,
       deleteFolder: PropTypes.func,
+
+      actionTargets: PropTypes.object,
     }),
-  }
+  };
 
   state = {
     newName: this.props.isDraft ? 'New folder' : this.getName(),
-  }
+  };
 
   selectFolderNameFromRef(element) {
     if (element) {
@@ -57,23 +59,28 @@ class BaseFolder extends React.Component {
 
   handleFolderClick = (event) => {
     event.stopPropagation()
-    this.props.browserProps.select(this.props.fileKey, 'folder', event.ctrlKey || event.metaKey, event.shiftKey)
-  }
+    this.props.browserProps.select(
+      this.props.fileKey,
+      'folder',
+      event.ctrlKey || event.metaKey,
+      event.shiftKey
+    )
+  };
   handleFolderDoubleClick = (event) => {
     event.stopPropagation()
     this.toggleFolder()
-  }
+  };
 
   handleRenameClick = (event) => {
     if (!this.props.browserProps.renameFolder) {
       return
     }
     this.props.browserProps.beginAction('rename', this.props.fileKey)
-  }
+  };
   handleNewNameChange = (event) => {
     const newName = event.target.value
     this.setState({ newName: newName })
-  }
+  };
   handleRenameSubmit = (event) => {
     event.preventDefault()
     event.stopPropagation()
@@ -91,7 +98,7 @@ class BaseFolder extends React.Component {
       return
     }
     const invalidChar = ['/', '\\']
-    if (invalidChar.some(char => newName.indexOf(char) !== -1)) return
+    if (invalidChar.some((char) => newName.indexOf(char) !== -1)) return
     // todo: move to props handler
     // window.notify({
     //   style: 'error',
@@ -99,7 +106,12 @@ class BaseFolder extends React.Component {
     //   body: 'Folder names cannot contain forward slashes.',
     // })
 
-    let newKey = this.props.fileKey.substr(0, this.props.fileKey.substr(0, this.props.fileKey.length - 1).lastIndexOf('/'))
+    let newKey = this.props.fileKey.substr(
+      0,
+      this.props.fileKey
+        .substr(0, this.props.fileKey.length - 1)
+        .lastIndexOf('/')
+    )
     if (newKey.length) {
       newKey += '/'
     }
@@ -110,14 +122,14 @@ class BaseFolder extends React.Component {
     } else {
       this.props.browserProps.renameFolder(this.props.fileKey, newKey)
     }
-  }
+  };
 
   handleDeleteClick = (event) => {
     if (!this.props.browserProps.deleteFolder) {
       return
     }
     this.props.browserProps.beginAction('delete', this.props.fileKey)
-  }
+  };
   handleDeleteSubmit = (event) => {
     event.preventDefault()
     event.stopPropagation()
@@ -125,18 +137,18 @@ class BaseFolder extends React.Component {
       return
     }
     this.props.browserProps.deleteFolder(this.props.browserProps.actionTargets)
-  }
+  };
 
   handleCancelEdit = (event) => {
     this.props.browserProps.endAction()
-  }
+  };
 
   toggleFolder = () => {
     this.props.browserProps.toggleFolder(this.props.fileKey)
-  }
+  };
 
   connectDND(render) {
-    const inAction = (this.props.isDragging || this.props.action)
+    const inAction = this.props.isDragging || this.props.action
     if (this.props.keyDerived) {
       if (
         typeof this.props.browserProps.moveFolder === 'function' &&
@@ -187,6 +199,4 @@ const BaseFolderConnectors = {
 }
 
 export default BaseFolder
-export {
-  BaseFolderConnectors,
-}
+export { BaseFolderConnectors }

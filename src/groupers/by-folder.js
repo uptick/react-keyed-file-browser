@@ -6,11 +6,11 @@ export default function(files, root) {
     children: {},
   }
 
-  files.map((file) => {
+  files.forEach((file) => {
     file.relativeKey = (file.newKey || file.key).substr(root.length)
     let currentFolder = fileTree
     const folders = file.relativeKey.split('/')
-    folders.map((folder, folderIndex) => {
+    folders.forEach((folder, folderIndex) => {
       if (folderIndex === folders.length - 1 && isFolder(file)) {
         for (const key in file) {
           currentFolder[key] = file[key]
