@@ -48,7 +48,7 @@
   "devDependencies": {
     "@sambego/storybook-state": "^2.0.1",
     "@storybook/preset-scss": "^1.0.3",
-    "@storybook/react": "^6.2.9",
+    "@storybook/react": "^6.5.12",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
     "css-loader": "5.2.6",
