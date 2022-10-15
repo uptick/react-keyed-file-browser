@@ -1,8 +1,13 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React from 'react'
 // drag and drop
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+
+// localization
+import { IntlProvider } from 'react-intl'
+import english from './locales/en-US'
+import turkish from './locales/tr-TR'
 
 // default components (most overridable)
 import { DefaultDetail } from './details'
@@ -20,6 +25,22 @@ import { SortByName } from './sorters'
 
 import { isFolder } from './utils'
 import { DefaultAction } from './actions'
+
+const locales = {
+  'en-US': english,
+  'tr-TR': turkish,
+}
+
+let GlobalIntl = null
+/**
+ * Takes an "id" string as input & returns localized string
+ *
+ * @params string - id
+ * @returns string  - localized string with related locale
+ */
+export const getIntl = (id) => {
+  return GlobalIntl[id] ? GlobalIntl[id] : id
+}
 
 const SEARCH_RESULTS_PER_PAGE = 20
 const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
@@ -53,6 +74,8 @@ class RawFileBrowser extends React.Component {
 
     group: PropTypes.func.isRequired,
     sort: PropTypes.func.isRequired,
+
+    locale: PropTypes.string,
 
     icons: PropTypes.shape({
       Folder: PropTypes.element,
@@ -111,6 +134,7 @@ class RawFileBrowser extends React.Component {
   }
 
   static defaultProps = {
+    locale: 'en-US',
     showActionBar: true,
     canFilter: true,
     showFoldersOnFilter: false,
@@ -507,6 +531,9 @@ class RawFileBrowser extends React.Component {
       confirmMultipleDeletionRenderer: this.props.confirmMultipleDeletionRenderer,
       icons: this.props.icons,
 
+      // localization
+      locale: this.props.locale,
+
       // browser state
       openFolders: this.state.openFolders,
       nameFilter: this.state.nameFilter,
@@ -836,38 +863,42 @@ class RawFileBrowser extends React.Component {
     const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer
 
     return (
-      <div className="rendered-react-keyed-file-browser">
-        {this.props.actions}
-        <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
-          {this.props.showActionBar && this.renderActionBar(selectedItems)}
-          {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
-            <ConfirmMultipleDeletionRenderer
-              handleDeleteSubmit={this.handleMultipleDeleteSubmit}
-            />}
-          <div className="files">
-            {renderedFiles}
+        <div className="rendered-react-keyed-file-browser">
+          {this.props.actions}
+          <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
+            {this.props.showActionBar && this.renderActionBar(selectedItems)}
+            {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
+              <ConfirmMultipleDeletionRenderer
+                handleDeleteSubmit={this.handleMultipleDeleteSubmit}
+              />}
+            <div className="files">
+              {renderedFiles}
+            </div>
           </div>
+          {this.state.previewFile !== null && (
+            <detailRenderer
+              file={this.state.previewFile}
+              close={this.closeDetail}
+              {...this.props.detailRendererProps}
+            />
+          )}
         </div>
-        {this.state.previewFile !== null && (
-          <detailRenderer
-            file={this.state.previewFile}
-            close={this.closeDetail}
-            {...this.props.detailRendererProps}
-          />
-        )}
-      </div>
     )
   }
 }
 
-class FileBrowser extends Component {
-  render() {
-    return (
-      <DndProvider backend={HTML5Backend}>
-        <RawFileBrowser {...this.props} />
-      </DndProvider>
-    )
-  }
+const FileBrowser = (props) => {
+  const currentLocale = locales[props.locale]
+  const intlProvider = new IntlProvider({ locale: currentLocale.locale, messages: currentLocale.messages })
+  GlobalIntl = intlProvider.props.messages
+
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <IntlProvider locale={currentLocale.locale} messages={currentLocale.messages}>
+        <RawFileBrowser {...props} />
+      </IntlProvider>
+    </DndProvider>
+  )
 }
 
 export default FileBrowser

@@ -6,6 +6,7 @@ import { DndProvider } from 'react-dnd'
 
 import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons, RawFileBrowser } from '../src'
 import './stories'
+import { getIntl } from '../src/browser'
 
 export default {
   title: 'File Browser',
@@ -45,16 +46,17 @@ const moreThan20Files = Array(21).fill(
     key: 'cat.png',
     modified: subHours(new Date(), 1).getTime(),
     size: 1.5 * 1024 * 1024,
-  },
+  }
 )
 
 const store = new Store({ files })
 const dndStore = new Store({ files })
 
-export const simpleFlatAndReadOnlyExample = () => <FileBrowser files={files} />
+export const simpleFlatAndReadOnlyExample = () => <FileBrowser locale="tr-TR" files={files} />
 
 export const differentRendersAndGroupers = () => (
   <FileBrowser
+    locale="tr-TR"
     icons={Icons.FontAwesome(4)}
     files={[
       {
@@ -110,6 +112,7 @@ export const customerRenderAndCustomNoMatchingFilesMessage = () => (
   <>
     <p>Search for a string not contained in the file names in order to see the custom No Results message.</p>
     <FileBrowser
+      locale="tr-TR"
       files={files}
       actionRenderer={() => (
         <ul className="item-actions">
@@ -132,21 +135,24 @@ export const moreThan20FilesWithCustomShowMore = () => (
   <>
     <p>Search for "cat" to see the Show More Results message at the bottom of the table.</p>
     <FileBrowser
+      locale="tr-TR"
       files={moreThan20Files}
-      showMoreResults="Show me more results"
+      showMoreResults={getIntl('messages.showMoreResults')}
     />
   </>
 )
 
 export const emptyFilesListWithCustomNoFilesMessage = () => (
   <FileBrowser
+    locale="tr-TR"
     files={[]}
-    noFilesMessage="There are no files."
+    noFilesMessage={getIntl('messages.noFiles')}
   />
 )
 
 export const groupByFolder = () => (
   <FileBrowser
+    locale="tr-TR"
     icons={Icons.FontAwesome(4)}
     files={[
       {
@@ -208,6 +214,7 @@ export const simpleFlatAndReadOnlyExampleWithBulkActions = () => (
   <State store={store}>
     {(state) => (
       <FileBrowser
+        locale="tr-TR"
         icons={Icons.FontAwesome(4)}
         onCreateFolder={(key) => {
           store.set({

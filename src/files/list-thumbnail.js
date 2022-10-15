@@ -7,6 +7,7 @@ import flow from 'lodash/flow'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
+import { getIntl } from '../browser.js'
 
 class RawListThumbnailFile extends BaseFile {
   static defaultProps = {
@@ -88,7 +89,7 @@ class RawListThumbnailFile extends BaseFile {
       if (!isRenaming && !isDeleting) {
         modified = (
           <span className="modified">
-            Last modified: {formatDistanceToNow(this.props.modified, { addSuffix: true })}
+            {getIntl('Last Modified')}: {formatDistanceToNow(this.props.modified, { addSuffix: true })}
           </span>
         )
       }

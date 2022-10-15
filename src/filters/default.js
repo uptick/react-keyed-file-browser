@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { getIntl } from '../browser'
 
 class Filter extends React.Component {
   static propTypes = {
@@ -16,7 +17,7 @@ class Filter extends React.Component {
     return (
       <input
         type="search"
-        placeholder="Filter files"
+        placeholder={getIntl('Filter Files')}
         value={this.props.value}
         onChange={this.handleFilterChange}
       />

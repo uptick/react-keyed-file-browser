@@ -1,6 +1,7 @@
 // @ts-nocheck
 import PropTypes from 'prop-types'
 import React from 'react'
+import { getIntl } from './browser';
 import { moveFilesAndFolders } from './utils'
 
 class BaseFolder extends React.Component {
@@ -38,7 +39,7 @@ class BaseFolder extends React.Component {
   };
 
   state = {
-    newName: this.props.isDraft ? 'New folder' : this.getName(),
+    newName: this.props.isDraft ? getIntl('New Folder') : this.getName(),
   };
 
   selectFolderNameFromRef(element) {

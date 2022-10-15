@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { getIntl } from '../browser'
 
 const Actions = (props) => {
   const {
@@ -42,15 +43,15 @@ const Actions = (props) => {
       let actionText
       switch (selectedItemsAction[0].action) {
         case 'delete':
-          actionText = 'Deleting ...'
+          actionText = `${getIntl('Deleting')} ...`
           break
 
         case 'rename':
-          actionText = 'Renaming ...'
+          actionText = `${getIntl('Renaming')} ...`
           break
 
         default:
-          actionText = 'Moving ...'
+          actionText = `${getIntl('Moving')} ...`
           break
       }
 
@@ -70,7 +71,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Folder}
-              &nbsp;Add Subfolder
+              &nbsp;{getIntl('Add Subfolder')}
             </a>
           </li>
         )
@@ -86,7 +87,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              &nbsp;{getIntl('Rename')}
             </a>
           </li>
         )
@@ -99,7 +100,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              &nbsp;{getIntl('Rename')}
             </a>
           </li>
         )
@@ -114,7 +115,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              &nbsp;{getIntl('Delete')}
             </a>
           </li>
         )
@@ -127,7 +128,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              &nbsp;{getIntl('Delete')}
             </a>
           </li>
         )
@@ -142,7 +143,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Download}
-              &nbsp;Download
+              &nbsp;{getIntl('Download')}
             </a>
           </li>
         )
@@ -165,7 +166,7 @@ const Actions = (props) => {
             role="button"
           >
             {icons.Folder}
-            &nbsp;Add Folder
+            &nbsp;{getIntl('Add Folder')}
           </a>
         </li>
       )
