@@ -66,7 +66,7 @@ const Actions = (props) => {
         actions.push(
           <li key="action-add-gateway">
             <a
-              onClick={onDeleteFolder}
+              onClick={addGateway}
               href="#"
               role="button"
             >
