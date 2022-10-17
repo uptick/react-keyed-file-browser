@@ -232,6 +232,8 @@ Actions.propTypes = {
 
   canDownloadFolder: PropTypes.bool,
   onDownloadFolder: PropTypes.func,
+
+  addGateway: PropTypes.func,
 }
 
 Actions.defaultProps = {
@@ -260,6 +262,8 @@ Actions.defaultProps = {
 
   canDownloadFolder: false,
   onDownloadFolder: null,
+
+  addGateway: null
 }
 
 export default Actions

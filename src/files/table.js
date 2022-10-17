@@ -13,7 +13,7 @@ class RawTableFile extends BaseFile {
       isDragging, isDeleting, isRenaming, isOver, isSelected,
       action, url, browserProps, connectDragPreview,
       depth, size, modified, isSensor, sensorId,
-      analysisFunc, dataLogFunc
+      analysisFunc, dataLogFunc, sensorSettings
     } = this.props
 
     const icon = browserProps.icons[isSensor ? "Sensor" : this.getFileType()] ||
@@ -98,7 +98,9 @@ class RawTableFile extends BaseFile {
                     Data Log
                   </>)}
                 </div>
-                <div className="device-settings">
+                <div className="device-settings" onClick={() => {
+                  sensorSettings();
+                }}>
                   <i className="fa fa-gear" aria-hidden="true" />
                 </div>
               </>

@@ -11,7 +11,8 @@ class RawTableFolder extends BaseFolder {
   render() {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
-      action, url, browserProps, connectDragPreview, depth, isGateway
+      action, url, browserProps, connectDragPreview, depth, isGateway,
+      gatewaySettings
     } = this.props
 
     const icon = browserProps.icons[isGateway ?
@@ -85,7 +86,9 @@ class RawTableFolder extends BaseFolder {
             {draggable}
             {isGateway && (
               <>
-                <div className="device-settings">
+                <div className="device-settings" onClick={() => {
+                  gatewaySettings();
+                }}>
                   <i className="fa fa-gear" aria-hidden="true" />
                 </div>
               </>
