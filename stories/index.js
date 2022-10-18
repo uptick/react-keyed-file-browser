@@ -52,7 +52,7 @@ const moreThan20Files = Array(21).fill(
 const store = new Store({ files })
 const dndStore = new Store({ files })
 
-export const simpleFlatAndReadOnlyExample = () => <FileBrowser locale="tr-TR" files={files} />
+export const simpleFlatAndReadOnlyExample = () => <FileBrowser locale="en-US" files={files} />
 
 export const differentRendersAndGroupers = () => (
   <FileBrowser
@@ -365,6 +365,7 @@ export const withCustomDNDProvider = () => (
     {(state) => (
       <DndProvider backend={HTML5Backend}>
         <RawFileBrowser
+          locale="tr-TR"
           icons={Icons.FontAwesome(4)}
           onCreateFolder={(key) => {
             dndStore.set({

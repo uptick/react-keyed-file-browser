@@ -26,6 +26,13 @@ const messages = {
   Download: 'İndir',
   Upload: 'Yükle',
 
+  // Dates
+  Yesterday: 'Dün',
+  Today: 'Bugün',
+  'Last Week': 'Geçtiğimiz Hafta',
+  'Earlier This Week': 'Bu Hafta İçinde',
+  'Earlier This Month': 'Bu Ay İçinde',
+
   // Confirmations
   'confirmations.delete': 'Silmeyi Onayla',
 
@@ -34,7 +41,6 @@ const messages = {
   'messages.noFiles': 'Dosya yok',
   'messages.showMoreResults': 'Daha fazla sonuç göster',
   'messages.noFilesMatch': 'Eşleşen dosya bulunamadı : ',
-
 
   'File Browser': 'Dosya Gezgini',
 

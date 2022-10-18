@@ -26,6 +26,13 @@ const messages = {
   Download: 'Download',
   Upload: 'Upload',
 
+  // dates
+  Yesterday: 'Yesterday',
+  Today: 'Today',
+  'Last Week': 'Last Week',
+  'Earlier This Week': 'Earlies This Week',
+  'Earlier This Month': 'Earlies This Month',
+
   // Confirmations
   'confirmations.delete': 'Confirm Deletion',
   // Messages

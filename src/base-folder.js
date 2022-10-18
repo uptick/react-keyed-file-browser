@@ -1,7 +1,7 @@
 // @ts-nocheck
 import PropTypes from 'prop-types'
 import React from 'react'
-import { getIntl } from './browser';
+import { getIntl } from './browser'
 import { moveFilesAndFolders } from './utils'
 
 class BaseFolder extends React.Component {

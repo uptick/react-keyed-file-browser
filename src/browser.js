@@ -1,3 +1,4 @@
+
 import PropTypes from 'prop-types'
 import React from 'react'
 // drag and drop
@@ -863,31 +864,32 @@ class RawFileBrowser extends React.Component {
     const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer
 
     return (
-        <div className="rendered-react-keyed-file-browser">
-          {this.props.actions}
-          <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
-            {this.props.showActionBar && this.renderActionBar(selectedItems)}
-            {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
-              <ConfirmMultipleDeletionRenderer
-                handleDeleteSubmit={this.handleMultipleDeleteSubmit}
-              />}
-            <div className="files">
-              {renderedFiles}
-            </div>
+      <div className="rendered-react-keyed-file-browser">
+        {this.props.actions}
+        <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
+          {this.props.showActionBar && this.renderActionBar(selectedItems)}
+          {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
+            <ConfirmMultipleDeletionRenderer
+              handleDeleteSubmit={this.handleMultipleDeleteSubmit}
+            />}
+          <div className="files">
+            {renderedFiles}
           </div>
-          {this.state.previewFile !== null && (
-            <detailRenderer
-              file={this.state.previewFile}
-              close={this.closeDetail}
-              {...this.props.detailRendererProps}
-            />
-          )}
         </div>
+        {this.state.previewFile !== null && (
+          <detailRenderer
+            file={this.state.previewFile}
+            close={this.closeDetail}
+            {...this.props.detailRendererProps}
+          />
+        )}
+      </div>
     )
   }
 }
 
 const FileBrowser = (props) => {
+  // eslint-disable-next-line react/prop-types
   const currentLocale = locales[props.locale]
   const intlProvider = new IntlProvider({ locale: currentLocale.locale, messages: currentLocale.messages })
   GlobalIntl = intlProvider.props.messages
