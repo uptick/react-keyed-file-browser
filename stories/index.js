@@ -52,11 +52,10 @@ const moreThan20Files = Array(21).fill(
 const store = new Store({ files })
 const dndStore = new Store({ files })
 
-export const simpleFlatAndReadOnlyExample = () => <FileBrowser locale="en-US" files={files} />
+export const simpleFlatAndReadOnlyExample = () => <FileBrowser files={files} />
 
 export const differentRendersAndGroupers = () => (
   <FileBrowser
-    locale="tr-TR"
     icons={Icons.FontAwesome(4)}
     files={[
       {
@@ -112,7 +111,6 @@ export const customerRenderAndCustomNoMatchingFilesMessage = () => (
   <>
     <p>Search for a string not contained in the file names in order to see the custom No Results message.</p>
     <FileBrowser
-      locale="tr-TR"
       files={files}
       actionRenderer={() => (
         <ul className="item-actions">
@@ -135,7 +133,6 @@ export const moreThan20FilesWithCustomShowMore = () => (
   <>
     <p>Search for "cat" to see the Show More Results message at the bottom of the table.</p>
     <FileBrowser
-      locale="tr-TR"
       files={moreThan20Files}
       showMoreResults={getIntl('messages.showMoreResults')}
     />
@@ -144,7 +141,6 @@ export const moreThan20FilesWithCustomShowMore = () => (
 
 export const emptyFilesListWithCustomNoFilesMessage = () => (
   <FileBrowser
-    locale="tr-TR"
     files={[]}
     noFilesMessage={getIntl('messages.noFiles')}
   />
@@ -152,7 +148,6 @@ export const emptyFilesListWithCustomNoFilesMessage = () => (
 
 export const groupByFolder = () => (
   <FileBrowser
-    locale="tr-TR"
     icons={Icons.FontAwesome(4)}
     files={[
       {
@@ -202,7 +197,7 @@ export const groupByFolder = () => (
       },
     ]}
     renderStyle="list"
-    onDownloadFile={() => {}}
+    onDownloadFile={() => { }}
     headerRenderer={null}
     group={Groupers.GroupByFolder}
     fileRenderer={FileRenderers.ListThumbnailFile}
@@ -214,7 +209,6 @@ export const simpleFlatAndReadOnlyExampleWithBulkActions = () => (
   <State store={store}>
     {(state) => (
       <FileBrowser
-        locale="tr-TR"
         icons={Icons.FontAwesome(4)}
         onCreateFolder={(key) => {
           store.set({
@@ -365,7 +359,6 @@ export const withCustomDNDProvider = () => (
     {(state) => (
       <DndProvider backend={HTML5Backend}>
         <RawFileBrowser
-          locale="tr-TR"
           icons={Icons.FontAwesome(4)}
           onCreateFolder={(key) => {
             dndStore.set({
@@ -383,7 +376,7 @@ export const withCustomDNDProvider = () => (
               let newKey = prefix
               if (
                 prefix !== '' &&
-              prefix.substring(prefix.length - 1, prefix.length) !== '/'
+                prefix.substring(prefix.length - 1, prefix.length) !== '/'
               ) {
                 newKey += '/'
               }
@@ -510,4 +503,54 @@ export const withCustomDNDProvider = () => (
       </DndProvider>
     )}
   </State>
+)
+
+export const withLocalization = () => (
+  <FileBrowser
+    locale="tr-TR"
+    icons={Icons.FontAwesome(4)}
+    files={[
+      {
+        key: 'cat.js',
+        modified: subHours(new Date(), 1).getTime(),
+        size: 1.5 * 1024 * 1024,
+      },
+      {
+        key: 'kitten.png',
+        modified: subDays(new Date(), 3).getTime(),
+        size: 545 * 1024,
+      },
+      {
+        key: 'elephant.png',
+        modified: subDays(new Date(), 3).getTime(),
+        size: 52 * 1024,
+      },
+      {
+        key: 'dog.png',
+        modified: subHours(new Date(), 1).getTime(),
+        size: 1.5 * 1024 * 1024,
+      },
+      {
+        key: 'turtle.png',
+        modified: subMonths(new Date(), 3).getTime(),
+        size: 545 * 1024,
+      },
+      {
+        key: 'gecko.png',
+        modified: subDays(new Date(), 2).getTime(),
+        size: 52 * 1024,
+      },
+      {
+        key: 'centipede.png',
+        modified: subHours(new Date(), 0.5).getTime(),
+        size: 1.5 * 1024 * 1024,
+      },
+      {
+        key: 'possum.png',
+        modified: subDays(new Date(), 32).getTime(),
+        size: 545 * 1024,
+      },
+    ]}
+
+  />
 )
