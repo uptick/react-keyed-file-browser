@@ -863,42 +863,43 @@ class RawFileBrowser extends React.Component {
 
     const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer
 
+    const currentLocale = locales[browserProps.locale]
+    const intlProvider = new IntlProvider({ locale: currentLocale.locale, messages: currentLocale.messages })
+    GlobalIntl = intlProvider.props.messages
+
     return (
-      <div className="rendered-react-keyed-file-browser">
-        {this.props.actions}
-        <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
-          {this.props.showActionBar && this.renderActionBar(selectedItems)}
-          {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
-            <ConfirmMultipleDeletionRenderer
-              handleDeleteSubmit={this.handleMultipleDeleteSubmit}
-            />}
-          <div className="files">
-            {renderedFiles}
+      <IntlProvider locale={currentLocale.locale} messages={currentLocale.messages}>
+
+        <div className="rendered-react-keyed-file-browser">
+          {this.props.actions}
+          <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
+            {this.props.showActionBar && this.renderActionBar(selectedItems)}
+            {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
+              <ConfirmMultipleDeletionRenderer
+                handleDeleteSubmit={this.handleMultipleDeleteSubmit}
+              />}
+            <div className="files">
+              {renderedFiles}
+            </div>
           </div>
+          {this.state.previewFile !== null && (
+            <DetailRenderer
+              file={this.state.previewFile}
+              close={this.closeDetail}
+              {...this.props.detailRendererProps}
+            />
+          )}
         </div>
-        {this.state.previewFile !== null && (
-          <DetailRenderer
-            file={this.state.previewFile}
-            close={this.closeDetail}
-            {...this.props.detailRendererProps}
-          />
-        )}
-      </div>
+      </IntlProvider>
+
     )
   }
 }
 
 const FileBrowser = (props) => {
-  // eslint-disable-next-line react/prop-types
-  const currentLocale = locales[props?.locale || 'en-US']
-  const intlProvider = new IntlProvider({ locale: currentLocale.locale, messages: currentLocale.messages })
-  GlobalIntl = intlProvider.props.messages
-
   return (
     <DndProvider backend={HTML5Backend}>
-      <IntlProvider locale={currentLocale.locale} messages={currentLocale.messages}>
-        <RawFileBrowser {...props} />
-      </IntlProvider>
+      <RawFileBrowser {...props} />
     </DndProvider>
   )
 }
