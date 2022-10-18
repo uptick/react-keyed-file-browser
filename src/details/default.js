@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { getIntl } from '../browser'
 
 class Detail extends React.Component {
@@ -34,7 +35,9 @@ class Detail extends React.Component {
           <dt>{getIntl('Name')}</dt>
           <dd>{name}</dd>
         </dl>
-        <a href="#" onClick={this.handleCloseClick}>Close</a>
+        <a href="#" onClick={this.handleCloseClick}>
+          <FormattedMessage id="Close" />
+        </a>
       </div>
     )
   }
