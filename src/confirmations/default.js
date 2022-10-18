@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { getIntl } from '../browser'
 
 const ConfirmDeletion = (props) => {
   const {
@@ -20,7 +21,7 @@ const ConfirmDeletion = (props) => {
       </a>
       <div>
         <button type="submit">
-          Confirm Deletion
+        {getIntl('confirmations.delete')}
         </button>
       </div>
     </form>

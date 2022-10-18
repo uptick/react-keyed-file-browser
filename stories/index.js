@@ -6,6 +6,7 @@ import { DndProvider } from 'react-dnd'
 
 import FileBrowser, { FileRenderers, FolderRenderers, Groupers, Icons, RawFileBrowser } from '../src'
 import './stories'
+import { getIntl } from '../src/browser'
 
 export default {
   title: 'File Browser',
@@ -45,7 +46,7 @@ const moreThan20Files = Array(21).fill(
     key: 'cat.png',
     modified: subHours(new Date(), 1).getTime(),
     size: 1.5 * 1024 * 1024,
-  },
+  }
 )
 
 const store = new Store({ files })
@@ -133,7 +134,7 @@ export const moreThan20FilesWithCustomShowMore = () => (
     <p>Search for "cat" to see the Show More Results message at the bottom of the table.</p>
     <FileBrowser
       files={moreThan20Files}
-      showMoreResults="Show me more results"
+      showMoreResults={getIntl('messages.showMoreResults')}
     />
   </>
 )
@@ -141,7 +142,7 @@ export const moreThan20FilesWithCustomShowMore = () => (
 export const emptyFilesListWithCustomNoFilesMessage = () => (
   <FileBrowser
     files={[]}
-    noFilesMessage="There are no files."
+    noFilesMessage={getIntl('messages.noFiles')}
   />
 )
 
@@ -196,7 +197,7 @@ export const groupByFolder = () => (
       },
     ]}
     renderStyle="list"
-    onDownloadFile={() => {}}
+    onDownloadFile={() => { }}
     headerRenderer={null}
     group={Groupers.GroupByFolder}
     fileRenderer={FileRenderers.ListThumbnailFile}
@@ -375,7 +376,7 @@ export const withCustomDNDProvider = () => (
               let newKey = prefix
               if (
                 prefix !== '' &&
-              prefix.substring(prefix.length - 1, prefix.length) !== '/'
+                prefix.substring(prefix.length - 1, prefix.length) !== '/'
               ) {
                 newKey += '/'
               }
@@ -502,4 +503,54 @@ export const withCustomDNDProvider = () => (
       </DndProvider>
     )}
   </State>
+)
+
+export const withLocalization = () => (
+  <FileBrowser
+    locale="tr-TR"
+    icons={Icons.FontAwesome(4)}
+    files={[
+      {
+        key: 'cat.js',
+        modified: subHours(new Date(), 1).getTime(),
+        size: 1.5 * 1024 * 1024,
+      },
+      {
+        key: 'kitten.png',
+        modified: subDays(new Date(), 3).getTime(),
+        size: 545 * 1024,
+      },
+      {
+        key: 'elephant.png',
+        modified: subDays(new Date(), 3).getTime(),
+        size: 52 * 1024,
+      },
+      {
+        key: 'dog.png',
+        modified: subHours(new Date(), 1).getTime(),
+        size: 1.5 * 1024 * 1024,
+      },
+      {
+        key: 'turtle.png',
+        modified: subMonths(new Date(), 3).getTime(),
+        size: 545 * 1024,
+      },
+      {
+        key: 'gecko.png',
+        modified: subDays(new Date(), 2).getTime(),
+        size: 52 * 1024,
+      },
+      {
+        key: 'centipede.png',
+        modified: subHours(new Date(), 0.5).getTime(),
+        size: 1.5 * 1024 * 1024,
+      },
+      {
+        key: 'possum.png',
+        modified: subDays(new Date(), 32).getTime(),
+        size: 545 * 1024,
+      },
+    ]}
+
+  />
 )

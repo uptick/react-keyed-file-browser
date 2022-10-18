@@ -1,3 +1,5 @@
+@use "sass:math"
+
 $action-size: 24px
 $folder-colour: #333
 $file-colour: #ccc
@@ -19,7 +21,7 @@ div.rendered-file-browser
           color: darken($selection-text-colour, 10%)
         a:not(.btn), &.folder a:not(.btn), i
           color: $selection-text-colour
-        background: $selection-colour
+          background: $selection-colour
 
     $file-spacing: 4px
     ul
@@ -51,7 +53,7 @@ div.rendered-file-browser
               text-align: center
               > i
                 line-height: $folder-size
-                font-size: $folder-size / 2.5
+                font-size: calc($folder-size / 2.5)
             form.renaming
               margin-top: 8px
               margin-right: 8px
@@ -66,10 +68,10 @@ div.rendered-file-browser
               padding-left: 0px
               margin-right: -1px
               margin-left: -1px
-            padding-bottom: 8px
-            border-bottom: 1px solid #eee
-            border-left: 4px solid #eee
-            border-right: 1px solid #eee
+              padding-bottom: 8px
+              border-bottom: 1px solid #eee
+              border-left: 4px solid #eee
+              border-right: 1px solid #eee
             &.selected
               border-bottom: 1px solid $selection-colour
               border-left: 4px solid $selection-colour

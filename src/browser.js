@@ -1,8 +1,10 @@
+
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React from 'react'
 // drag and drop
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+
 
 // default components (most overridable)
 import { DefaultDetail } from './details'
@@ -20,6 +22,29 @@ import { SortByName } from './sorters'
 
 import { isFolder } from './utils'
 import { DefaultAction } from './actions'
+
+// localization
+import { IntlProvider } from 'react-intl'
+import english from './locales/en-US'
+import turkish from './locales/tr-TR'
+import spanish from './locales/es-ES'
+
+const locales = {
+  'en-US': english,
+  'tr-TR': turkish,
+  'es-ES': spanish,
+}
+
+let GlobalIntl = null
+/**
+ * Takes an "id" string as input & returns localized string
+ *
+ * @params string - id
+ * @returns string  - localized string with related locale
+ */
+export const getIntl = (id) => {
+  return GlobalIntl && GlobalIntl[id] ? GlobalIntl[id] : id
+}
 
 const SEARCH_RESULTS_PER_PAGE = 20
 const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
@@ -53,6 +78,8 @@ class RawFileBrowser extends React.Component {
 
     group: PropTypes.func.isRequired,
     sort: PropTypes.func.isRequired,
+
+    locale: PropTypes.string,
 
     icons: PropTypes.shape({
       Folder: PropTypes.element,
@@ -111,6 +138,7 @@ class RawFileBrowser extends React.Component {
   }
 
   static defaultProps = {
+    locale: 'en-US',
     showActionBar: true,
     canFilter: true,
     showFoldersOnFilter: false,
@@ -507,6 +535,9 @@ class RawFileBrowser extends React.Component {
       confirmMultipleDeletionRenderer: this.props.confirmMultipleDeletionRenderer,
       icons: this.props.icons,
 
+      // localization
+      locale: this.props.locale,
+
       // browser state
       openFolders: this.state.openFolders,
       nameFilter: this.state.nameFilter,
@@ -607,7 +638,7 @@ class RawFileBrowser extends React.Component {
     const browserProps = this.getBrowserProps()
     let renderedFiles = []
 
-    files.map((file) => {
+    files.forEach((file) => {
       const thisItemProps = {
         ...browserProps.getItemProps(file, browserProps),
         depth: this.state.nameFilter ? 0 : depth,
@@ -659,9 +690,9 @@ class RawFileBrowser extends React.Component {
     if (this.state.nameFilter) {
       const filteredFiles = []
       const terms = this.state.nameFilter.toLowerCase().split(' ')
-      files.map((file) => {
+      files.forEach((file) => {
         let skip = false
-        terms.map((term) => {
+        terms.forEach((term) => {
           if (file.key.toLowerCase().trim().indexOf(term) === -1) {
             skip = true
           }
@@ -677,7 +708,7 @@ class RawFileBrowser extends React.Component {
       files = this.props.group(files, '')
     } else {
       const newFiles = []
-      files.map((file) => {
+      files.forEach((file) => {
         if (!isFolder(file)) {
           newFiles.push(file)
         }
@@ -720,6 +751,8 @@ class RawFileBrowser extends React.Component {
     let header
     /** @type any */
     let contents = this.renderFiles(files, 0)
+
+    const { headerRenderer: HeaderRenderer, detailRenderer: DetailRenderer } = this.props
     switch (this.props.renderStyle) {
       case 'table':
         if (!contents.length) {
@@ -761,10 +794,10 @@ class RawFileBrowser extends React.Component {
           }
         }
 
-        if (this.props.headerRenderer) {
+        if (HeaderRenderer) {
           header = (
             <thead>
-              <this.props.headerRenderer
+              <HeaderRenderer
                 {...headerProps}
                 {...this.props.headerRendererProps}
               />
@@ -813,9 +846,9 @@ class RawFileBrowser extends React.Component {
           )
         }
 
-        if (this.props.headerRenderer) {
+        if (HeaderRenderer) {
           header = (
-            <this.props.headerRenderer
+            <HeaderRenderer
               {...headerProps}
               {...this.props.headerRendererProps}
             />
@@ -833,39 +866,45 @@ class RawFileBrowser extends React.Component {
 
     const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer
 
+    const currentLocale = locales[browserProps.locale]
+    const intlProvider = new IntlProvider({ locale: currentLocale.locale, messages: currentLocale.messages })
+    GlobalIntl = intlProvider.props.messages
+
     return (
-      <div className="rendered-react-keyed-file-browser">
-        {this.props.actions}
-        <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
-          {this.props.showActionBar && this.renderActionBar(selectedItems)}
-          {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
-            <ConfirmMultipleDeletionRenderer
-              handleDeleteSubmit={this.handleMultipleDeleteSubmit}
-            />}
-          <div className="files">
-            {renderedFiles}
+      <IntlProvider locale={currentLocale.locale} messages={currentLocale.messages}>
+
+        <div className="rendered-react-keyed-file-browser">
+          {this.props.actions}
+          <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
+            {this.props.showActionBar && this.renderActionBar(selectedItems)}
+            {this.state.activeAction === 'delete' && this.state.selection.length > 1 &&
+              <ConfirmMultipleDeletionRenderer
+                handleDeleteSubmit={this.handleMultipleDeleteSubmit}
+              />}
+            <div className="files">
+              {renderedFiles}
+            </div>
           </div>
+          {this.state.previewFile !== null && (
+            <DetailRenderer
+              file={this.state.previewFile}
+              close={this.closeDetail}
+              {...this.props.detailRendererProps}
+            />
+          )}
         </div>
-        {this.state.previewFile !== null && (
-          <this.props.detailRenderer
-            file={this.state.previewFile}
-            close={this.closeDetail}
-            {...this.props.detailRendererProps}
-          />
-        )}
-      </div>
+      </IntlProvider>
+
     )
   }
 }
 
-class FileBrowser extends Component {
-  render() {
-    return (
-      <DndProvider backend={HTML5Backend}>
-        <RawFileBrowser {...this.props} />
-      </DndProvider>
-    )
-  }
+const FileBrowser = (props) => {
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <RawFileBrowser {...props} />
+    </DndProvider>
+  )
 }
 
 export default FileBrowser

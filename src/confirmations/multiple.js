@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { getIntl } from '../browser'
 
 const MultipleConfirmDeletion = (props) => {
   const {
@@ -8,7 +9,7 @@ const MultipleConfirmDeletion = (props) => {
 
   return (
     <button className="deleting" onClick={handleDeleteSubmit}>
-      Confirm Deletion
+      {getIntl('confirmations.delete')}
     </button>
   )
 }

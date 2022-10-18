@@ -6,18 +6,30 @@ import { formatDistanceToNow } from 'date-fns'
 import flow from 'lodash/flow'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
-import { fileSize } from './utils.js'
+import { fileSize, localizationMap } from './utils.js'
 
 class RawTableFile extends BaseFile {
   render() {
     const {
-      isDragging, isDeleting, isRenaming, isOver, isSelected,
-      action, url, browserProps, connectDragPreview,
-      depth, size, modified,
+      isDragging,
+      isDeleting,
+      isRenaming,
+      isOver,
+      isSelected,
+      action,
+      url,
+      browserProps,
+      connectDragPreview,
+      depth,
+      size,
+      modified,
     } = this.props
 
-    const icon = browserProps.icons[this.getFileType()] || browserProps.icons.File
-    const inAction = (isDragging || action)
+    const locale = localizationMap[browserProps.locale.split('-')[0]]
+
+    const icon =
+      browserProps.icons[this.getFileType()] || browserProps.icons.File
+    const inAction = isDragging || action
 
     const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer
 
@@ -49,22 +61,14 @@ class RawTableFile extends BaseFile {
       )
     } else {
       name = (
-        <a
-          href={url || '#'}
-          download="download"
-          onClick={this.handleFileClick}
-        >
+        <a href={url || '#'} download="download" onClick={this.handleFileClick}>
           {icon}
           {this.getName()}
         </a>
       )
     }
 
-    let draggable = (
-      <div>
-        {name}
-      </div>
-    )
+    let draggable = <div>{name}</div>
     if (typeof browserProps.moveFile === 'function') {
       draggable = connectDragPreview(draggable)
     }
@@ -81,13 +85,15 @@ class RawTableFile extends BaseFile {
         onDoubleClick={this.handleItemDoubleClick}
       >
         <td className="name">
-          <div style={{ paddingLeft: (depth * 16) + 'px' }}>
-            {draggable}
-          </div>
+          <div style={{ paddingLeft: depth * 16 + 'px' }}>{draggable}</div>
         </td>
         <td className="size">{fileSize(size)}</td>
         <td className="modified">
-          {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, { addSuffix: true })}
+          {typeof modified === 'undefined'
+            ? '-'
+            : formatDistanceToNow(modified, {
+              addSuffix: true, locale,
+            })}
         </td>
       </tr>
     )
@@ -97,8 +103,16 @@ class RawTableFile extends BaseFile {
 }
 
 const TableFile = flow(
-  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), 
-  DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
+  DragSource(
+    'file',
+    BaseFileConnectors.dragSource,
+    BaseFileConnectors.dragCollect
+  ),
+  DropTarget(
+    ['file', 'folder', NativeTypes.FILE],
+    BaseFileConnectors.targetSource,
+    BaseFileConnectors.targetCollect
+  )
 )(RawTableFile)
 
 export default TableFile

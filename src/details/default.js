@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { getIntl } from '../browser'
 
 class Detail extends React.Component {
   static propTypes = {
@@ -25,15 +27,17 @@ class Detail extends React.Component {
 
     return (
       <div>
-        <h2>Item Detail</h2>
+        <h2>{getIntl('Item Detail')}</h2>
         <dl>
-          <dt>Key</dt>
+          <dt>{getIntl('Key')}</dt>
           <dd>{this.props.file.key}</dd>
 
-          <dt>Name</dt>
+          <dt>{getIntl('Name')}</dt>
           <dd>{name}</dd>
         </dl>
-        <a href="#" onClick={this.handleCloseClick}>Close</a>
+        <a href="#" onClick={this.handleCloseClick}>
+          <FormattedMessage id="Close" />
+        </a>
       </div>
     )
   }
