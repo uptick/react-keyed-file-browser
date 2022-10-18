@@ -5,10 +5,6 @@ import React from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
-// localization
-import { IntlProvider } from 'react-intl'
-import english from './locales/en-US'
-import turkish from './locales/tr-TR'
 
 // default components (most overridable)
 import { DefaultDetail } from './details'
@@ -27,9 +23,17 @@ import { SortByName } from './sorters'
 import { isFolder } from './utils'
 import { DefaultAction } from './actions'
 
+
+// localization
+import { IntlProvider } from 'react-intl'
+import english from './locales/en-US'
+import turkish from './locales/tr-TR'
+import spanish from './locales/es-ES'
+
 const locales = {
   'en-US': english,
   'tr-TR': turkish,
+  'es-ES': spanish,
 }
 
 let GlobalIntl = null

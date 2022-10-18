@@ -11,10 +11,6 @@ const messages = {
   Size: 'Boyut',
   'Last Modified': 'Son Değiştirilme',
 
-  'actionTexts.rename': 'Yeniden adlandırılıyor ...',
-  'actionTexts.move': 'Taşınıyor ...',
-  'actionTexts.delete': 'Deleting ...',
-
   'Add Folder': 'Klasör Ekle',
   'New Folder': 'Yeni Klasör',
   'Add Subfolder': 'Alt Klasör Ekle',
@@ -42,7 +38,6 @@ const messages = {
   'messages.showMoreResults': 'Daha fazla sonuç göster',
   'messages.noFilesMatch': 'Eşleşen dosya bulunamadı : ',
 
-  'File Browser': 'Dosya Gezgini',
 
 }
 

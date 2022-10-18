@@ -11,10 +11,6 @@ const messages = {
   Size: 'Size',
   'Last Modified': 'Last Modified',
 
-  'actionTexts.rename': 'Renaming ...',
-  'actionTexts.move': 'Moving ...',
-  'actionTexts.delete': 'Deleting ...',
-
   'Add Folder': 'Add Folder',
   'New Folder': 'New Folder',
   'Add Subfolder': 'Add Subfolder',
@@ -41,7 +37,6 @@ const messages = {
   'messages.showMoreResults': 'Show more results',
   'messages.noFilesMatch': 'No matching files found : ',
 
-  'File Browser': 'File Browser',
 }
 
 export default {
