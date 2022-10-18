@@ -749,7 +749,7 @@ class RawFileBrowser extends React.Component {
     /** @type any */
     let contents = this.renderFiles(files, 0)
 
-    const { headerRenderer, detailRenderer } = this.props
+    const { headerRenderer: HeaderRenderer, detailRenderer: DetailRenderer } = this.props
     switch (this.props.renderStyle) {
       case 'table':
         if (!contents.length) {
@@ -791,10 +791,10 @@ class RawFileBrowser extends React.Component {
           }
         }
 
-        if (this.props.headerRenderer) {
+        if (HeaderRenderer) {
           header = (
             <thead>
-              <headerRenderer
+              <HeaderRenderer
                 {...headerProps}
                 {...this.props.headerRendererProps}
               />
@@ -843,9 +843,9 @@ class RawFileBrowser extends React.Component {
           )
         }
 
-        if (this.props.headerRenderer) {
+        if (HeaderRenderer) {
           header = (
-            <headerRenderer
+            <HeaderRenderer
               {...headerProps}
               {...this.props.headerRendererProps}
             />
@@ -877,7 +877,7 @@ class RawFileBrowser extends React.Component {
           </div>
         </div>
         {this.state.previewFile !== null && (
-          <detailRenderer
+          <DetailRenderer
             file={this.state.previewFile}
             close={this.closeDetail}
             {...this.props.detailRendererProps}
@@ -890,7 +890,7 @@ class RawFileBrowser extends React.Component {
 
 const FileBrowser = (props) => {
   // eslint-disable-next-line react/prop-types
-  const currentLocale = locales[props.locale]
+  const currentLocale = locales[props?.locale || 'en-US']
   const intlProvider = new IntlProvider({ locale: currentLocale.locale, messages: currentLocale.messages })
   GlobalIntl = intlProvider.props.messages
 
