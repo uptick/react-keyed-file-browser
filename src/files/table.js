@@ -3,11 +3,10 @@ import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { formatDistanceToNow } from 'date-fns'
-import { enUS, tr, es } from 'date-fns/locale'
 import flow from 'lodash/flow'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
-import { fileSize } from './utils.js'
+import { fileSize, localizationMap } from './utils.js'
 
 class RawTableFile extends BaseFile {
   render() {
@@ -26,9 +25,7 @@ class RawTableFile extends BaseFile {
       modified,
     } = this.props
 
-    const langSet = { en: enUS, tr, es, }
-
-    const locale = langSet[browserProps.locale.split('-')[0]]
+    const locale = localizationMap[browserProps.locale.split('-')[0]]
 
     const icon =
       browserProps.icons[this.getFileType()] || browserProps.icons.File

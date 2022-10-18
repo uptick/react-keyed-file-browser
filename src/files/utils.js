@@ -1,3 +1,6 @@
+import { enUS, tr, es } from 'date-fns/locale'
+
+
 function floatPrecision(floatValue, precision) {
   floatValue = parseFloat(floatValue)
   if (isNaN(floatValue)) { return parseFloat('0').toFixed(precision) } else {
@@ -19,4 +22,8 @@ function fileSize(size) {
   return `${size} B`
 }
 
-export { floatPrecision, fileSize }
+const localizationMap = {
+  en: enUS, tr, es,
+}
+
+export { floatPrecision, fileSize, localizationMap }

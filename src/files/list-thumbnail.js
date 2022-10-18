@@ -6,7 +6,7 @@ import { formatDistanceToNow } from 'date-fns'
 import flow from 'lodash/flow'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
-import { fileSize } from './utils.js'
+import { fileSize, localizationMap } from './utils.js'
 import { getIntl } from '../browser.js'
 
 class RawListThumbnailFile extends BaseFile {
@@ -23,6 +23,8 @@ class RawListThumbnailFile extends BaseFile {
       isDragging, isRenaming, isSelected, isSelectable, isOver, isDeleting,
       showName, showSize, showModified, browserProps, connectDragPreview,
     } = this.props
+
+    const locale = localizationMap[browserProps.locale.split('-')[0]]
 
     let icon
     if (thumbnailUrl) {
@@ -89,7 +91,7 @@ class RawListThumbnailFile extends BaseFile {
       if (!isRenaming && !isDeleting) {
         modified = (
           <span className="modified">
-            {getIntl('Last Modified')}: {formatDistanceToNow(this.props.modified, { addSuffix: true })}
+            {getIntl('Last Modified')}: {formatDistanceToNow(this.props.modified, { addSuffix: true, locale })}
           </span>
         )
       }
