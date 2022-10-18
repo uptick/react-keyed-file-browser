@@ -23,7 +23,6 @@ import { SortByName } from './sorters'
 import { isFolder } from './utils'
 import { DefaultAction } from './actions'
 
-
 // localization
 import { IntlProvider } from 'react-intl'
 import english from './locales/en-US'
@@ -44,7 +43,7 @@ let GlobalIntl = null
  * @returns string  - localized string with related locale
  */
 export const getIntl = (id) => {
-  return GlobalIntl[id] ? GlobalIntl[id] : id
+  return GlobalIntl && GlobalIntl[id] ? GlobalIntl[id] : id
 }
 
 const SEARCH_RESULTS_PER_PAGE = 20
