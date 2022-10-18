@@ -1,3 +1,5 @@
+@use "sass:math"
+
 $action-size: 24px
 $folder-colour: #333
 $file-colour: #ccc
@@ -51,7 +53,7 @@ div.rendered-file-browser
               text-align: center
               > i
                 line-height: $folder-size
-                font-size: $folder-size / 2.5
+                font-size: math.div($folder-size, 2.5)
             form.renaming
               margin-top: 8px
               margin-right: 8px
