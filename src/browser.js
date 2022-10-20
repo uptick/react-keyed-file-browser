@@ -227,6 +227,10 @@ class RawFileBrowser extends React.Component {
     })
   }
 
+  addGateway = () => {
+    this.props.addGateway();
+  }
+
   moveFile = (oldKey, newKey) => {
     this.setState({
       activeAction: null,
@@ -538,6 +542,8 @@ class RawFileBrowser extends React.Component {
       deleteFile: this.props.onDeleteFile ? this.deleteFile : undefined,
       deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : undefined,
 
+      addGateway: this.props.addGateway ? this.addGateway : undefined,
+
       getItemProps: getItemProps,
     }
   }
@@ -549,7 +555,7 @@ class RawFileBrowser extends React.Component {
       actionRenderer: ActionRenderer,
       onCreateFolder, onRenameFile, onRenameFolder,
       onDeleteFile, onDeleteFolder, onDownloadFile,
-      onDownloadFolder,
+      onDownloadFolder, addGateway
     } = this.props
     const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))

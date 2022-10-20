@@ -176,7 +176,7 @@ const Actions = (props) => {
         <li key="action-add-gateway">
           <a
             onClick={() => {
-              console.log("CLICKED");
+              console.log("CLICKED1");
               addGateway();
             }}
             href="#"
