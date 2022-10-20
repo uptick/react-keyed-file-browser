@@ -66,7 +66,11 @@ const Actions = (props) => {
         actions.push(
           <li key="action-add-gateway">
             <a
-              onClick={addGateway}
+              onClick={() => {
+                console.log(selectedItems[0]);
+                selectedItems[0].addGateway();
+              }}
+              //onClick={() => addGateway()}
               href="#"
               role="button"
             >
@@ -173,7 +177,9 @@ const Actions = (props) => {
       actions.push(
         <li key="action-add-gateway">
           <a
-            onClick={addGateway}
+            onClick={() => {
+              selectedItems[0].addGateway();
+            }}
             href="#"
             role="button"
           >
