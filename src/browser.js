@@ -99,6 +99,12 @@ class RawFileBrowser extends React.Component {
     onDownloadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDownloadFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 
+    // CUSTOM FUNCTIONS START
+
+    addGateway: PropTypes.func,
+
+    // CUSTOM FUNCTIONS END
+
     onSelect: PropTypes.func,
     onSelectFile: PropTypes.func,
     onSelectFolder: PropTypes.func,
@@ -588,6 +594,8 @@ class RawFileBrowser extends React.Component {
 
         canDownloadFolder={typeof onDownloadFolder === 'function'}
         onDownloadFolder={this.handleActionBarDownloadClick}
+
+        addGateway={this.addGateway}
       />
     )
 
