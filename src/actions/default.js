@@ -29,11 +29,26 @@ const Actions = (props) => {
     canDownloadFolder,
     onDownloadFolder,
 
+    // Custom Props
     addGateway,
+    share,
   } = props;
 
   /** @type any */
-  let actions = []
+  let actions = [<>
+    <li key="action-share">
+      <a
+        onClick={() => {
+          share();
+        }}
+        href="#"
+        role="button"
+      >
+        {icons.Share}
+        Share
+      </a>
+    </li>
+  </>]
 
   if (selectedItems.length) {
     // Something is selected. Build custom actions depending on what it is.
@@ -67,7 +82,7 @@ const Actions = (props) => {
           <li key="action-add-gateway">
             <a
               onClick={() => {
-                selectedItems[0].addGateway();
+                addGateway();
               }}
               href="#"
               role="button"
@@ -176,7 +191,6 @@ const Actions = (props) => {
         <li key="action-add-gateway">
           <a
             onClick={() => {
-              console.log("CLICKED1");
               addGateway();
             }}
             href="#"
@@ -238,7 +252,9 @@ Actions.propTypes = {
   canDownloadFolder: PropTypes.bool,
   onDownloadFolder: PropTypes.func,
 
+  // Custom Actions
   addGateway: PropTypes.func,
+  share: PropTypes.func,
 }
 
 Actions.defaultProps = {
@@ -268,6 +284,8 @@ Actions.defaultProps = {
   canDownloadFolder: false,
   onDownloadFolder: null,
 
+  // Custom Props
+  share: null,
   addGateway: null
 }
 

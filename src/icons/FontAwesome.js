@@ -66,6 +66,10 @@ const FontAwesomeIcons = (majorVersion = 4) => {
           className="gatewayAddFileIcon"
           aria-hidden="true"
         />,
+        Share: <i
+          className="shareFileIcon"
+          aria-hidden="true"
+        />,
         Loading: <i className="fa fa-circle-o-notch fa-spin" aria-hidden="true" />,
         Download: <i className="fa fa-download" aria-hidden="true" />,
       }

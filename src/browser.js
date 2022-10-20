@@ -99,12 +99,6 @@ class RawFileBrowser extends React.Component {
     onDownloadFile: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onDownloadFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 
-    // CUSTOM FUNCTIONS START
-
-    addGateway: PropTypes.func,
-
-    // CUSTOM FUNCTIONS END
-
     onSelect: PropTypes.func,
     onSelectFile: PropTypes.func,
     onSelectFolder: PropTypes.func,
@@ -114,6 +108,10 @@ class RawFileBrowser extends React.Component {
 
     onFolderOpen: PropTypes.func,
     onFolderClose: PropTypes.func,
+
+    // Custom actions
+    addGateway: PropTypes.func,
+    share: PropTypes.func
   }
 
   static defaultProps = {
@@ -225,10 +223,6 @@ class RawFileBrowser extends React.Component {
     }, () => {
       this.props.onCreateFolder(key)
     })
-  }
-
-  addGateway = () => {
-    this.props.addGateway();
   }
 
   moveFile = (oldKey, newKey) => {
@@ -505,6 +499,16 @@ class RawFileBrowser extends React.Component {
     })
   }
 
+  // Custom functions
+
+  addGateway = () => {
+    this.props.addGateway();
+  }
+
+  share = () => {
+    this.props.share();
+  }
+
   getBrowserProps() {
     return {
       // browser config
@@ -542,9 +546,11 @@ class RawFileBrowser extends React.Component {
       deleteFile: this.props.onDeleteFile ? this.deleteFile : undefined,
       deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : undefined,
 
-      addGateway: this.props.addGateway ? this.addGateway : undefined,
-
       getItemProps: getItemProps,
+
+      // Custom functions
+      addGateway: this.props.addGateway ? this.addGateway : undefined,
+      share: this.props.share ? this.share : undefined,
     }
   }
 
@@ -555,7 +561,7 @@ class RawFileBrowser extends React.Component {
       actionRenderer: ActionRenderer,
       onCreateFolder, onRenameFile, onRenameFolder,
       onDeleteFile, onDeleteFolder, onDownloadFile,
-      onDownloadFolder, addGateway
+      onDownloadFolder
     } = this.props
     const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
@@ -601,7 +607,9 @@ class RawFileBrowser extends React.Component {
         canDownloadFolder={typeof onDownloadFolder === 'function'}
         onDownloadFolder={this.handleActionBarDownloadClick}
 
+        // Custom Actions
         addGateway={this.addGateway}
+        share={this.share}
       />
     )
 
