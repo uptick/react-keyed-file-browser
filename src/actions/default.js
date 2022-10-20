@@ -39,7 +39,7 @@ const Actions = (props) => {
     <li key="action-share">
       <a
         onClick={() => {
-          share();
+          share(selectedItems.length ? selectedItems[0] : "root");
         }}
         href="#"
         role="button"
@@ -82,7 +82,7 @@ const Actions = (props) => {
           <li key="action-add-gateway">
             <a
               onClick={() => {
-                addGateway();
+                addGateway(selectedItems[0]);
               }}
               href="#"
               role="button"
@@ -191,7 +191,7 @@ const Actions = (props) => {
         <li key="action-add-gateway">
           <a
             onClick={() => {
-              addGateway();
+              addGateway("root");
             }}
             href="#"
             role="button"
