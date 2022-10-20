@@ -501,12 +501,12 @@ class RawFileBrowser extends React.Component {
 
   // Custom functions
 
-  addGateway = () => {
-    this.props.addGateway();
+  addGateway = (e) => {
+    this.props.addGateway(e);
   }
 
-  share = () => {
-    this.props.share();
+  share = (e) => {
+    this.props.share(e);
   }
 
   getBrowserProps() {
