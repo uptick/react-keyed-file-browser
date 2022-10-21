@@ -110,6 +110,7 @@ class RawFileBrowser extends React.Component {
     onFolderClose: PropTypes.func,
 
     // Custom actions
+    sensorSettings: PropTypes.func,
     gatewaySettings: PropTypes.func,
     addGateway: PropTypes.func,
     share: PropTypes.func
@@ -502,6 +503,10 @@ class RawFileBrowser extends React.Component {
 
   // Custom functions
 
+  sensorSettings = (e) => {
+    this.props.sensorSettings(e);
+  }
+
   gatewaySettings = (e) => {
     this.props.gatewaySettings(e);
   }
@@ -554,6 +559,7 @@ class RawFileBrowser extends React.Component {
       getItemProps: getItemProps,
 
       // Custom functions
+      sensorSettings: this.props.sensorSettings ? this.sensorSettings : undefined,
       gatewaySettings: this.props.gatewaySettings ? this.gatewaySettings : undefined,
       addGateway: this.props.addGateway ? this.addGateway : undefined,
       share: this.props.share ? this.share : undefined,
@@ -648,6 +654,7 @@ class RawFileBrowser extends React.Component {
             {...thisItemProps}
             browserProps={browserProps}
             {...fileRendererProps}
+            sensorSettings={this.sensorSettings}
           />
         )
       } else {
