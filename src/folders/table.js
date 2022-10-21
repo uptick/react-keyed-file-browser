@@ -11,8 +11,15 @@ class RawTableFolder extends BaseFolder {
   render() {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
-      action, url, browserProps, connectDragPreview, depth, isGateway,
-      gatewaySettings
+      action, url, browserProps, connectDragPreview, depth, 
+
+      // Gateway Data
+      isGateway,
+      gatewaySettings,
+      name,
+      id,
+      password,
+      description
     } = this.props
 
     const icon = browserProps.icons[isGateway ?
@@ -22,9 +29,9 @@ class RawTableFolder extends BaseFolder {
 
     const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer
 
-    let name
+    let nameLbl
     if (!inAction && isDeleting && browserProps.selection.length === 1) {
-      name = (
+      nameLbl = (
         <ConfirmDeletionRenderer
           handleDeleteSubmit={this.handleDeleteSubmit}
           handleFileClick={this.handleFileClick}
@@ -35,7 +42,7 @@ class RawTableFolder extends BaseFolder {
         </ConfirmDeletionRenderer>
       )
     } else if ((!inAction && isRenaming) || isDraft) {
-      name = (
+      nameLbl = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
             {icon}
@@ -51,7 +58,7 @@ class RawTableFolder extends BaseFolder {
         </div>
       )
     } else {
-      name = (
+      nameLbl = (
         <div>
           <a onClick={this.toggleFolder}>
             {icon}
@@ -63,7 +70,7 @@ class RawTableFolder extends BaseFolder {
 
     let draggable = (
       <div className="nameLbl">
-        {name}
+        {nameLbl}
       </div>
     )
     if (typeof browserProps.moveFile === 'function') {
@@ -87,7 +94,12 @@ class RawTableFolder extends BaseFolder {
             {isGateway && (
               <>
                 <div className="device-settings" onClick={() => {
-                  gatewaySettings();
+                  gatewaySettings({
+                    name: name,
+                    id: id,
+                    password: password,
+                    description: description
+                  });
                 }}>
                   <i className="fa fa-gear" aria-hidden="true" />
                 </div>
