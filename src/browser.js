@@ -110,6 +110,7 @@ class RawFileBrowser extends React.Component {
     onFolderClose: PropTypes.func,
 
     // Custom actions
+    gatewaySettings: PropTypes.func,
     addGateway: PropTypes.func,
     share: PropTypes.func
   }
@@ -501,6 +502,10 @@ class RawFileBrowser extends React.Component {
 
   // Custom functions
 
+  gatewaySettings = (e) => {
+    this.props.gatewaySettings(e);
+  }
+
   addGateway = (e) => {
     this.props.addGateway(e);
   }
@@ -549,6 +554,7 @@ class RawFileBrowser extends React.Component {
       getItemProps: getItemProps,
 
       // Custom functions
+      gatewaySettings: this.props.gatewaySettings ? this.gatewaySettings : undefined,
       addGateway: this.props.addGateway ? this.addGateway : undefined,
       share: this.props.share ? this.share : undefined,
     }
@@ -652,6 +658,7 @@ class RawFileBrowser extends React.Component {
               {...thisItemProps}
               browserProps={browserProps}
               {...folderRendererProps}
+              gatewaySettings={this.gatewaySettings}
             />
           )
         }
