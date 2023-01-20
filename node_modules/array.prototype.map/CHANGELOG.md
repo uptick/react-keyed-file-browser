@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.5](https://github.com/es-shims/Array.prototype.map/compare/v1.0.4...v1.0.5) - 2022-11-03
+
+### Commits
+
+- [actions] reuse common workflows [`c793092`](https://github.com/es-shims/Array.prototype.map/commit/c793092afae6c6df1a12f83c18b8710993039307)
+- [meta] use `npmignore` to autogenerate an npmignore file [`6ec9705`](https://github.com/es-shims/Array.prototype.map/commit/6ec97053be3365748623b9f08460ab0ef98e4a66)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `@es-shims/api`, `safe-publish-latest`, `tape` [`7d2b675`](https://github.com/es-shims/Array.prototype.map/commit/7d2b675dca7a1ccab28dde7c5fab390d6cdc4d8a)
+- [Deps] update `define-properties`, `es-abstract` [`884c2f1`](https://github.com/es-shims/Array.prototype.map/commit/884c2f11a9fed3053af348f627b2ff9248c95cfd)
+- [Tests] add species coverage [`2b6df28`](https://github.com/es-shims/Array.prototype.map/commit/2b6df287c84751c910d3f01d009600684e2b6255)
+- [actions] update rebase action to use reusable workflow [`01ccb07`](https://github.com/es-shims/Array.prototype.map/commit/01ccb07c7f77bc218f54de61b2fff3a0479be037)
+- [actions] update codecov uploader [`1eec671`](https://github.com/es-shims/Array.prototype.map/commit/1eec67117364ee2913bd5a16e336b22c9e13ae5d)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `aud`, `auto-changelog`, `tape` [`b8ae81b`](https://github.com/es-shims/Array.prototype.map/commit/b8ae81b535728ca06b2ea976c6be97b9e1262cc7)
+- [Dev Deps] update `aud`, `functions-have-names`, `tape` [`6f2ccae`](https://github.com/es-shims/Array.prototype.map/commit/6f2ccaed5367de01519d96ba25a95966f1f30df2)
+- [Deps] update `es-abstract` [`be80326`](https://github.com/es-shims/Array.prototype.map/commit/be80326dea4dd9baff2b84fa8cc8891fd74f967e)
+- [Deps] update `es-abstract` [`1450f7d`](https://github.com/es-shims/Array.prototype.map/commit/1450f7d8b02eddd30762e7f81d3a8cc721642d4c)
+- [Deps] update `es-abstract` [`8195a0e`](https://github.com/es-shims/Array.prototype.map/commit/8195a0e83620fa05ae03e2617b07b6937cfc3733)
+
 ## [v1.0.4](https://github.com/es-shims/Array.prototype.map/compare/v1.0.3...v1.0.4) - 2021-10-01
 
 ### Commits

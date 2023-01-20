@@ -2,12 +2,20 @@
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
 */
+
 "use strict";
+
+const makeSerializable = require("../util/makeSerializable");
 const HarmonyImportDependency = require("./HarmonyImportDependency");
+const NullDependency = require("./NullDependency");
+
+/** @typedef {import("webpack-sources").ReplaceSource} ReplaceSource */
+/** @typedef {import("../Dependency")} Dependency */
+/** @typedef {import("../DependencyTemplate").DependencyTemplateContext} DependencyTemplateContext */
 
 class HarmonyAcceptImportDependency extends HarmonyImportDependency {
-	constructor(request, originModule, parserScope) {
-		super(request, originModule, NaN, parserScope);
+	constructor(request) {
+		super(request, NaN);
 		this.weak = true;
 	}
 
@@ -16,8 +24,14 @@ class HarmonyAcceptImportDependency extends HarmonyImportDependency {
 	}
 }
 
-HarmonyAcceptImportDependency.Template = class HarmonyAcceptImportDependencyTemplate extends HarmonyImportDependency.Template {
-	apply(dep, source, runtime) {}
-};
+makeSerializable(
+	HarmonyAcceptImportDependency,
+	"webpack/lib/dependencies/HarmonyAcceptImportDependency"
+);
+
+HarmonyAcceptImportDependency.Template =
+	/** @type {typeof HarmonyImportDependency.Template} */ (
+		NullDependency.Template
+	);
 
 module.exports = HarmonyAcceptImportDependency;

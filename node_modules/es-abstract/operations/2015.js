@@ -60,6 +60,9 @@ module.exports = {
 	Completion: {
 		url: 'https://262.ecma-international.org/6.0/#sec-implicit-completion-values'
 	},
+	CompletionRecord: {
+		url: 'https://262.ecma-international.org/6.0/#sec-completion-record-specification-type'
+	},
 	Construct: {
 		url: 'https://262.ecma-international.org/6.0/#sec-construct'
 	},
@@ -293,9 +296,6 @@ module.exports = {
 	},
 	HasProperty: {
 		url: 'https://262.ecma-international.org/6.0/#sec-hasproperty'
-	},
-	HostResolveImportedModule: {
-		url: 'sec-hostresolveimportedmodule'
 	},
 	HourFromTime: {
 		url: 'https://262.ecma-international.org/6.0/#sec-hours-minutes-second-and-milliseconds'
@@ -731,6 +731,9 @@ module.exports = {
 	},
 	ValidateAndApplyPropertyDescriptor: {
 		url: 'https://262.ecma-international.org/6.0/#sec-validateandapplypropertydescriptor'
+	},
+	ValidateTypedArray: {
+		url: 'https://262.ecma-international.org/6.0/#sec-validatetypedarray'
 	},
 	WeekDay: {
 		url: 'https://262.ecma-international.org/6.0/#sec-week-day'

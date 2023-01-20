@@ -1,25 +1,20 @@
 var proxy = require('./proxy'),
-  userAgent = require('./useragent');
+  userAgent = require('./useragent'),
+  rejectUnauthorized = require('./rejectUnauthorized');
 
 /**
- * The options passed to request when downloading the bibary
+ * The options passed to make-fetch-happen when downloading the binary
  *
- * There some nuance to how request handles options. Specifically
- * we've been caught by their usage of `hasOwnProperty` rather than
- * falsey checks. By moving the options generation into a util helper
- * we can test for regressions.
- *
- * @return {Object} an options object for request
+ * @return {Object} an options object for make-fetch-happen
  * @api private
  */
 module.exports = function() {
   var options = {
-    rejectUnauthorized: false,
+    strictSSL: rejectUnauthorized(),
     timeout: 60000,
     headers: {
       'User-Agent': userAgent(),
     },
-    encoding: null,
   };
 
   var proxyConfig = proxy();

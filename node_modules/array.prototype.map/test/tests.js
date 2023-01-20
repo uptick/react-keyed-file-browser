@@ -164,4 +164,23 @@ module.exports = function (map, t) {
 
 		st.end();
 	});
+
+	t.test('Symbol.species', { skip: typeof Symbol !== 'function' || typeof Symbol.species !== 'symbol' }, function (st) {
+		var a = [1];
+		var callCount = 0;
+		var cb = function () {
+			callCount += 1;
+		};
+
+		a.constructor = {};
+		a.constructor[Symbol.species] = parseInt;
+
+		st['throws'](
+			function () { map(a, cb); },
+			TypeError
+		);
+		st.equal(callCount, 0);
+
+		st.end();
+	});
 };

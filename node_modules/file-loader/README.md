@@ -102,7 +102,10 @@ module.exports = {
         test: /\.(png|jpe?g|gif)$/i,
         loader: 'file-loader',
         options: {
-          name(file) {
+          name(resourcePath, resourceQuery) {
+            // `resourcePath` - `/absolute/path/to/file.js`
+            // `resourceQuery` - `?foo=bar`
+
             if (process.env.NODE_ENV === 'development') {
               return '[path][name].[ext]';
             }
@@ -184,7 +187,7 @@ module.exports = {
 ### `publicPath`
 
 Type: `String|Function`
-Default: [`__webpack_public_path__`](https://webpack.js.org/api/module-variables/#__webpack_public_path__-webpack-specific-)
+Default: [`__webpack_public_path__`](https://webpack.js.org/api/module-variables/#__webpack_public_path__-webpack-specific-)+outputPath
 
 Specifies a custom public path for the target file(s).
 
@@ -375,12 +378,15 @@ module.exports = {
 
 > ℹ️ If `[0]` is used, it will be replaced by the entire tested string, whereas `[1]` will contain the first capturing parenthesis of your regex and so on...
 
-### `esModules`
+### `esModule`
 
 Type: `Boolean`
-Default: `false`
+Default: `true`
 
-By default, `file-loader` generates JS modules that use the CommonJS syntax. However, there are some cases in which using ES2015 modules is beneficial, like in the case of [module concatenation](https://webpack.js.org/plugins/module-concatenation-plugin/) and [tree shaking](https://webpack.js.org/guides/tree-shaking/).
+By default, `file-loader` generates JS modules that use the ES modules syntax.
+There are some cases in which using ES modules is beneficial, like in the case of [module concatenation](https://webpack.js.org/plugins/module-concatenation-plugin/) and [tree shaking](https://webpack.js.org/guides/tree-shaking/).
+
+You can enable a CommonJS module syntax using:
 
 **webpack.config.js**
 
@@ -394,7 +400,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              esModules: true,
+              esModule: false,
             },
           },
         ],
@@ -436,6 +442,13 @@ Default: `file.folder`
 
 The folder of the resource is in.
 
+### `[query]`
+
+Type: `String`
+Default: `file.query`
+
+The query of the resource, i.e. `?foo=bar`.
+
 ### `[emoji]`
 
 Type: `String`
@@ -453,14 +466,14 @@ Same as above, but with a customizable number of emojis
 ### `[hash]`
 
 Type: `String`
-Default: `md5`
+Default: `md4`
 
 Specifies the hash method to use for hashing the file content.
 
 ### `[contenthash]`
 
 Type: `String`
-Default: `md5`
+Default: `md4`
 
 Specifies the hash method to use for hashing the file content.
 
@@ -482,10 +495,9 @@ base49, base52, base58, base62, base64, and hex.
 #### `hashType`
 
 Type: `String`
-Default: `'md5'`
+Default: `'md4'`
 
-The type of hash that the has function should use. Valid values include: `md5`,
-`sha1`, `sha256`, and `sha512`.
+The type of hash that the has function should use. Valid values include: `md4`, `md5`, `sha1`, `sha256`, and `sha512`.
 
 #### `length`
 
@@ -616,14 +628,55 @@ Result:
 path/to/file.png?e43b20c069c4a01867c31e98cbce33c9
 ```
 
+### CDN
+
+The following examples show how to use `file-loader` for CDN uses query params.
+
+**file.js**
+
+```js
+import png from './directory/image.png?width=300&height=300';
+```
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  output: {
+    publicPath: 'https://cdn.example.com/',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext][query]',
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+Result:
+
+```bash
+# result
+https://cdn.example.com/directory/image.png?width=300&height=300
+```
+
 ### Dynamic public path depending on environment variable at run time
 
-An application might want to configure different CDN hosts depending on an environment variable that is only available when running the application. This can be an advantage, as only one build of the application is necessary, which behaves differntly depending on environment variables of the deployment environment. Since file-loader is applied when compiling the application, and not when running it, the environment variable cannot be used in the file-loader configuration. A way around this is setting the `__webpack_public_path__` to the desired CDN host depending on the environment variable at the entrypoint of the application. The option `postTransformPublicPath` can be used to configure a custom path depending on a variable like `__webpack_public_path__`.
+An application might want to configure different CDN hosts depending on an environment variable that is only available when running the application. This can be an advantage, as only one build of the application is necessary, which behaves differently depending on environment variables of the deployment environment. Since file-loader is applied when compiling the application, and not when running it, the environment variable cannot be used in the file-loader configuration. A way around this is setting the `__webpack_public_path__` to the desired CDN host depending on the environment variable at the entrypoint of the application. The option `postTransformPublicPath` can be used to configure a custom path depending on a variable like `__webpack_public_path__`.
 
 **main.js**
 
 ```js
-const namespace = process.env.NAMESPACE;
 const assetPrefixForNamespace = (namespace) => {
   switch (namespace) {
     case 'prod':
@@ -638,6 +691,8 @@ const assetPrefixForNamespace = (namespace) => {
       return '';
   }
 };
+const namespace = process.env.NAMESPACE;
+
 __webpack_public_path__ = `${assetPrefixForNamespace(namespace)}/`;
 ```
 
@@ -698,8 +753,8 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/file-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/file-loader
-[tests]: https://dev.azure.com/webpack-contrib/file-loader/_apis/build/status/webpack-contrib.file-loader?branchName=master
-[tests-url]: https://dev.azure.com/webpack-contrib/file-loader/_build/latest?definitionId=2&branchName=master
+[tests]: https://github.com/webpack-contrib/file-loader/workflows/file-loader/badge.svg
+[tests-url]: https://github.com/webpack-contrib/file-loader/actions
 [cover]: https://codecov.io/gh/webpack-contrib/file-loader/branch/master/graph/badge.svg
 [cover-url]: https://codecov.io/gh/webpack-contrib/file-loader
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg

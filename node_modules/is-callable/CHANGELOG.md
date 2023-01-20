@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.2.7](https://github.com/inspect-js/is-callable/compare/v1.2.6...v1.2.7) - 2022-09-23
+
+### Commits
+
+- [Fix] recognize `document.all` in IE 6-10 [`06c1db2`](https://github.com/inspect-js/is-callable/commit/06c1db2b9b2e0f28428e1293eb572f8f93871ec7)
+- [Tests] improve logic for FF 20-35 [`0f7d9b9`](https://github.com/inspect-js/is-callable/commit/0f7d9b9c7fe149ca87e71f0a125ade251a6a578c)
+- [Fix] handle `document.all` in FF 27 (and +, probably) [`696c661`](https://github.com/inspect-js/is-callable/commit/696c661b8c0810c2d05ab172f1607f4e77ddf81e)
+- [Tests] fix proxy tests in FF 42-63 [`985df0d`](https://github.com/inspect-js/is-callable/commit/985df0dd36f8cfe6f1993657b7c0f4cfc19dae30)
+- [readme] update tested browsers [`389e919`](https://github.com/inspect-js/is-callable/commit/389e919493b1cb2010126b0411e5291bf76169bd)
+- [Fix] detect `document.all` in Opera 12.16 [`b9f1022`](https://github.com/inspect-js/is-callable/commit/b9f1022b3d7e466b7f09080bd64c253caf644325)
+- [Fix] HTML elements: properly report as callable in Opera 12.16 [`17391fe`](https://github.com/inspect-js/is-callable/commit/17391fe02b895777c4337be28dca3b364b743b34)
+- [Tests] fix inverted logic in FF3 test [`056ebd4`](https://github.com/inspect-js/is-callable/commit/056ebd48790f46ca18ff5b12f51b44c08ccc3595)
+
 ## [v1.2.6](https://github.com/inspect-js/is-callable/compare/v1.2.5...v1.2.6) - 2022-09-14
 
 ### Commits

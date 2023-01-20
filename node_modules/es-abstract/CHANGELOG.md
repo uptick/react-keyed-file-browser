@@ -1,3 +1,64 @@
+1.21.1 / 2023-01-10
+=================
+  * [Fix] move `available-typed-arrays` to runtime deps
+  * [Fix] `ES2021`+: `NumberToBigInt`: throw the proper error on an env without BigInts
+  * [Fix] `ES2018`+: `CreateAsyncFromSyncIterator`: properly check `next` method args length
+  * [Fix] `ES2020`-`ES2021`: Abstract Relational Comparison: handle BigInts properly
+  * [Fix] `ES2022`+: `StringToBigInt`: invalid BigInts should be `undefined`, not `NaN` as in previous years
+  * [Fix] `helpers/isFinite`: properly handle BigInt values
+  * [Fix] `ES2020`+: `CreateListFromArrayLike`: accept BigInts
+  * [Fix] `ES2019`+: `AsyncFromSyncIteratorContinuation`: throw a SyntaxError when > 1 arg is passed
+  * [patch] `ES2020`+: `GetIterator`: use SyntaxError for intentionally unsupported
+  * [patch] `ES2015`+: `GetPrototypeFromContructor`: use SyntaxError for intentionally unsupported
+  * [patch] `ES2022`+: `StringToNumber`: fix non-string assertion failure message
+  * [Deps] update `es-set-tostringtag`, `is-array-buffer`
+  * [Tests] increase coverage
+  * [Tests] exclude coverage from files that have been replaced by an extracted package
+
+1.21.0 / 2023-01-04
+=================
+  * [New] `ES2015`+: add `IsDetachedBuffer`
+  * [New] `ES2015+`: add `DetachArrayBuffer`
+  * [New] `ES2020`+: add `NumericToRawBytes`
+  * [New] `ES2017` - `ES2019`: add `NumberToRawBytes`
+  * [New] `ES2020+`: add `RawBytesToNumeric`
+  * [New] `ES2017-ES2019`: add `RawBytesToNumber`
+  * [New] `ES2017`+: add `ValidateAtomicAccess`
+  * [New] `ES2021`+: add `ValidateIntegerTypedArray`
+  * [New] `ES2015`+: add `ValidateTypedArray`
+  * [New] `ES2015`+: add `GetGlobalObject`
+  * [New] `ES2022`+: add `TypedArrayElementSize`, `TypedArrayElementType`
+  * [New] `ES2015`+: add `max`, `min`
+  * [New] `helpers/assertRecord`: add predicates for PromiseCapability and AsyncGeneratorRequest Records
+  * [New] `ES2018`+: add `AsyncIteratorClose`
+  * [New] `ES2015`+: `IteratorClose`: also accept a Completion Record instance instead of a completion thunk
+  * [New] `ES2015`+ (CompletionRecord, NormalCompletion), `ES2018`+ (ThrowCompletion): add new AOs
+  * [New] `ES2015`+ (`ObjectCreate`) and `ES2020`+ (`OrdinaryObjectCreate`): use `internal-slot` to support additional slots
+  * [New] `ES2018`+: add `CreateAsyncFromSyncIterator`
+  * [patch] `ES2015`+: `GetMethod`: better failure message
+  * [Refactor] use `es-set-tostringtag` package
+  * [Refactor] use `has-proto` package
+  * [Deps] update `has-proto`, `es-set-tostringtag`, `internal-slot`
+  * [meta] fix spackle script to `git add` after all writing is done
+  * [meta] autogenerate esX entry points
+  * [meta] use a leading slash in gitattributes for proper spackle matching
+  * [Tests] fix comments on missing AOs
+  * [Tests] filter out host-defined AOs
+  * [Dev Deps] update `@ljharb/eslint-config`, `aud`
+
+1.20.5 / 2022-12-07
+=================
+  * [Fix] `ES2020+`: `floor`: make it work with BigInts as well
+  * [Refactor] use `gopd`
+  * [Tests] add `mod` helper tests (#147)
+  * [Deps] update `string.prototype.trimend`, `string.prototype.trimstart`
+  * [Dev Deps] update `array.prototype.filter`, `array.prototype.flatmap`, `array.prototype.indexof`, `object.fromentries`
+
+1.20.4 / 2022-10-06
+=================
+  * [Fix] `ES2021+`: values that truncate to -0 in `ToIntegerOrInfinity` (#146)
+  * [Deps] update `is-callable`
+
 1.20.3 / 2022-09-22
 =================
   * [Refactor] extract regex tester to `safe-regex-test` package

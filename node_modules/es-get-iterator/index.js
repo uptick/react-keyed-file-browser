@@ -10,6 +10,7 @@
 // available in all target environments.
 
 var isArguments = require('is-arguments');
+var getStopIterationIterator = require('stop-iteration-iterator');
 
 if (require('has-symbols')() || require('has-symbols/shams')()) {
 	var $iterator = Symbol.iterator;
@@ -141,25 +142,6 @@ if (require('has-symbols')() || require('has-symbols/shams')()) {
 			// do not have any other mechanism for iteration.
 			var $mapIterator = callBound('Map.prototype.iterator', true);
 			var $setIterator = callBound('Set.prototype.iterator', true);
-			var getStopIterationIterator = function (iterator) {
-				var done = false;
-				return {
-					next: function next() {
-						try {
-							return {
-								done: done,
-								value: done ? undefined : iterator.next()
-							};
-						} catch (e) {
-							done = true;
-							return {
-								done: true,
-								value: undefined
-							};
-						}
-					}
-				};
-			};
 		}
 		// Firefox 27-35, and some older es6-shim versions, use a string "@@iterator" property
 		// this returns a proper iterator object, so we should use it instead of forEach.

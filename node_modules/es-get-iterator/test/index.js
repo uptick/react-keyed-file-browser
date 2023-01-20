@@ -24,7 +24,9 @@ Test.prototype.iterate = function (value, expected, message) {
 		}
 		var result;
 		while ((result = iterator.next()) && !result.done) {
-			t.deepEqual(result.value, expected[i], 'index ' + i + ': expected ' + inspect(expected[i]) + ', got ' + inspect(result.value));
+			var expectedDebug = typeof expected[i] === 'string' ? expected[i].charCodeAt(0) : expected[i];
+			var actualDebug = typeof result.value === 'string' ? result.value.charCodeAt(0) : result.value;
+			t.deepEqual(result.value, expected[i], 'index ' + i + ': expected ' + inspect(expectedDebug) + ', got ' + inspect(actualDebug));
 			i += 1;
 		}
 		t.equal(i, expected.length, 'expected ' + expected.length + ' values, got ' + i + ' values');
@@ -72,7 +74,7 @@ var runTests = function runTests(t) {
 		st.iterate(Object('foo'), ['f', 'o', 'o'], inspect(Object('foo')) + ' yields three chars');
 		st.iterate('a💩z', ['a', '💩', 'z'], '"a💩z" yields three code points');
 		st.iterate(Object('a💩z'), ['a', '💩', 'z'], inspect(Object('a💩z')) + ' yields three code points');
-		st.iterate('\ud83dX', ['\ud83d', 'X'], inspect('\ud83dX') + ' (lone surrogate followed by "not a lone surrogate ending") yields one code point');
+		st.iterate('\ud83dX', ['\ud83d', 'X'], '(lone surrogate followed by "not a lone surrogate ending") yields one code point');
 
 		st.fakeIterator('abc');
 

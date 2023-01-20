@@ -20,9 +20,12 @@ Manually tested in:
  - Chrome: v15 - v81, v83 - v106<sub>(every integer version)</sub>
    - Note: This includes Edge v80+ and Opera v15+, which matches Chrome
  - Firefox: v3, v3.6, v4 - v105 <sub>(every integer version)</sub>
-   - Note: Firefox v45 - v54 has `class`, but `Function.prototype.toString` hides that progeny and makes them look like functions, so `class` constructors will be reported by this package as callable, when they are not in fact callable.
+   - Note: v45 - v54 has `class`, but `Function.prototype.toString` hides that progeny and makes them look like functions, so `class` constructors will be reported by this package as callable, when they are not in fact callable.
+   - Note: in v42 - v63, `Function.prototype.toString` throws on HTML element constructors, or a Proxy to a function
+   - Note: in v20 - v35, HTML element constructors are not callable, despite having typeof `function`.
+   - Note: in v19, `document.all` is not callable.
  - IE: v6 - v11<sub>(every integer version</sub>
- - Opera: v11.1, v11.5, v11.6, 12?, v12.1, v12.12?, v12.14, v12.15, v12.16, v15+ <sub>v15+ matches Chrome</sub>
+ - Opera: v11.1, v11.5, v11.6, v12.1, v12.14, v12.15, v12.16, v15+ <sub>v15+ matches Chrome</sub>
 
 ## Example
 

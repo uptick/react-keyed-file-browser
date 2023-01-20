@@ -206,9 +206,6 @@ SynchronousPromise.prototype = {
       return;
     }
     var continuations = this._takeContinuations();
-    if (looksLikeAPromise(this._data)) {
-      return this._handleWhenResolvedDataIsPromise(this._data);
-    }
     var data = this._data;
     var self = this;
     continuations.forEach(function (cont) {
@@ -223,6 +220,9 @@ SynchronousPromise.prototype = {
         cont.promise.resolve(data);
       }
     });
+    if (looksLikeAPromise(this._data)) {
+      return this._handleWhenResolvedDataIsPromise(this._data);
+    }
   },
   _handleResolutionError: function (e, continuation) {
     this._setRejected();

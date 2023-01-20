@@ -1,5 +1,5 @@
 # scss-tokenizer
-A tokenzier for Sass' SCSS syntax
+A tokenizer for Sass' SCSS syntax
 
 ![https://travis-ci.org/sasstools/scss-tokenizer.svg?branch=master](https://img.shields.io/travis/sasstools/scss-tokenizer.svg)
 ![https://www.npmjs.com/package/scss-tokenizer](https://img.shields.io/npm/v/scss-tokenizer.svg)

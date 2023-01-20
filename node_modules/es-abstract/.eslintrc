@@ -14,6 +14,8 @@
 		"func-name-matching": 0,
 		"id-length": [2, { "min": 1, "max": 40 }],
 		"max-params": [2, 4],
+		"max-lines-per-function": 1,
+		"max-statements": 1,
 		"max-statements-per-line": [2, { "max": 2 }],
 		"multiline-comment-style": 0,
 		"no-magic-numbers": 0,
@@ -61,6 +63,17 @@
 				"max-lines-per-function": 0,
 				"no-implicit-coercion": 0,
 				"no-invalid-this": 1,
+				"prefer-promise-reject-errors": 0,
+			},
+		},
+		{
+			"files": "*/RawBytesToNum*.js",
+			"rules": {
+				"operator-linebreak": [2, "before", {
+					"overrides": {
+						"=": "none"
+					}
+				}],
 			},
 		},
 	],

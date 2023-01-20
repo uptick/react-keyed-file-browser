@@ -1,7 +1,6 @@
 'use strict';
 
 var isFinite = require('../helpers/isFinite');
-var isNaN = require('../helpers/isNaN');
 
 var IsStrictlyEqual = require('./IsStrictlyEqual');
 var StringToBigInt = require('./StringToBigInt');
@@ -28,7 +27,7 @@ module.exports = function IsLooselyEqual(x, y) {
 	}
 	if (xType === 'BigInt' && yType === 'String') {
 		var n = StringToBigInt(y);
-		if (isNaN(n)) {
+		if (typeof n === 'undefined') {
 			return false;
 		}
 		return IsLooselyEqual(x, n);

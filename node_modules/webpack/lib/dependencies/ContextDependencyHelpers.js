@@ -2,16 +2,25 @@
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
 */
+
 "use strict";
 
-const ContextDependencyHelpers = exports;
+const { parseResource } = require("../util/identifier");
+
+/** @typedef {import("estree").Node} EsTreeNode */
+/** @typedef {import("../../declarations/WebpackOptions").JavascriptParserOptions} JavascriptParserOptions */
+/** @typedef {import("../../declarations/WebpackOptions").ModuleOptionsNormalized} ModuleOptions */
+/** @typedef {import("../javascript/BasicEvaluatedExpression")} BasicEvaluatedExpression */
+/** @typedef {import("../javascript/JavascriptParser")} JavascriptParser */
+/** @typedef {import("./ContextDependency")} ContextDependency */
+/** @typedef {import("./ContextDependency").ContextDependencyOptions} ContextDependencyOptions */
 
 /**
  * Escapes regular expression metacharacters
  * @param {string} str String to quote
  * @returns {string} Escaped string
  */
-const quotemeta = str => {
+const quoteMeta = str => {
 	return str.replace(/[-[\]\\/{}()*+?.^$|]/g, "\\$&");
 };
 
@@ -19,8 +28,8 @@ const splitContextFromPrefix = prefix => {
 	const idx = prefix.lastIndexOf("/");
 	let context = ".";
 	if (idx >= 0) {
-		context = prefix.substr(0, idx);
-		prefix = `.${prefix.substr(idx)}`;
+		context = prefix.slice(0, idx);
+		prefix = `.${prefix.slice(idx)}`;
 	}
 	return {
 		context,
@@ -28,28 +37,30 @@ const splitContextFromPrefix = prefix => {
 	};
 };
 
-const splitQueryFromPostfix = postfix => {
-	const idx = postfix.indexOf("?");
-	let query = "";
-	if (idx >= 0) {
-		query = postfix.substr(idx);
-		postfix = postfix.substr(0, idx);
-	}
-	return {
-		postfix,
-		query
-	};
-};
+/** @typedef {Partial<Omit<ContextDependencyOptions, "resource">>} PartialContextDependencyOptions */
 
-ContextDependencyHelpers.create = (
+/** @typedef {{ new(options: ContextDependencyOptions, range: [number, number], valueRange: [number, number], ...args: any[]): ContextDependency }} ContextDependencyConstructor */
+
+/**
+ * @param {ContextDependencyConstructor} Dep the Dependency class
+ * @param {[number, number]} range source range
+ * @param {BasicEvaluatedExpression} param context param
+ * @param {EsTreeNode} expr expr
+ * @param {Pick<JavascriptParserOptions, `${"expr"|"wrapped"}Context${"Critical"|"Recursive"|"RegExp"}` | "exprContextRequest">} options options for context creation
+ * @param {PartialContextDependencyOptions} contextOptions options for the ContextModule
+ * @param {JavascriptParser} parser the parser
+ * @param {...any} depArgs depArgs
+ * @returns {ContextDependency} the created Dependency
+ */
+exports.create = (
 	Dep,
 	range,
 	param,
 	expr,
 	options,
 	contextOptions,
-	// when parser is not passed in, expressions won't be walked
-	parser = null
+	parser,
+	...depArgs
 ) => {
 	if (param.isTemplateString()) {
 		let prefixRaw = param.quasis[0].string;
@@ -60,7 +71,11 @@ ContextDependencyHelpers.create = (
 
 		const valueRange = param.range;
 		const { context, prefix } = splitContextFromPrefix(prefixRaw);
-		const { postfix, query } = splitQueryFromPostfix(postfixRaw);
+		const {
+			path: postfix,
+			query,
+			fragment
+		} = parseResource(postfixRaw, parser);
 
 		// When there are more than two quasis, the generated RegExp can be more precise
 		// We join the quasis with the expression regexp
@@ -68,32 +83,32 @@ ContextDependencyHelpers.create = (
 		const innerRegExp =
 			options.wrappedContextRegExp.source +
 			innerQuasis
-				.map(q => quotemeta(q.string) + options.wrappedContextRegExp.source)
+				.map(q => quoteMeta(q.string) + options.wrappedContextRegExp.source)
 				.join("");
 
-		// Example: `./context/pre${e}inner${e}inner2${e}post?query`
+		// Example: `./context/pre${e}inner${e}inner2${e}post?query#frag`
 		// context: "./context"
 		// prefix: "./pre"
 		// innerQuasis: [BEE("inner"), BEE("inner2")]
 		// (BEE = BasicEvaluatedExpression)
 		// postfix: "post"
 		// query: "?query"
+		// fragment: "#frag"
 		// regExp: /^\.\/pre.*inner.*inner2.*post$/
 		const regExp = new RegExp(
-			`^${quotemeta(prefix)}${innerRegExp}${quotemeta(postfix)}$`
+			`^${quoteMeta(prefix)}${innerRegExp}${quoteMeta(postfix)}$`
 		);
 		const dep = new Dep(
-			Object.assign(
-				{
-					request: context + query,
-					recursive: options.wrappedContextRecursive,
-					regExp,
-					mode: "sync"
-				},
-				contextOptions
-			),
+			{
+				request: context + query + fragment,
+				recursive: options.wrappedContextRecursive,
+				regExp,
+				mode: "sync",
+				...contextOptions
+			},
 			range,
-			valueRange
+			valueRange,
+			...depArgs
 		);
 		dep.loc = expr.loc;
 		const replaces = [];
@@ -133,9 +148,7 @@ ContextDependencyHelpers.create = (
 				});
 			} else {
 				// Expression
-				if (parser) {
-					parser.walkExpression(part.expression);
-				}
+				parser.walkExpression(part.expression);
 			}
 		});
 
@@ -159,24 +172,27 @@ ContextDependencyHelpers.create = (
 			param.postfix && param.postfix.isString() ? param.postfix.range : null;
 		const valueRange = param.range;
 		const { context, prefix } = splitContextFromPrefix(prefixRaw);
-		const { postfix, query } = splitQueryFromPostfix(postfixRaw);
+		const {
+			path: postfix,
+			query,
+			fragment
+		} = parseResource(postfixRaw, parser);
 		const regExp = new RegExp(
-			`^${quotemeta(prefix)}${options.wrappedContextRegExp.source}${quotemeta(
+			`^${quoteMeta(prefix)}${options.wrappedContextRegExp.source}${quoteMeta(
 				postfix
 			)}$`
 		);
 		const dep = new Dep(
-			Object.assign(
-				{
-					request: context + query,
-					recursive: options.wrappedContextRecursive,
-					regExp,
-					mode: "sync"
-				},
-				contextOptions
-			),
+			{
+				request: context + query + fragment,
+				recursive: options.wrappedContextRecursive,
+				regExp,
+				mode: "sync",
+				...contextOptions
+			},
 			range,
-			valueRange
+			valueRange,
+			...depArgs
 		);
 		dep.loc = expr.loc;
 		const replaces = [];
@@ -206,26 +222,23 @@ ContextDependencyHelpers.create = (
 		return dep;
 	} else {
 		const dep = new Dep(
-			Object.assign(
-				{
-					request: options.exprContextRequest,
-					recursive: options.exprContextRecursive,
-					regExp: options.exprContextRegExp,
-					mode: "sync"
-				},
-				contextOptions
-			),
+			{
+				request: options.exprContextRequest,
+				recursive: options.exprContextRecursive,
+				regExp: /** @type {RegExp} */ (options.exprContextRegExp),
+				mode: "sync",
+				...contextOptions
+			},
 			range,
-			param.range
+			param.range,
+			...depArgs
 		);
 		dep.loc = expr.loc;
 		dep.critical =
 			options.exprContextCritical &&
 			"the request of a dependency is an expression";
 
-		if (parser) {
-			parser.walkExpression(param.expression);
-		}
+		parser.walkExpression(param.expression);
 
 		return dep;
 	}

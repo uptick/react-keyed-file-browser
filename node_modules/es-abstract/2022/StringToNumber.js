@@ -37,7 +37,7 @@ var Type = require('./Type');
 
 module.exports = function StringToNumber(argument) {
 	if (Type(argument) !== 'String') {
-		throw new $TypeError('Conversion from \'BigInt\' to \'number\' is not allowed.');
+		throw new $TypeError('Assertion failed: `argument` is not a String');
 	}
 	if (isBinary(argument)) {
 		return $Number($parseInteger($strSlice(argument, 2), 2));

@@ -5,7 +5,6 @@ var hasSymbols = require('has-symbols')();
 
 var $TypeError = GetIntrinsic('%TypeError%');
 var IteratorPrototype = GetIntrinsic('%IteratorPrototype%', true);
-var $defineProperty = GetIntrinsic('%Object.defineProperty%', true);
 
 var AdvanceStringIndex = require('./AdvanceStringIndex');
 var CreateIterResultObject = require('./CreateIterResultObject');
@@ -19,6 +18,7 @@ var ToString = require('./ToString');
 var Type = require('./Type');
 
 var SLOT = require('internal-slot');
+var setToStringTag = require('es-set-tostringtag');
 
 var RegExpStringIterator = function RegExpStringIterator(R, S, global, fullUnicode) {
 	if (Type(S) !== 'String') {
@@ -83,18 +83,7 @@ var RegExpStringIteratorNext = function next() {
 CreateMethodProperty(RegExpStringIterator.prototype, 'next', RegExpStringIteratorNext);
 
 if (hasSymbols) {
-	if (Symbol.toStringTag) {
-		if ($defineProperty) {
-			$defineProperty(RegExpStringIterator.prototype, Symbol.toStringTag, {
-				configurable: true,
-				enumerable: false,
-				value: 'RegExp String Iterator',
-				writable: false
-			});
-		} else {
-			RegExpStringIterator.prototype[Symbol.toStringTag] = 'RegExp String Iterator';
-		}
-	}
+	setToStringTag(RegExpStringIterator.prototype, 'RegExp String Iterator');
 
 	if (Symbol.iterator && typeof RegExpStringIterator.prototype[Symbol.iterator] !== 'function') {
 		var iteratorFn = function SymbolIterator() {

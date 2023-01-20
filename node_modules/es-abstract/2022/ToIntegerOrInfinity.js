@@ -14,5 +14,7 @@ module.exports = function ToIntegerOrInfinity(value) {
 	var number = ToNumber(value);
 	if ($isNaN(number) || number === 0) { return 0; }
 	if (!$isFinite(number)) { return number; }
-	return $sign(number) * floor(abs(number));
+	var integer = floor(abs(number));
+	if (integer === 0) { return 0; }
+	return $sign(number) * integer;
 };

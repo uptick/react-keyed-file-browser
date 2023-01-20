@@ -2,24 +2,28 @@
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
 */
+
 "use strict";
 
 const DependenciesBlock = require("./DependenciesBlock");
+const makeSerializable = require("./util/makeSerializable");
 
+/** @typedef {import("./ChunkGraph")} ChunkGraph */
 /** @typedef {import("./ChunkGroup")} ChunkGroup */
-/** @typedef {import("./Module")} Module */
+/** @typedef {import("./ChunkGroup").ChunkGroupOptions} ChunkGroupOptions */
 /** @typedef {import("./Dependency").DependencyLocation} DependencyLocation */
-/** @typedef {import("./util/createHash").Hash} Hash */
-/** @typedef {TODO} GroupOptions */
+/** @typedef {import("./Dependency").UpdateHashContext} UpdateHashContext */
+/** @typedef {import("./Entrypoint").EntryOptions} EntryOptions */
+/** @typedef {import("./Module")} Module */
+/** @typedef {import("./util/Hash")} Hash */
 
-module.exports = class AsyncDependenciesBlock extends DependenciesBlock {
+class AsyncDependenciesBlock extends DependenciesBlock {
 	/**
-	 * @param {GroupOptions} groupOptions options for the group
-	 * @param {Module} module the Module object
+	 * @param {ChunkGroupOptions & { entryOptions?: EntryOptions }} groupOptions options for the group
 	 * @param {DependencyLocation=} loc the line of code
-	 * @param {TODO=} request the request
+	 * @param {string=} request the request
 	 */
-	constructor(groupOptions, module, loc, request) {
+	constructor(groupOptions, loc, request) {
 		super();
 		if (typeof groupOptions === "string") {
 			groupOptions = { name: groupOptions };
@@ -27,13 +31,9 @@ module.exports = class AsyncDependenciesBlock extends DependenciesBlock {
 			groupOptions = { name: undefined };
 		}
 		this.groupOptions = groupOptions;
-		/** @type {ChunkGroup=} */
-		this.chunkGroup = undefined;
-		this.module = module;
 		this.loc = loc;
 		this.request = request;
-		/** @type {DependenciesBlock} */
-		this.parent = undefined;
+		this._stringifiedGroupOptions = undefined;
 	}
 
 	/**
@@ -48,63 +48,59 @@ module.exports = class AsyncDependenciesBlock extends DependenciesBlock {
 	 * @returns {void}
 	 */
 	set chunkName(value) {
-		this.groupOptions.name = value;
+		if (this.groupOptions.name !== value) {
+			this.groupOptions.name = value;
+			this._stringifiedGroupOptions = undefined;
+		}
 	}
 
 	/**
-	 * @returns {never} this throws and should never be called
-	 */
-	get chunks() {
-		throw new Error("Moved to AsyncDependenciesBlock.chunkGroup");
-	}
-
-	/**
-	 * @param {never} value setter value
-	 * @returns {never} this is going to throw therefore we should throw type
-	 * assertions by returning never
-	 */
-	set chunks(value) {
-		throw new Error("Moved to AsyncDependenciesBlock.chunkGroup");
-	}
-
-	/**
-	 * @param {Hash} hash the hash used to track block changes, from "crypto" module
+	 * @param {Hash} hash the hash used to track dependencies
+	 * @param {UpdateHashContext} context context
 	 * @returns {void}
 	 */
-	updateHash(hash) {
-		hash.update(JSON.stringify(this.groupOptions));
+	updateHash(hash, context) {
+		const { chunkGraph } = context;
+		if (this._stringifiedGroupOptions === undefined) {
+			this._stringifiedGroupOptions = JSON.stringify(this.groupOptions);
+		}
+		const chunkGroup = chunkGraph.getBlockChunkGroup(this);
 		hash.update(
-			(this.chunkGroup &&
-				this.chunkGroup.chunks
-					.map(chunk => {
-						return chunk.id !== null ? chunk.id : "";
-					})
-					.join(",")) ||
-				""
+			`${this._stringifiedGroupOptions}${chunkGroup ? chunkGroup.id : ""}`
 		);
-		super.updateHash(hash);
+		super.updateHash(hash, context);
 	}
 
-	/**
-	 * @returns {void}
-	 */
-	disconnect() {
-		this.chunkGroup = undefined;
-		super.disconnect();
+	serialize(context) {
+		const { write } = context;
+		write(this.groupOptions);
+		write(this.loc);
+		write(this.request);
+		super.serialize(context);
 	}
 
-	/**
-	 * @returns {void}
-	 */
-	unseal() {
-		this.chunkGroup = undefined;
-		super.unseal();
+	deserialize(context) {
+		const { read } = context;
+		this.groupOptions = read();
+		this.loc = read();
+		this.request = read();
+		super.deserialize(context);
 	}
+}
 
-	/**
-	 * @returns {void}
-	 */
-	sortItems() {
-		super.sortItems();
+makeSerializable(AsyncDependenciesBlock, "webpack/lib/AsyncDependenciesBlock");
+
+Object.defineProperty(AsyncDependenciesBlock.prototype, "module", {
+	get() {
+		throw new Error(
+			"module property was removed from AsyncDependenciesBlock (it's not needed)"
+		);
+	},
+	set() {
+		throw new Error(
+			"module property was removed from AsyncDependenciesBlock (it's not needed)"
+		);
 	}
-};
+});
+
+module.exports = AsyncDependenciesBlock;

@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.11.0](https://github.com/inspect-js/is-core-module/compare/v2.10.0...v2.11.0) - 2022-10-18
+
+### Commits
+
+- [meta] use `npmignore` to autogenerate an npmignore file [`3360011`](https://github.com/inspect-js/is-core-module/commit/33600118857b46177178072fba2affcdeb009d12)
+- [Dev Deps] update `aud`, `tape` [`651c6b0`](https://github.com/inspect-js/is-core-module/commit/651c6b0cc2799d4130866cf43ad333dcade3d26c)
+- [New] `inspector/promises` and `node:inspector/promises` is now available in node 19 [`22d332f`](https://github.com/inspect-js/is-core-module/commit/22d332fe22ac050305444e0781ff85af819abcb0)
+
 ## [v2.10.0](https://github.com/inspect-js/is-core-module/compare/v2.9.0...v2.10.0) - 2022-08-03
 
 ### Commits

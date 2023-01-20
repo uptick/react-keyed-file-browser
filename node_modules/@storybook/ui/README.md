@@ -1,11 +1,12 @@
-# Storybook UI
+<h1>Storybook UI</h1>
 
-Storybook UI the core UI of [storybook](https://storybook.js.org).
+Storybook UI the core UI of [Storybook](https://storybook.js.org).
 It's a React based UI which you can initialize with a function.
 You can configure it by providing a provider API.
 
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Usage](#usage)
 - [API](#api)
   - [.setOptions()](#setoptions)
@@ -20,6 +21,7 @@ You can configure it by providing a provider API.
   - [Core API](#core-api)
   - [Keyboard Shortcuts](#keyboard-shortcuts)
   - [URL Changes](#url-changes)
+  - [Story Order](#story-order)
 
 ## Usage
 
@@ -53,9 +55,11 @@ export default class MyProvider extends Provider {
 Then you need to initialize the UI like this:
 
 ```js
-import { document } from 'global';
+import global from 'global';
 import renderStorybookUI from '@storybook/ui';
 import Provider from './provider';
+
+const { document } = global;
 
 const roolEl = document.getElementById('root');
 renderStorybookUI(roolEl, new Provider());
@@ -72,7 +76,7 @@ class ReactProvider extends Provider {
   handleAPI(api) {
     api.setOptions({
       // see available options in
-      // https://github.com/storybookjs/storybook/tree/master/addons/options#getting-started
+      // https://storybook.js.org/docs/react/configure/features-and-behavior
     });
   }
 }
@@ -122,7 +126,7 @@ class ReactProvider extends Provider {
 
 If you like to add features to the Storybook UI or fix bugs, this is the guide you need to follow.
 
-First of all, you can need to start the [example](./example) app to see your changes.
+First of all, familiarize yourself with code used. Check the [source](./src/) folder for the source code.
 
 ### The App
 

@@ -2,10 +2,17 @@
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
 */
+
 "use strict";
 
+const util = require("util");
 const Watchpack = require("watchpack");
-const objectToMap = require("../util/objectToMap");
+
+/** @typedef {import("../../declarations/WebpackOptions").WatchOptions} WatchOptions */
+/** @typedef {import("../FileSystemInfo").FileSystemInfoEntry} FileSystemInfoEntry */
+/** @typedef {import("../util/fs").WatchFileSystem} WatchFileSystem */
+/** @typedef {import("../util/fs").WatchMethod} WatchMethod */
+/** @typedef {import("../util/fs").Watcher} Watcher */
 
 class NodeWatchFileSystem {
 	constructor(inputFileSystem) {
@@ -16,14 +23,32 @@ class NodeWatchFileSystem {
 		this.watcher = new Watchpack(this.watcherOptions);
 	}
 
-	watch(files, dirs, missing, startTime, options, callback, callbackUndelayed) {
-		if (!Array.isArray(files)) {
+	/**
+	 * @param {Iterable<string>} files watched files
+	 * @param {Iterable<string>} directories watched directories
+	 * @param {Iterable<string>} missing watched exitance entries
+	 * @param {number} startTime timestamp of start time
+	 * @param {WatchOptions} options options object
+	 * @param {function(Error=, Map<string, FileSystemInfoEntry>, Map<string, FileSystemInfoEntry>, Set<string>, Set<string>): void} callback aggregated callback
+	 * @param {function(string, number): void} callbackUndelayed callback when the first change was detected
+	 * @returns {Watcher} a watcher
+	 */
+	watch(
+		files,
+		directories,
+		missing,
+		startTime,
+		options,
+		callback,
+		callbackUndelayed
+	) {
+		if (!files || typeof files[Symbol.iterator] !== "function") {
 			throw new Error("Invalid arguments: 'files'");
 		}
-		if (!Array.isArray(dirs)) {
-			throw new Error("Invalid arguments: 'dirs'");
+		if (!directories || typeof directories[Symbol.iterator] !== "function") {
+			throw new Error("Invalid arguments: 'directories'");
 		}
-		if (!Array.isArray(missing)) {
+		if (!missing || typeof missing[Symbol.iterator] !== "function") {
 			throw new Error("Invalid arguments: 'missing'");
 		}
 		if (typeof callback !== "function") {
@@ -44,34 +69,42 @@ class NodeWatchFileSystem {
 		if (callbackUndelayed) {
 			this.watcher.once("change", callbackUndelayed);
 		}
-		const cachedFiles = files;
-		const cachedDirs = dirs;
-		this.watcher.once("aggregated", (changes, removals) => {
-			changes = changes.concat(removals);
-			if (this.inputFileSystem && this.inputFileSystem.purge) {
-				this.inputFileSystem.purge(changes);
+
+		const fetchTimeInfo = () => {
+			const fileTimeInfoEntries = new Map();
+			const contextTimeInfoEntries = new Map();
+			if (this.watcher) {
+				this.watcher.collectTimeInfoEntries(
+					fileTimeInfoEntries,
+					contextTimeInfoEntries
+				);
 			}
-			const times = objectToMap(this.watcher.getTimes());
-			files = new Set(files);
-			dirs = new Set(dirs);
-			missing = new Set(missing);
-			removals = new Set(removals.filter(file => files.has(file)));
+			return { fileTimeInfoEntries, contextTimeInfoEntries };
+		};
+		this.watcher.once("aggregated", (changes, removals) => {
+			// pause emitting events (avoids clearing aggregated changes and removals on timeout)
+			this.watcher.pause();
+
+			if (this.inputFileSystem && this.inputFileSystem.purge) {
+				const fs = this.inputFileSystem;
+				for (const item of changes) {
+					fs.purge(item);
+				}
+				for (const item of removals) {
+					fs.purge(item);
+				}
+			}
+			const { fileTimeInfoEntries, contextTimeInfoEntries } = fetchTimeInfo();
 			callback(
 				null,
-				changes.filter(file => files.has(file)).sort(),
-				changes.filter(file => dirs.has(file)).sort(),
-				changes.filter(file => missing.has(file)).sort(),
-				times,
-				times,
+				fileTimeInfoEntries,
+				contextTimeInfoEntries,
+				changes,
 				removals
 			);
 		});
 
-		this.watcher.watch(
-			cachedFiles.concat(missing),
-			cachedDirs.concat(missing),
-			startTime
-		);
+		this.watcher.watch({ files, directories, missing, startTime });
 
 		if (oldWatcher) {
 			oldWatcher.close();
@@ -88,19 +121,71 @@ class NodeWatchFileSystem {
 					this.watcher.pause();
 				}
 			},
-			getFileTimestamps: () => {
-				if (this.watcher) {
-					return objectToMap(this.watcher.getTimes());
-				} else {
-					return new Map();
+			getAggregatedRemovals: util.deprecate(
+				() => {
+					const items = this.watcher && this.watcher.aggregatedRemovals;
+					if (items && this.inputFileSystem && this.inputFileSystem.purge) {
+						const fs = this.inputFileSystem;
+						for (const item of items) {
+							fs.purge(item);
+						}
+					}
+					return items;
+				},
+				"Watcher.getAggregatedRemovals is deprecated in favor of Watcher.getInfo since that's more performant.",
+				"DEP_WEBPACK_WATCHER_GET_AGGREGATED_REMOVALS"
+			),
+			getAggregatedChanges: util.deprecate(
+				() => {
+					const items = this.watcher && this.watcher.aggregatedChanges;
+					if (items && this.inputFileSystem && this.inputFileSystem.purge) {
+						const fs = this.inputFileSystem;
+						for (const item of items) {
+							fs.purge(item);
+						}
+					}
+					return items;
+				},
+				"Watcher.getAggregatedChanges is deprecated in favor of Watcher.getInfo since that's more performant.",
+				"DEP_WEBPACK_WATCHER_GET_AGGREGATED_CHANGES"
+			),
+			getFileTimeInfoEntries: util.deprecate(
+				() => {
+					return fetchTimeInfo().fileTimeInfoEntries;
+				},
+				"Watcher.getFileTimeInfoEntries is deprecated in favor of Watcher.getInfo since that's more performant.",
+				"DEP_WEBPACK_WATCHER_FILE_TIME_INFO_ENTRIES"
+			),
+			getContextTimeInfoEntries: util.deprecate(
+				() => {
+					return fetchTimeInfo().contextTimeInfoEntries;
+				},
+				"Watcher.getContextTimeInfoEntries is deprecated in favor of Watcher.getInfo since that's more performant.",
+				"DEP_WEBPACK_WATCHER_CONTEXT_TIME_INFO_ENTRIES"
+			),
+			getInfo: () => {
+				const removals = this.watcher && this.watcher.aggregatedRemovals;
+				const changes = this.watcher && this.watcher.aggregatedChanges;
+				if (this.inputFileSystem && this.inputFileSystem.purge) {
+					const fs = this.inputFileSystem;
+					if (removals) {
+						for (const item of removals) {
+							fs.purge(item);
+						}
+					}
+					if (changes) {
+						for (const item of changes) {
+							fs.purge(item);
+						}
+					}
 				}
-			},
-			getContextTimestamps: () => {
-				if (this.watcher) {
-					return objectToMap(this.watcher.getTimes());
-				} else {
-					return new Map();
-				}
+				const { fileTimeInfoEntries, contextTimeInfoEntries } = fetchTimeInfo();
+				return {
+					changes,
+					removals,
+					fileTimeInfoEntries,
+					contextTimeInfoEntries
+				};
 			}
 		};
 	}

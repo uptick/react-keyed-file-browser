@@ -35,7 +35,26 @@ var predicates = {
 		return true;
 	},
 	// https://262.ecma-international.org/13.0/#sec-match-records
-	'Match Record': isMatchRecord
+	'Match Record': isMatchRecord,
+	'Iterator Record': function isIteratorRecord(value) {
+		return has(value, '[[Iterator]]') && has(value, '[[NextMethod]]') && has(value, '[[Done]]');
+	},
+	'PromiseCapability Record': function isPromiseCapabilityRecord(value) {
+		return value
+			&& has(value, '[[Resolve]]')
+			&& typeof value['[[Resolve]]'] === 'function'
+			&& has(value, '[[Reject]]')
+			&& typeof value['[[Reject]]'] === 'function'
+			&& has(value, '[[Promise]]')
+			&& value['[[Promise]]']
+			&& typeof value['[[Promise]]'].then === 'function';
+	},
+	'AsyncGeneratorRequest Record': function isAsyncGeneratorRequestRecord(value) {
+		return value
+			&& has(value, '[[Completion]]') // TODO: confirm is a completion record
+			&& has(value, '[[Capability]]')
+			&& predicates['PromiseCapability Record'](value['[[Capability]]']);
+	}
 };
 
 module.exports = function assertRecord(Type, recordType, argumentName, value) {

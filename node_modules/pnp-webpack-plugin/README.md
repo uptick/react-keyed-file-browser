@@ -47,45 +47,6 @@ module.exports = {
 };
 ```
 
-### `ts-loader` integration
-
-This plugin as an integration to easily add support for TypeScript in your applications through `ts-loader`. In order to do this, just do the following:
-
-```js
-const PnpWebpackPlugin = require(`pnp-webpack-plugin`);
-
-module.exports = {
-  module: {
-    rules: [{
-      test: /\.ts$/,
-      loader: require.resolve('ts-loader'),
-      options: PnpWebpackPlugin.tsLoaderOptions({
-        // ... regular options go there ...
-      }),
-    }],
-  },
-};
-```
-
-If you have any options you want to pass to `ts-loader`, just pass them as parameter of the `tsLoaderOptions` function and it will take care of forwarding them properly.
-
-## `fork-ts-checker-webpack-plugin` integration
-
-We also provide an integration for `fork-ts-checker-webpack-plugin`, in a similar way to what we do with `ts-loader`. Here's an example:
-
-```js
-const ForkTsCheckerWebpackPlugin = require(`fork-ts-checker-webpack-plugin`);
-const PnpWebpackPlugin = require(`pnp-webpack-plugin`);
-
-module.exports = {
-  plugins: [
-    new ForkTsCheckerWebpackPlugin(PnpWebpackPlugin.forkTsCheckerOptions({
-      // ... regular options go there ...
-    }),
-  ],
-};
-```
-
 ## License (MIT)
 
 > **Copyright © 2016 Maël Nison**

@@ -4,8 +4,8 @@ var requirePromise = require('./requirePromise');
 
 requirePromise();
 
-var PromiseResolve = require('es-abstract/2021/PromiseResolve');
-var Type = require('es-abstract/2021/Type');
+var PromiseResolve = require('es-abstract/2022/PromiseResolve');
+var Type = require('es-abstract/2022/Type');
 var iterate = require('iterate-value');
 var map = require('array.prototype.map');
 var GetIntrinsic = require('get-intrinsic');

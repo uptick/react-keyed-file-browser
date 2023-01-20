@@ -1,3 +1,1 @@
-const build = require('./dist/server/standalone').default;
-
-module.exports = build;
+module.exports = require('@storybook/core-server/standalone');

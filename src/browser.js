@@ -113,7 +113,9 @@ class RawFileBrowser extends React.Component {
     sensorSettings: PropTypes.func,
     gatewaySettings: PropTypes.func,
     addGateway: PropTypes.func,
-    share: PropTypes.func
+    share: PropTypes.func,
+
+    statusIcon: PropTypes.element
   }
 
   static defaultProps = {
@@ -502,6 +504,9 @@ class RawFileBrowser extends React.Component {
   }
 
   // Custom functions
+  statusIcon = (e) => {
+    this.props.statusIcon(e);
+  }
 
   sensorSettings = (e) => {
     this.props.sensorSettings(e);
@@ -563,6 +568,8 @@ class RawFileBrowser extends React.Component {
       gatewaySettings: this.props.gatewaySettings ? this.gatewaySettings : undefined,
       addGateway: this.props.addGateway ? this.addGateway : undefined,
       share: this.props.share ? this.share : undefined,
+
+      statusIcon: this.props.statusIcon ? this.statusIcon : undefined
     }
   }
 
@@ -655,6 +662,7 @@ class RawFileBrowser extends React.Component {
             browserProps={browserProps}
             {...fileRendererProps}
             sensorSettings={this.sensorSettings}
+            statusIcon={this.statusIcon}
           />
         )
       } else {
@@ -666,6 +674,7 @@ class RawFileBrowser extends React.Component {
               browserProps={browserProps}
               {...folderRendererProps}
               gatewaySettings={this.gatewaySettings}
+              statusIcon={this.statusIcon}
             />
           )
         }

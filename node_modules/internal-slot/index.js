@@ -15,6 +15,9 @@ var SLOT = {
 			throw new $TypeError('`slot` must be a string');
 		}
 		channel.assert(O);
+		if (!SLOT.has(O, slot)) {
+			throw new $TypeError('`slot` is not present on `O`');
+		}
 	},
 	get: function (O, slot) {
 		if (!O || (typeof O !== 'object' && typeof O !== 'function')) {

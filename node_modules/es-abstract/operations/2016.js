@@ -69,6 +69,9 @@ module.exports = {
 	Completion: {
 		url: 'https://262.ecma-international.org/7.0/#sec-completion-record-specification-type'
 	},
+	CompletionRecord: {
+		url: 'https://262.ecma-international.org/7.0/#sec-completion-record-specification-type'
+	},
 	Construct: {
 		url: 'https://262.ecma-international.org/7.0/#sec-construct'
 	},
@@ -311,15 +314,6 @@ module.exports = {
 	},
 	HasProperty: {
 		url: 'https://262.ecma-international.org/7.0/#sec-hasproperty'
-	},
-	HostPromiseRejectionTracker: {
-		url: 'https://262.ecma-international.org/7.0/#sec-host-promise-rejection-tracker'
-	},
-	HostReportErrors: {
-		url: 'https://262.ecma-international.org/7.0/#sec-host-report-errors'
-	},
-	HostResolveImportedModule: {
-		url: 'https://262.ecma-international.org/7.0/#sec-hostresolveimportedmodule'
 	},
 	HourFromTime: {
 		url: 'https://262.ecma-international.org/7.0/#sec-hours-minutes-second-and-milliseconds'

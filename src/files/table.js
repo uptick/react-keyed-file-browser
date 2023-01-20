@@ -18,7 +18,8 @@ class RawTableFile extends BaseFile {
       // Sensor Settings
       isSensor, 
       sensorId,
-      sensorSettings
+      sensorSettings,
+      statusIcon
     } = this.props
 
     const icon = browserProps.icons[isSensor ? "Sensor" : this.getFileType()] ||
@@ -42,6 +43,7 @@ class RawTableFile extends BaseFile {
     } else if (!inAction && isRenaming) {
       name = (
         <form className="renaming" onSubmit={this.handleRenameSubmit}>
+          {statusIcon()}
           {icon}
           <input
             ref={this.selectFileNameFromRef}
@@ -56,6 +58,7 @@ class RawTableFile extends BaseFile {
     } else {
       name = (
         <a>
+          {statusIcon}
           {icon}
           {this.getName()}
         </a>

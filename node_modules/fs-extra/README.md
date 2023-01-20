@@ -143,7 +143,7 @@ Methods
 - [writeJsonSync](docs/writeJson-sync.md)
 
 
-**NOTE:** You can still use the native Node.js methods. They are promisified and copied over to `fs-extra`. See [notes on `fs.read()` & `fs.write()`](docs/fs-read-write.md)
+**NOTE:** You can still use the native Node.js methods. They are promisified and copied over to `fs-extra`. See [notes on `fs.read()`, `fs.write()`, & `fs.writev()`](docs/fs-read-write-writev.md)
 
 ### What happened to `walk()` and `walkSync()`?
 
@@ -153,6 +153,9 @@ They were removed from `fs-extra` in v2.0.0. If you need the functionality, `wal
 Third Party
 -----------
 
+### CLI
+
+[fse-cli](https://www.npmjs.com/package/@atao60/fse-cli) allows you to run `fs-extra` from a console or from [npm](https://www.npmjs.com) scripts.
 
 ### TypeScript
 

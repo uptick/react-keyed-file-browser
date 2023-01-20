@@ -2,6 +2,72 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/webpack-contrib/file-loader/compare/v6.1.1...v6.2.0) (2020-10-27)
+
+
+### Features
+
+* added the `sourceFilename` property to asset info with original filename ([#393](https://github.com/webpack-contrib/file-loader/issues/393)) ([654e0d6](https://github.com/webpack-contrib/file-loader/commit/654e0d641ec067089f6a2d12e30ec3520f00d808))
+
+
+### Bug Fixes
+
+* immutable flag when the `name` option have hash in query string ([#392](https://github.com/webpack-contrib/file-loader/issues/392)) ([381d8bd](https://github.com/webpack-contrib/file-loader/commit/381d8bda3f2494487bfe840386e365b97b6025fe))
+
+### [6.1.1](https://github.com/webpack-contrib/file-loader/compare/v6.1.0...v6.1.1) (2020-10-09)
+
+### Chore
+
+* update `schema-utils`
+
+## [6.1.0](https://github.com/webpack-contrib/file-loader/compare/v6.0.0...v6.1.0) (2020-08-31)
+
+
+### Features
+
+* pass immutable flag to asset info ([#383](https://github.com/webpack-contrib/file-loader/issues/383)) ([40fcde8](https://github.com/webpack-contrib/file-loader/commit/40fcde81681d4f8ee19d2ee3845fd34e24459195))
+
+## [6.0.0](https://github.com/webpack-contrib/file-loader/compare/v5.1.0...v6.0.0) (2020-03-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* use `md4` by default for hashing ([#369](https://github.com/webpack-contrib/file-loader/issues/369)) ([ad39022](https://github.com/webpack-contrib/file-loader/commit/ad3902284d28adeddf667212a39faa4c6bfb2964))
+
+## [5.1.0](https://github.com/webpack-contrib/file-loader/compare/v5.0.2...v5.1.0) (2020-02-19)
+
+
+### Features
+
+* support the `query` template for the `name` option ([#366](https://github.com/webpack-contrib/file-loader/issues/366)) ([cd8698b](https://github.com/webpack-contrib/file-loader/commit/cd8698b1d9fd560d85e912acca9a1e24f00e18f8))
+
+### [5.0.2](https://github.com/webpack-contrib/file-loader/compare/v5.0.1...v5.0.2) (2019-11-25)
+
+
+### Chore
+
+*  add the `funding` field in `package.json`
+
+
+
+### [5.0.1](https://github.com/webpack-contrib/file-loader/compare/v5.0.0...v5.0.1) (2019-11-25)
+
+
+### Bug Fixes
+
+* name of `esModule` option in source code ([#346](https://github.com/webpack-contrib/file-loader/issues/346)) ([31d6589](https://github.com/webpack-contrib/file-loader/commit/31d6589b71b471f83908e80380dff9b9eada2d06))
+
+## [5.0.0](https://github.com/webpack-contrib/file-loader/compare/v4.2.0...v5.0.0) (2019-11-22)
+
+
+### BREAKING CHANGES
+
+* minimum required nodejs version is `10.13.0`
+* rename the `esModules` option to `esModule`
+* switch to ES modules by default (the option `esModule` is `true` by default)
+
+
+
 ## [4.3.0](https://github.com/webpack-contrib/file-loader/compare/v4.2.0...v4.3.0) (2019-11-21)
 
 

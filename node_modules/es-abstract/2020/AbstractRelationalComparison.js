@@ -58,7 +58,7 @@ module.exports = function AbstractRelationalComparison(x, y, LeftFirst) {
 		if ($isNaN(nx)) {
 			return void undefined;
 		}
-		return BigIntLessThan(px, ny);
+		return BigIntLessThan(nx, py);
 	}
 
 	nx = ToNumeric(px);

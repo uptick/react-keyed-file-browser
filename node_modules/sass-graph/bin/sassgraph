@@ -22,7 +22,7 @@ var yargs = require('yargs')
 
     .option('e', {
       alias: 'extensions',
-      default: ['scss', 'css', 'sass'],
+      default: ['scss', 'sass'],
       describe: 'File extensions to include in the graph',
       type: 'array',
     })
@@ -41,9 +41,7 @@ var yargs = require('yargs')
       type: 'bool',
     })
 
-    .version(function() {
-      return require('../package').version;
-    })
+    .version()
     .alias('v', 'version')
 
     .help('h')
@@ -60,11 +58,11 @@ if (['ancestors', 'descendents'].indexOf(argv._[0]) !== -1) {
   command = argv._.shift();
 }
 
-if (argv._ && path.extname(argv._[0]) === '') {
+if (argv._.length && path.extname(argv._[0]) === '') {
   directory = argv._.shift();
 }
 
-if (argv._ && path.extname(argv._[0])) {
+if (argv._.length && path.extname(argv._[0])) {
   file = argv._.shift();
 }
 

@@ -6,7 +6,7 @@ var $BigInt = GetIntrinsic('%BigInt%', true);
 var $TypeError = GetIntrinsic('%TypeError%');
 var $SyntaxError = GetIntrinsic('%SyntaxError%');
 
-// https://262.ecma-international.org/11.0/#sec-stringtobigint
+// https://262.ecma-international.org/14.0/#sec-stringtobigint
 
 module.exports = function StringToBigInt(argument) {
 	if (typeof argument !== 'string') {
@@ -18,6 +18,6 @@ module.exports = function StringToBigInt(argument) {
 	try {
 		return $BigInt(argument);
 	} catch (e) {
-		return NaN;
+		return void undefined;
 	}
 };

@@ -1,1 +1,1 @@
-export * from './dist/html.d';
+export * from './dist/ts3.9/html.d';

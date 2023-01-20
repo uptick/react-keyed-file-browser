@@ -6,9 +6,20 @@
 	"rules": {
 		"array-bracket-newline": 0,
 		"id-length": 0,
-		"max-statements-per-line": [2, { "max": 2 }],
-		"max-statements": [2, 19],
-		"new-cap": [2, { "capIsNewExceptions": ["RequireObjectCoercible", "ToObject", "ToUint32", "IsCallable", "ArraySpeciesCreate", "HasProperty", "Get", "ToString", "Call", "CreateDataPropertyOrThrow"] }],
+		"new-cap": [2, {
+			"capIsNewExceptions": [
+				"ArraySpeciesCreate",
+				"Call",
+				"CreateDataPropertyOrThrow",
+				"Get",
+				"HasProperty",
+				"IsCallable",
+				"RequireObjectCoercible",
+				"ToObject",
+				"ToString",
+				"ToUint32",
+			]
+		}],
 		"no-magic-numbers": 0,
 	},
 
@@ -17,7 +28,6 @@
 			"files": "test/**",
 			"rules": {
 				"max-lines-per-function": 0,
-				"max-params": 0,
 				"no-invalid-this": 1,
 				"strict": 0,
 			},

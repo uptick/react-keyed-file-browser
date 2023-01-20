@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.6](https://github.com/es-shims/Promise.allSettled/compare/v1.0.5...v1.0.6) - 2022-11-07
+
+### Commits
+
+- [actions] reuse common workflows [`b9d78d9`](https://github.com/es-shims/Promise.allSettled/commit/b9d78d97ac4e5f774985532d0dd8024e770f5174)
+- [meta] use `npmignore` to autogenerate an npmignore file [`4507529`](https://github.com/es-shims/Promise.allSettled/commit/45075294f8ef95a75616396b3be4658d3baa4133)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `@es-shims/api`, `safe-publish-latest`, `tape` [`6e2c01c`](https://github.com/es-shims/Promise.allSettled/commit/6e2c01c998e790f2ae85639a861dd5a00f00cb81)
+- [actions] update codecov uploader [`2a24151`](https://github.com/es-shims/Promise.allSettled/commit/2a2415155ee3941da4b9b10a014192f25218ed2e)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `aud`, `auto-changelog`, `functions-have-names`, `tape` [`cfa4e59`](https://github.com/es-shims/Promise.allSettled/commit/cfa4e5949060e22ca0880a68d712aea7788b8f34)
+- [Deps] update `array.prototype.map`, `define-properties`, `es-abstract`, `get-intrinsic` [`c841f03`](https://github.com/es-shims/Promise.allSettled/commit/c841f039568e09383a747b8f33587181b801a235)
+- [actions] update rebase action to use reusable workflow [`9f663ac`](https://github.com/es-shims/Promise.allSettled/commit/9f663ac6b78848d8a1a959b50ec2cef7858f8253)
+
 ## [v1.0.5](https://github.com/es-shims/Promise.allSettled/compare/v1.0.4...v1.0.5) - 2021-10-03
 
 ### Commits

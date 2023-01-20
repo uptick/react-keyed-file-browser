@@ -14,7 +14,6 @@ module.exports = {
   '@storybook/router': dirname(resolve('@storybook/router/package.json')),
   '@storybook/theming': dirname(resolve('@storybook/theming/package.json')),
   '@storybook/ui': dirname(resolve('@storybook/ui/package.json')),
-  'prop-types': dirname(resolve('prop-types/package.json')),
   react: dirname(resolve('react/package.json')),
   'react-dom': dirname(resolve('react-dom/package.json')),
 };

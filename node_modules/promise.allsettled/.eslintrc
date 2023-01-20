@@ -3,12 +3,7 @@
 
 	"extends": "@ljharb",
 
-	"globals": {
-		"Promise": false
-	},
-
 	"rules": {
-		"dot-notation": [2, { "allowKeywords": false }],
 		"new-cap": [2, {
 			"capIsNewExceptions": [
 				"GetIntrinsic",

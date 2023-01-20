@@ -54,14 +54,14 @@ module.exports = function IsLessThan(x, y, LeftFirst) {
 	var ny;
 	if (pxType === 'BigInt' && pyType === 'String') {
 		ny = StringToBigInt(py);
-		if ($isNaN(ny)) {
+		if (typeof ny === 'undefined') {
 			return void undefined;
 		}
 		return BigIntLessThan(px, ny);
 	}
 	if (pxType === 'String' && pyType === 'BigInt') {
 		nx = StringToBigInt(px);
-		if ($isNaN(nx)) {
+		if (typeof nx === 'undefined') {
 			return void undefined;
 		}
 		return BigIntLessThan(nx, py);
