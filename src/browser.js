@@ -114,7 +114,7 @@ class RawFileBrowser extends React.Component {
     gatewaySettings: PropTypes.func,
     addGateway: PropTypes.func,
     share: PropTypes.func,
-    
+
     statusIcon: PropTypes.element
   }
 
@@ -658,7 +658,7 @@ class RawFileBrowser extends React.Component {
             browserProps={browserProps}
             {...fileRendererProps}
             sensorSettings={this.sensorSettings}
-            statusIcon={this.statusIcon}
+            //statusIcon={this.statusIcon}
           />
         )
       } else {
