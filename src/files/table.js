@@ -43,7 +43,7 @@ class RawTableFile extends BaseFile {
     } else if (!inAction && isRenaming) {
       name = (
         <form className="renaming" onSubmit={this.handleRenameSubmit}>
-          {statusIcon}
+          {statusIcon()}
           {icon}
           <input
             ref={this.selectFileNameFromRef}
