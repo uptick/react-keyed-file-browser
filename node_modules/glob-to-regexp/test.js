@@ -47,9 +47,13 @@ function test(globstar) {
   assertMatch("*.min.js", "http://example.com/jquery.min.js", { flags: 'g' });
   assertMatch("*/js/*.js", "http://example.com/js/jquery.min.js", { flags: 'g' });
 
-  var testStr = "\\/$^+?.()=!|{},[].*"
-  assertMatch(testStr, testStr);
-  assertMatch(testStr, testStr, { flags: 'g' });
+  // Test string  "\\\\/$^+?.()=!|{},[].*"  represents  <glob>\\/$^+?.()=!|{},[].*</glob>
+  // The equivalent regex is:  /^\\\/\$\^\+\?\.\(\)\=\!\|\{\}\,\[\]\..*$/
+  // Both glob and regex match:  \/$^+?.()=!|{},[].*
+  var testStr = "\\\\/$^+?.()=!|{},[].*";
+  var targetStr = "\\/$^+?.()=!|{},[].*";
+  assertMatch(testStr, targetStr);
+  assertMatch(testStr, targetStr, { flags: 'g' });
 
   // Equivalent matches without/with using RegExp 'g'
   assertNotMatch(".min.", "http://example.com/jquery.min.js");
@@ -154,9 +158,13 @@ function test(globstar) {
               { extended: true,  globstar: globstar, flags: 'g' });
 
   // Remaining special chars should still match themselves
-  var testExtStr = "\\/$^+.()=!|,.*"
-  assertMatch(testExtStr, testExtStr, { extended: true });
-  assertMatch(testExtStr, testExtStr, { extended: true,  globstar: globstar, flags: 'g' });
+  // Test string  "\\\\/$^+.()=!|,.*"  represents  <glob>\\/$^+.()=!|,.*</glob>
+  // The equivalent regex is:  /^\\\/\$\^\+\.\(\)\=\!\|\,\..*$/
+  // Both glob and regex match:  \/$^+.()=!|,.*
+  var testExtStr = "\\\\/$^+.()=!|,.*";
+  var targetExtStr = "\\/$^+.()=!|,.*";
+  assertMatch(testExtStr, targetExtStr, { extended: true });
+  assertMatch(testExtStr, targetExtStr, { extended: true,  globstar: globstar, flags: 'g' });
 }
 
 // regression

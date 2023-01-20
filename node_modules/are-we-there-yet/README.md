@@ -1,14 +1,14 @@
 are-we-there-yet
 ----------------
 
-Track complex hiearchies of asynchronous task completion statuses.  This is
+Track complex hierarchies of asynchronous task completion statuses.  This is
 intended to give you a way of recording and reporting the progress of the big
 recursive fan-out and gather type workflows that are so common in async.
 
 What you do with this completion data is up to you, but the most common use case is to
 feed it to one of the many progress bar modules.
 
-Most progress bar modules include a rudamentary version of this, but my
+Most progress bar modules include a rudimentary version of this, but my
 needs were more complex.
 
 Usage
@@ -85,7 +85,20 @@ TrackerGroup
     notifications if the component updating didn't have a name. Defaults to undefined.
 
 Creates a new empty tracker aggregation group. These are trackers whose
-completion status is determined by the completion status of other trackers.
+completion status is determined by the completion status of other trackers added to this aggregation group.
+
+Ex.
+
+```javascript
+var tracker = new TrackerGroup("parent")
+var foo = tracker.newItem("firstChild", 100)
+var bar = tracker.newItem("secondChild", 100)
+
+foo.finish()
+console.log(tracker.completed()) // 0.5
+bar.finish()
+console.log(tracker.completed()) // 1
+```
 
 * tracker.addUnit(**otherTracker**, **weight**)
 
