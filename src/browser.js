@@ -659,7 +659,6 @@ class RawFileBrowser extends React.Component {
             browserProps={browserProps}
             {...fileRendererProps}
             sensorSettings={this.sensorSettings}
-            //statusIcon={this.statusIcon}
           />
         )
       } else {
