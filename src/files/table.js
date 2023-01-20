@@ -58,7 +58,7 @@ class RawTableFile extends BaseFile {
     } else {
       name = (
         <a>
-          {statusIcon}
+          {statusIcon()}
           {icon}
           {this.getName()}
         </a>

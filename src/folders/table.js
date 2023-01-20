@@ -46,7 +46,7 @@ class RawTableFolder extends BaseFolder {
       nameLbl = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
-            {statusIcon}
+            {statusIcon()}
             {icon}
             <input
               type="text"
@@ -63,7 +63,7 @@ class RawTableFolder extends BaseFolder {
       nameLbl = (
         <div>
           <a onClick={this.toggleFolder}>
-            {statusIcon}
+            {statusIcon()}
             {icon}
             {this.getName()}
           </a>
