@@ -640,6 +640,7 @@ class RawFileBrowser extends React.Component {
     const {
       fileRenderer: FileRenderer, fileRendererProps,
       folderRenderer: FolderRenderer, folderRendererProps,
+      statusIcon
     } = this.props
     const browserProps = this.getBrowserProps()
     let renderedFiles = []
@@ -670,7 +671,7 @@ class RawFileBrowser extends React.Component {
               browserProps={browserProps}
               {...folderRendererProps}
               gatewaySettings={this.gatewaySettings}
-              statusIcon={this.statusIcon}
+              statusIcon={statusIcon}
             />
           )
         }
