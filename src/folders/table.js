@@ -11,7 +11,7 @@ class RawTableFolder extends BaseFolder {
   render() {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
-      action, url, browserProps, connectDragPreview, depth, 
+      action, url, browserProps, connectDragPreview, depth,
 
       // Gateway Data
       isGateway,
@@ -27,10 +27,6 @@ class RawTableFolder extends BaseFolder {
       'Gateway' :
       (isOpen ? 'FolderOpen' : 'Folder')]
     const inAction = (isDragging || action);
-
-    console.log("STATUS", statusIcon);
-
-    const Status = statusIcon();
 
     const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer
 
@@ -50,7 +46,7 @@ class RawTableFolder extends BaseFolder {
       nameLbl = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
-            {<Status/>}
+            {statusIcon}
             {icon}
             <input
               type="text"
@@ -67,7 +63,7 @@ class RawTableFolder extends BaseFolder {
       nameLbl = (
         <div>
           <a onClick={this.toggleFolder}>
-            {<Status/>}
+            {statusIcon}
             {icon}
             {this.getName()}
           </a>

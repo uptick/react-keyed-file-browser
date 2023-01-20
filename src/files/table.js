@@ -22,8 +22,6 @@ class RawTableFile extends BaseFile {
       statusIcon
     } = this.props
 
-    const Status = statusIcon();
-
     const icon = browserProps.icons[isSensor ? "Sensor" : this.getFileType()] ||
       browserProps.icons.File;
     const inAction = (isDragging || action)
@@ -45,7 +43,7 @@ class RawTableFile extends BaseFile {
     } else if (!inAction && isRenaming) {
       name = (
         <form className="renaming" onSubmit={this.handleRenameSubmit}>
-          {<Status/>}
+          {statusIcon}
           {icon}
           <input
             ref={this.selectFileNameFromRef}
@@ -60,7 +58,7 @@ class RawTableFile extends BaseFile {
     } else {
       name = (
         <a>
-          {<Status/>}
+          {statusIcon}
           {icon}
           {this.getName}
         </a>
