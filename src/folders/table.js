@@ -16,6 +16,7 @@ class RawTableFolder extends BaseFolder {
       // Gateway Data
       statusIcon,
       isGateway,
+      
       gatewaySettings,
       name,
       id,
