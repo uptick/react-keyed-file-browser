@@ -17,7 +17,7 @@ class RawTableFile extends BaseFile {
 
       // Sensor Settings
       isSensor, 
-      sensorId,
+      statusIcon,
       sensorSettings
     } = this.props
 
@@ -35,6 +35,7 @@ class RawTableFile extends BaseFile {
           handleFileClick={this.handleFileClick}
           url={url}
         >
+          <span style={{ color: statusIcon }}>⬤</span>
           {icon}
           {this.getName()}
         </ConfirmDeletionRenderer>
@@ -42,6 +43,7 @@ class RawTableFile extends BaseFile {
     } else if (!inAction && isRenaming) {
       name = (
         <form className="renaming" onSubmit={this.handleRenameSubmit}>
+          <span style={{ color: statusIcon }}>⬤</span>
           {icon}
           <input
             ref={this.selectFileNameFromRef}
@@ -56,8 +58,9 @@ class RawTableFile extends BaseFile {
     } else {
       name = (
         <a>
+          <span style={{ color: statusIcon }}>⬤</span>
           {icon}
-          {this.getName}
+          {this.getName()}
         </a>
       )
     }

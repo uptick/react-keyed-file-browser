@@ -16,7 +16,7 @@ class RawTableFolder extends BaseFolder {
       // Gateway Data
       statusIcon,
       isGateway,
-      
+
       gatewaySettings,
       name,
       id,
@@ -47,7 +47,7 @@ class RawTableFolder extends BaseFolder {
       nameLbl = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
-            {statusIcon}
+            <span style={{ color: statusIcon }}>⬤</span>
             {icon}
             <input
               type="text"
@@ -64,7 +64,7 @@ class RawTableFolder extends BaseFolder {
       nameLbl = (
         <div>
           <a onClick={this.toggleFolder}>
-            {statusIcon}
+            <span style={{ color: statusIcon }}>⬤</span>
             {icon}
             {this.getName()}
           </a>
