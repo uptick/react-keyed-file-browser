@@ -14,13 +14,13 @@ class RawTableFolder extends BaseFolder {
       action, url, browserProps, connectDragPreview, depth,
 
       // Gateway Data
+      statusIcon,
       isGateway,
       gatewaySettings,
       name,
       id,
       password,
       description,
-      statusIcon
     } = this.props
 
     const icon = browserProps.icons[isGateway ?
