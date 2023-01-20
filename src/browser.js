@@ -114,7 +114,6 @@ class RawFileBrowser extends React.Component {
     gatewaySettings: PropTypes.func,
     addGateway: PropTypes.func,
     share: PropTypes.func,
-
     statusIcon: PropTypes.func
   }
 
@@ -516,6 +515,10 @@ class RawFileBrowser extends React.Component {
     this.props.addGateway(e);
   }
 
+  sensorIcon = () => {
+    this.props.sensorIcon();
+  }
+
   share = (e) => {
     this.props.share(e);
   }
@@ -564,8 +567,7 @@ class RawFileBrowser extends React.Component {
       gatewaySettings: this.props.gatewaySettings ? this.gatewaySettings : undefined,
       addGateway: this.props.addGateway ? this.addGateway : undefined,
       share: this.props.share ? this.share : undefined,
-
-      statusIcon: this.props.statusIcon
+      statusIcon: this.props.statusIcon ? this.statusIcon : undefined,
     }
   }
 

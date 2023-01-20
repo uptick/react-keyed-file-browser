@@ -26,7 +26,11 @@ class RawTableFolder extends BaseFolder {
     const icon = browserProps.icons[isGateway ?
       'Gateway' :
       (isOpen ? 'FolderOpen' : 'Folder')]
-    const inAction = (isDragging || action)
+    const inAction = (isDragging || action);
+
+    console.log("STATUS", statusIcon);
+
+    const Status = statusIcon();
 
     const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer
 
@@ -46,7 +50,7 @@ class RawTableFolder extends BaseFolder {
       nameLbl = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
-            {statusIcon()}
+            {<Status/>}
             {icon}
             <input
               type="text"
@@ -63,7 +67,7 @@ class RawTableFolder extends BaseFolder {
       nameLbl = (
         <div>
           <a onClick={this.toggleFolder}>
-            {statusIcon()}
+            {<Status/>}
             {icon}
             {this.getName()}
           </a>
