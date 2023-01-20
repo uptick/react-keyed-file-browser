@@ -115,7 +115,7 @@ class RawFileBrowser extends React.Component {
     addGateway: PropTypes.func,
     share: PropTypes.func,
 
-    statusIcon: PropTypes.element
+    statusIcon: PropTypes.any
   }
 
   static defaultProps = {
