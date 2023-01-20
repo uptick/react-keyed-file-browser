@@ -504,10 +504,6 @@ class RawFileBrowser extends React.Component {
   }
 
   // Custom functions
-  statusIcon = (e) => {
-    this.props.statusIcon(e);
-  }
-
   sensorSettings = (e) => {
     this.props.sensorSettings(e);
   }
@@ -569,7 +565,7 @@ class RawFileBrowser extends React.Component {
       addGateway: this.props.addGateway ? this.addGateway : undefined,
       share: this.props.share ? this.share : undefined,
 
-      statusIcon: this.props.statusIcon ? this.statusIcon : undefined
+      statusIcon: this.props.statusIcon
     }
   }
 
