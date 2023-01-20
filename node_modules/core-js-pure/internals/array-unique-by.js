@@ -1,17 +1,15 @@
 'use strict';
-var getBuiltIn = require('../internals/get-built-in');
 var uncurryThis = require('../internals/function-uncurry-this');
 var aCallable = require('../internals/a-callable');
 var isNullOrUndefined = require('../internals/is-null-or-undefined');
 var lengthOfArrayLike = require('../internals/length-of-array-like');
 var toObject = require('../internals/to-object');
-var arraySpeciesCreate = require('../internals/array-species-create');
+var MapHelpers = require('../internals/map-helpers');
+var iterate = require('../internals/map-iterate');
 
-var Map = getBuiltIn('Map');
-var MapPrototype = Map.prototype;
-var mapForEach = uncurryThis(MapPrototype.forEach);
-var mapHas = uncurryThis(MapPrototype.has);
-var mapSet = uncurryThis(MapPrototype.set);
+var Map = MapHelpers.Map;
+var mapHas = MapHelpers.has;
+var mapSet = MapHelpers.set;
 var push = uncurryThis([].push);
 
 // `Array.prototype.uniqueBy` method
@@ -19,7 +17,7 @@ var push = uncurryThis([].push);
 module.exports = function uniqueBy(resolver) {
   var that = toObject(this);
   var length = lengthOfArrayLike(that);
-  var result = arraySpeciesCreate(that, 0);
+  var result = [];
   var map = new Map();
   var resolverFunction = !isNullOrUndefined(resolver) ? aCallable(resolver) : function (value) {
     return value;
@@ -30,7 +28,7 @@ module.exports = function uniqueBy(resolver) {
     key = resolverFunction(item);
     if (!mapHas(map, key)) mapSet(map, key, item);
   }
-  mapForEach(map, function (value) {
+  iterate(map, function (value) {
     push(result, value);
   });
   return result;

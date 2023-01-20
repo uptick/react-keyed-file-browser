@@ -18,7 +18,7 @@ Because `Array.prototype.includes` depends on a receiver (the `this` value), the
 Engines that need this package include:
  - IE (all versions)
  - Safari < 9
- - Firefox < 43, and 99+
+ - Firefox < 43, and 99-101
  - Chrome < 47
  - Edge < 14
  - node < 6

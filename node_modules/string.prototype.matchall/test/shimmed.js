@@ -8,6 +8,8 @@ var test = require('tape');
 var defineProperties = require('define-properties');
 var callBind = require('call-bind');
 var hasSymbols = require('has-symbols')();
+var mockProperty = require('mock-property');
+
 var regexMatchAll = require('../regexp-matchall');
 
 var isEnumerable = Object.prototype.propertyIsEnumerable;
@@ -43,22 +45,15 @@ test('shimmed', function (t) {
 		});
 
 		st.test('no symbol present', function (s2t) {
-			var desc = Object.getOwnPropertyDescriptor(RegExp.prototype, Symbol.matchAll);
-
 			s2t.doesNotThrow(function () { 'abc'.matchAll('b'); }, 'does not throw on string input, with the symbol on regex prototype');
 
-			// eslint-disable-next-line no-extend-native
-			Object.defineProperty(RegExp.prototype, Symbol.matchAll, {
-				configurable: true,
-				enumerable: false,
+			s2t.teardown(mockProperty(RegExp.prototype, Symbol.matchAll, {
+				nonEnumerable: true,
 				value: undefined,
-				writable: true
-			});
+				nonWritable: false
+			}));
 
 			s2t['throws'](function () { 'abc'.matchAll('b'); }, 'throws on string input, without the symbol on regex prototype');
-
-			// eslint-disable-next-line no-extend-native
-			Object.defineProperty(RegExp.prototype, Symbol.matchAll, desc);
 
 			s2t.end();
 		});

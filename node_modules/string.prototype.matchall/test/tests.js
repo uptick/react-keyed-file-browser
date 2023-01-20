@@ -1,6 +1,6 @@
 'use strict';
 
-var forEach = require('foreach');
+var forEach = require('for-each');
 var has = Object.prototype.hasOwnProperty;
 var assign = require('object.assign');
 var define = require('define-properties');

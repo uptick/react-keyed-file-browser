@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v4.0.8](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.7...v4.0.8) - 2022-11-07
+
+### Commits
+
+- [meta] use `npmignore` to autogenerate an npmignore file [`a08a8a1`](https://github.com/ljharb/String.prototype.matchAll/commit/a08a8a17c73814580b26775f7d11dd184abfe00b)
+- [Deps] update `define-properties`, `es-abstract`, `get-intrinsic`, `regexp.prototype.flags` [`6273f0f`](https://github.com/ljharb/String.prototype.matchAll/commit/6273f0fd008727933e347789ff8f618036bb2297)
+- [Tests] use `mock-property` [`94e83a3`](https://github.com/ljharb/String.prototype.matchAll/commit/94e83a37cd89898a2426f7b028280e6823e9d4a4)
+- [Dev Deps] update `@ljharb/eslint-config`, `aud`, `es5-shim`, `functions-have-names`, `object-inspect`, `object.assign`, `object.entries`, `tape` [`8024497`](https://github.com/ljharb/String.prototype.matchAll/commit/8024497753c39a832f1febc5b91b845d06ca32a7)
+- [actions] update rebase action to use reusable workflow [`028abc0`](https://github.com/ljharb/String.prototype.matchAll/commit/028abc0a0f283671072515feaaa98bd3372e84b3)
+- [Tests] use `for-each` instead of `foreach` [`f68b771`](https://github.com/ljharb/String.prototype.matchAll/commit/f68b771da3f9f4c759d12322e5e2ce76b4de2c0e)
+
 ## [v4.0.7](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.6...v4.0.7) - 2022-03-18
 
 ### Commits

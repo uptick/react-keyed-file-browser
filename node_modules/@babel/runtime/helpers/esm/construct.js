@@ -13,6 +13,5 @@ export default function _construct(Parent, args, Class) {
       return instance;
     };
   }
-
   return _construct.apply(null, arguments);
 }

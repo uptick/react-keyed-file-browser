@@ -1,16 +1,29 @@
 {
   "name": "call-me-maybe",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Let your JS API users either give you a callback or receive a promise",
-  "main": "index.js",
-  "dependencies": {},
+  "main": "src/maybe.js",
+  "files": [
+    "src"
+  ],
   "devDependencies": {
+    "@commitlint/config-conventional": "^17.1.0",
+    "browserify": "^17.0.0",
+    "commitlint": "^17.1.2",
+    "husky": "^7.0.0",
+    "is-ci": "^3.0.1",
+    "karma": "^6.4.1",
+    "karma-browserify": "^8.1.0",
+    "karma-browserstack-launcher": "^1.6.0",
+    "karma-mocha": "^2.0.1",
     "mocha": "^2.3.2",
     "promise": "^7.0.4",
-    "zuul": "^3.4.0"
+    "semantic-release": "^19.0.5"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "prepare": "is-ci || husky install",
+    "test-browsers": "karma start"
   },
   "repository": {
     "type": "git",

@@ -41,8 +41,8 @@
     "esbuild-linux-64": "^0.15.18",
     "lodash.flow": "^3.5.0",
     "prop-types": "^15.8.1",
-    "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0",
+    "react-dnd": "^14.0.2",
+    "react-dnd-html5-backend": "^14.0",
     "react-router-dom": "^6.7.0"
   },
   "peerDependencies": {

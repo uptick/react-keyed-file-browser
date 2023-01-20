@@ -1,19 +1,17 @@
 import OverloadYield from "./OverloadYield.js";
 export default function AsyncGenerator(gen) {
   var front, back;
-
   function resume(key, arg) {
     try {
       var result = gen[key](arg),
-          value = result.value,
-          overloaded = value instanceof OverloadYield;
+        value = result.value,
+        overloaded = value instanceof OverloadYield;
       Promise.resolve(overloaded ? value.v : value).then(function (arg) {
         if (overloaded) {
           var nextKey = "return" === key ? "return" : "next";
           if (!value.k || arg.done) return resume(nextKey, arg);
           arg = gen[nextKey](arg).value;
         }
-
         settle(result.done ? "return" : "normal", arg);
       }, function (err) {
         resume("throw", err);
@@ -22,7 +20,6 @@ export default function AsyncGenerator(gen) {
       settle("throw", err);
     }
   }
-
   function settle(type, value) {
     switch (type) {
       case "return":
@@ -31,21 +28,17 @@ export default function AsyncGenerator(gen) {
           done: !0
         });
         break;
-
       case "throw":
         front.reject(value);
         break;
-
       default:
         front.resolve({
           value: value,
           done: !1
         });
     }
-
     (front = front.next) ? resume(front.key, front.arg) : back = null;
   }
-
   this._invoke = function (key, arg) {
     return new Promise(function (resolve, reject) {
       var request = {

@@ -1,11 +1,11 @@
 'use strict';
 
-var Call = require('es-abstract/2021/Call');
-var Get = require('es-abstract/2021/Get');
-var GetMethod = require('es-abstract/2021/GetMethod');
-var IsRegExp = require('es-abstract/2021/IsRegExp');
-var ToString = require('es-abstract/2021/ToString');
-var RequireObjectCoercible = require('es-abstract/2021/RequireObjectCoercible');
+var Call = require('es-abstract/2022/Call');
+var Get = require('es-abstract/2022/Get');
+var GetMethod = require('es-abstract/2022/GetMethod');
+var IsRegExp = require('es-abstract/2022/IsRegExp');
+var ToString = require('es-abstract/2022/ToString');
+var RequireObjectCoercible = require('es-abstract/2022/RequireObjectCoercible');
 var callBound = require('call-bind/callBound');
 var hasSymbols = require('has-symbols')();
 var flagsGetter = require('regexp.prototype.flags');

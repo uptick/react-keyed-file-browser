@@ -1,9 +1,9 @@
 'use strict';
 
-var CreateDataProperty = require('es-abstract/2021/CreateDataProperty');
-var IsCallable = require('es-abstract/2021/IsCallable');
-var RequireObjectCoercible = require('es-abstract/2021/RequireObjectCoercible');
-var ToObject = require('es-abstract/2021/ToObject');
+var CreateDataProperty = require('es-abstract/2022/CreateDataProperty');
+var IsCallable = require('es-abstract/2022/IsCallable');
+var RequireObjectCoercible = require('es-abstract/2022/RequireObjectCoercible');
+var ToObject = require('es-abstract/2022/ToObject');
 var callBound = require('call-bind/callBound');
 var reduce = require('array.prototype.reduce');
 

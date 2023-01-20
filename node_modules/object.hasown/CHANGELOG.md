@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.1.2](https://github.com/es-shims/Object.hasOwn/compare/v1.1.1...v1.1.2) - 2022-11-06
+
+### Commits
+
+- [actions] update rebase action to use reusable workflow [`db8c17c`](https://github.com/es-shims/Object.hasOwn/commit/db8c17c46fc53ffa1ed402308949e27d4dc13ae6)
+- [Deps] update `es-abstract` [`8b549d2`](https://github.com/es-shims/Object.hasOwn/commit/8b549d28e1589e923d73b42516e2fa8cbdb358cb)
+- [Dev Deps] update `@ljharb/eslint-config`, `aud`, `tape` [`25fc539`](https://github.com/es-shims/Object.hasOwn/commit/25fc539d426a6f01ad0bb8bc3593919316b88c89)
+
 ## [v1.1.1](https://github.com/es-shims/Object.hasOwn/compare/v1.1.0...v1.1.1) - 2022-05-05
 
 ### Commits

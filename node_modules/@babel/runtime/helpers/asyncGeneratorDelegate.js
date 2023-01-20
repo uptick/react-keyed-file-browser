@@ -1,9 +1,7 @@
 var OverloadYield = require("./OverloadYield.js");
-
 function _asyncGeneratorDelegate(inner) {
   var iter = {},
-      waiting = !1;
-
+    waiting = !1;
   function pump(key, value) {
     return waiting = !0, value = new Promise(function (resolve) {
       resolve(inner[key](value));
@@ -12,7 +10,6 @@ function _asyncGeneratorDelegate(inner) {
       value: new OverloadYield(value, 1)
     };
   }
-
   return iter["undefined" != typeof Symbol && Symbol.iterator || "@@iterator"] = function () {
     return this;
   }, iter.next = function (value) {
@@ -24,5 +21,4 @@ function _asyncGeneratorDelegate(inner) {
     return waiting ? (waiting = !1, value) : pump("return", value);
   }), iter;
 }
-
 module.exports = _asyncGeneratorDelegate, module.exports.__esModule = true, module.exports["default"] = module.exports;

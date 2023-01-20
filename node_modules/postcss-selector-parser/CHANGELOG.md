@@ -1,3 +1,7 @@
+# 6.0.11
+
+- Fixed: parse attribute case insensitivity flag
+
 # 6.0.10
 
 - Fixed: `isPseudoElement()` supports `:first-letter` and `:first-line`

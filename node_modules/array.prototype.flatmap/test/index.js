@@ -6,8 +6,9 @@ var runTests = require('./tests');
 
 test('as a function', function (t) {
 	t.test('bad array/this value', function (st) {
-		st['throws'](flatMap.bind(null, undefined, function () {}), TypeError, 'undefined is not an object');
-		st['throws'](flatMap.bind(null, null, function () {}), TypeError, 'null is not an object');
+		/* eslint no-useless-call: 0 */
+		st['throws'](function () { flatMap.call(undefined, function () {}); }, TypeError, 'undefined is not an object');
+		st['throws'](function () { flatMap.call(null, function () {}); }, TypeError, 'null is not an object');
 		st.end();
 	});
 

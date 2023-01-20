@@ -1,4 +1,4 @@
-# convert-source-map [![build status](https://secure.travis-ci.org/thlorenz/convert-source-map.svg?branch=master)](http://travis-ci.org/thlorenz/convert-source-map)
+# convert-source-map [![Build Status][ci-image]][ci-url]
 
 Converts a source-map from/to  different formats and allows adding/changing properties.
 
@@ -118,3 +118,6 @@ Returns a comment that links to an external source map via `file`.
 By default, the comment is formatted like: `//# sourceMappingURL=...`, which you would normally see in a JS source file.
 
 When `options.multiline == true`, the comment is formatted like: `/*# sourceMappingURL=... */`, which you would find in a CSS source file.
+
+[ci-url]: https://github.com/thlorenz/convert-source-map/actions?query=workflow:ci
+[ci-image]: https://img.shields.io/github/workflow/status/thlorenz/convert-source-map/CI?style=flat-square

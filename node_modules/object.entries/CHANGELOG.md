@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.1.6](https://github.com/ljharb/Object.entries/compare/v1.1.5...v1.1.6) - 2022-11-05
+
+### Commits
+
+- [actions] reuse common workflows [`e6dc177`](https://github.com/ljharb/Object.entries/commit/e6dc177fef3434a3eeb430d1bef2ca4db3b473e0)
+- [meta] use `npmignore` to autogenerate an npmignore file [`76b4136`](https://github.com/ljharb/Object.entries/commit/76b4136ccddca82ee7ed07da53f1856b6509b79b)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `@es-shims/api`, `safe-publish-latest`, `tape` [`2ab7fcd`](https://github.com/ljharb/Object.entries/commit/2ab7fcd693cff6a39dfbc2b4854d2366eafb4d88)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `array.prototype.map`, `aud`, `auto-changelog`, `functions-have-names`, `tape` [`61a205e`](https://github.com/ljharb/Object.entries/commit/61a205eb569e1d2956c010c639199b6f33649e75)
+- [actions] update rebase action to use reusable workflow [`3b886b0`](https://github.com/ljharb/Object.entries/commit/3b886b01481a99cd9108a98bfc8f4538fcf1fd5d)
+- [actions] update codecov uploader [`6db30f8`](https://github.com/ljharb/Object.entries/commit/6db30f8663954b35b5498818a401be654d5678cd)
+- [Deps] update `define-properties`, `es-abstract` [`fa0a9c9`](https://github.com/ljharb/Object.entries/commit/fa0a9c920eb69474631f26956b199600a4cc4c90)
+
 ## [v1.1.5](https://github.com/ljharb/Object.entries/compare/v1.1.4...v1.1.5) - 2021-10-03
 
 ### Commits

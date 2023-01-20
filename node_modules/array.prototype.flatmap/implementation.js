@@ -1,11 +1,11 @@
 'use strict';
 
-var ArraySpeciesCreate = require('es-abstract/2021/ArraySpeciesCreate');
-var FlattenIntoArray = require('es-abstract/2021/FlattenIntoArray');
-var Get = require('es-abstract/2021/Get');
-var IsCallable = require('es-abstract/2021/IsCallable');
-var ToLength = require('es-abstract/2021/ToLength');
-var ToObject = require('es-abstract/2021/ToObject');
+var ArraySpeciesCreate = require('es-abstract/2022/ArraySpeciesCreate');
+var FlattenIntoArray = require('es-abstract/2022/FlattenIntoArray');
+var Get = require('es-abstract/2022/Get');
+var IsCallable = require('es-abstract/2022/IsCallable');
+var ToLength = require('es-abstract/2022/ToLength');
+var ToObject = require('es-abstract/2022/ToObject');
 
 module.exports = function flatMap(mapperFunction) {
 	var O = ToObject(this);

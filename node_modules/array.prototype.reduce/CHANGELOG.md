@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.5](https://github.com/es-shims/Array.prototype.reduce/compare/v1.0.4...v1.0.5) - 2022-11-03
+
+### Commits
+
+- [meta] use `npmignore` to autogenerate an npmignore file [`a2333c6`](https://github.com/es-shims/Array.prototype.reduce/commit/a2333c6370c478238b72d01d2b53b423ebb321c5)
+- [Deps] update `es-abstract` [`86a838f`](https://github.com/es-shims/Array.prototype.reduce/commit/86a838f1faebb4fc6d2f7269fa186535121fd270)
+- [actions] update rebase action to use reusable workflow [`4710394`](https://github.com/es-shims/Array.prototype.reduce/commit/4710394340a9cfe26758971559fd4b7b523827c5)
+- [Dev Deps] update `aud`, `tape` [`e2bcb57`](https://github.com/es-shims/Array.prototype.reduce/commit/e2bcb57270484bbfdbb25d8d9d9a880061cf8e84)
+- [Deps] update `define-properties`, `es-abstract` [`4c693aa`](https://github.com/es-shims/Array.prototype.reduce/commit/4c693aa96a66c374489afc2c0b2e8c0f433a0efe)
+- [Deps] update `es-abstract` [`ca5557c`](https://github.com/es-shims/Array.prototype.reduce/commit/ca5557ce5a7b8b71a079687383e58f21c566bc6d)
+- [Dev Deps] update `functions-have-names` [`dcb2d35`](https://github.com/es-shims/Array.prototype.reduce/commit/dcb2d3577b1a489d5b69e35b2e878dc4a3a242e0)
+
 ## [v1.0.4](https://github.com/es-shims/Array.prototype.reduce/compare/v1.0.3...v1.0.4) - 2022-04-11
 
 ### Commits
