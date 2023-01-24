@@ -22,6 +22,7 @@ class RawTableFolder extends BaseFolder {
       id,
       password,
       description,
+      location
     } = this.props
 
     const icon = browserProps.icons[isGateway ?
@@ -102,7 +103,8 @@ class RawTableFolder extends BaseFolder {
                     name: name,
                     id: id,
                     password: password,
-                    description: description
+                    description: description,
+                    location: location
                   });
                 }}>
                   <i className="fa fa-gear" aria-hidden="true" />
