@@ -31,6 +31,7 @@ const Actions = (props) => {
 
     // Custom Props
     addGateway,
+    addReport,
     share,
   } = props;
 
@@ -77,6 +78,21 @@ const Actions = (props) => {
         </div>
       )
     } else {
+      actions.push(
+        <li key="action-add-report">
+          <a
+            onClick={() => {
+              addReport(selectedItems[0]);
+            }}
+            href="#"
+            role="button"
+          >
+            {icons.ReportAdd}
+            Create Report
+          </a>
+        </li>
+      )
+
       if (isFolder && canCreateFolder && !nameFilter && !selectedItems[0].isGateway) {
         actions.push(
           <li key="action-add-gateway">
@@ -188,6 +204,20 @@ const Actions = (props) => {
     // Nothing selected: We're in the 'root' folder. Only allowed action is adding a folder.
     if (canCreateFolder && !nameFilter) {
       actions.push(
+        <li key="action-add-report">
+          <a
+            onClick={() => {
+              addReport("root");
+            }}
+            href="#"
+            role="button"
+          >
+            {icons.ReportAdd}
+            Create Report
+          </a>
+        </li>
+      )
+      actions.push(
         <li key="action-add-gateway">
           <a
             onClick={() => {
@@ -254,6 +284,7 @@ Actions.propTypes = {
 
   // Custom Actions
   addGateway: PropTypes.func,
+  addReport: PropTypes.func,
   share: PropTypes.func,
 }
 
@@ -286,7 +317,8 @@ Actions.defaultProps = {
 
   // Custom Props
   share: null,
-  addGateway: null
+  addGateway: null,
+  addReport: null
 }
 
 export default Actions

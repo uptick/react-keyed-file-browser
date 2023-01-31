@@ -66,6 +66,10 @@ const FontAwesomeIcons = (majorVersion = 4) => {
           className="gatewayAddFileIcon"
           aria-hidden="true"
         />,
+        ReportAdd: <i
+          className="reportAddFileIcon"
+          aria-hidden="true"
+        />,
         Share: <i
           className="shareFileIcon"
           aria-hidden="true"
