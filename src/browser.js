@@ -114,7 +114,9 @@ class RawFileBrowser extends React.Component {
     gatewaySettings: PropTypes.func,
     addGateway: PropTypes.func,
     addReport: PropTypes.func,
-    share: PropTypes.func
+    share: PropTypes.func,
+
+    innerRef: PropTypes.any
   }
 
   static defaultProps = {
@@ -873,7 +875,7 @@ class RawFileBrowser extends React.Component {
     const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer
 
     return (
-      <div className="rendered-react-keyed-file-browser">
+      <div ref={this.props.innerRef} className="rendered-react-keyed-file-browser">
         {this.props.actions}
         <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
           {this.props.showActionBar && this.renderActionBar(selectedItems)}
@@ -886,13 +888,6 @@ class RawFileBrowser extends React.Component {
             {renderedFiles}
           </div>
         </div>
-        {/*this.state.previewFile !== null && (
-          <this.props.detailRenderer
-            file={this.state.previewFile}
-            close={this.closeDetail}
-            {...this.props.detailRendererProps}
-          />
-        )*/}
       </div>
     )
   }
