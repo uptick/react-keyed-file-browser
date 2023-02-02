@@ -875,7 +875,7 @@ class RawFileBrowser extends React.Component {
     const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer
 
     return (
-      <div ref={this.props.innerRef} className="rendered-react-keyed-file-browser">
+      <div className="rendered-react-keyed-file-browser">
         {this.props.actions}
         <div className="rendered-file-browser" ref={el => { this.browserRef = el }}>
           {this.props.showActionBar && this.renderActionBar(selectedItems)}
@@ -898,7 +898,7 @@ class FileBrowser extends Component {
   render() {
     return (
       <DndProvider backend={HTML5Backend}>
-        <RawFileBrowser {...this.props} />
+        <RawFileBrowser ref={this.props.innerRef} {...this.props} />
       </DndProvider>
     )
   }
