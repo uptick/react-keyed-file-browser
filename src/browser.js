@@ -884,7 +884,6 @@ class RawFileBrowser extends React.Component {
               handleDeleteSubmit={this.handleMultipleDeleteSubmit}
             />}
           {header}
-          Hello World
           <div className="files">
             {renderedFiles}
           </div>
