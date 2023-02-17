@@ -369,7 +369,7 @@ class RawFileBrowser extends React.Component {
     }
 
     // Set the selection state outside the plugin
-    setSelectedFiles(newSelection);
+    this.props.setSelectedFiles(newSelection);
 
     this.setState(prevState => ({
       selection: newSelection,
