@@ -110,6 +110,7 @@ class RawFileBrowser extends React.Component {
     onFolderClose: PropTypes.func,
 
     // Custom actions
+    setSelectedFiles: PropTypes.func,
     sensorSettings: PropTypes.func,
     gatewaySettings: PropTypes.func,
     addGateway: PropTypes.func,
@@ -366,6 +367,9 @@ class RawFileBrowser extends React.Component {
         newSelection = [...this.state.selection, key]
       }
     }
+
+    // Set the selection state outside the plugin
+    setSelectedFiles(newSelection);
 
     this.setState(prevState => ({
       selection: newSelection,
