@@ -3,14 +3,12 @@
   "version": "",
   "private": true,
   "description": "Folder based file browser given a flat keyed list of objects, powered by React.",
-  "main": "index.js",
+  "main": "dist/main.js",
+  "source": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-js": "webpack --mode=production",
-    "build-css": "node-sass src/browser.sass dist/react-keyed-file-browser.css",
-    "build": "npm run build-js && npm run build-css",
-    "prepublish": "npm run build",
-    "lint": "eslint src"
+    "build": "parcel build",
+    "start": "parcel watch"
   },
   "files": [
     "dist/**"
@@ -36,29 +34,19 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "date-fns": "^2.22.1",
-    "lodash.flow": "^3.5.0",
-    "prop-types": "^15.7.2",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react-dnd": "^14.0.2",
     "react-dnd-html5-backend": "^14.0"
   },
   "peerDependencies": {
-    "react": "0.14.x || 15.x || 16.x || 17.x"
+    "react": "^16"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.26.0",
-    "@typescript-eslint/parser": "^4.26.0",
-    "css-loader": "^6.2.0",
-    "esbuild": "^0.12.5",
-    "esbuild-loader": "^2.13.1",
     "font-awesome": "^4.7.0",
-    "node-sass": "^6.0.0",
+    "parcel": "^2.8.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "sass-loader": "^12.1.0",
-    "style-loader": "^3.1.0",
-    "typescript": "^4.3.2",
-    "webpack": "^4.29.1",
-    "webpack-cli": "^4.7.0",
-    "webpack-node-externals": "^1.5.4"
+    "typescript": "^4.3.2"
   }
 }
