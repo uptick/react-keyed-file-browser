@@ -5,22 +5,8 @@ on:
     types: [prereleased, released]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: installing packages
-        run: yarn install
-
-      - name: building
-        run: yarn build
-
   publish-gpr:
-    needs: build
+    name: publish to github
     runs-on: ubuntu-latest
     permissions:
       contents: read
