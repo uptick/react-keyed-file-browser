@@ -3,10 +3,12 @@
   "version": "",
   "private": true,
   "description": "Folder based file browser given a flat keyed list of objects, powered by React.",
-  "main": "index.js",
+  "main": "dist/main.js",
+  "source": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo \"Error: no build specified\" && exit 1"
+    "build": "parcel build",
+    "start": "parcel watch"
   },
   "files": [
     "dist/**"
@@ -32,16 +34,17 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "date-fns": "^2.22.1",
-    "lodash.flow": "^3.5.0",
-    "prop-types": "^15.7.2",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react-dnd": "^14.0.2",
     "react-dnd-html5-backend": "^14.0"
   },
   "peerDependencies": {
-    "react": "0.14.x || 15.x || 16.x || 17.x"
+    "react": "^16"
   },
   "devDependencies": {
     "font-awesome": "^4.7.0",
+    "parcel": "^2.8.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "typescript": "^4.3.2"
