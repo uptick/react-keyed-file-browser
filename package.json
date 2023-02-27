@@ -4,7 +4,8 @@
   "private": true,
   "description": "Folder based file browser given a flat keyed list of objects, powered by React.",
   "main": "dist/main.js",
-  "source": "src/index.js",
+  "source": "src/index.ts",
+  "types": "dist/types.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "parcel build",
@@ -43,6 +44,8 @@
     "react": "^16"
   },
   "devDependencies": {
+    "@parcel/packager-ts": "2.8.3",
+    "@parcel/transformer-typescript-types": "2.8.3",
     "font-awesome": "^4.7.0",
     "parcel": "^2.8.3",
     "react": "^17.0.2",
