@@ -26,15 +26,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: sudo apt install jq -y
-      - name: replace package.json version with ref
-        run: |
-          version=${{ github.ref_name }}; echo $(jq --arg version "$version" '.version = $version' package.json) > package.json
 
       - uses: actions/setup-node@v3
         with:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
       - run: yarn build
-      - run: yarn publish
+      - run: yarn publish --version ${{ github.ref_name }}
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
