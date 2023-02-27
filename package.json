@@ -1,7 +1,6 @@
 {
   "name": "react-keyed-file-browser",
   "version": "",
-  "private": true,
   "description": "Folder based file browser given a flat keyed list of objects, powered by React.",
   "main": "dist/main.js",
   "source": "src/index.ts",
