@@ -1,16 +1,15 @@
 {
   "name": "react-keyed-file-browser",
-  "version": "1.14.0",
+  "version": "",
+  "private": true,
   "description": "Folder based file browser given a flat keyed list of objects, powered by React.",
   "main": "index.js",
   "scripts": {
-    "publish-demo": "git branch -D gh-pages; git push origin --delete gh-pages; git checkout -b gh-pages; cd demo-site; yarn; npm run build; cd ..; git add .; git add -f demo-site/dist; git add -f demo-site/node_modules/uptick-demo-site/dist; git commit -m \"Demo site build\"; git push origin gh-pages; git checkout master; git push origin `git subtree split --prefix demo-site gh-pages`:gh-pages --force;",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-js": "./node_modules/.bin/webpack --mode=production",
-    "build-css": "./node_modules/.bin/node-sass src/browser.sass dist/react-keyed-file-browser.css",
+    "build-js": "webpack --mode=production",
+    "build-css": "node-sass src/browser.sass dist/react-keyed-file-browser.css",
     "build": "npm run build-js && npm run build-css",
     "prepublish": "npm run build",
-    "storybook": "start-storybook -p 9001",
     "lint": "eslint src"
   },
   "files": [
@@ -28,7 +27,7 @@
     "browser",
     "s3"
   ],
-  "author": "Uptick Pty Ltd",
+  "author": "Sneaky Crow, LLC",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/uptick/react-keyed-file-browser/issues"
@@ -46,21 +45,11 @@
     "react": "0.14.x || 15.x || 16.x || 17.x"
   },
   "devDependencies": {
-    "@sambego/storybook-state": "^2.0.1",
-    "@storybook/react": "^6.2.9",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
     "css-loader": "^6.2.0",
     "esbuild": "^0.12.5",
     "esbuild-loader": "^2.13.1",
-    "eslint": "^7.27.0",
-    "eslint-config-standard": "*",
-    "eslint-config-standard-react": "*",
-    "eslint-plugin-import": "*",
-    "eslint-plugin-node": "*",
-    "eslint-plugin-promise": "*",
-    "eslint-plugin-react": "*",
-    "eslint-plugin-standard": "*",
     "font-awesome": "^4.7.0",
     "node-sass": "^6.0.0",
     "react": "^17.0.2",

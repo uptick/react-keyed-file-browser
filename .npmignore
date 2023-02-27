@@ -1,3 +1,2 @@
 src/**/*.jsx
-demo-site/
 webpack.config.js
