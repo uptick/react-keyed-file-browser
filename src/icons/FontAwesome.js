@@ -32,6 +32,10 @@ const FontAwesomeIcons = (majorVersion = 4) => {
       IsFontAwesomeLoaded(4)
       return {
         // File Icons
+        Org: <i
+          className="orgFileIcon"
+          aria-hidden="true"
+        />,
         Gateway: <i
           className="gatewayFileIcon"
           aria-hidden="true"

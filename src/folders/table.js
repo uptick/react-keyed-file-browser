@@ -16,6 +16,7 @@ class RawTableFolder extends BaseFolder {
       // Gateway Data
       statusIcon,
       isGateway,
+      isOrg,
 
       gatewaySettings,
       name,
@@ -25,9 +26,11 @@ class RawTableFolder extends BaseFolder {
       location
     } = this.props
 
-    const icon = browserProps.icons[isGateway ?
-      'Gateway' :
-      (isOpen ? 'FolderOpen' : 'Folder')]
+    const icon = browserProps.icons[
+      isOrg ? 'Org' : (
+        isGateway ? 'Gateway' :
+          (isOpen ? 'FolderOpen' :
+            'Folder'))]
     const inAction = (isDragging || action);
 
     const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer
