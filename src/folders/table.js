@@ -19,6 +19,7 @@ class RawTableFolder extends BaseFolder {
       isOrg,
 
       gatewaySettings,
+      orgSettings,
       name,
       id,
       password,
@@ -99,16 +100,20 @@ class RawTableFolder extends BaseFolder {
         <td className="name">
           <div className="nameBox" style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
-            {isGateway && (
+            {(isGateway || isOrg) && (
               <>
                 <div className="device-settings" onClick={() => {
-                  gatewaySettings({
-                    name: name,
-                    id: id,
-                    password: password,
-                    description: description,
-                    location: location
-                  });
+                  if (isGateway) {
+                    gatewaySettings({
+                      name: name,
+                      id: id,
+                      password: password,
+                      description: description,
+                      location: location
+                    });
+                  } else if (isOrg) {
+                    orgSettings({id: id});
+                  }
                 }}>
                   <i className="fa fa-gear" aria-hidden="true" />
                 </div>
