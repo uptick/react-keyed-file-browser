@@ -70,6 +70,10 @@ const FontAwesomeIcons = (majorVersion = 4) => {
           className="gatewayAddFileIcon"
           aria-hidden="true"
         />,
+        OrganizationAdd: <i
+        className="organizationAddFileIcon"
+        aria-hidden="true"
+      />,
         ReportAdd: <i
           className="reportAddFileIcon"
           aria-hidden="true"

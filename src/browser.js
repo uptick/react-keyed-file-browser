@@ -116,7 +116,7 @@ class RawFileBrowser extends React.Component {
     orgSettings: PropTypes.func,
     addGateway: PropTypes.func,
     addReport: PropTypes.func,
-    share: PropTypes.func,
+    addOrganization: PropTypes.func,
 
     innerRef: PropTypes.any
   }
@@ -530,8 +530,8 @@ class RawFileBrowser extends React.Component {
     this.props.addReport(e);
   }
 
-  share = (e) => {
-    this.props.share(e);
+  addOrganization = (e) => {
+    this.props.addOrganization(e);
   }
 
   getBrowserProps() {
@@ -579,7 +579,7 @@ class RawFileBrowser extends React.Component {
       orgSettings: this.props.orgSettings ? this.orgSettings : undefined,
       addGateway: this.props.addGateway ? this.addGateway : undefined,
       addReport: this.props.addReport ? this.addReport : undefined,
-      share: this.props.share ? this.share : undefined
+      addOrganization: this.props.addOrganization ? this.addOrganization : undefined,
     }
   }
 
@@ -639,7 +639,7 @@ class RawFileBrowser extends React.Component {
         // Custom Actions
         addGateway={this.addGateway}
         addReport={this.addReport}
-        share={this.share}
+        addOrganization={this.addOrganization}
       />
     )
 

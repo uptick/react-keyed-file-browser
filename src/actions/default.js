@@ -32,6 +32,7 @@ const Actions = (props) => {
     // Custom Props
     addGateway,
     addReport,
+    addOrganization
   } = props;
 
   /** @type any */
@@ -187,7 +188,8 @@ const Actions = (props) => {
       }
     }
   } else {
-    // Nothing selected: We're in the 'root' folder. Only allowed action is adding a folder.
+    // Nothing selected: We're in the 'root' folder. 
+    // Only allowed action is adding an organization.
     if (canCreateFolder && !nameFilter) {
       actions.push(
         <li key="action-add-report">
@@ -204,28 +206,16 @@ const Actions = (props) => {
         </li>
       )
       actions.push(
-        <li key="action-add-gateway">
+        <li key="action-add-folder">
           <a
             onClick={() => {
-              addGateway("root");
+              addOrganization();
             }}
             href="#"
             role="button"
           >
-            {icons.GatewayAdd}
-            Add Gateway
-          </a>
-        </li>
-      )
-      actions.push(
-        <li key="action-add-folder">
-          <a
-            onClick={onCreateFolder}
-            href="#"
-            role="button"
-          >
-            {icons.FolderAdd}
-            Add Folder
+            {icons.OrganizationAdd}
+            Add Organization
           </a>
         </li>
       )
@@ -271,6 +261,7 @@ Actions.propTypes = {
   // Custom Actions
   addGateway: PropTypes.func,
   addReport: PropTypes.func,
+  addOrganization: PropTypes.func
 }
 
 Actions.defaultProps = {
@@ -302,7 +293,8 @@ Actions.defaultProps = {
 
   // Custom Props
   addGateway: null,
-  addReport: null
+  addReport: null,
+  addOrganization: null
 }
 
 export default Actions
