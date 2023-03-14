@@ -112,7 +112,7 @@ class RawTableFolder extends BaseFolder {
                       location: location
                     });
                   } else if (isOrg) {
-                    orgSettings({id: id});
+                    orgSettings(id);
                   }
                 }}>
                   <i className="fa fa-gear" aria-hidden="true" />

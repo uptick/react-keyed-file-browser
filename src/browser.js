@@ -571,6 +571,7 @@ class RawFileBrowser extends React.Component {
       // Custom functions
       sensorSettings: this.props.sensorSettings ? this.sensorSettings : undefined,
       gatewaySettings: this.props.gatewaySettings ? this.gatewaySettings : undefined,
+      orgSettings: this.props.gatewaySettings ? this.orgSettings : undefined,
       addGateway: this.props.addGateway ? this.addGateway : undefined,
       addReport: this.props.addReport ? this.addReport : undefined,
       share: this.props.share ? this.share : undefined
@@ -678,6 +679,7 @@ class RawFileBrowser extends React.Component {
               browserProps={browserProps}
               {...folderRendererProps}
               gatewaySettings={this.gatewaySettings}
+              orgSettings={this.orgSettings}
             />
           )
         }
