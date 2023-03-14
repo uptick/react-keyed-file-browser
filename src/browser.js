@@ -113,6 +113,7 @@ class RawFileBrowser extends React.Component {
     setSelectedFiles: PropTypes.func,
     sensorSettings: PropTypes.func,
     gatewaySettings: PropTypes.func,
+    orgSettings: PropTypes.func,
     addGateway: PropTypes.func,
     addReport: PropTypes.func,
     share: PropTypes.func,
@@ -513,6 +514,10 @@ class RawFileBrowser extends React.Component {
     this.props.sensorSettings(e);
   }
 
+  orgSettings = (e) => {
+    this.props.orgSettings(e);
+  }
+
   gatewaySettings = (e) => {
     this.props.gatewaySettings(e);
   }
@@ -571,7 +576,7 @@ class RawFileBrowser extends React.Component {
       // Custom functions
       sensorSettings: this.props.sensorSettings ? this.sensorSettings : undefined,
       gatewaySettings: this.props.gatewaySettings ? this.gatewaySettings : undefined,
-      orgSettings: this.props.gatewaySettings ? this.orgSettings : undefined,
+      orgSettings: this.props.orgSettings ? this.orgSettings : undefined,
       addGateway: this.props.addGateway ? this.addGateway : undefined,
       addReport: this.props.addReport ? this.addReport : undefined,
       share: this.props.share ? this.share : undefined
