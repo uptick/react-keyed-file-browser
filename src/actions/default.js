@@ -32,24 +32,10 @@ const Actions = (props) => {
     // Custom Props
     addGateway,
     addReport,
-    share,
   } = props;
 
   /** @type any */
-  let actions = [<>
-    <li key="action-share">
-      <a
-        onClick={() => {
-          share(selectedItems.length ? selectedItems[0] : "root");
-        }}
-        href="#"
-        role="button"
-      >
-        {icons.Share}
-        Share
-      </a>
-    </li>
-  </>]
+  let actions = []
 
   if (selectedItems.length) {
     // Something is selected. Build custom actions depending on what it is.
@@ -285,7 +271,6 @@ Actions.propTypes = {
   // Custom Actions
   addGateway: PropTypes.func,
   addReport: PropTypes.func,
-  share: PropTypes.func,
 }
 
 Actions.defaultProps = {
@@ -316,7 +301,6 @@ Actions.defaultProps = {
   onDownloadFolder: null,
 
   // Custom Props
-  share: null,
   addGateway: null,
   addReport: null
 }
