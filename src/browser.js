@@ -594,7 +594,7 @@ class RawFileBrowser extends React.Component {
     } = this.props
     const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
-    const selectionPermissions = selectedItems[0].permissions;
+    const selectionPermissions = selectedItems.length === 1 ? selectedItems[0].permissions : "viewer";
     let filter
     if (canFilter) {
       filter = (
