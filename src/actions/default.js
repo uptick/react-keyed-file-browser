@@ -83,7 +83,7 @@ const Actions = (props) => {
 
       if (isFolder && canCreateFolder && 
         !nameFilter && !selectedItems[0].isGateway && 
-        (permissions === "owner" || activeAction === "create_folder")) {
+        (permissions === "owner" || true)) {
         actions.push(
           <li key="action-add-gateway">
             <a
