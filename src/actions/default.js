@@ -32,7 +32,8 @@ const Actions = (props) => {
     // Custom Props
     addGateway,
     addReport,
-    addOrganization
+    addOrganization,
+    permissions
   } = props;
 
   /** @type any */
@@ -110,7 +111,7 @@ const Actions = (props) => {
       }
 
       const itemsWithoutKeyDerived = selectedItems.find(item => !item.keyDerived)
-      if (!itemsWithoutKeyDerived && !isFolder && canRenameFile && selectedItems.length === 1) {
+      if (!itemsWithoutKeyDerived && !isFolder && canRenameFile && selectedItems.length === 1 && permissions === "owner") {
         actions.push(
           <li key="action-rename">
             <a
@@ -123,7 +124,7 @@ const Actions = (props) => {
             </a>
           </li>
         )
-      } else if (!itemsWithoutKeyDerived && isFolder && canRenameFolder) {
+      } else if (!itemsWithoutKeyDerived && isFolder && canRenameFolder && permissions === "owner") {
         actions.push(
           <li key="action-rename">
             <a
