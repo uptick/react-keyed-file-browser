@@ -81,7 +81,7 @@ const Actions = (props) => {
         </li>
       )
 
-      if (isFolder && canCreateFolder && !nameFilter && !selectedItems[0].isGateway) {
+      if (isFolder && canCreateFolder && !nameFilter && !selectedItems[0].isGateway && permissions === "owner") {
         actions.push(
           <li key="action-add-gateway">
             <a
@@ -139,7 +139,7 @@ const Actions = (props) => {
         )
       }
 
-      if (!itemsWithoutKeyDerived && !isFolder && canDeleteFile) {
+      if (!itemsWithoutKeyDerived && !isFolder && canDeleteFile && permissions === "owner") {
         actions.push(
           <li key="action-delete">
             <a
@@ -152,7 +152,7 @@ const Actions = (props) => {
             </a>
           </li>
         )
-      } else if (!itemsWithoutKeyDerived && isFolder && canDeleteFolder) {
+      } else if (!itemsWithoutKeyDerived && isFolder && canDeleteFolder && permissions === "owner") {
         actions.push(
           <li key="action-delete">
             <a
