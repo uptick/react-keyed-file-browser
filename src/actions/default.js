@@ -83,7 +83,7 @@ const Actions = (props) => {
 
       if (isFolder && canCreateFolder && 
         !nameFilter && !selectedItems[0].isGateway && 
-        (permissions === "owner" || true)) {
+        (permissions === "owner" || permissions === undefined)) {
         actions.push(
           <li key="action-add-gateway">
             <a
@@ -265,7 +265,7 @@ Actions.propTypes = {
   addGateway: PropTypes.func,
   addReport: PropTypes.func,
   addOrganization: PropTypes.func,
-  premissions: PropTypes.string
+  permissions: PropTypes.string
 }
 
 Actions.defaultProps = {
@@ -299,7 +299,7 @@ Actions.defaultProps = {
   addGateway: null,
   addReport: null,
   addOrganization: null,
-  premissions: null
+  permissions: null
 }
 
 export default Actions
