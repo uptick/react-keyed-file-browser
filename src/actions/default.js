@@ -262,7 +262,8 @@ Actions.propTypes = {
   // Custom Actions
   addGateway: PropTypes.func,
   addReport: PropTypes.func,
-  addOrganization: PropTypes.func
+  addOrganization: PropTypes.func,
+  premissions: PropTypes.string
 }
 
 Actions.defaultProps = {
@@ -295,7 +296,8 @@ Actions.defaultProps = {
   // Custom Props
   addGateway: null,
   addReport: null,
-  addOrganization: null
+  addOrganization: null,
+  premissions: null
 }
 
 export default Actions

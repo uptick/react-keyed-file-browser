@@ -594,6 +594,7 @@ class RawFileBrowser extends React.Component {
     } = this.props
     const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
+    const selectionPermissions = selectedItems[0].permissions;
     let filter
     if (canFilter) {
       filter = (
@@ -640,6 +641,7 @@ class RawFileBrowser extends React.Component {
         addGateway={this.addGateway}
         addReport={this.addReport}
         addOrganization={this.addOrganization}
+        permissions={selectionPermissions}
       />
     )
 
