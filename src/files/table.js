@@ -2,11 +2,11 @@ import React from 'react'
 import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import { formatDistanceToNow } from 'date-fns'
 import flow from 'lodash/flow'
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
+import { ModifiedDateTime } from '../modified-date-time'
 
 class RawTableFile extends BaseFile {
   render() {
@@ -14,6 +14,7 @@ class RawTableFile extends BaseFile {
       isDragging, isDeleting, isRenaming, isOver, isSelected,
       action, url, browserProps, connectDragPreview,
       depth, size, modified,
+      modifiedDateTime,
     } = this.props
 
     const icon = browserProps.icons[this.getFileType()] || browserProps.icons.File
@@ -87,7 +88,7 @@ class RawTableFile extends BaseFile {
         </td>
         <td className="size">{fileSize(size)}</td>
         <td className="modified">
-          {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, { addSuffix: true })}
+          {typeof modified === 'undefined' ? '-' : <ModifiedDateTime modified={modified} formats={modifiedDateTime?.formats || []} />}
         </td>
       </tr>
     )
@@ -97,7 +98,7 @@ class RawTableFile extends BaseFile {
 }
 
 const TableFile = flow(
-  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), 
+  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect),
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawTableFile)
 
