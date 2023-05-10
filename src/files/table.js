@@ -12,11 +12,11 @@ class RawTableFile extends BaseFile {
     const {
       isDragging, isDeleting, isRenaming, isOver, isSelected,
       action, url, browserProps, connectDragPreview,
-      depth, size, modified, 
-      analysisFunc, dataLogFunc, 
+      depth, size, modified,
+      analysisFunc, dataLogFunc,
 
       // Sensor Settings
-      isSensor, 
+      isSensor,
       statusIcon,
       sensorSettings
     } = this.props
@@ -90,22 +90,26 @@ class RawTableFile extends BaseFile {
             {draggable}
             {isSensor && (
               <>
-                <div className="rowBtn" onClick={() => {
-                  analysisFunc();
-                }}>
-                  <i className="fa fa-chart-simple" aria-hidden="true" />
-                  {(window.innerWidth > 550) && (<>
-                    Analysis
-                  </>)}
-                </div>
-                <div className="rowBtn" onClick={() => {
-                  dataLogFunc();
-                }}>
-                  <i className="fa fa-list" aria-hidden="true" />
-                  {(window.innerWidth > 550) && (<>
-                    Data Log
-                  </>)}
-                </div>
+                {(analysisFunc && dataLogFunc) && (
+                  <>
+                    <div className="rowBtn" onClick={() => {
+                      analysisFunc();
+                    }}>
+                      <i className="fa fa-chart-simple" aria-hidden="true" />
+                      {(window.innerWidth > 550) && (<>
+                        Analysis
+                      </>)}
+                    </div>
+                    <div className="rowBtn" onClick={() => {
+                      dataLogFunc();
+                    }}>
+                      <i className="fa fa-list" aria-hidden="true" />
+                      {(window.innerWidth > 550) && (<>
+                        Data Log
+                      </>)}
+                    </div>
+                  </>
+                )}
                 <div className="device-settings" onClick={() => {
                   sensorSettings(this.getName());
                 }}>
