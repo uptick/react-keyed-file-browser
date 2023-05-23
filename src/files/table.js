@@ -16,12 +16,12 @@ class RawTableFile extends BaseFile {
       analysisFunc, dataLogFunc,
 
       // Sensor Settings
-      isSensor,
+      customType,
       statusIcon,
       sensorSettings
     } = this.props
 
-    const icon = browserProps.icons[isSensor ? "Sensor" : this.getFileType()] ||
+    const icon = browserProps.icons[(customType === 'sensor') ? "Sensor" : ((customType === 'sample') ? 'Sample' : this.getFileType())] ||
       browserProps.icons.File;
     const inAction = (isDragging || action)
 
@@ -88,33 +88,35 @@ class RawTableFile extends BaseFile {
         <td className="name">
           <div className="nameBox" style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
-            {isSensor && (
+            {(customType === 'sensor' || customType === 'sample') && (
               <>
-                {(analysisFunc && dataLogFunc) && (
-                  <>
-                    <div className="rowBtn" onClick={() => {
-                      analysisFunc();
-                    }}>
-                      <i className="fa fa-chart-simple" aria-hidden="true" />
-                      {(window.innerWidth > 550) && (<>
-                        Analysis
-                      </>)}
-                    </div>
-                    <div className="rowBtn" onClick={() => {
-                      dataLogFunc();
-                    }}>
-                      <i className="fa fa-list" aria-hidden="true" />
-                      {(window.innerWidth > 550) && (<>
-                        Data Log
-                      </>)}
-                    </div>
-                  </>
-                )}
-                <div className="device-settings" onClick={() => {
-                  sensorSettings(this.getName());
-                }}>
-                  <i className="fa fa-gear" aria-hidden="true" />
-                </div>
+                {analysisFunc && 
+                  <div className="rowBtn" onClick={() => {
+                    analysisFunc();
+                  }}>
+                    <i className="fa fa-chart-simple" aria-hidden="true" />
+                    {(window.innerWidth > 550) && (<>
+                      Analysis
+                    </>)}
+                  </div>
+                }
+                {dataLogFunc && 
+                  <div className="rowBtn" onClick={() => {
+                    dataLogFunc();
+                  }}>
+                    <i className="fa fa-list" aria-hidden="true" />
+                    {(window.innerWidth > 550) && (<>
+                      Data Log
+                    </>)}
+                  </div>
+                }
+                {customType === 'sensor' && 
+                  <div className="device-settings" onClick={() => {
+                    sensorSettings(this.getName());
+                  }}>
+                    <i className="fa fa-gear" aria-hidden="true" />
+                  </div>
+                }
               </>
             )}
           </div>

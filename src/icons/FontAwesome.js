@@ -44,6 +44,10 @@ const FontAwesomeIcons = (majorVersion = 4) => {
           className="sensorFileIcon"
           aria-hidden="true"
         />,
+        Sensor: <i
+          className="sampleFileIcon"
+          aria-hidden="true"
+        />,
         Folder: <i
           className="folderFileIcon"
           aria-hidden="true"
