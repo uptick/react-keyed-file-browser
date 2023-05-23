@@ -581,7 +581,7 @@ class RawFileBrowser extends React.Component {
       addGateway: this.props.addGateway ? this.addGateway : undefined,
       addReport: this.props.addReport ? this.addReport : undefined,
       addOrganization: this.props.addOrganization ? this.addOrganization : undefined,
-      browserType: this.props.browserType,
+      browserType: this.props.browserType ? this.props.browserType : 'test',
     }
   }
 
@@ -603,7 +603,7 @@ class RawFileBrowser extends React.Component {
         <FilterRenderer
           value={this.state.nameFilter}
           updateFilter={this.updateFilter}
-          browserType={this.props.browserType}
+          browserType={browserProps.browserType}
           {...filterRendererProps}
         />
       )
