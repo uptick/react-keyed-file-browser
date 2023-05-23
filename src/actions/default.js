@@ -291,7 +291,8 @@ Actions.propTypes = {
   addReport: PropTypes.func,
   addOrganization: PropTypes.func,
   permissions: PropTypes.string,
-  customActions: PropTypes.arrayOf(PropTypes.object)
+  customActions: PropTypes.arrayOf(PropTypes.object),
+  browserType: PropTypes.string
 }
 
 Actions.defaultProps = {
@@ -326,7 +327,8 @@ Actions.defaultProps = {
   addReport: null,
   addOrganization: null,
   permissions: null,
-  customActions: []
+  customActions: [],
+  browserType: null
 }
 
 export default Actions
