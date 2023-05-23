@@ -17,7 +17,7 @@ class Filter extends React.Component {
     return (
       <input
         type="search"
-        placeholder={`Search ${/*this.props.browserType*/ 'Browser'}`}
+        placeholder={`Search ${this.props.browserType}`}
         value={this.props.value}
         onChange={this.handleFilterChange}
       />
