@@ -5,7 +5,7 @@ class Filter extends React.Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     updateFilter: PropTypes.func,
-    //browserType: PropTypes.string,
+    browserType: PropTypes.string,
   }
 
   handleFilterChange = (event) => {
