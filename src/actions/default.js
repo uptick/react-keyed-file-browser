@@ -34,7 +34,8 @@ const Actions = (props) => {
     addReport,
     addOrganization,
     permissions,
-    customActions
+    customActions,
+    browserType
   } = props;
 
   /** @type any */
@@ -67,7 +68,7 @@ const Actions = (props) => {
         </div>
       )
     } else {
-      if (!!addReport) 
+      if (browserType === 'sensor') 
         actions.push(
           <li key="action-add-report">
             <a
@@ -89,7 +90,7 @@ const Actions = (props) => {
           || permissions === null
           || permissions === undefined)
       ) {
-        if (!!addGateway)
+        if (browserType === 'sensor') 
           actions.push(
             <li key="action-add-gateway">
               <a
@@ -200,7 +201,7 @@ const Actions = (props) => {
     // Nothing selected: We're in the 'root' folder. 
     // Only allowed action is adding an organization.
     if (canCreateFolder && !nameFilter) {
-      if (!!addReport)
+      if (browserType === 'sensor') 
         actions.push(
           <li key="action-add-report">
             <a
