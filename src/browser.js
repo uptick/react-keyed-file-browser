@@ -645,6 +645,7 @@ class RawFileBrowser extends React.Component {
         addReport={this.addReport}
         addOrganization={this.addOrganization}
         permissions={selectionPermissions}
+        browserType={browserProps.browserType}
       />
     )
 
