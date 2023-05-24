@@ -41,6 +41,23 @@ const Actions = (props) => {
   /** @type any */
   let actions = []
 
+  customActions.forEach((action, index) => {
+    actions.push(
+      <li key={`custom-action-${index}`}>
+        <a
+          onClick={() => {
+            action.onClick();
+          }}
+          href="#"
+          role="button"
+        >
+          {action.icon}
+          {action.name}
+        </a>
+      </li>
+    );
+  });
+
   if (selectedItems.length) {
     // Something is selected. Build custom actions depending on what it is.
     const selectedItemsAction = selectedItems.filter(item => item.action)
@@ -231,23 +248,6 @@ const Actions = (props) => {
         </li>
       )
     }
-
-    customActions.forEach((action, index) => {
-      actions.push(
-        <li key={`custom-action-${index}`}>
-          <a
-            onClick={() => {
-              action.onClick();
-            }}
-            href="#"
-            role="button"
-          >
-            {action.icon}
-            action.name
-          </a>
-        </li>
-      );
-    });
 
     if (actions.length) {
       actions = (<ul className="item-actions">{actions}</ul>)
