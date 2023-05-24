@@ -232,31 +232,29 @@ const Actions = (props) => {
       )
     }
 
+    customActions.forEach((action, index) => {
+      actions.push(
+        <li key={`custom-action-${index}`}>
+          <a
+            onClick={() => {
+              action.onClick();
+            }}
+            href="#"
+            role="button"
+          >
+            {action.icon}
+            action.name
+          </a>
+        </li>
+      );
+    });
+
     if (actions.length) {
       actions = (<ul className="item-actions">{actions}</ul>)
     } else {
       actions = (<div className="item-actions">&nbsp;</div>)
     }
   }
-
-  /*let index;
-  for (const action of customActions) {
-    actions.push(
-      <li key={`custom-action-${0}`}>
-        <a
-          onClick={() => {
-            customActions[0].onClick();
-          }}
-          href="#"
-          role="button"
-        >
-          {customActions[0].icon}
-          customActions[0].name
-        </a>
-      </li>
-    );
-    index++;
-  }*/
 
   return actions
 }
