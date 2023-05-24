@@ -239,24 +239,24 @@ const Actions = (props) => {
     }
   }
 
-  let index;
-  for (const action of customActions) {
+  //let index;
+  //for (const action of customActions) {
     actions.push(
-      <li key={`custom-action-${index}`}>
+      <li key={`custom-action-${0}`}>
         <a
           onClick={() => {
-            action.onClick();
+            customActions[0].onClick();
           }}
           href="#"
           role="button"
         >
-          {action.icon}
-          action.name
+          {customActions[0].icon}
+          customActions[0].name
         </a>
       </li>
     );
-    index++;
-  }
+    //index++;
+  //}
 
   return actions
 }
