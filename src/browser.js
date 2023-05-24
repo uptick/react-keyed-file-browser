@@ -118,6 +118,11 @@ class RawFileBrowser extends React.Component {
     addReport: PropTypes.func,
     addOrganization: PropTypes.func,
     browserType: PropTypes.string,
+    customActions: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      icon: PropTypes.element,
+      onClick: PropTypes.func
+    })),
 
     innerRef: PropTypes.any
   }
@@ -582,6 +587,7 @@ class RawFileBrowser extends React.Component {
       addReport: this.props.addReport ? this.addReport : undefined,
       addOrganization: this.props.addOrganization ? this.addOrganization : undefined,
       browserType: this.props.browserType ? this.props.browserType : undefined,
+      customActions: this.props.customActions ? this.props.customActions : [],
     }
   }
 
@@ -646,6 +652,7 @@ class RawFileBrowser extends React.Component {
         addOrganization={this.addOrganization}
         permissions={selectionPermissions}
         browserType={browserProps.browserType}
+        customActions={browserProps.customActions}
       />
     )
 
