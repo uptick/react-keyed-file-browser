@@ -239,8 +239,8 @@ const Actions = (props) => {
     }
   }
 
-  //let index;
-  //for (const action of customActions) {
+  /*let index;
+  for (const action of customActions) {
     actions.push(
       <li key={`custom-action-${0}`}>
         <a
@@ -255,8 +255,8 @@ const Actions = (props) => {
         </a>
       </li>
     );
-    //index++;
-  //}
+    index++;
+  }*/
 
   return actions
 }
