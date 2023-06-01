@@ -20,6 +20,7 @@ class RawTableHeader extends React.Component {
       createFiles: PropTypes.func,
       moveFolder: PropTypes.func,
       moveFile: PropTypes.func,
+      browserType: PropTypes.string,
     }),
   }
 
@@ -29,16 +30,14 @@ class RawTableHeader extends React.Component {
 
   render() {
     const header = (
-      <tr
-        className={ClassNames('folder', {
+      <div
+        className={ClassNames('file-browser-header', {
           dragover: this.props.isOver,
           selected: this.props.isSelected,
         })}
       >
-        <th>File</th>
-        <th className="size">Size</th>
-        <th className="modified">Last Modified</th>
-      </tr>
+        {this.props.browserProps.browserType === 'sensor' ? 'Devices' : 'Samples'}
+      </div>
     )
 
     if (

@@ -2,21 +2,27 @@ import React from 'react'
 import ClassNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import { formatDistanceToNow } from 'date-fns'
-import flow from 'lodash/flow'
+import flow from 'lodash/flow';
 
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
-import { fileSize } from './utils.js'
 
 class RawTableFile extends BaseFile {
+
   render() {
     const {
       isDragging, isDeleting, isRenaming, isOver, isSelected,
       action, url, browserProps, connectDragPreview,
       depth, size, modified,
+      analysisFunc, dataLogFunc,
+
+      // Sensor Settings
+      customType,
+      statusIcon,
+      sensorSettings
     } = this.props
 
-    const icon = browserProps.icons[this.getFileType()] || browserProps.icons.File
+    const icon = browserProps.icons[(customType === 'sensor') ? "Sensor" : ((customType === 'sample') ? 'Sample' : this.getFileType())] ||
+      browserProps.icons.File;
     const inAction = (isDragging || action)
 
     const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer
@@ -29,6 +35,7 @@ class RawTableFile extends BaseFile {
           handleFileClick={this.handleFileClick}
           url={url}
         >
+          <span style={{ color: statusIcon }}>⬤</span>
           {icon}
           {this.getName()}
         </ConfirmDeletionRenderer>
@@ -36,6 +43,7 @@ class RawTableFile extends BaseFile {
     } else if (!inAction && isRenaming) {
       name = (
         <form className="renaming" onSubmit={this.handleRenameSubmit}>
+          <span style={{ color: statusIcon }}>⬤</span>
           {icon}
           <input
             ref={this.selectFileNameFromRef}
@@ -49,11 +57,8 @@ class RawTableFile extends BaseFile {
       )
     } else {
       name = (
-        <a
-          href={url || '#'}
-          download="download"
-          onClick={this.handleFileClick}
-        >
+        <a>
+          <span style={{ color: statusIcon }}>⬤</span>
           {icon}
           {this.getName()}
         </a>
@@ -61,7 +66,7 @@ class RawTableFile extends BaseFile {
     }
 
     let draggable = (
-      <div>
+      <div className="nameLbl">
         {name}
       </div>
     )
@@ -81,13 +86,40 @@ class RawTableFile extends BaseFile {
         onDoubleClick={this.handleItemDoubleClick}
       >
         <td className="name">
-          <div style={{ paddingLeft: (depth * 16) + 'px' }}>
+          <div className="nameBox" style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
+            {(customType === 'sensor' || customType === 'sample') && (
+              <>
+                {analysisFunc && 
+                  <div className="rowBtn" onClick={() => {
+                    analysisFunc();
+                  }}>
+                    <i className="fa fa-chart-simple" aria-hidden="true" />
+                    {(window.innerWidth > 550) && (<>
+                      Analysis
+                    </>)}
+                  </div>
+                }
+                {dataLogFunc && 
+                  <div className="rowBtn" onClick={() => {
+                    dataLogFunc();
+                  }}>
+                    <i className="fa fa-list" aria-hidden="true" />
+                    {(window.innerWidth > 550) && (<>
+                      Data Log
+                    </>)}
+                  </div>
+                }
+                {customType === 'sensor' && 
+                  <div className="device-settings" onClick={() => {
+                    sensorSettings(this.getName());
+                  }}>
+                    <i className="fa fa-gear" aria-hidden="true" />
+                  </div>
+                }
+              </>
+            )}
           </div>
-        </td>
-        <td className="size">{fileSize(size)}</td>
-        <td className="modified">
-          {typeof modified === 'undefined' ? '-' : formatDistanceToNow(modified, { addSuffix: true })}
         </td>
       </tr>
     )
@@ -97,7 +129,7 @@ class RawTableFile extends BaseFile {
 }
 
 const TableFile = flow(
-  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), 
+  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect),
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawTableFile)
 

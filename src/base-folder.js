@@ -7,7 +7,6 @@ class BaseFolder extends React.Component {
   static propTypes = {
     name: PropTypes.string,
     fileKey: PropTypes.string,
-
     newName: PropTypes.string,
     keyDerived: PropTypes.bool,
     isDraft: PropTypes.bool,

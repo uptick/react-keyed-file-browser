@@ -1,0 +1,69 @@
+{
+	"name": "esbuild-loader",
+	"version": "2.21.0",
+	"description": "⚡️ Speed up your Webpack build with esbuild",
+	"keywords": [
+		"esbuild",
+		"webpack",
+		"loader",
+		"typescript",
+		"esnext"
+	],
+	"license": "MIT",
+	"repository": "privatenumber/esbuild-loader",
+	"funding": "https://github.com/privatenumber/esbuild-loader?sponsor=1",
+	"author": {
+		"name": "Hiroki Osame",
+		"email": "hiroki.osame@gmail.com"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"imports": {
+		"#esbuild-loader": {
+			"types": "./src/index.ts",
+			"development": "./src/index.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"build": "tsc",
+		"test": "tsx tests",
+		"dev": "tsx watch --conditions=development tests",
+		"lint": "eslint --cache ."
+	},
+	"peerDependencies": {
+		"webpack": "^4.40.0 || ^5.0.0"
+	},
+	"dependencies": {
+		"esbuild": "^0.16.17",
+		"joycon": "^3.0.1",
+		"json5": "^2.2.0",
+		"loader-utils": "^2.0.0",
+		"tapable": "^2.2.0",
+		"webpack-sources": "^1.4.3"
+	},
+	"devDependencies": {
+		"@pvtnbr/eslint-config": "^0.33.0",
+		"@types/loader-utils": "^2.0.3",
+		"@types/mini-css-extract-plugin": "^2.5.1",
+		"@types/node": "^18.11.18",
+		"@types/webpack": "^4.41.33",
+		"@types/webpack-sources": "^0.1.9",
+		"css-loader": "^5.2.7",
+		"eslint": "^8.31.0",
+		"manten": "^0.6.0",
+		"memfs": "^3.4.13",
+		"mini-css-extract-plugin": "^1.6.2",
+		"tsx": "^3.12.2",
+		"typescript": "^4.9.4",
+		"webpack": "^4.44.2",
+		"webpack-test-utils": "^2.1.0",
+		"webpack5": "npm:webpack@^5.0.0"
+	},
+	"eslintConfig": {
+		"extends": "@pvtnbr"
+	}
+}

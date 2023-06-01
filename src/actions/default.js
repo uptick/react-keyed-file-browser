@@ -29,10 +29,34 @@ const Actions = (props) => {
     canDownloadFolder,
     onDownloadFolder,
 
-  } = props
+    // Custom Props
+    addGateway,
+    addReport,
+    addOrganization,
+    permissions,
+    customActions,
+    browserType
+  } = props;
 
   /** @type any */
   let actions = []
+
+  customActions.forEach((action, index) => {
+    actions.push(
+      <li key={`custom-action-${index}`}>
+        <a
+          onClick={() => {
+            action.onClick();
+          }}
+          href="#"
+          role="button"
+        >
+          {action.icon}
+          {action.name}
+        </a>
+      </li>
+    );
+  });
 
   if (selectedItems.length) {
     // Something is selected. Build custom actions depending on what it is.
@@ -61,7 +85,43 @@ const Actions = (props) => {
         </div>
       )
     } else {
-      if (isFolder && canCreateFolder && !nameFilter) {
+      if (browserType === 'sensor') 
+        actions.push(
+          <li key="action-add-report">
+            <a
+              onClick={() => {
+                addReport(selectedItems[0]);
+              }}
+              href="#"
+              role="button"
+            >
+              {icons.ReportAdd}
+              Create Report
+            </a>
+          </li>
+        );
+
+      if (isFolder && canCreateFolder &&
+        !nameFilter && !selectedItems[0].isGateway &&
+        (permissions === "owner"
+          || permissions === null
+          || permissions === undefined)
+      ) {
+        if (browserType === 'sensor') 
+          actions.push(
+            <li key="action-add-gateway">
+              <a
+                onClick={() => {
+                  addGateway(selectedItems[0]);
+                }}
+                href="#"
+                role="button"
+              >
+                {icons.GatewayAdd}
+                Add Gateway
+              </a>
+            </li>
+          );
         actions.push(
           <li key="action-add-folder">
             <a
@@ -69,15 +129,15 @@ const Actions = (props) => {
               href="#"
               role="button"
             >
-              {icons.Folder}
-              &nbsp;Add Subfolder
+              {icons.FolderAdd}
+              Add Subfolder
             </a>
           </li>
         )
       }
 
       const itemsWithoutKeyDerived = selectedItems.find(item => !item.keyDerived)
-      if (!itemsWithoutKeyDerived && !isFolder && canRenameFile && selectedItems.length === 1) {
+      if (!itemsWithoutKeyDerived && !isFolder && canRenameFile && selectedItems.length === 1 && permissions === "owner") {
         actions.push(
           <li key="action-rename">
             <a
@@ -86,11 +146,11 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              Rename
             </a>
           </li>
         )
-      } else if (!itemsWithoutKeyDerived && isFolder && canRenameFolder) {
+      } else if (!itemsWithoutKeyDerived && isFolder && canRenameFolder && permissions === "owner") {
         actions.push(
           <li key="action-rename">
             <a
@@ -99,13 +159,13 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Rename}
-              &nbsp;Rename
+              Rename
             </a>
           </li>
         )
       }
 
-      if (!itemsWithoutKeyDerived && !isFolder && canDeleteFile) {
+      if (!itemsWithoutKeyDerived && !isFolder && canDeleteFile && permissions === "owner") {
         actions.push(
           <li key="action-delete">
             <a
@@ -114,11 +174,11 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              Delete
             </a>
           </li>
         )
-      } else if (!itemsWithoutKeyDerived && isFolder && canDeleteFolder) {
+      } else if (!itemsWithoutKeyDerived && isFolder && canDeleteFolder && permissions === "owner") {
         actions.push(
           <li key="action-delete">
             <a
@@ -127,7 +187,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Delete}
-              &nbsp;Delete
+              Delete
             </a>
           </li>
         )
@@ -142,7 +202,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Download}
-              &nbsp;Download
+              Download
             </a>
           </li>
         )
@@ -155,17 +215,35 @@ const Actions = (props) => {
       }
     }
   } else {
-    // Nothing selected: We're in the 'root' folder. Only allowed action is adding a folder.
+    // Nothing selected: We're in the 'root' folder. 
+    // Only allowed action is adding an organization.
     if (canCreateFolder && !nameFilter) {
+      if (browserType === 'sensor') 
+        actions.push(
+          <li key="action-add-report">
+            <a
+              onClick={() => {
+                addReport("root");
+              }}
+              href="#"
+              role="button"
+            >
+              {icons.ReportAdd}
+              Create Report
+            </a>
+          </li>
+        );
       actions.push(
         <li key="action-add-folder">
           <a
-            onClick={onCreateFolder}
+            onClick={() => {
+              addOrganization();
+            }}
             href="#"
             role="button"
           >
-            {icons.Folder}
-            &nbsp;Add Folder
+            {icons.OrganizationAdd}
+            Add Organization
           </a>
         </li>
       )
@@ -207,6 +285,14 @@ Actions.propTypes = {
 
   canDownloadFolder: PropTypes.bool,
   onDownloadFolder: PropTypes.func,
+
+  // Custom Actions
+  addGateway: PropTypes.func,
+  addReport: PropTypes.func,
+  addOrganization: PropTypes.func,
+  permissions: PropTypes.string,
+  customActions: PropTypes.arrayOf(PropTypes.object),
+  browserType: PropTypes.string
 }
 
 Actions.defaultProps = {
@@ -235,6 +321,14 @@ Actions.defaultProps = {
 
   canDownloadFolder: false,
   onDownloadFolder: null,
+
+  // Custom Props
+  addGateway: null,
+  addReport: null,
+  addOrganization: null,
+  permissions: null,
+  customActions: [],
+  browserType: null
 }
 
 export default Actions

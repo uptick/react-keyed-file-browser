@@ -1,0 +1,37 @@
+{
+  "name": "dnd-core",
+  "version": "14.0.1",
+  "description": "Drag and drop sans the GUI",
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "publishConfig": {
+    "main:bundle": "dist/esm/index.js",
+    "main": "dist/cjs/index.js",
+    "module": "dist/esm/index.js",
+    "types": "dist/types/index.d.ts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "watch": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/react-dnd/react-dnd.git"
+  },
+  "dependencies": {
+    "@react-dnd/asap": "^4.0.0",
+    "@react-dnd/invariant": "^2.0.0",
+    "redux": "^4.1.1"
+  },
+  "devDependencies": {
+    "@react-dnd/build": "12.0.0",
+    "@types/setimmediate": "^1.0.2",
+    "gulp": "^4.0.2",
+    "react-dnd-test-backend": "portal:../backend-test",
+    "setimmediate": "^1.0.5"
+  },
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts"
+}

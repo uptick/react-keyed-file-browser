@@ -12,16 +12,33 @@ class RawTableFolder extends BaseFolder {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
       action, url, browserProps, connectDragPreview, depth,
+
+      // Gateway Data
+      statusIcon,
+      isGateway,
+      isOrg,
+
+      gatewaySettings,
+      orgSettings,
+      name,
+      id,
+      password,
+      description,
+      location
     } = this.props
 
-    const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
-    const inAction = (isDragging || action)
+    const icon = browserProps.icons[
+      isOrg ? 'Org' : (
+        isGateway ? 'Gateway' :
+          (isOpen ? 'FolderOpen' :
+            'Folder'))]
+    const inAction = (isDragging || action);
 
     const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer
 
-    let name
+    let nameLbl
     if (!inAction && isDeleting && browserProps.selection.length === 1) {
-      name = (
+      nameLbl = (
         <ConfirmDeletionRenderer
           handleDeleteSubmit={this.handleDeleteSubmit}
           handleFileClick={this.handleFileClick}
@@ -32,9 +49,10 @@ class RawTableFolder extends BaseFolder {
         </ConfirmDeletionRenderer>
       )
     } else if ((!inAction && isRenaming) || isDraft) {
-      name = (
+      nameLbl = (
         <div>
           <form className="renaming" onSubmit={this.handleRenameSubmit}>
+            <span style={{ color: statusIcon }}>⬤</span>
             {icon}
             <input
               type="text"
@@ -48,9 +66,10 @@ class RawTableFolder extends BaseFolder {
         </div>
       )
     } else {
-      name = (
+      nameLbl = (
         <div>
           <a onClick={this.toggleFolder}>
+            <span style={{ color: statusIcon }}>⬤</span>
             {icon}
             {this.getName()}
           </a>
@@ -59,8 +78,8 @@ class RawTableFolder extends BaseFolder {
     }
 
     let draggable = (
-      <div>
-        {name}
+      <div className="nameLbl">
+        {nameLbl}
       </div>
     )
     if (typeof browserProps.moveFile === 'function') {
@@ -79,12 +98,29 @@ class RawTableFolder extends BaseFolder {
         onDoubleClick={this.handleFolderDoubleClick}
       >
         <td className="name">
-          <div style={{ paddingLeft: (depth * 16) + 'px' }}>
+          <div className="nameBox" style={{ paddingLeft: (depth * 16) + 'px' }}>
             {draggable}
+            {(isGateway || isOrg) && (
+              <>
+                <div className="device-settings" onClick={() => {
+                  if (isGateway) {
+                    gatewaySettings({
+                      name: name,
+                      id: id,
+                      password: password,
+                      description: description,
+                      location: location
+                    });
+                  } else if (isOrg) {
+                    orgSettings(this.props);
+                  }
+                }}>
+                  <i className="fa fa-gear" aria-hidden="true" />
+                </div>
+              </>
+            )}
           </div>
         </td>
-        <td />
-        <td />
       </tr>
     )
 
@@ -93,7 +129,7 @@ class RawTableFolder extends BaseFolder {
 }
 
 const TableFolder = flow(
-  DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect), 
+  DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect),
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawTableFolder)
 

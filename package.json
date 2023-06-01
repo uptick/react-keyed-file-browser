@@ -11,7 +11,8 @@
     "build": "npm run build-js && npm run build-css",
     "prepublish": "npm run build",
     "storybook": "start-storybook -p 9001",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "start": "webpack serve --config webpack.config.js"
   },
   "files": [
     "dist/**"
@@ -35,25 +36,27 @@
   },
   "homepage": "https://github.com/uptick/react-keyed-file-browser#readme",
   "dependencies": {
-    "classnames": "^2.2.6",
-    "date-fns": "^2.22.1",
+    "classnames": "^2.3.2",
+    "date-fns": "^2.29.3",
+    "esbuild-linux-64": "^0.15.18",
     "lodash.flow": "^3.5.0",
-    "prop-types": "^15.7.2",
+    "prop-types": "^15.8.1",
     "react-dnd": "^14.0.2",
-    "react-dnd-html5-backend": "^14.0"
+    "react-dnd-html5-backend": "^14.0",
+    "react-router-dom": "^6.7.0"
   },
   "peerDependencies": {
     "react": "0.14.x || 15.x || 16.x || 17.x"
   },
   "devDependencies": {
     "@sambego/storybook-state": "^2.0.1",
-    "@storybook/react": "^6.2.9",
-    "@typescript-eslint/eslint-plugin": "^4.26.0",
-    "@typescript-eslint/parser": "^4.26.0",
-    "css-loader": "^6.2.0",
-    "esbuild": "^0.12.5",
-    "esbuild-loader": "^2.13.1",
-    "eslint": "^7.27.0",
+    "@storybook/react": "^6.5.15",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
+    "css-loader": "^6.7.3",
+    "esbuild": "^0.17.3",
+    "esbuild-loader": "^2.21.0",
+    "eslint": "^8.32.0",
     "eslint-config-standard": "*",
     "eslint-config-standard-react": "*",
     "eslint-plugin-import": "*",
@@ -62,14 +65,15 @@
     "eslint-plugin-react": "*",
     "eslint-plugin-standard": "*",
     "font-awesome": "^4.7.0",
-    "node-sass": "^6.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "sass-loader": "^12.1.0",
-    "style-loader": "^3.1.0",
-    "typescript": "^4.3.2",
-    "webpack": "^4.29.1",
-    "webpack-cli": "^4.7.0",
-    "webpack-node-externals": "^1.5.4"
+    "node-sass": "^8.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1",
+    "webpack-node-externals": "^3.0.0"
   }
 }

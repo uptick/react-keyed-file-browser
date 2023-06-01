@@ -68,7 +68,8 @@ class RawListThumbnailFile extends BaseFile {
         )
       } else {
         name = (
-          <a href={url} download="download" onClick={this.handleFileClick}>
+          <a>
+            {/*<a onClick={this.handleFileClick}>*/}
             {this.getName()}
           </a>
         )
@@ -129,7 +130,7 @@ class RawListThumbnailFile extends BaseFile {
 }
 
 const ListThumbnailFile = flow(
-  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), 
+  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect),
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawListThumbnailFile)
 

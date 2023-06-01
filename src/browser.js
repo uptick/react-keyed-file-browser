@@ -108,6 +108,23 @@ class RawFileBrowser extends React.Component {
 
     onFolderOpen: PropTypes.func,
     onFolderClose: PropTypes.func,
+
+    // Custom actions
+    setSelectedFiles: PropTypes.func,
+    sensorSettings: PropTypes.func,
+    gatewaySettings: PropTypes.func,
+    orgSettings: PropTypes.func,
+    addGateway: PropTypes.func,
+    addReport: PropTypes.func,
+    addOrganization: PropTypes.func,
+    browserType: PropTypes.string,
+    customActions: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      icon: PropTypes.element,
+      onClick: PropTypes.func
+    })),
+
+    innerRef: PropTypes.any
   }
 
   static defaultProps = {
@@ -213,7 +230,7 @@ class RawFileBrowser extends React.Component {
 
   createFolder = (key) => {
     this.setState({
-      activeAction: null,
+      activeAction: 'create_folder',
       actionTargets: [],
       selection: [key],
     }, () => {
@@ -358,6 +375,9 @@ class RawFileBrowser extends React.Component {
       }
     }
 
+    // Set the selection state outside the plugin
+    this.props.setSelectedFiles(newSelection);
+
     this.setState(prevState => ({
       selection: newSelection,
       actionTargets: shouldClearState ? [] : actionTargets,
@@ -495,6 +515,31 @@ class RawFileBrowser extends React.Component {
     })
   }
 
+  // Custom functions
+  sensorSettings = (e) => {
+    this.props.sensorSettings(e);
+  }
+
+  orgSettings = (e) => {
+    this.props.orgSettings(e);
+  }
+
+  gatewaySettings = (e) => {
+    this.props.gatewaySettings(e);
+  }
+
+  addGateway = (e) => {
+    this.props.addGateway(e);
+  }
+
+  addReport = (e) => {
+    this.props.addReport(e);
+  }
+
+  addOrganization = (e) => {
+    this.props.addOrganization(e);
+  }
+
   getBrowserProps() {
     return {
       // browser config
@@ -533,6 +578,16 @@ class RawFileBrowser extends React.Component {
       deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : undefined,
 
       getItemProps: getItemProps,
+
+      // Custom functions
+      sensorSettings: this.props.sensorSettings ? this.sensorSettings : undefined,
+      gatewaySettings: this.props.gatewaySettings ? this.gatewaySettings : undefined,
+      orgSettings: this.props.orgSettings ? this.orgSettings : undefined,
+      addGateway: this.props.addGateway ? this.addGateway : undefined,
+      addReport: this.props.addReport ? this.addReport : undefined,
+      addOrganization: this.props.addOrganization ? this.addOrganization : undefined,
+      browserType: this.props.browserType ? this.props.browserType : undefined,
+      customActions: this.props.customActions ? this.props.customActions : [],
     }
   }
 
@@ -543,16 +598,18 @@ class RawFileBrowser extends React.Component {
       actionRenderer: ActionRenderer,
       onCreateFolder, onRenameFile, onRenameFolder,
       onDeleteFile, onDeleteFolder, onDownloadFile,
-      onDownloadFolder,
+      onDownloadFolder
     } = this.props
     const browserProps = this.getBrowserProps()
     const selectionIsFolder = (selectedItems.length === 1 && isFolder(selectedItems[0]))
+    const selectionPermissions = selectedItems.length === 1 ? selectedItems[0].permissions : "viewer";
     let filter
     if (canFilter) {
       filter = (
         <FilterRenderer
           value={this.state.nameFilter}
           updateFilter={this.updateFilter}
+          browserType={browserProps.browserType}
           {...filterRendererProps}
         />
       )
@@ -588,6 +645,14 @@ class RawFileBrowser extends React.Component {
 
         canDownloadFolder={typeof onDownloadFolder === 'function'}
         onDownloadFolder={this.handleActionBarDownloadClick}
+
+        // Custom Actions
+        addGateway={this.addGateway}
+        addReport={this.addReport}
+        addOrganization={this.addOrganization}
+        permissions={selectionPermissions}
+        browserType={browserProps.browserType}
+        customActions={browserProps.customActions}
       />
     )
 
@@ -602,7 +667,7 @@ class RawFileBrowser extends React.Component {
   renderFiles(files, depth) {
     const {
       fileRenderer: FileRenderer, fileRendererProps,
-      folderRenderer: FolderRenderer, folderRendererProps,
+      folderRenderer: FolderRenderer, folderRendererProps
     } = this.props
     const browserProps = this.getBrowserProps()
     let renderedFiles = []
@@ -620,6 +685,8 @@ class RawFileBrowser extends React.Component {
             {...thisItemProps}
             browserProps={browserProps}
             {...fileRendererProps}
+            customType={browserProps.browserType}
+            sensorSettings={this.sensorSettings}
           />
         )
       } else {
@@ -630,6 +697,8 @@ class RawFileBrowser extends React.Component {
               {...thisItemProps}
               browserProps={browserProps}
               {...folderRendererProps}
+              gatewaySettings={this.gatewaySettings}
+              orgSettings={this.orgSettings}
             />
           )
         }
@@ -642,7 +711,6 @@ class RawFileBrowser extends React.Component {
   }
 
   handleMultipleDeleteSubmit = () => {
-    console.log(this)
     this.deleteFolder(this.state.selection.filter(selection => selection[selection.length - 1] === '/'))
     this.deleteFile(this.state.selection.filter(selection => selection[selection.length - 1] !== '/'))
   }
@@ -763,22 +831,21 @@ class RawFileBrowser extends React.Component {
 
         if (this.props.headerRenderer) {
           header = (
-            <thead>
-              <this.props.headerRenderer
-                {...headerProps}
-                {...this.props.headerRendererProps}
-              />
-            </thead>
+            <this.props.headerRenderer
+              {...headerProps}
+              {...this.props.headerRendererProps}
+            />
           )
         }
 
         renderedFiles = (
-          <table cellSpacing="0" cellPadding="0">
-            {header}
-            <tbody>
-              {contents}
-            </tbody>
-          </table>
+          <>
+            <table cellSpacing="0" cellPadding="0">
+              <tbody>
+                {contents}
+              </tbody>
+            </table>
+          </>
         )
         break
 
@@ -824,7 +891,6 @@ class RawFileBrowser extends React.Component {
 
         renderedFiles = (
           <div>
-            {header}
             {contents}
           </div>
         )
@@ -842,27 +908,22 @@ class RawFileBrowser extends React.Component {
             <ConfirmMultipleDeletionRenderer
               handleDeleteSubmit={this.handleMultipleDeleteSubmit}
             />}
+          {header}
           <div className="files">
             {renderedFiles}
           </div>
         </div>
-        {this.state.previewFile !== null && (
-          <this.props.detailRenderer
-            file={this.state.previewFile}
-            close={this.closeDetail}
-            {...this.props.detailRendererProps}
-          />
-        )}
       </div>
     )
   }
 }
 
 class FileBrowser extends Component {
+
   render() {
     return (
       <DndProvider backend={HTML5Backend}>
-        <RawFileBrowser {...this.props} />
+        <RawFileBrowser ref={this.props.innerRef} {...this.props} />
       </DndProvider>
     )
   }
