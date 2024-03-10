@@ -6,11 +6,11 @@
   "scripts": {
     "publish-demo": "git branch -D gh-pages; git push origin --delete gh-pages; git checkout -b gh-pages; cd demo-site; yarn; npm run build; cd ..; git add .; git add -f demo-site/dist; git add -f demo-site/node_modules/uptick-demo-site/dist; git commit -m \"Demo site build\"; git push origin gh-pages; git checkout master; git push origin `git subtree split --prefix demo-site gh-pages`:gh-pages --force;",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-js": "./node_modules/.bin/webpack --mode=production",
-    "build-css": "./node_modules/.bin/node-sass src/browser.sass dist/react-keyed-file-browser.css",
+    "build-js": "npx webpack --mode=production",
+    "build-css": "npx node-sass src/browser.sass dist/react-keyed-file-browser.css",
     "build": "npm run build-js && npm run build-css",
     "prepublish": "npm run build",
-    "storybook": "start-storybook -p 9001",
+    "storybook": "storybook dev -p 9001",
     "lint": "eslint src"
   },
   "files": [
@@ -35,24 +35,25 @@
   },
   "homepage": "https://github.com/uptick/react-keyed-file-browser#readme",
   "dependencies": {
-    "classnames": "^2.2.6",
-    "date-fns": "^2.22.1",
+    "classnames": "^2.5.1",
+    "date-fns": "^3.3.1",
     "lodash.flow": "^3.5.0",
-    "prop-types": "^15.7.2",
+    "prop-types": "^15.8.1",
     "react-dnd": "^14.0.2",
-    "react-dnd-html5-backend": "^14.0"
+    "react-dnd-html5-backend": "^16.0.1"
   },
   "peerDependencies": {
-    "react": "0.14.x || 15.x || 16.x || 17.x"
+    "react": "0.18.x"
   },
   "devDependencies": {
     "@sambego/storybook-state": "^2.0.1",
-    "@storybook/react": "^6.2.9",
+    "@storybook/react": "^7.6.17",
+    "@storybook/react-webpack5": "^7.6.17",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
-    "css-loader": "^6.2.0",
-    "esbuild": "^0.12.5",
-    "esbuild-loader": "^2.13.1",
+    "css-loader": "^6.10.0",
+    "esbuild": "^0.20.1",
+    "esbuild-loader": "^4.0.3",
     "eslint": "^7.27.0",
     "eslint-config-standard": "*",
     "eslint-config-standard-react": "*",
@@ -62,14 +63,15 @@
     "eslint-plugin-react": "*",
     "eslint-plugin-standard": "*",
     "font-awesome": "^4.7.0",
-    "node-sass": "^6.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "sass-loader": "^12.1.0",
-    "style-loader": "^3.1.0",
+    "node-sass": "^9.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass-loader": "^14.1.1",
+    "storybook": "7.6.17",
+    "style-loader": "^3.3.4",
     "typescript": "^4.3.2",
-    "webpack": "^4.29.1",
-    "webpack-cli": "^4.7.0",
-    "webpack-node-externals": "^1.5.4"
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
   }
 }
