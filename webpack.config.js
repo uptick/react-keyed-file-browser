@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         test: /.*\.sass*/,
-        loader: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
         include: path.join(__dirname, '/src'),
       },
     ],
