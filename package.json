@@ -43,7 +43,8 @@
     "react-dnd-html5-backend": "^16.0.1"
   },
   "peerDependencies": {
-    "react": "0.18.x"
+    "react": "0.14.x || 15.x || 16.x || 17.x || 18.x"
+
   },
   "devDependencies": {
     "@sambego/storybook-state": "^2.0.1",
