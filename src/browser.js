@@ -424,6 +424,12 @@ class RawFileBrowser extends React.Component {
     })
   }
 
+  setOpenFolders = (folderKeys) => {
+    this.setState(prevState => ({
+      openFolders: folderKeys.reduce((folders, folder) => ({ ...folders, [folder]: true }), {}),
+    }))
+  }
+
   // event handlers
   handleGlobalClick = (event) => {
     const inBrowser = !!(this.browserRef && this.browserRef.contains(event.target))
@@ -858,15 +864,11 @@ class RawFileBrowser extends React.Component {
   }
 }
 
-class FileBrowser extends Component {
-  render() {
-    return (
-      <DndProvider backend={HTML5Backend}>
-        <RawFileBrowser {...this.props} />
-      </DndProvider>
-    )
-  }
-}
+const FileBrowser = React.forwardRef((props, ref) => (
+  <DndProvider backend={HTML5Backend}>
+    <RawFileBrowser ref={ref} {...props} />
+  </DndProvider>)
+)
 
 export default FileBrowser
 
