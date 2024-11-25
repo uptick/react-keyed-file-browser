@@ -22,7 +22,7 @@
   "dependencies": {
     "uptick-demo-site": "latest",
     "font-awesome": "^4.7.0",
-    "moment": "^2.16.0",
+    "moment": "^2.29.4",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-keyed-file-browser": "^1.4.0"
